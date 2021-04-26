@@ -8,15 +8,29 @@ const redirectIfNotAuth = (to, from, next) => {
 const checkAuth = (to, from, next) => {
     let user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null
     if (user) {
-        // if (user.admin)
+        if (from.path === '/' && !user.admin) {
+            next('//students/my-courses')
+        }
+        if (user.admin)
             next();
-        // else
-        //     next('/unauthorized');
+        else
+            next('/unauthorized');
 
     } else
         next('/login');
 };
+const checkStudent = (to, from, next) => {
+    let user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null
+    if (user) {
+        if (!user.admin)
+            next();
+        else
+            next('/unauthorized');
 
+    } else
+        next('/login');
+};
+let user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null
 export default [
     {path: '/', redirect: '/courses'},
     // {
@@ -129,7 +143,7 @@ export default [
     {
         path: '/students/my-courses',
         name: 'students-my-courses',
-        beforeEnter: checkAuth,
+        beforeEnter: checkStudent,
         component: require('./screens/students/my-courses').default,
         meta: {
             resource: 'students/my-courses/list',
@@ -139,11 +153,21 @@ export default [
     {
         path: '/students/enroll',
         name: 'students-enroll',
-        beforeEnter: checkAuth,
+        beforeEnter: checkStudent,
         component: require('./screens/students/enroll').default,
         meta: {
             resource: 'students/',
             createTitle: () => 'Enroll',
+        },
+    },
+    {
+        path: '/students/enrollments',
+        name: 'enrollments-index',
+        beforeEnter: checkAuth,
+        component: require('./screens/students/enrollments').default,
+        meta: {
+            resource: 'students-enrollments',
+            createTitle: () => 'Students Enrollments',
         },
     },
 

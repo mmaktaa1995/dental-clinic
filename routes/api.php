@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StudentController;
@@ -28,7 +29,8 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('sections', SectionController::class)->except(['create', 'edit']);
     Route::resource('students', StudentController::class)->except(['create', 'edit']);
     Route::resource('instructors', InstructorController::class)->except(['create', 'edit']);
-    Route::post('logout', [LoginController::class, 'logout']);
+    Route::get('students-enrollments', [EnrollmentController::class, 'index']);
+    Route::post('logout-admin', [LoginController::class, 'logout']);
 });
 
 Route::middleware('auth:student')->group(function () {

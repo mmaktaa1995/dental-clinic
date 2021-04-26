@@ -116,7 +116,7 @@ export default {
                 bus.$emit('flash-message', {text: data.message, type: 'success'})
                 app.user = data.data.user;
                 axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.data.access_token;
-                if (this.type === 'api')
+                if (type === 'api')
                     this.$router.push({name: 'courses-index'})
                 else
                     this.$router.push({name: 'students-my-courses'})

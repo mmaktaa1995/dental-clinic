@@ -18,6 +18,7 @@ class EnrollmentResource extends JsonResource
         return [
             'id' => $this->id,
             'grade' => $this->grade,
+            'student' => StudentResource::make($this->whenLoaded('student')),
             'course' => CourseResource::make($this->whenLoaded('course')),
             'section' => SectionResource::make($this->whenLoaded('section')),
             'created_at' => Carbon::parse($this->created_at)->toDateTimeString(),

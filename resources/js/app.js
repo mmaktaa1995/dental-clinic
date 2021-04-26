@@ -55,6 +55,7 @@ Vue.component('icon-refresh', require('./components/icons/Refresh.vue').default)
 Vue.component('icon-search', require('./components/icons/Search.vue').default);
 Vue.component('icon-cloud', require('./components/icons/Cloud.vue').default);
 Vue.component('icon-collection', require('./components/icons/Collection.vue').default);
+Vue.component('icon-users', require('./components/icons/users.vue').default);
 Vue.component('icon-exclamation', require('./components/icons/Exclamation.vue').default);
 Vue.component('icon-desktop-computer', require('./components/icons/DesktopComputer.vue').default);
 Vue.component('icon-dots-vertical', require('./components/icons/DotsVertical.vue').default);
@@ -88,7 +89,7 @@ app = new Vue({
     },
     methods: {
         logout() {
-            axios.post('/api/logout').then(({data}) => {
+            axios.post('/api/logout' + (this.user.admin ? '-admin' : '')).then(({data}) => {
                 localStorage.clear();
                 this.$router.push({name: 'login'}).then(() => {
                     bus.$emit('flash-message', {text: data.message, type: 'success'})
