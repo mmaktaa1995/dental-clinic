@@ -35,7 +35,7 @@ class CourseController extends Controller
 
     public function destroy(Course $course)
     {
-        $response = Gate::inspect('isAdmin', $request->user());
+        $response = Gate::inspect('isAdmin', \request()->user());
         if ($response->allowed()) {
             try {
                 $course->delete();

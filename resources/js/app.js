@@ -47,6 +47,7 @@ Vue.component('search-empty-results', require('./components/SearchEmptyResults.v
 Vue.component('loader', require('./components/Loader.vue').default);
 Vue.component('metric', require('./components/Metric.vue').default);
 Vue.component('popover', require('./components/Popover.vue').default);
+Vue.component('pagination', require('./components/Pagination.vue').default);
 
 // Icons
 Vue.component('icon-arrow-down', require('./components/icons/ArrowDown.vue').default);
