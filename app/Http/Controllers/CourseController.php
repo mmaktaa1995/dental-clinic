@@ -40,7 +40,9 @@ class CourseController extends Controller
             try {
                 $course->delete();
             } catch (\Exception $exception) {
-                return response()->json(['message' => $exception->getMessage()], 500);
+                return response()->json([
+                    'message' => "Can't Delete Course"
+                ], 403);
             }
             return response(['message' => 'Deleted Successfully!']);
         } else {

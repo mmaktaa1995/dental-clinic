@@ -30,7 +30,9 @@ class InstructorController extends Controller
         try {
             $instructor->delete();
         } catch (\Exception $exception) {
-            return response()->json(['message' => $exception->getMessage()], 500);
+            return response()->json([
+                'message' => "Can't Delete Instructor"
+            ], 403);
         }
         return response(['message' => 'Deleted Successfully!']);
     }

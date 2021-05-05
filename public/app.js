@@ -4865,15 +4865,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -4883,7 +4874,6 @@ __webpack_require__.r(__webpack_exports__);
       username: '',
       first_name: '',
       last_name: '',
-      reg_year: '',
       gender: '',
       password: '',
       address: '',
@@ -4915,7 +4905,6 @@ __webpack_require__.r(__webpack_exports__);
         username: this.username,
         first_name: this.first_name,
         last_name: this.last_name,
-        reg_year: this.reg_year,
         gender: this.gender,
         password: this.password,
         address: this.address,
@@ -5189,14 +5178,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -5208,7 +5189,6 @@ __webpack_require__.r(__webpack_exports__);
       username: '',
       first_name: '',
       last_name: '',
-      reg_year: '',
       gender: '',
       address: '',
       mobile_number: ''
@@ -5224,7 +5204,6 @@ __webpack_require__.r(__webpack_exports__);
       _this.username = _this.instructor.username;
       _this.first_name = _this.instructor.first_name;
       _this.last_name = _this.instructor.last_name;
-      _this.reg_year = _this.instructor.reg_year;
       _this.gender = _this.instructor.gender;
       _this.address = _this.instructor.address;
       _this.mobile_number = _this.instructor.mobile_number;
@@ -5251,7 +5230,6 @@ __webpack_require__.r(__webpack_exports__);
         username: this.username,
         first_name: this.first_name,
         last_name: this.last_name,
-        reg_year: this.reg_year,
         gender: this.gender,
         password: this.password,
         address: this.address,
@@ -55605,55 +55583,9 @@ var render = function() {
                       "label",
                       {
                         staticClass: "block text-sm font-medium text-gray-700",
-                        attrs: { for: "reg_year" }
-                      },
-                      [_vm._v("Reg Year")]
-                    ),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.reg_year,
-                          expression: "reg_year"
-                        }
-                      ],
-                      staticClass:
-                        "block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full",
-                      attrs: {
-                        type: "number",
-                        id: "reg_year",
-                        autocomplete: "off"
-                      },
-                      domProps: { value: _vm.reg_year },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.reg_year = $event.target.value
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _vm.errors && _vm.errors.reg_year
-                      ? _c("small", { staticClass: "text-red-600 text-xs" }, [
-                          _vm._v(_vm._s(_vm.errors.reg_year[0]))
-                        ])
-                      : _vm._e()
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "grid grid-cols-6 gap-6 mb-2" }, [
-                  _c("div", { staticClass: "col-span-6 sm:col-span-3" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass: "block text-sm font-medium text-gray-700",
                         attrs: { for: "mobile_number" }
                       },
-                      [_vm._v("Mobile\n                              Number")]
+                      [_vm._v("Mobile\n                            Number")]
                     ),
                     _vm._v(" "),
                     _c("input", {
@@ -55795,11 +55727,7 @@ var render = function() {
                         }
                       }
                     },
-                    [
-                      _vm._v(
-                        "\n                      Create\n                  "
-                      )
-                    ]
+                    [_vm._v("\n                    Create\n                ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -55814,11 +55742,7 @@ var render = function() {
                         }
                       }
                     },
-                    [
-                      _vm._v(
-                        "\n                      Cancel\n                  "
-                      )
-                    ]
+                    [_vm._v("\n                    Cancel\n                ")]
                   )
                 ]
               )
@@ -56119,7 +56043,7 @@ var render = function() {
                     _vm._v(
                       'Edit Instructor "' +
                         _vm._s(_vm.instructor.first_name) +
-                        " " +
+                        "\n                    " +
                         _vm._s(_vm.instructor.last_name) +
                         '"'
                     )
@@ -56268,55 +56192,9 @@ var render = function() {
                       "label",
                       {
                         staticClass: "block text-sm font-medium text-gray-700",
-                        attrs: { for: "reg_year" }
-                      },
-                      [_vm._v("Reg Year")]
-                    ),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.reg_year,
-                          expression: "reg_year"
-                        }
-                      ],
-                      staticClass:
-                        "block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full",
-                      attrs: {
-                        type: "number",
-                        id: "reg_year",
-                        autocomplete: "off"
-                      },
-                      domProps: { value: _vm.reg_year },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.reg_year = $event.target.value
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _vm.errors && _vm.errors.reg_year
-                      ? _c("small", { staticClass: "text-red-600 text-xs" }, [
-                          _vm._v(_vm._s(_vm.errors.reg_year[0]))
-                        ])
-                      : _vm._e()
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "grid grid-cols-6 gap-6 mb-2" }, [
-                  _c("div", { staticClass: "col-span-6 sm:col-span-3" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass: "block text-sm font-medium text-gray-700",
                         attrs: { for: "mobile_number" }
                       },
-                      [_vm._v("Mobile\n                              Number")]
+                      [_vm._v("Mobile\n                            Number")]
                     ),
                     _vm._v(" "),
                     _c("input", {
@@ -56458,11 +56336,7 @@ var render = function() {
                         }
                       }
                     },
-                    [
-                      _vm._v(
-                        "\n                      Update\n                  "
-                      )
-                    ]
+                    [_vm._v("\n                    Update\n                ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -56477,11 +56351,7 @@ var render = function() {
                         }
                       }
                     },
-                    [
-                      _vm._v(
-                        "\n                      Cancel\n                  "
-                      )
-                    ]
+                    [_vm._v("\n                    Cancel\n                ")]
                   )
                 ]
               )
@@ -58917,9 +58787,9 @@ var render = function() {
                   _c("h3", { staticClass: "font-bold text-lg text-gray-700" }, [
                     _vm._v(
                       'Edit Student "' +
-                        _vm._s(_vm.instructor.first_name) +
+                        _vm._s(_vm.student.first_name) +
                         " " +
-                        _vm._s(_vm.instructor.last_name) +
+                        _vm._s(_vm.student.last_name) +
                         '"'
                     )
                   ])

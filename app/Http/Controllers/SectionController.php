@@ -31,14 +31,16 @@ class SectionController extends Controller
         try {
             $section->delete();
         } catch (\Exception $exception) {
-            return response()->json(['message' => $exception->getMessage()], 500);
+            return response()->json([
+                'message' => "Can't Delete Section"
+            ], 403);
         }
         return response(['message' => 'Deleted Successfully!']);
     }
 
     public function show(Section $section)
     {
-        $section->time = date('h:i' ,strtotime($section->time));
+        $section->time = date('h:i', strtotime($section->time));
         return response($section);
     }
 

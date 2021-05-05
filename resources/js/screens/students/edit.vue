@@ -37,7 +37,7 @@
                 :class="`inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full duration-200  ${opened?'scale-100':'scale-0'}` ">
 
                 <div class="bg-gray-50 px-4 py-2 border-b border-gray-300">
-                    <h3 class="font-bold text-lg text-gray-700">Edit Student "{{ instructor.first_name }} {{instructor.last_name}}"</h3>
+                    <h3 class="font-bold text-lg text-gray-700">Edit Student "{{ student.first_name }} {{student.last_name}}"</h3>
                 </div>
                 <div class="bg-white px-4 pt-5 sm:p-6">
 

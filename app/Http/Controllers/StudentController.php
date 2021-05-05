@@ -49,7 +49,9 @@ class StudentController extends Controller
         try {
             $student->delete();
         } catch (\Exception $exception) {
-            return response()->json(['message' => $exception->getMessage()], 500);
+            return response()->json([
+                'message' => "Can't Delete Student"
+            ], 403);
         }
         return response(['message' => 'Deleted Successfully!']);
     }
