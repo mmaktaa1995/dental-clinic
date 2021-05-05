@@ -13,7 +13,7 @@ class InstructorController extends Controller
     {
         $params = [
             'order_column' => $request->input('order_column', 'id'),
-            'order_dir' => $request->input('order_dir', 'asc'),
+            'order_dir' => $request->input('order_dir', 'desc'),
             'per_page' => $request->input('per_page', 10),
             'fromDate' => $request->input('fromDate', null),
             'toDate' => $request->input('toDate', null),

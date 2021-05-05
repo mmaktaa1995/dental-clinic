@@ -37,9 +37,10 @@
                 :class="`inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full duration-200  ${opened?'scale-100':'scale-0'}` ">
 
                 <div class="bg-gray-50 px-4 py-2 border-b border-gray-300">
-                    <h3 class="font-bold text-lg text-gray-700">Edit Instructor "{{ instructor.first_name }} {{instructor.last_name}}"</h3>
+                    <h3 class="font-bold text-lg text-gray-700">Edit Instructor "{{ instructor.first_name }}
+                        {{ instructor.last_name }}"</h3>
                 </div>
-            <div class="bg-white px-4 pt-5 sm:p-6">
+                <div class="bg-white px-4 pt-5 sm:p-6">
 
                     <div class="grid grid-cols-6 gap-6 mb-2">
                         <div class="col-span-6 sm:col-span-3">
@@ -49,7 +50,7 @@
                             <small class="text-red-600 text-xs"
                                    v-if="errors && errors.first_name">{{ errors.first_name[0] }}</small>
                         </div>
-                           <div class="col-span-6 sm:col-span-3">
+                        <div class="col-span-6 sm:col-span-3">
                             <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
                             <input type="text" id="last_name" autocomplete="title" v-model="last_name"
                                    class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
@@ -59,22 +60,13 @@
                     </div>
                     <div class="grid grid-cols-6 gap-6 mb-2">
 
-  <div class="col-span-6 sm:col-span-3">
+                        <div class="col-span-6 sm:col-span-3">
                             <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
                             <input type="text" id="address" autocomplete="off" v-model="address"
                                    class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
                             <small class="text-red-600 text-xs"
                                    v-if="errors && errors.address">{{ errors.address[0] }}</small>
                         </div>
-                        <div class="col-span-6 sm:col-span-3">
-                            <label for="reg_year" class="block text-sm font-medium text-gray-700">Reg Year</label>
-                            <input type="number" id="reg_year" autocomplete="off" v-model="reg_year"
-                                   class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
-                            <small class="text-red-600 text-xs"
-                                   v-if="errors && errors.reg_year">{{ errors.reg_year[0] }}</small>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-6 gap-6 mb-2">
                         <div class="col-span-6 sm:col-span-3">
                             <label for="mobile_number" class="block text-sm font-medium text-gray-700">Mobile
                                 Number</label>
@@ -83,17 +75,17 @@
                             <small class="text-red-600 text-xs"
                                    v-if="errors && errors.mobile_number">{{ errors.mobile_number[0] }}</small>
                         </div>
-
-
                     </div>
                     <div class="grid grid-cols-6 gap-6 mb-2">
                         <div class="col-span-6 sm:col-span-3">
                             <label class="block text-sm font-medium text-gray-700">Gender</label>
                             <label class="inline-flex items-center mt-3">
-                                <input type="radio" class="form-radio h-5 w-5 text-indigo-600" name="gender" value="male" v-model="gender"><span class="ml-2 text-gray-700">Male</span>
+                                <input type="radio" class="form-radio h-5 w-5 text-indigo-600" name="gender"
+                                       value="male" v-model="gender"><span class="ml-2 text-gray-700">Male</span>
                             </label>
                             <label class="inline-flex items-center mt-3">
-                                <input type="radio" class="form-radio h-5 w-5 text-indigo-600" name="gender" value="female" v-model="gender"><span class="ml-2 text-gray-700">Female</span>
+                                <input type="radio" class="form-radio h-5 w-5 text-indigo-600" name="gender"
+                                       value="female" v-model="gender"><span class="ml-2 text-gray-700">Female</span>
                             </label>
                             <br>
                             <small class="text-red-600 text-xs"
@@ -131,7 +123,6 @@ export default {
             username: '',
             first_name: '',
             last_name: '',
-            reg_year: '',
             gender: '',
             address: '',
             mobile_number: '',
@@ -144,7 +135,6 @@ export default {
             this.username = this.instructor.username;
             this.first_name = this.instructor.first_name;
             this.last_name = this.instructor.last_name;
-            this.reg_year = this.instructor.reg_year;
             this.gender = this.instructor.gender;
             this.address = this.instructor.address;
             this.mobile_number = this.instructor.mobile_number;
@@ -165,7 +155,6 @@ export default {
                 username: this.username,
                 first_name: this.first_name,
                 last_name: this.last_name,
-                reg_year: this.reg_year,
                 gender: this.gender,
                 password: this.password,
                 address: this.address,
