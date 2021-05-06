@@ -22,7 +22,6 @@
             <template slot="head">
                 <tr class="bg-gray-200 text-gray-600 text-sm leading-normal">
                     <th class="py-2 px-2 text-left">Full Name</th>
-                    <th class="py-2 px-2 text-left">Reg Year</th>
                     <th class="py-2 px-2 text-left">Gender</th>
                     <th class="py-2 px-2 text-left">Address</th>
                     <th class="py-2 px-2 text-left">Mobile Number</th>
@@ -33,9 +32,6 @@
             <template slot="row" slot-scope="{ entry }">
                 <td class="px-2 py-1 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 font-medium text-gray-500">
                     {{ entry.full_name }}
-                </td>
-                <td class="px-2 py-1 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
-                    {{ entry.reg_year }}
                 </td>
                 <td class="px-2 py-1 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
                     {{ entry.gender }}

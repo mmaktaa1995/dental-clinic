@@ -17,5 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', '/admin');
 
 Route::prefix('admin')->group(function () {
+    dd(bcrypt('admin'));
     Route::get('/{view?}', HomeController::class)->where('view', '(.*)')->name('admin-ui');
 });

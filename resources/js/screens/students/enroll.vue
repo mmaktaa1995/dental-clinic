@@ -13,7 +13,7 @@
             </div>
             <div class="px-4 py-3" v-if="step===1">
                 <h2 class="font-bold text-xl">Select Course</h2>
-                <div class="courses grid grid-cols-6 pt-2 gap-3">
+                <div class="courses grid grid-cols-3 md:grid-cols-6 pt-2 gap-3">
                     <div v-for="course in courses"
                          class="rounded transition-shadow duration-100 shadow px-3 py-2 cursor-pointer"
                          :class="{'border border-gray-200 shadow-outline-purple':course.id === selectedCourse.id}"
@@ -27,7 +27,7 @@
                 <h2 class="font-bold text-xl">Select Section for Course <b
                     class="italic text-indigo-700">{{ selectedCourse.title }}</b>
                 </h2>
-                <div class="courses grid grid-cols-4 pt-2 gap-3">
+                <div class="courses grid grid-cols-3 md:grid-cols-4 pt-2 gap-3">
                     <div v-for="section in sections"
                          class="rounded transition-shadow duration-100 shadow px-3 py-2 cursor-pointer"
                          :class="{'border border-gray-200 shadow-outline-purple':section.id === selectedSection.id}"
