@@ -18,7 +18,7 @@
 <!-- Vue App-->
 <div id="vapor-ui" class="font-sans antialiased h-screen flex overflow-hidden bg-gray-100" v-cloak>
     <div class="flex flex-shrink-0 sidebar" :class="{'active':showSidebar}"
-         v-if="user && (!$route.path.includes('unauthorized') && !$route.path.includes('404'))">
+         v-show="user && (!$route.path.includes('unauthorized') && !$route.path.includes('404'))">
         <div class="flex flex-col w-64">
             <div class="flex flex-col h-0 flex-1">
 
@@ -148,7 +148,7 @@
     </div>
     <flash-message></flash-message>
     <div class="w-full">
-        <nav class="bg-gray-800" v-if="user && (!$route.path.includes('unauthorized') && !$route.path.includes('404'))">
+        <nav class="bg-gray-800" v-show="user && (!$route.path.includes('unauthorized') && !$route.path.includes('404'))">
             <div class="mx-auto px-2">
                 <div class="relative flex items-center justify-between h-16">
                     <div class="absolute flex inset-y-0 items-center pr-2 right-0 sm:ml-6 sm:pr-0">
