@@ -210,6 +210,6 @@
 <script>
     var app;
 </script>
-<script src="{{ asset('app.js') }}"></script>
+<script src="{{ asset('app.js?v=1') }}"></script>
 </body>
 </html>
