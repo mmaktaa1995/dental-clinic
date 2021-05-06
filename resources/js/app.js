@@ -82,7 +82,8 @@ app = new Vue({
     data() {
         return {
             user: null,
-            show: false
+            show: false,
+            showSidebar: false,
         }
     },
     mounted() {
@@ -101,6 +102,9 @@ app = new Vue({
         },
         toggleDropdown() {
             this.show = !this.show
+        },
+        toggleSideBar() {
+            this.showSidebar = !this.showSidebar
         }
     }
 });

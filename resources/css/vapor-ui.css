@@ -7,3 +7,18 @@
 @import 'code-editor.css';
 
 @import './transitions.css';
+
+@media (max-width: 768px) {
+    .sidebar{
+        transition: .25s all;
+        transform: translateX(-100%);
+        opacity: 0;
+        width: 0;
+    }
+    .sidebar.active{
+        transition: .25s all;
+        transform: translateX(0);
+        opacity: 1;
+        width: auto;
+    }
+}

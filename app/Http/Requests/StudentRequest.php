@@ -24,7 +24,7 @@ class StudentRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => ['required', 'max:255', 'unique:students', 'regex:/^\S*$/u'],
+            'username' => ['required', 'max:255', 'unique:students,username,' . $this->segment(3), 'regex:/^\S*$/u'],
             'email' => [$this->segment(3) ? 'nullable' : 'required', 'max:255', 'unique:students', 'email'],
             'first_name' => ['required', 'max:255'],
             'last_name' => ['required', 'max:255'],
