@@ -12,7 +12,7 @@
 
     <!-- Style sheets -->
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet"/>
-    <link href="{{ asset('app.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('app.css?v=1') }}" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <!-- Vue App-->
