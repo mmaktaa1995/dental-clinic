@@ -11,6 +11,7 @@
                     </li>
                 </ul>
             </div>
+
             <div class="px-4 py-3" v-if="step===1">
                 <h2 class="font-bold text-xl">Select Course</h2>
                 <div class="courses grid grid-cols-3 md:grid-cols-6 pt-2 gap-3">
@@ -23,6 +24,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="px-4 py-3" v-if="step===2">
                 <h2 class="font-bold text-xl">Select Section for Course <b
                     class="italic text-indigo-700">{{ selectedCourse.title }}</b>
