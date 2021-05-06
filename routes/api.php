@@ -34,7 +34,7 @@ Route::middleware('auth:api')->group(function () {
 });
 
 Route::middleware('auth:student')->group(function () {
-    Route::get('student-courses', [CourseController::class, 'index']);
+    Route::get('student-courses', [CourseController::class, 'studentCourses']);
     Route::get('student-courses/{course}/sections', [CourseController::class, 'sections']);
     Route::post('student-courses/enroll', [StudentController::class, 'enroll']);
     Route::get('students/my-courses/list', [StudentController::class, 'myCourses']);

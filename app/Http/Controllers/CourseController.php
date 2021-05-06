@@ -33,6 +33,22 @@ class CourseController extends Controller
         }
     }
 
+    public function studentCourses(Request $request)
+    {
+        $params = [
+            'order_column' => $request->input('order_column', 'id'),
+            'order_dir' => $request->input('order_dir', 'desc'),
+            'per_page' => $request->input('per_page', 10),
+            'fromDate' => $request->input('fromDate', null),
+            'toDate' => $request->input('toDate', null),
+            'query' => $request->input('query', null),
+        ];
+        return response()->json(
+            BaseCollection::make(Course::getAll($params), CourseResource::class),
+            200
+        );
+    }
+
     public function destroy(Course $course)
     {
         $response = Gate::inspect('isAdmin', \request()->user());

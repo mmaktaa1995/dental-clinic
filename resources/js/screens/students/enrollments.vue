@@ -21,6 +21,7 @@
                     <th class="py-2 px-2 text-left">Course</th>
                     <th class="py-2 px-2 text-left">Instructor</th>
                     <th class="py-2 px-2 text-left">Section No.</th>
+                    <th class="py-2 px-2 text-left">Grade</th>
                     <th class="py-2 px-2 text-left">Created At</th>
                 </tr>
             </template>
@@ -36,6 +37,9 @@
                 </td>
                 <td class="px-2 py-1 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
                     {{ entry.section.section_no }}
+                </td>
+                <td class="px-2 py-1 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
+                    {{ entry.grade }}
                 </td>
                 <td class="px-2 py-1 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
                     {{ entry.created_at }}
