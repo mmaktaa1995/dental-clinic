@@ -8,9 +8,6 @@ const redirectIfNotAuth = (to, from, next) => {
 const checkAuth = (to, from, next) => {
     let user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null
     if (user) {
-        if (from.path === '/' && !user.admin) {
-            next('//students/my-courses')
-        }
         if (user.admin)
             next();
         else
@@ -32,21 +29,12 @@ const checkStudent = (to, from, next) => {
 };
 let user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null
 export default [
-    {path: '/', redirect: '/courses'},
-    // {
-    //     path: '/metrics',
-    //     name: 'metrics',
-    //     component: require('./screens/jobs/metrics').default,
-    //     meta: {
-    //         resource: 'jobs',
-    //         createTitle: () => 'Metrics',
-    //     },
-    // },
+    {path: '/', redirect: '/patients'},
     {
         path: '/login',
         name: 'login',
         beforeEnter: redirectIfNotAuth,
-        component: require('./screens/auth/login').default,
+        component: () => import('./screens/auth/login.vue'),
         meta: {
             createTitle: () => 'Login',
         },
@@ -55,205 +43,191 @@ export default [
         path: '/register',
         name: 'register',
         beforeEnter: redirectIfNotAuth,
-        component: require('./screens/auth/register').default,
+        component: () => import('./screens/auth/register.vue'),
         meta: {
             createTitle: () => 'Register',
         },
     },
 
     {
-        path: '/courses',
-        name: 'courses-index',
+        path: '/patients',
+        name: 'patients-index',
         beforeEnter: checkAuth,
-        component: require('./screens/courses/index').default,
+        component: () => import('./screens/patients/index.vue'),
         meta: {
-            resource: 'courses',
-            createTitle: () => 'Courses',
+            resource: 'patients',
+            createTitle: () => 'المرضى',
         },
         children: [
             {
                 path: ':id/delete',
-                name: 'courses-delete',
-                component: require('./screens/courses/delete').default,
+                name: 'patients-delete',
+                component: () => import('./screens/patients/delete.vue'),
                 meta: {
-                    resource: 'courses',
-                    createTitle: () => 'Delete Course',
+                    resource: 'patients',
+                    createTitle: () => 'حذف مريض',
                 },
             },
             {
                 path: 'create',
-                name: 'courses-create',
-                component: require('./screens/courses/create').default,
+                name: 'patients-create',
+                component: () => import('./screens/patients/create.vue'),
                 meta: {
-                    resource: 'courses',
-                    createTitle: () => 'Create Course',
+                    resource: 'patients',
+                    createTitle: () => 'إضافة مريض',
                 },
             },
             {
                 path: ':id/edit',
-                name: 'courses-edit',
-                component: require('./screens/courses/edit').default,
+                name: 'patients-edit',
+                component: () => import('./screens/patients/edit.vue'),
                 meta: {
-                    resource: 'courses',
-                    createTitle: () => 'Edit Course',
+                    resource: 'patients',
+                    createTitle: () => 'تعديل مريض',
+                },
+            },
+            {
+                path: ':id/visits',
+                name: 'patients-visits',
+                component: () => import('./screens/patients/visits.vue'),
+                meta: {
+                    resource: 'patients/:id/visits',
+                    createTitle: () => 'زيارات المريض',
+                },
+            },
+            {
+                path: ':id/files',
+                name: 'patients-files',
+                component: () => import('./screens/patients/upload-files.vue'),
+                meta: {
+                    resource: 'patients',
+                    createTitle: () => 'ملفات المريض',
                 },
             },
         ]
     },
 
     {
-        path: '/students',
-        name: 'students-index',
+        path: '/visits',
+        name: 'visits-index',
         beforeEnter: checkAuth,
-        component: require('./screens/students/index').default,
+        component: () => import('./screens/visits/index.vue'),
         meta: {
-            resource: 'students',
-            createTitle: () => 'Students',
+            resource: 'visits',
+            createTitle: () => 'الزيارات',
         },
         children: [
             {
                 path: ':id/delete',
-                name: 'students-delete',
-                component: require('./screens/students/delete').default,
+                name: 'visits-delete',
+                component: () => import('./screens/visits/delete.vue'),
                 meta: {
-                    resource: 'students',
-                    createTitle: () => 'Delete Student',
+                    resource: 'visits',
+                    // createTitle: () => 'حذف الزيارة',
                 },
             },
             {
                 path: 'create',
-                name: 'students-create',
-                component: require('./screens/students/create').default,
+                name: 'visits-create',
+                component: () => import('./screens/visits/create.vue'),
                 meta: {
-                    resource: 'students',
-                    createTitle: () => 'Create Student',
+                    resource: 'visits',
+                    // createTitle: () => 'إنشاء زيارة',
                 },
             },
             {
                 path: ':id/edit',
-                name: 'students-edit',
-                component: require('./screens/students/edit').default,
+                name: 'visits-edit',
+                component: () => import('./screens/visits/edit.vue'),
                 meta: {
-                    resource: 'students',
-                    createTitle: () => 'Edit Student',
-                },
-            },
-        ]
-    },
-    {
-        path: '/students/my-courses',
-        name: 'students-my-courses',
-        beforeEnter: checkStudent,
-        component: require('./screens/students/my-courses').default,
-        meta: {
-            resource: 'students/my-courses/list',
-            createTitle: () => 'My Courses',
-        },
-    },
-    {
-        path: '/students/enroll',
-        name: 'students-enroll',
-        beforeEnter: checkStudent,
-        component: require('./screens/students/enroll').default,
-        meta: {
-            resource: 'students/',
-            createTitle: () => 'Enroll',
-        },
-    },
-    {
-        path: '/students/enrollments',
-        name: 'enrollments-index',
-        beforeEnter: checkAuth,
-        component: require('./screens/students/enrollments').default,
-        meta: {
-            resource: 'students-enrollments',
-            createTitle: () => 'Students Enrollments',
-        },
-    },
-
-    {
-        path: '/instructors',
-        name: 'instructors-index',
-        beforeEnter: checkAuth,
-        component: require('./screens/instructors/index').default,
-        meta: {
-            resource: 'instructors',
-            createTitle: () => 'Instructors',
-        },
-        children: [
-            {
-                path: ':id/delete',
-                name: 'instructors-delete',
-                component: require('./screens/instructors/delete').default,
-                meta: {
-                    resource: 'instructors',
-                    createTitle: () => 'Delete Instructor',
-                },
-            },
-            {
-                path: 'create',
-                name: 'instructors-create',
-                component: require('./screens/instructors/create').default,
-                meta: {
-                    resource: 'instructors',
-                    createTitle: () => 'Create Instructor',
-                },
-            },
-            {
-                path: ':id/edit',
-                name: 'instructors-edit',
-                component: require('./screens/instructors/edit').default,
-                meta: {
-                    resource: 'instructors',
-                    createTitle: () => 'Edit Instructor',
+                    resource: 'visits',
+                    // createTitle: () => 'تعديل زيارة',
                 },
             },
         ]
     },
 
     {
-        path: '/sections',
-        name: 'sections-index',
+        path: '/expenses',
+        name: 'expenses-index',
         beforeEnter: checkAuth,
-        component: require('./screens/sections/index').default,
+        component: () => import('./screens/expenses/index.vue'),
         meta: {
-            resource: 'sections',
-            createTitle: () => 'Sections',
+            resource: 'expenses',
+            createTitle: () => 'النفقات',
         },
         children: [
             {
                 path: ':id/delete',
-                name: 'sections-delete',
-                component: require('./screens/sections/delete').default,
+                name: 'expenses-delete',
+                component: () => import('./screens/expenses/delete.vue'),
                 meta: {
-                    resource: 'sections',
-                    createTitle: () => 'Delete Section',
+                    resource: 'expenses',
                 },
             },
             {
                 path: 'create',
-                name: 'sections-create',
-                component: require('./screens/sections/create').default,
+                name: 'expenses-create',
+                component: () => import('./screens/expenses/create.vue'),
                 meta: {
-                    resource: 'sections',
-                    createTitle: () => 'Create Section',
+                    resource: 'expenses',
                 },
             },
             {
                 path: ':id/edit',
-                name: 'sections-edit',
-                component: require('./screens/sections/edit').default,
+                name: 'expenses-edit',
+                component: () => import('./screens/expenses/edit.vue'),
                 meta: {
-                    resource: 'sections',
-                    createTitle: () => 'Edit Section',
+                    resource: 'expenses',
                 },
             },
         ]
     },
 
+    {
+        path: '/patients-files',
+        name: 'patients-files-index',
+        beforeEnter: checkAuth,
+        component: () => import('./screens/patients-files/index.vue'),
+        meta: {
+            resource: 'patients-files',
+            createTitle: () => 'الإضبارات',
+        },
+        children: [
+            {
+                path: ':id/show',
+                name: 'patients-files-show',
+                component: () => import('./screens/patients-files/show.vue'),
+                meta: {
+                    resource: 'patients-files',
+                },
+            }
+        ]
+    },
+
+    {
+        path: '/statistics',
+        name: 'statistics',
+        beforeEnter: checkAuth,
+        component: () => import('./screens/statistics/index.vue'),
+        meta: {
+            resource: 'statistics',
+            createTitle: () => 'الإحصائيات',
+        },
+    },
+    {
+        path: '/appointments',
+        name: 'appointments',
+        beforeEnter: checkAuth,
+        component: () => import('./screens/appointments/index.vue'),
+        meta: {
+            resource: 'appointments',
+            createTitle: () => 'المواعيد',
+        },
+    },
     {
         path: '/unauthorized',
-        component: require('./screens/403').default,
+        component: () => import('./screens/403.vue'),
         meta: {
             createTitle: () => 'Login',
         },
@@ -266,7 +240,7 @@ export default [
 
     {
         path: '/404',
-        component: require('./screens/404').default,
+        component: () => import('./screens/404.vue'),
         meta: {
             createTitle: () => 'Login',
         },

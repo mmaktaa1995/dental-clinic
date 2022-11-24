@@ -27,33 +27,60 @@ export default {
     mounted() {
         Chart.defaults.global.defaultFontFamily = 'Nunito, sans-serif';
 
+        let colors = {
+            green: {
+                backgroundColor: 'hsla(150, 86%, 86% , 0.4)',
+                borderColor: 'hsla(150, 75%, 65% , 0.4)',
+            },
+            red: {
+                backgroundColor: 'hsla(0,100%,50%,0.4)',
+                borderColor: 'hsla(0, 75%, 65% , 0.4)',
+            },
+            default:{
+                backgroundColor: 'hsla(265, 86%, 86%, 0.4)',
+                borderColor: 'hsla(260, 73%, 70%, 0.4)',
+            }
+        }
+        let color = colors[this.color];
+        if (!color){
+            color = colors.default;
+        }
+        const $this = this;
         new Chart(this.$refs.canvas, {
             type: 'bar',
             data: {
-                labels: this.chartLabels,
+                labels: $this.chartLabels,
                 datasets: [
                     {
                         steppedLine: 'after',
                         pointBorderColor: 'rgba(0, 0, 0, 0)',
                         pointBackgroundColor: 'rgba(0, 0, 0, 0)',
-                        label: this.label,
-                        data: this.chartData,
-                        backgroundColor: 'hsla(265, 86%, 86%, 0.4)',
-                        borderColor: 'hsla(260, 73%, 70%, 0.4)',
+                        label: $this.label,
+                        title: $this.label,
+                        data: $this.chartData,
+                        ...color,
                         borderWidth: 1,
+                        barThickness: 'flex',
+                        barPercentage: .4,
+                        categoryPercentage: 0.6,
                         lineTension: 0.2,
                     },
                 ],
             },
             options: {
-                maintainAspectRatio: false,
+                maintainAspectRatio: true,
                 legend: {
-                    display: false,
+                    display: true,
                 },
                 tooltips: {
-                    displayColors: false,
+                    displayColors: true,
                     callbacks: {
-                        title: this.formatTooltipTitle,
+                        // title: function(context){
+                        //     return $this.label
+                        // },
+                        label: function(context, data){
+                            return data.datasets[0].label + ': ' + data.datasets[0].data[context.index];
+                        }
                     },
                 },
                 scales: {
@@ -62,8 +89,8 @@ export default {
                             gridLines: {
                                 color: 'rgba(0, 0, 0, .05)',
                                 zeroLineColor: 'rgba(0, 0, 0, 0)',
-                                drawBorder: false,
-                                drawTicks: false,
+                                drawBorder: true,
+                                drawTicks: true,
                                 display: true,
                             },
                             ticks: {
@@ -76,20 +103,17 @@ export default {
                     ],
                     xAxes: [
                         {
-                            barThickness: 'flex',
-                            barPercentage: 1,
-                            categoryPercentage: 0.9,
                             gridLines: {
-                                drawBorder: false,
-                                display: false,
-                                drawTicks: false,
+                                drawBorder: true,
+                                display: true,
+                                drawTicks: true,
                                 offsetGridLines: true,
                             },
                             ticks: {
                                 display: true,
                                 maxTicksLimit: 10,
                                 maxRotation: 0,
-                                padding: 10,
+                                padding: 5,
                             },
                         },
                     ],
@@ -101,6 +125,6 @@ export default {
     /**
      * The component's props.
      */
-    props: ['label', 'data', 'height', 'formatTooltipTitle', 'suggestedMax'],
+    props: ['label', 'data', 'color', 'height', 'formatTooltipTitle', 'suggestedMax'],
 };
 </script>

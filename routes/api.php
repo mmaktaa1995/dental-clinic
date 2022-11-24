@@ -1,12 +1,14 @@
 <?php
 
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\CourseController;
-use App\Http\Controllers\EnrollmentController;
-use App\Http\Controllers\InstructorController;
-use App\Http\Controllers\SectionController;
-use App\Http\Controllers\StudentController;
+use App\Http\Controllers\ExpensesController;
+use App\Http\Controllers\PatientsController;
+use App\Http\Controllers\PatientsFilesController;
+use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\UploadFilesController;
+use App\Http\Controllers\VisitsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,22 +26,21 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::middleware('auth:api')->group(function () {
-    Route::resource('courses', CourseController::class)->except(['create', 'edit']);
-    Route::resource('sections', SectionController::class)->except(['create', 'edit']);
-    Route::resource('students', StudentController::class)->except(['create', 'edit']);
-    Route::resource('instructors', InstructorController::class)->except(['create', 'edit']);
-    Route::get('students-enrollments', [EnrollmentController::class, 'index']);
-    Route::post('logout-admin', [LoginController::class, 'logout']);
-});
 
-Route::middleware('auth:student')->group(function () {
-    Route::get('student-courses', [CourseController::class, 'studentCourses']);
-    Route::get('student-courses/{course}/sections', [CourseController::class, 'sections']);
-    Route::post('student-courses/enroll', [StudentController::class, 'enroll']);
-    Route::get('students/my-courses/list', [StudentController::class, 'myCourses']);
-    Route::post('logout', [LoginController::class, 'logout']);
+Route::middleware('auth:api')->group(function () {
+    Route::get('patients/dropdown', [PatientsController::class, 'dropdownData'])->name('patients.dropdown');
+    Route::resource('patients', PatientsController::class)->except(['create', 'edit']);
+    Route::resource('patients-files', PatientsFilesController::class)->except(['create', 'edit']);
+    Route::resource('visits', VisitsController::class)->except(['create', 'edit']);
+    Route::resource('expenses', ExpensesController::class)->except(['create', 'edit']);
+    Route::resource('patients.visits', VisitsController::class)->except(['create', 'edit']);
+    Route::resource('appointments', AppointmentController::class)->only(['index', 'store']);
+    Route::post('logout-admin', [LoginController::class, 'logout']);
+    Route::get('statistics', StatisticsController::class);
 });
+Route::post('upload', [UploadFilesController::class, 'store']);
+Route::delete('upload/{folder}/{name}', [UploadFilesController::class, 'destroy']);
+Route::get('upload/{folder}/{name}', [UploadFilesController::class, 'show']);
 
 Route::post('register', [RegisterController::class, 'register']);
 Route::post('login', [LoginController::class, 'login']);

@@ -19,7 +19,7 @@ class EnrollmentResource extends JsonResource
             'id' => $this->id,
             'grade' => $this->grade,
             'student' => StudentResource::make($this->whenLoaded('student')),
-            'course' => CourseResource::make($this->whenLoaded('course')),
+            'course' => PatientResource::make($this->whenLoaded('course')),
             'section' => SectionResource::make($this->whenLoaded('section')),
             'created_at' => Carbon::parse($this->created_at)->toDateTimeString(),
             'updated_at' => Carbon::parse($this->updated_at)->toDateTimeString(),

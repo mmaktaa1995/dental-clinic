@@ -1,0 +1,95 @@
+/* arabic */
+@font-face {
+    font-family: 'Tajawal';
+    ascent-override: 90%;
+    font-style: normal;
+    font-weight: 200;
+    font-display: swap;
+    src: url(../../public/fonts/Tajawal-Light.ttf);
+}
+
+/* arabic */
+@font-face {
+    font-family: 'Tajawal';
+    ascent-override: 90%;
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+    src: url(../../public/fonts/Tajawal-Regular.ttf);
+}
+
+/* arabic */
+@font-face {
+    font-family: 'Tajawal';
+    ascent-override: 90%;
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(../../public/fonts/Tajawal-Medium.ttf);
+}
+
+/* arabic */
+@font-face {
+    font-family: 'Tajawal';
+    ascent-override: 90%;
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url(../../public/fonts/Tajawal-Bold.ttf);
+}
+
+/* arabic */
+@font-face {
+    font-family: 'Tajawal';
+    ascent-override: 90%;
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url(../../public/fonts/Tajawal-ExtraBold.ttf);
+}
+
+body {
+    font-family: 'Tajawal', sans-serif !important;
+}
+
+[id^=filepond--drop-label], .filepond--file-status {
+    direction: rtl;
+    font-family: 'Tajawal', sans-serif !important;
+}
+
+
+
+input:disabled {
+    cursor: not-allowed;
+    background-color: rgba(0, 0, 0, .08) !important;
+}
+
+.bg-accent{
+    background-color: #00A8E1;
+}
+
+.card{
+    @apply rounded-md bg-white shadow-md overflow-hidden;
+}
+
+.card .card-title{
+    @apply bg-gray-50 border-b border-gray-200 font-medium leading-4 px-6 py-4  text-gray-700
+}
+.card .card-body{
+    @apply p-4 px-5;
+}
+
+.filepond--credits{
+    display: none;
+}
+
+.filepond--file-poster-wrapper{
+    left: 0;
+    top: 0;
+    position: absolute;
+    max-width: 100%;
+}
+
+.filepond--file-poster-overlay{
+    opacity: 0 !important;
+}

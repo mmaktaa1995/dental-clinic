@@ -1,5 +1,5 @@
 <template>
-    <div class="fixed top-0 right-0 m-6 z-50">
+    <div class="fixed top-0 left-0 m-6 z-50">
         <transition name="slide-fade">
             <div v-if="message"
                 :class="{ 'bg-red-200 border-red-200 text-red-900': message.type === 'error','bg-green-200 border-green-200 text-green-900': message.type === 'success',}"

@@ -15,6 +15,8 @@
         "laravel/ui": "^3.1"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.7",
+        "bennett-treptow/laravel-migration-generator": "^4.1",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
@@ -44,7 +46,11 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
-        ]
+        ],
+        "psalm": "vendor\\bin\\psalm",
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
+        "format": "vendor\\bin\\php-cs-fixer fix --allow-risky=yes"
     },
     "extra": {
         "laravel": {

@@ -3,6 +3,9 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 module.exports = {
     purge: {
         content: ['./resources/views/**/*.blade.php', './resources/js/**/*.vue', './resources/js/**/*.js'],
+        // content: require('fast-glob').sync([
+        //     'source/**/*.{blade.php,md,html,vue}'  // Added 'vue'
+        // ],{ dot: true }),
 
         options: {
             whitelist: [

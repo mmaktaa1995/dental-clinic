@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\StudentResource;
 use App\Http\Resources\UserResource;
-use App\Models\Student;
 use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -47,7 +45,7 @@ class LoginController extends Controller
         }
 
         return response()->json([
-            'message' => 'Logged Out Successfully',
+            'message' => 'تم تسجيل الخروج بنجاح',
         ], 200);
     }
 
@@ -58,22 +56,19 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
-        if ($request->get('type') == 'api')
-            $user = User::where('email', $request->email)->first();
-        else
-            $user = Student::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
+                'email' => ['كلمة المرور أو البريد الالكتروني غير صحيحين.'],
             ]);
         }
 
         return response()->json([
-            'message' => 'Logged In Successfully',
+            'message' => 'تم تسجيل الدخول بنجاح',
             'data' => [
                 'access_token' => explode('|', $user->createToken('personal-access-token')->plainTextToken)[1],
-                'user' => $request->get('type') == 'api' ? UserResource::make($user) : StudentResource::make($user)
+                'user' => UserResource::make($user)
             ]
         ], 200);
 
@@ -97,7 +92,7 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         return response()->json([
-            'message' => 'Logged In Successfully',
+            'message' => 'تم تسجيل الدخول بنجاح',
             'data' => [
                 'access_token' => explode('|', $user->createToken('personal-access-token')->plainTextToken)[1],
                 'user' => UserResource::make($user)

@@ -1,25 +1,25 @@
 <template>
-    <popper
-        trigger="clickToOpen"
-        :options="{
-            placement: placement,
-            modifiers: { offset: { offset: '0,10px' } },
-        }"
-    >
-        <div class="popper">
-            <p class="m-1 text-sm leading-5 text-gray-500">
-                <slot name="content" />
-            </p>
-        </div>
+<!--    <popper-->
+<!--        trigger="clickToOpen"-->
+<!--        :options="{-->
+<!--            placement: placement,-->
+<!--            modifiers: { offset: { offset: '0,10px' } },-->
+<!--        }"-->
+<!--    >-->
+<!--        <div class="popper">-->
+<!--            <p class="m-1 text-sm leading-5 text-gray-500">-->
+<!--                <slot name="content" />-->
+<!--            </p>-->
+<!--        </div>-->
 
-        <div slot="reference" class="cursor-pointer">
-            <slot name="button" />
-        </div>
-    </popper>
+<!--        <div slot="reference" class="cursor-pointer">-->
+<!--            <slot name="button" />-->
+<!--        </div>-->
+<!--    </popper>-->
 </template>
 
 <script>
-import Popper from 'vue-popperjs';
+// import Popper from 'vue-popperjs/dist/vue-popper';
 import 'vue-popperjs/dist/vue-popper.css';
 
 export default {
@@ -27,7 +27,7 @@ export default {
      * Component's components.
      */
     components: {
-        popper: Popper,
+        // popper: Popper,
     },
 
     /**

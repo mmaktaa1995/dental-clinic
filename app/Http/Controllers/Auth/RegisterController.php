@@ -49,6 +49,7 @@ class RegisterController extends Controller
      * Get a validator for an incoming registration request.
      *
      * @param array $data
+     *
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -59,19 +60,6 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
         ];
-        if ($data['type'] === 'student') {
-            $validation = [
-                'username' => ['required', 'max:255', 'unique:students', 'regex:/^\S*$/u'],
-                'email' => ['required', 'max:255', 'unique:students', 'email'],
-                'first_name' => ['required', 'max:255'],
-                'last_name' => ['required', 'max:255'],
-                'reg_year' => ['required', 'numeric', 'max:' . date('Y')],
-                'gender' => ['required', 'in:male,female'],
-                'address' => ['required', 'max:255'],
-                'password' => ['required', 'max:255', 'min:8'],
-                'mobile_number' => ['required', 'max:50', 'string'],
-            ];
-        }
         return Validator::make($data, $validation);
     }
 
@@ -79,32 +67,18 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param array $data
+     *
      * @return \App\Models\User
      */
     protected function create(array $data)
     {
-        $user = null;
-        if ($data['type'] === 'api') {
-            $user = User::create([
-                'username' => $data['username'],
-                'name' => $data['name'],
-                'email' => $data['email'],
-                'admin' => 0,
-                'password' => Hash::make($data['password']),
-            ]);
-        } elseif ($data['type'] === 'student') {
-            $user = Student::create([
-                'username' => $data['username'],
-                'email' => $data['email'],
-                'first_name' => $data['first_name'],
-                'last_name' => $data['last_name'],
-                'reg_year' => $data['reg_year'],
-                'gender' => $data['gender'],
-                'address' => $data['address'],
-                'password' => Hash::make($data['password']),
-                'mobile_number' => $data['mobile_number'],
-            ]);
-        }
+        $user = User::create([
+            'username' => $data['username'],
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'admin' => 0,
+            'password' => Hash::make($data['password']),
+        ]);
         return $user;
     }
 
@@ -114,7 +88,7 @@ class RegisterController extends Controller
             'message' => 'Registered Successfully',
             'data' => [
                 'access_token' => explode('|', $user->createToken('personal-access-token')->plainTextToken)[1],
-                'user' => get_class($user) === Student::class ? StudentResource::make($user) : UserResource::make($user)
+//                'user' => get_class($user) === Student::class ? StudentResource::make($user) : UserResource::make($user)
             ]
         ], 201);
     }

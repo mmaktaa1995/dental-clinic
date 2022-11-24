@@ -1,5 +1,5 @@
 <template>
-    <button :type="type" class="relative" :class="{ 'cursor-not-allowed': loading }" :disabled="disabled">
+    <button v-bind="$attrs" v-on="$listeners" :type="type" class="relative" :class="{ 'cursor-not-allowed': loading }" :disabled="disabled">
         <span class="absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%)" v-if="loading">
             <loader color="white" width="32"></loader>
         </span>
@@ -14,6 +14,7 @@
 import Loader from './Loader';
 
 export default {
+    name: 'AsyncButton',
     components: {
         Loader,
     },
@@ -25,5 +26,8 @@ export default {
         loading: {},
         disabled: {},
     },
+    mounted(){
+        console.log(this.$props)
+    }
 };
 </script>

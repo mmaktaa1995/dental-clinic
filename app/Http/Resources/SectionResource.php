@@ -23,7 +23,7 @@ class SectionResource extends JsonResource
             'instructor_id' => $this->instructor_id,
             'course_id' => $this->course_id,
             'instructor' => InstructorResource::make($this->whenLoaded('instructor')),
-            'course' => CourseResource::make($this->whenLoaded('course')),
+            'course' => PatientResource::make($this->whenLoaded('course')),
             'created_at' => Carbon::parse($this->created_at)->toDateTimeString(),
             'updated_at' => Carbon::parse($this->updated_at)->toDateTimeString(),
         ];
