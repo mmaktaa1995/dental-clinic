@@ -1,5 +1,11 @@
 <template>
     <div class="px-12 py-6">
+        <div class="w-full text-left">
+            <button @click="print()"
+                    class="py-1 items-center justify-center h-12 px-4 text-sm text-center text-gray-100 hover:text-gray-50 bg-purple-500 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-purple-600 focus:outline-none">
+                طباعة
+            </button>
+        </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div class="">
                 <label for="name" class="block text-sm font-medium text-gray-700 text-right">الاسم</label>
@@ -64,19 +70,12 @@
 
                     </td>
                     <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500">
-                        <async-button @click="savePayment()"
-                                      :loading="submitted"
-                                      v-if="isEdit"
-                                      class="ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-white bg-green-500 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-green-600 focus:outline-none">
-                            تعديل
-                        </async-button>
                         <async-button @click="addPayment()"
                                       :loading="submitted"
-                                      v-else
                                       class="ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-white bg-green-500 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-green-600 focus:outline-none">
                             حفظ
                         </async-button>
-                        <a href="#" @click="resetForm();isFormManipulating = false;isEdit = false"
+                        <a href="#" @click="resetForm();isFormManipulating = false;"
                            class="ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-white bg-red-600 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-red-700 focus:outline-none">
                             إلغاء
                         </a>
@@ -84,28 +83,55 @@
                 </tr>
                 <tr v-for="payment in data">
                     <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500">
-                        {{ payment.visit.notes ? payment.visit.notes : '-' }}
+                        <span v-if="!payment.isEdit">
+                            {{ payment.visit.notes ? payment.visit.notes : '-' }}
+                        </span>
+                         <input type="text"
+                               v-model="payment.visit.notes" v-else :disabled="submitted"
+                               class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
+
                     </td>
                     <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-700">
-                        <b class="font-medium">{{ +payment.amount | numberFormat }}</b>
+                        <span v-if="!payment.isEdit">
+                            <b class="font-medium">{{ +payment.amount | numberFormat }}</b>
+                        </span>
+                         <input type="number"
+                               v-model="payment.amount" v-else :disabled="submitted"
+                               class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
+
                     </td>
                     <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500">
-                        {{ payment.date }}
+                        <span v-if="!payment.isEdit">
+                            {{ payment.date }}
+                        </span>
+                         <input type="date"
+                               v-model="payment.date" v-else :disabled="submitted"
+                               class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
+
                     </td>
                     <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500">
-                        <a href="#" @click="editPayment(payment)"
+                        <a v-if="!payment.isEdit" href="#" @click="editPayment(payment)"
                            class="py-1 inline-flex h-12 px-2 text-sm text-center text-green-600 transition-colors duration-200 transform lg:h-8 hover:text-green-700 focus:outline-none">
                             <icon-edit
                                 size="5"
                                 class="transition-colors"
                             />
                         </a>
-                        <a href="#" @click="deletePayment(payment.id)"
+                        <a v-if="!payment.isEdit" href="#" @click="deletePayment(payment.id)"
                            class="py-1 inline-flex h-12 px-2 text-sm text-center text-red-600 transition-colors duration-200 transform lg:h-8 hover:text-red-700 focus:outline-none">
                             <icon-delete
                                 size="5"
                                 class="transition-colors"
                             />
+                        </a>
+                        <async-button v-if="payment.isEdit" @click="savePayment(payment)"
+                           :loading="submitted"
+                           class="ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-white bg-green-500 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-green-600 focus:outline-none">
+                            تعديل
+                        </async-button>
+                        <a v-if="payment.isEdit" href="#" @click="payment.isEdit = false"
+                           class="ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-white bg-red-600 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-red-700 focus:outline-none">
+                            <span>إلغاء</span>
                         </a>
                     </td>
                 </tr>
@@ -160,12 +186,21 @@ export default {
         },
         getData() {
             axios.get(`/api/patients-files/${this.id}`).then(({data}) => {
-                this.data = data;
+                this.data = data.map(item => {
+                    item.isEdit = false;
+                    return item;
+                });
                 if (this.data.length) {
                     this.patient_name = this.data[0].patient.name;
                     this.patient_file_number = this.data[0].patient.file_number;
                     this.totalPayments = this.data.reduce((sum, payment) => sum + +payment.amount, 0)
                 }
+            })
+        },
+        print() {
+            axios.get(`/api/patients-files/${this.id}/print`).then(({data}) => {
+                window.open(data.file, 'blank');
+                console.log(data)
             })
         },
         addPayment() {
@@ -182,14 +217,17 @@ export default {
                 this.submitted = false;
             })
         },
-        savePayment() {
+        savePayment(payment) {
             this.submitted = true;
-            let data = {...this.form, patient_id: this.id}
+            let data = {
+                amount: payment.amount,
+                date: payment.date,
+                notes: payment.visit.notes,
+                patient_id: this.id}
             axios.put(`/api/patients-files/${this.payment_id}`, data).then(({data}) => {
                 bus.$emit('flash-message', {text: data.message, type: 'success'});
                 this.resetForm();
-                this.isFormManipulating = false;
-                this.isEdit = false;
+                payment.isEdit = false;
                 this.getData();
             }).catch(({response}) => {
                 bus.$emit('flash-message', {text: response.data.message, type: 'error'});
@@ -208,14 +246,13 @@ export default {
             })
         },
         editPayment(payment) {
-            this.isEdit = true;
+            payment.isEdit = true;
             this.payment_id = payment.id;
             this.form = {
                 amount: payment.amount,
                 date: payment.date,
                 notes: payment.visit.notes
             };
-            this.isFormManipulating = true;
         }
     },
     computed: {

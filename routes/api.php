@@ -30,7 +30,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware('auth:api')->group(function () {
     Route::get('patients/dropdown', [PatientsController::class, 'dropdownData'])->name('patients.dropdown');
     Route::resource('patients', PatientsController::class)->except(['create', 'edit']);
-    Route::resource('patients-files', PatientsFilesController::class)->except(['create', 'edit']);
+    Route::resource('patients-files', PatientsFilesController::class)->parameters(['patients-files' => 'payment'])->except(['create', 'edit']);
+    Route::get('patients-files/{patient_id}/print', [PatientsFilesController::class, 'print']);
     Route::resource('visits', VisitsController::class)->except(['create', 'edit']);
     Route::resource('expenses', ExpensesController::class)->except(['create', 'edit']);
     Route::resource('patients.visits', VisitsController::class)->except(['create', 'edit']);

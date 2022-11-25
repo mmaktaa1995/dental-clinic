@@ -59,6 +59,11 @@ class Patient extends Eloquent
         return $this->hasMany(Visit::class);
     }
 
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
     public function lastVisit()
     {
         return $this->hasMany(Visit::class)->latest()->limit(1);

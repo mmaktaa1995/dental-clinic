@@ -110,6 +110,13 @@
                     <tbody class="divide-y divide-gray-200">
                     <tr>
                         <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 text-md leading-5 text-gray-700">
+                            <b class="font-medium">عدد المرضى</b></td>
+                        <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 text-md leading-5 text-gray-500">
+                            {{ totalPatients }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 text-md leading-5 text-gray-700">
                             <b class="font-medium">النفقات</b></td>
                         <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 text-md leading-5 text-gray-500">
                             {{ expensesSum | numberFormat }}
@@ -169,15 +176,16 @@
 <script>
 import axios from 'axios';
 import moment from "moment";
-
+let year = new Date().getFullYear();
 export default {
     data() {
         return {
             loading: false,
-            year: '',
+            year,
             month: '',
             patientsTotalCount: 0,
             expensesTotal: 0,
+            totalPatients: 0,
             incomeTotal: 0,
             expensesSum: 0,
             incomesSum: 0,
@@ -219,6 +227,7 @@ export default {
                 this.incomes = data.incomes;
                 this.patients = data.patients;
 
+                this.totalPatients = this.patients.reduce((sum, item) => sum + +item.value, 0);
                 this.expensesSum = this.expenses.reduce((sum, item) => sum + +item.value, 0);
                 this.incomesSum = this.incomes.reduce((sum, item) => sum + +item.value, 0);
 

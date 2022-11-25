@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PaymentRequest;
 use App\Http\Resources\BaseCollection;
 use App\Http\Resources\PaymentResource;
+use App\Models\Patient;
 use App\Models\Payment;
 use App\Models\Visit;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Illuminate\Http\Request;
+use Symfony\Component\Mime\MimeTypes;
 
 class PatientsFilesController extends Controller
 {
@@ -33,8 +36,14 @@ class PatientsFilesController extends Controller
         ];
         Payment::$columnsToSelect = [
             'patient_id', 'date', 'id',
-            \DB::raw("(SELECT `date` FROM payments AS p WHERE p.patient_id = payments.patient_id ORDER BY id desc LIMIT 1) as latest_payment_date"),
-            \DB::raw("(SELECT `amount` FROM payments AS p WHERE p.patient_id = payments.patient_id ORDER BY id desc LIMIT 1) as latest_payment")
+            'latest_payment_date' => Payment::from('payments as p')->select('date')
+                ->whereColumn('p.patient_id', 'payments.patient_id')
+                ->orderBy('id', 'desc')
+                ->limit('1'),
+            'latest_payment' => Payment::from('payments as p')->select('amount')
+                ->whereColumn('p.patient_id', 'payments.patient_id')
+                ->orderBy('id', 'desc')
+                ->limit('1'),
         ];
         $data = Payment::getAll($params);
         return response()->json(BaseCollection::make($data, PaymentResource::class), 200);
@@ -80,13 +89,12 @@ class PatientsFilesController extends Controller
      * Update the specified resource in storage.
      *
      * @param \App\Http\Requests\PaymentRequest $request
-     * @param int $payment
+     * @param \App\Models\Payment $payment
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(PaymentRequest $request, $payment): \Illuminate\Http\JsonResponse
+    public function update(PaymentRequest $request, Payment $payment): \Illuminate\Http\JsonResponse
     {
-        $payment = Payment::findOrFail($payment);
         $payment->update($request->validated());
         $payment->visit()->update(['date' => $request->get('date'), 'notes' => $request->get('notes')]);
         return response()->json(['message' => __('app.success')], 200);
@@ -95,18 +103,42 @@ class PatientsFilesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $payment
+     * @param \App\Models\Payment $payment
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($payment)
+    public function destroy(Payment $payment)
     {
         try {
-            $payment = Payment::findOrFail($payment);
+            $payment->visit()->delete();
             $payment->delete();
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage()], $exception->getCode());
         }
         return response()->json(['message' => __('app.success')]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $patient_id
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function print($patient_id)
+    {
+        try {
+            $patient = Patient::find($patient_id);
+            $payments = $patient->payments()->with(['patient', 'visit'])->orderBy('date', 'desc')->get();
+            $totalPayments = $payments->sum->amount;
+            $pdf = PDF::loadView('pdf', compact('payments', 'patient', 'totalPayments'));
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage()], $exception->getCode());
+        }
+
+        $path = storage_path("app/public/pdf/patients/{$patient->name}.pdf");
+        $pdf->save($path);
+//        return view('pdf', compact('payments', 'patient'))->render();
+        return response()->json(['file' => asset("storage/pdf/patients/{$patient->name}.pdf")]);
     }
 }

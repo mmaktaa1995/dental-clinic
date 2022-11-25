@@ -24,6 +24,7 @@ mix.options({
     },
 })
     .postCss('resources/css/vapor-ui.css', 'public/app.css', [require('postcss-import'), require('tailwindcss')])
+    .postCss('resources/css/print.css', 'public/print.css', [require('postcss-import'), require('tailwindcss')])
     .setPublicPath('public')
     .js('resources/js/app.js', 'public')
     .version()
