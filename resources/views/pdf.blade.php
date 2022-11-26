@@ -208,7 +208,7 @@
         <div style="border-bottom: 2px solid #bbb; padding-bottom: 15px;  margin-right:0px; margin-left:0px;">
             <table class="heading_table">
                 <tr>
-                    <td align="right" style=" background-color: #00416a; border-radius: 50px 50px 50px 0; text-transform: uppercase;">
+                    <td align="right" style=" background-color: #00416a; border-radius: 0 0 50px 0; text-transform: uppercase;">
                         رقم ملف المريض: {{$patient->file_number}}
                     </td>
                     <td align="left" style="background-color: #ffffff; padding:0px 10px 0px 10px;" width="18%">
