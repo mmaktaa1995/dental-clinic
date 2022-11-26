@@ -35,8 +35,57 @@
             font-display: swap;
             src: url(../../public/fonts/DejaVuSansMono-Bold.ttf);
         }
+        /* arabic */
+        @font-face {
+            font-family: 'Tajawal';
+            ascent-override: 90%;
+            font-style: normal;
+            font-weight: 200;
+            font-display: swap;
+            src: url(../../public/fonts/Tajawal-Light.ttf);
+        }
 
-        * { font-family: DejaVu Sans, sans-serif; }
+        /* arabic */
+        @font-face {
+            font-family: 'Tajawal';
+            ascent-override: 90%;
+            font-style: normal;
+            font-weight: 300;
+            font-display: swap;
+            src: url(../../public/fonts/Tajawal-Regular.ttf);
+        }
+
+        /* arabic */
+        @font-face {
+            font-family: 'Tajawal';
+            ascent-override: 90%;
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url(../../public/fonts/Tajawal-Medium.ttf);
+        }
+
+        /* arabic */
+        @font-face {
+            font-family: 'Tajawal';
+            ascent-override: 90%;
+            font-style: normal;
+            font-weight: 500;
+            font-display: swap;
+            src: url(../../public/fonts/Tajawal-Bold.ttf);
+        }
+
+        /* arabic */
+        @font-face {
+            font-family: 'Tajawal';
+            ascent-override: 90%;
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url(../../public/fonts/Tajawal-ExtraBold.ttf);
+        }
+
+        body { font-family: Tajawal; }
 
         .text-center {
             text-align: center;
@@ -159,12 +208,11 @@
         <div style="border-bottom: 2px solid #bbb; padding-bottom: 15px;  margin-right:0px; margin-left:0px;">
             <table class="heading_table">
                 <tr>
-                    <td align="left" style="background-color: #ffffff; padding:0px 10px 0px 10px;" width="5%">
-                        <img src="{{asset('images/logo.png')}}" width="100px" alt="">
-                    </td>
-                    <td align="right"
-                        style=" background-color: #00416a; border-radius: 0 50px 0 0; text-transform: uppercase;">
+                    <td align="right" style=" background-color: #00416a; border-radius: 50px 50px 50px 0; text-transform: uppercase;">
                         رقم ملف المريض: {{$patient->file_number}}
+                    </td>
+                    <td align="left" style="background-color: #ffffff; padding:0px 10px 0px 10px;" width="18%">
+                        <img src="{{asset('images/logo.png')}}" width="100px" alt="">
                     </td>
                 </tr>
             </table>
@@ -178,16 +226,16 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td style="text-align: right">{{trim($patient->name)}}</td>
                     <td style="text-align: right">الاسم</td>
+                    <td style="text-align: right">{{trim($patient->name)}}</td>
                 </tr>
                 <tr>
-                    <td style="text-align: right">{{$patient->age??'-'}}</td>
                     <td style="text-align: right">العمر</td>
+                    <td style="text-align: right">{{$patient->age??'-'}}</td>
                 </tr>
                 <tr>
-                    <td style="text-align: right">{{$patient->mobile??$patient->phone}}</td>
                     <td style="text-align: right">رقم الموبايل</td>
+                    <td style="text-align: right">{{$patient->mobile??$patient->phone}}</td>
                 </tr>
                 </tbody>
             </table>
@@ -200,23 +248,23 @@
                     </th>
                 </tr>
                 <tr>
-                    <th class="dash__table-head" style="text-align: right">التاريخ</th>
-                    <th class="dash__table-head" style="text-align: right">المبلغ</th>
                     <th class="dash__table-head" style="text-align: right">الإجراء الذي تم</th>
+                    <th class="dash__table-head" style="text-align: right">المبلغ</th>
+                    <th class="dash__table-head" style="text-align: right">التاريخ</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($payments as $payment)
                     <tr>
+                        <td style="text-align: right">{{$payment->visit->notes??'-'}}</td>
+                        <td style="text-align: right">{{number_format($payment->amount)}}</td>
                         <td style="text-align: right">{{$payment->date}}</td>
-                        <td style="text-align: right">{{$payment->amount . ""}}</td>
-                        <td style="text-align: right">{{$payment->visit->notes}}</td>
                     </tr>
                 @endforeach
                 <tr>
-                    <td colspan="2" style="text-align: right">{{number_format($totalPayments)}}</td>
                     <td class="c-brand f-w-bold" style="font-weight: bold; text-align: right">إجمالي المبلغ
                         الدفوع</td>
+                    <td colspan="2" style="text-align: right">{{number_format($totalPayments)}}</td>
                 </tr>
                 </tbody>
             </table>

@@ -7,10 +7,9 @@ use App\Http\Resources\BaseCollection;
 use App\Http\Resources\PatientResource;
 use App\Models\DeletedPatient;
 use App\Models\Patient;
-use App\Models\PatientImage;
+use App\Models\Payment;
 use Exception;
 use Illuminate\Http\Request;
-use Storage;
 
 class PatientsController extends Controller
 {
@@ -74,6 +73,12 @@ class PatientsController extends Controller
             $patient = Patient::create($request->validated());
             if ($request->filled('amount')) {
                 $visit = $patient->visits()->create($request->validated());
+                Payment::create([
+                    'patient_id' => $patient->id,
+                    'visit_id' => $visit->id,
+                    'date' => $request->get('date'),
+                    'amount' => $request->get('amount')
+                ]);
                 if ($request->filled('services'))
                     $visit->services()->sync($request->get('services'));
             }

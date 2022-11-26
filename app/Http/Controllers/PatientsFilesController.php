@@ -9,9 +9,11 @@ use App\Models\Patient;
 use App\Models\Payment;
 use App\Models\Visit;
 use Barryvdh\DomPDF\Facade\Pdf;
+use DB;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Symfony\Component\Mime\MimeTypes;
+use Meneses\LaravelMpdf\Facades\LaravelMpdf;
 
 class PatientsFilesController extends Controller
 {
@@ -54,7 +56,7 @@ class PatientsFilesController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($patient_id): \Illuminate\Http\JsonResponse
+    public function show($patient_id): JsonResponse
     {
         $payments = Payment::with(['patient', 'visit'])->where('patient_id', $patient_id)->orderBy('date', 'desc')->get();
         return response()->json(PaymentResource::collection($payments), 200);
@@ -68,17 +70,17 @@ class PatientsFilesController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function store(PaymentRequest $request): \Illuminate\Http\JsonResponse
+    public function store(PaymentRequest $request): JsonResponse
     {
         try {
-            \DB::beginTransaction();
+            DB::beginTransaction();
             $visit = Visit::create($request->validated());
             if ($request->filled('amount')) {
                 $visit->payment()->create($request->validated());
             }
-            \DB::commit();
-        } catch (\Exception $exception) {
-            \DB::rollBack();
+            DB::commit();
+        } catch (Exception $exception) {
+            DB::rollBack();
             throw new Exception($exception->getMessage());
         }
         return response()->json(['message' => __('app.success')]);
@@ -93,7 +95,7 @@ class PatientsFilesController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(PaymentRequest $request, Payment $payment): \Illuminate\Http\JsonResponse
+    public function update(PaymentRequest $request, Payment $payment): JsonResponse
     {
         $payment->update($request->validated());
         $payment->visit()->update(['date' => $request->get('date'), 'notes' => $request->get('notes')]);
@@ -131,14 +133,14 @@ class PatientsFilesController extends Controller
             $patient = Patient::find($patient_id);
             $payments = $patient->payments()->with(['patient', 'visit'])->orderBy('date', 'desc')->get();
             $totalPayments = $payments->sum->amount;
-            $pdf = PDF::loadView('pdf', compact('payments', 'patient', 'totalPayments'));
+            $fileName = "{$patient->name}-" . time() . ".pdf";
+            $pdf1 = LaravelMpdf::loadView('pdf', compact('payments', 'patient', 'totalPayments'));
+            $pdf1->save(storage_path("app/public/pdf/patients/$fileName"));
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage()], $exception->getCode());
         }
 
-        $path = storage_path("app/public/pdf/patients/{$patient->name}.pdf");
-        $pdf->save($path);
-//        return view('pdf', compact('payments', 'patient'))->render();
-        return response()->json(['file' => asset("storage/pdf/patients/{$patient->name}.pdf")]);
+
+        return response()->json(['file' => asset("storage/pdf/patients/$fileName")]);
     }
 }
