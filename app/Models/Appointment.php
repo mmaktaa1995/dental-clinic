@@ -17,7 +17,7 @@ class Appointment extends \Eloquent
 {
     protected $fillable = ['patient_id', 'date', 'notes'];
 
-    const WAITING_MINUTES = 20;
+    const WAITING_MINUTES = 30;
     public function patient()
     {
         return $this->belongsTo(Patient::class);
