@@ -50,6 +50,14 @@ export default {
         folder: {
             type: String,
             default: 'temp'
+        },
+        type: {
+            type: String,
+            default: 'images'
+        },
+        files: {
+            type: Object,
+            default: []
         }
     },
     data: function () {
@@ -80,6 +88,7 @@ export default {
                     const formData = new FormData();
                     formData.append(fieldName, file, file.name);
                     formData.append('folder', this.folder);
+                    formData.append('type', this.type);
                     // aborting the request
                     const CancelToken = axios.CancelToken
                     const source = CancelToken.source()
@@ -117,8 +126,9 @@ export default {
                     const data = JSON.parse(uniqueFileId).path.split('/');
                     const name = data[data.length - 1];
                     const folder = data[data.length - 2];
+                    const type = this.type;
 
-                    axios.delete(`/api/upload/${folder}/${name}`, data).then(({date})=>{
+                    axios.delete(`/api/upload/${folder}/${name}/${type}`, data).then(({date})=>{
                         bus.$emit('flash-message', {text: data.message, type: 'success'});
                     });
 
@@ -129,7 +139,9 @@ export default {
                     const data = uniqueFileId.split('/');
                     const name = data[data.length - 1];
                     const folder = data[data.length - 2];
-                    axios.delete(`/api/upload/${folder}/${name}`).then(({date})=>{
+                    const type = this.type;
+
+                    axios.delete(`/api/upload/${folder}/${name}/${type}`, data).then(({date})=>{
                         bus.$emit('flash-message', {text: data.message, type: 'success'});
                     })
 

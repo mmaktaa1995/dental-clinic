@@ -3,10 +3,8 @@ import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import {createEventId} from '../../event-utils'
 import arLocale from '@fullcalendar/core/locales/ar';
 import axios from "axios";
-import moment from "moment";
 
 export default {
 
@@ -58,7 +56,10 @@ export default {
         }
     },
     mounted() {
-        // this.getData(10, 2022);
+        let self = this;
+        bus.$on('appointment-changed', function () {
+            self.getData(this.month, this.year);
+        })
     },
     methods: {
         getData(month, year) {
@@ -86,26 +87,11 @@ export default {
         },
 
         handleDateSelect(selectInfo) {
-            let title = prompt('Please enter a new title for your event')
-            let calendarApi = selectInfo.view.calendar
-
-            calendarApi.unselect() // clear date selection
-
-            if (title) {
-                calendarApi.addEvent({
-                    id: createEventId(),
-                    title,
-                    start: selectInfo.startStr,
-                    end: selectInfo.endStr,
-                    allDay: selectInfo.allDay
-                })
-            }
+            this.$router.push({name: 'appointments-create', query: {date: selectInfo.startStr}});
         },
 
         handleEventClick(clickInfo) {
-            if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-                clickInfo.event.remove()
-            }
+            this.$router.push({name: 'appointments-edit', params: {id: clickInfo.event.id}});
         },
 
         handleEvents(events) {
@@ -130,6 +116,7 @@ export default {
                 </template>
             </FullCalendar>
         </div>
+        <router-view></router-view>
     </div>
 </template>
 

@@ -44,7 +44,7 @@
 
                     <div class="grid grid-cols-2 gap-6">
                         <div class="col-span-full">
-                            <file-pond-component folder="patients"/>
+                            <file-pond-component folder="patients" type="images"/>
                         </div>
                     </div>
                 </div>
@@ -77,6 +77,7 @@ export default {
             opened: false,
             errors: {},
             submitted: false,
+            files: []
         }
     },
     mounted() {

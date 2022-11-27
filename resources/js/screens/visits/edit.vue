@@ -50,7 +50,7 @@
                                 <option value="">اختر مريض</option>
                                 <option :value="id" v-for="(name, id) in patients">{{ name }}</option>
                             </select>
-                            <small class="text-red-600 text-xs"
+                            <small class="text-red-600 text-xs text-right block"
                                    v-if="errors && errors.patient_id">{{ errors.patient_id[0] }}</small>
                         </div>
                         <div class="">
@@ -58,7 +58,7 @@
                                 الزيارة</label>
                             <input type="date" id="date" autocomplete="off" v-model="form.date"
                                    class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
-                            <small class="text-red-600 text-xs"
+                            <small class="text-red-600 text-xs text-right block"
                                    v-if="errors && errors.date">{{ errors.date[0] }}</small>
                         </div>
 
@@ -67,7 +67,7 @@
                                 المدفوع</label>
                             <input type="number" id="amount" autocomplete="off" v-model="form.amount"
                                    class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
-                            <small class="text-red-600 text-xs"
+                            <small class="text-red-600 text-xs text-right block"
                                    v-if="errors && errors.amount">{{ errors.amount[0] }}</small>
                         </div>
 
@@ -76,7 +76,7 @@
                                    class="block text-sm font-medium text-gray-700 text-right">الملاحظات</label>
                             <textarea id="notes" autocomplete="off" v-model="form.notes"
                                       class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full"></textarea>
-                            <small class="text-red-600 text-xs"
+                            <small class="text-red-600 text-xs text-right block"
                                    v-if="errors && errors.notes">{{ errors.notes[0] }}</small>
                         </div>
                     </div>

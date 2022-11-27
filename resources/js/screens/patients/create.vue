@@ -48,7 +48,7 @@
                             <input type="text" id="file_number" autocomplete="file_number" disabled
                                    v-model="form.file_number"
                                    class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
-                            <small class="text-red-600 text-xs"
+                            <small class="text-red-600 text-xs text-right block"
                                    v-if="errors && errors.file_number">{{ errors.file_number[0] }}</small>
                         </div>
 
@@ -57,7 +57,7 @@
                                 الكامل</label>
                             <input type="text" id="name" autocomplete="off" v-model="form.name"
                                    class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
-                            <small class="text-red-600 text-xs"
+                            <small class="text-red-600 text-xs text-right block"
                                    v-if="errors && errors.name">{{ errors.name[0] }}</small>
                         </div>
 
@@ -65,7 +65,7 @@
                             <label for="age" class="block text-sm font-medium text-gray-700 text-right">العمر</label>
                             <input type="number" id="age" autocomplete="off" v-model="form.age"
                                    class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
-                            <small class="text-red-600 text-xs" v-if="errors && errors.age">{{ errors.age[0] }}</small>
+                            <small class="text-red-600 text-xs text-right block" v-if="errors && errors.age">{{ errors.age[0] }}</small>
                         </div>
 
                         <div class="">
@@ -73,7 +73,7 @@
                                 الهاتف</label>
                             <input type="number" id="phone" autocomplete="off" v-model="form.phone"
                                    class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
-                            <small class="text-red-600 text-xs"
+                            <small class="text-red-600 text-xs text-right block"
                                    v-if="errors && errors.phone">{{ errors.phone[0] }}</small>
                         </div>
 
@@ -82,7 +82,7 @@
                                 الموبايل</label>
                             <input type="number" id="mobile" autocomplete="off" v-model="form.mobile"
                                    class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
-                            <small class="text-red-600 text-xs"
+                            <small class="text-red-600 text-xs text-right block"
                                    v-if="errors && errors.mobile">{{ errors.mobile[0] }}</small>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                                 الزيارة</label>
                             <input type="date" id="date" autocomplete="off" v-model="form.date"
                                    class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
-                            <small class="text-red-600 text-xs"
+                            <small class="text-red-600 text-xs text-right block"
                                    v-if="errors && errors.date">{{ errors.date[0] }}</small>
                         </div>
 
@@ -102,7 +102,7 @@
                                 المدفوع</label>
                             <input type="number" id="amount" autocomplete="off" v-model="form.amount"
                                    class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
-                            <small class="text-red-600 text-xs"
+                            <small class="text-red-600 text-xs text-right block"
                                    v-if="errors && errors.amount">{{ errors.amount[0] }}</small>
                         </div>
 
@@ -111,7 +111,7 @@
                                    class="block text-sm font-medium text-gray-700 text-right">الملاحظات</label>
                             <textarea id="notes" autocomplete="off" v-model="form.notes"
                                       class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full"></textarea>
-                            <small class="text-red-600 text-xs"
+                            <small class="text-red-600 text-xs text-right block"
                                    v-if="errors && errors.notes">{{ errors.notes[0] }}</small>
                         </div>
                     </div>

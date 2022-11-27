@@ -54,7 +54,7 @@
                                        autocomplete="username"
                                        :class="`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${errors && errors.username?'border-red-500':''}`"
                                        placeholder="Username">
-                                <small class="text-red-600 text-xs" v-if="errors && errors.username">{{
+                                <small class="text-red-600 text-xs text-right block" v-if="errors && errors.username">{{
                                         errors.username[0]
                                     }}</small>
                             </div>
@@ -63,7 +63,7 @@
                                 <input id="name" name="name" v-model="name" type="text" autocomplete="name"
                                        :class="`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${errors && errors.name?'border-red-500':''}`"
                                        placeholder="Name">
-                                <small class="text-red-600 text-xs" v-if="errors && errors.name">{{
+                                <small class="text-red-600 text-xs text-right block" v-if="errors && errors.name">{{
                                         errors.name[0]
                                     }}</small>
                             </div>
@@ -72,7 +72,7 @@
                                 <input id="email-address" name="email" v-model="email" type="email" autocomplete="email"
                                        :class="`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${errors && errors.email?'border-red-500':''}`"
                                        placeholder="Email address">
-                                <small class="text-red-600 text-xs" v-if="errors && errors.email">{{
+                                <small class="text-red-600 text-xs text-right block" v-if="errors && errors.email">{{
                                         errors.email[0]
                                     }}</small>
                             </div>
@@ -82,7 +82,7 @@
                                        autocomplete="current-password"
                                        :class="`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${errors && errors.password?'border-red-500':''}`"
                                        placeholder="Password">
-                                <small class="text-red-600 text-xs" v-if="errors && errors.password">{{
+                                <small class="text-red-600 text-xs text-right block" v-if="errors && errors.password">{{
                                         errors.password[0]
                                     }}</small>
                             </div>
@@ -94,7 +94,7 @@
                                        autocomplete="username"
                                        :class="`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${errors && errors.username?'border-red-500':''}`"
                                        placeholder="Username">
-                                <small class="text-red-600 text-xs" v-if="errors && errors.username">{{
+                                <small class="text-red-600 text-xs text-right block" v-if="errors && errors.username">{{
                                         errors.username[0]
                                     }}</small>
                             </div>
@@ -104,7 +104,7 @@
                                        autocomplete="firstName"
                                        :class="`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${errors && errors.first_name?'border-red-500':''}`"
                                        placeholder="First Name">
-                                <small class="text-red-600 text-xs"
+                                <small class="text-red-600 text-xs text-right block"
                                        v-if="errors && errors.first_name">{{ errors.first_name[0] }}</small>
                             </div>
                             <div>
@@ -113,7 +113,7 @@
                                        autocomplete="lastName"
                                        :class="`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${errors && errors.last_name?'border-red-500':''}`"
                                        placeholder="Last Name">
-                                <small class="text-red-600 text-xs"
+                                <small class="text-red-600 text-xs text-right block"
                                        v-if="errors && errors.last_name">{{ errors.last_name[0] }}</small>
                             </div>
                             <div>
@@ -122,7 +122,7 @@
                                        autocomplete="email"
                                        :class="`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${errors && errors.email?'border-red-500':''}`"
                                        placeholder="Email address">
-                                <small class="text-red-600 text-xs"
+                                <small class="text-red-600 text-xs text-right block"
                                        v-if="errors && errors.email">{{ errors.email[0] }}</small>
                             </div>
                             <div>
@@ -131,7 +131,7 @@
                                        autocomplete="reg_year"
                                        :class="`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${errors && errors.reg_year?'border-red-500':''}`"
                                        placeholder="Reg Year">
-                                <small class="text-red-600 text-xs"
+                                <small class="text-red-600 text-xs text-right block"
                                        v-if="errors && errors.reg_year">{{ errors.reg_year[0] }}</small>
                             </div>
                             <div>
@@ -140,7 +140,7 @@
                                        autocomplete="address"
                                        :class="`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${errors && errors.address?'border-red-500':''}`"
                                        placeholder="Address">
-                                <small class="text-red-600 text-xs"
+                                <small class="text-red-600 text-xs text-right block"
                                        v-if="errors && errors.address">{{ errors.address[0] }}</small>
                             </div>
                             <div>
@@ -150,7 +150,7 @@
                                        autocomplete="mobile_number"
                                        :class="`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${errors && errors.mobile_number?'border-red-500':''}`"
                                        placeholder="Mobile Number">
-                                <small class="text-red-600 text-xs"
+                                <small class="text-red-600 text-xs text-right block"
                                        v-if="errors && errors.mobile_number">{{ errors.mobile_number[0] }}</small>
                             </div>
                             <div>
@@ -159,7 +159,7 @@
                                        autocomplete="current-password"
                                        :class="`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${errors && errors.password?'border-red-500':''}`"
                                        placeholder="Password">
-                                <small class="text-red-600 text-xs" v-if="errors && errors.password">{{
+                                <small class="text-red-600 text-xs text-right block" v-if="errors && errors.password">{{
                                         errors.password[0]
                                     }}</small>
                             </div>
@@ -177,7 +177,7 @@
                                         class="ml-2 text-gray-700">Female</span>
                                     </label>
                                 </div>
-                                <small class="text-red-600 text-xs"
+                                <small class="text-red-600 text-xs text-right block"
                                        v-if="errors && errors.gender">{{ errors.gender[0] }}</small>
                             </div>
 

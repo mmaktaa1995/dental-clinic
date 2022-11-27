@@ -19,7 +19,7 @@
                                    required
                                    :class="`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${errors && errors.email?'border-red-500':''}`"
                                    placeholder="البريد الالكتروني">
-                            <small class="text-red-600 text-xs" v-if="errors && errors.email">{{
+                            <small class="text-red-600 text-xs text-right block" v-if="errors && errors.email">{{
                                     errors.email[0]
                                 }}</small>
                         </div>
@@ -30,7 +30,7 @@
                                    required
                                    :class="`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${errors && errors.password?'border-red-500':''}`"
                                    placeholder="كلمة المرور">
-                            <small class="text-red-600 text-xs" v-if="errors && errors.password">{{
+                            <small class="text-red-600 text-xs text-right block" v-if="errors && errors.password">{{
                                     errors.password[0]
                                 }}</small>
                         </div>

@@ -224,6 +224,32 @@ export default [
             resource: 'appointments',
             createTitle: () => 'المواعيد',
         },
+        children: [
+            {
+                path: 'create',
+                name: 'appointments-create',
+                component: () => import('./screens/appointments/create.vue'),
+                meta: {
+                    resource: 'appointments',
+                },
+            },
+            {
+                path: ':id/delete',
+                name: 'appointments-delete',
+                component: () => import('./screens/appointments/delete.vue'),
+                meta: {
+                    resource: 'appointments',
+                },
+            },
+            {
+                path: ':id/edit',
+                name: 'appointments-edit',
+                component: () => import('./screens/appointments/edit.vue'),
+                meta: {
+                    resource: 'appointments',
+                },
+            },
+        ]
     },
     {
         path: '/unauthorized',

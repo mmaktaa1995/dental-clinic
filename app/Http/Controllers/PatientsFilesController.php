@@ -8,7 +8,6 @@ use App\Http\Resources\PaymentResource;
 use App\Models\Patient;
 use App\Models\Payment;
 use App\Models\Visit;
-use Barryvdh\DomPDF\Facade\Pdf;
 use DB;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -140,6 +139,8 @@ class PatientsFilesController extends Controller
             return response()->json(['message' => $exception->getMessage()], $exception->getCode());
         }
 
-        return response()->json(['file' => asset("storage/pdf/patients/$fileName")]);
+        return response()->json([
+            'url' => action([UploadFilesController::class, 'show'],
+                ['folder' => 'patients', 'name' => $fileName, 'type' => 'pdf'])]);
     }
 }

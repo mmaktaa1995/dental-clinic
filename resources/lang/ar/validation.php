@@ -124,6 +124,7 @@ return [
         'last_name'             => 'اسم العائلة',
         'password'              => 'كلمة السر',
         'password_confirmation' => 'تأكيد كلمة السر',
+        'patient_id'            => 'المريض',
         'city'                  => 'المدينة',
         'country'               => 'الدولة',
         'address'               => 'العنوان',

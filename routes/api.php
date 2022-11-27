@@ -35,13 +35,14 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('visits', VisitsController::class)->except(['create', 'edit']);
     Route::resource('expenses', ExpensesController::class)->except(['create', 'edit']);
     Route::resource('patients.visits', VisitsController::class)->except(['create', 'edit']);
-    Route::resource('appointments', AppointmentController::class)->only(['index', 'store']);
+    Route::resource('appointments', AppointmentController::class)->except(['create', 'edit']);
     Route::post('logout-admin', [LoginController::class, 'logout']);
     Route::get('statistics', StatisticsController::class);
 });
+
 Route::post('upload', [UploadFilesController::class, 'store']);
-Route::delete('upload/{folder}/{name}', [UploadFilesController::class, 'destroy']);
-Route::get('upload/{folder}/{name}', [UploadFilesController::class, 'show']);
+Route::delete('upload/{folder}/{name}/{type}', [UploadFilesController::class, 'destroy']);
+Route::get('upload/{folder}/{name}/{type}', [UploadFilesController::class, 'show']);
 
 Route::post('register', [RegisterController::class, 'register']);
 Route::post('login', [LoginController::class, 'login']);

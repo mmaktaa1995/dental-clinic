@@ -46,7 +46,7 @@
                             <label for="name" class="block text-sm font-medium text-gray-700 text-right">الاسم</label>
                             <input type="text" id="name" v-model="form.name"
                                    class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
-                            <small class="text-red-600 text-xs"
+                            <small class="text-red-600 text-xs text-right block"
                                    v-if="errors && errors.name">{{ errors.name[0] }}</small>
                         </div>
 
@@ -55,7 +55,7 @@
                                 الزيارة</label>
                             <input type="date" id="date" autocomplete="off" v-model="form.date"
                                    class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
-                            <small class="text-red-600 text-xs"
+                            <small class="text-red-600 text-xs text-right block"
                                    v-if="errors && errors.date">{{ errors.date[0] }}</small>
                         </div>
 
@@ -64,7 +64,7 @@
                                 المدفوع</label>
                             <input type="number" id="amount" autocomplete="off" v-model="form.amount"
                                    class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
-                            <small class="text-red-600 text-xs"
+                            <small class="text-red-600 text-xs text-right block"
                                    v-if="errors && errors.amount">{{ errors.amount[0] }}</small>
                         </div>
 
@@ -73,7 +73,7 @@
                                    class="block text-sm font-medium text-gray-700 text-right">الملاحظات</label>
                             <textarea id="notes" autocomplete="off" v-model="form.description"
                                       class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full"></textarea>
-                            <small class="text-red-600 text-xs"
+                            <small class="text-red-600 text-xs text-right block"
                                    v-if="errors && errors.description">{{ errors.description[0] }}</small>
                         </div>
                     </div>

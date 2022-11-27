@@ -11,13 +11,14 @@ class UploadFilesController extends Controller
     {
         $data = [];
         $folder = $request->get('folder');
+        $type = $request->get('type', 'images');
         if ($request->file('files')) {
             if (is_array($request->file('files'))) {
                 foreach ($request->file('files') as $file) {
                     $image = $file;
                     $ext = pathinfo($image->getClientOriginalName(), PATHINFO_EXTENSION);
                     $name = time() . rand(10, 1000) . '.' . $ext;
-                    $path = "images/$folder/$name";
+                    $path = "$type/$folder/$name";
                     \Storage::disk('public')->put($path, file_get_contents($image->getRealPath()));
                     $data[] = ['path' => $path];
                 }
@@ -25,7 +26,7 @@ class UploadFilesController extends Controller
                 $image = $request->file('files');
                 $ext = pathinfo($image->getClientOriginalName(), PATHINFO_EXTENSION);
                 $name = time() . rand(10, 1000) . '.' . $ext;
-                $path = "images/$folder/$name";
+                $path = "$type/$folder/$name";
                 \Storage::disk('public')->put($path, file_get_contents($image->getRealPath()));
                 $data = ['path' => $path];
             }
@@ -54,38 +55,23 @@ class UploadFilesController extends Controller
 
     /**
      * @param $folder
-     * @param $imageName
+     * @param $fileName
+     * @param string $type
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      * @throws \League\Flysystem\FileNotFoundException
      */
-    public function show($folder, $imageName)
+    public function show($folder, $fileName, $type)
     {
-        $path = "images/$folder/$imageName";
+        $path = "$type/$folder/$fileName";
+
         if (\Storage::disk('public')->exists($path)) {
-            $file = \Storage::disk('public')->get($path);
-            $size = \Storage::disk('public')->getSize($path);
-        }
-        else
+            return \Storage::disk('public')->download($path);
+        } else
             throw new FileNotFoundException("File not exists!");
 
-        header('Content-Type:' . $this->getMime($imageName, $folder));
-        header('Content-Length: ' . $size);
-        $this->sendImage($imageName, $folder);
-        return response()->json(['file' => $file]);
-    }
 
-    private function getImageRaw($fileName, $folder) {
-        $path = asset(sprintf('storage/images/%s/%s', $folder, $fileName));
-        return file_get_contents($path);
-    }
-
-    private function sendImage($fileName, $folder) {
-        $path = asset(sprintf('storage/images/%s/%s', $folder, $fileName));
-        readfile($path);
-//		ob_end_flush();
-        die;
     }
 
     /**
@@ -95,7 +81,22 @@ class UploadFilesController extends Controller
      * @return false|string
      * @throws \League\Flysystem\FileNotFoundException
      */
-    private function getMime($fileName, $folder) {
-        return \Storage::disk('public')->getMimetype("images/$folder/$fileName");
+    private function getMime($fileName, $folder, $type)
+    {
+        return \Storage::disk('public')->getMimetype("$type/$folder/$fileName");
+    }
+
+    private function sendImage($fileName, $folder, $type)
+    {
+        $path = asset(sprintf('storage/%s/%s/%s', $type, $folder, $fileName));
+        readfile($path);
+//		ob_end_flush();
+        die;
+    }
+
+    private function getImageRaw($fileName, $folder, $type)
+    {
+        $path = asset(sprintf('storage/%s/%s/%s', $type, $folder, $fileName));
+        return file_get_contents($path);
     }
 }

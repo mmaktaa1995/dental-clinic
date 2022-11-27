@@ -199,7 +199,7 @@ export default {
         },
         print() {
             axios.get(`/api/patients-files/${this.id}/print`).then(({data}) => {
-                window.open(data.file, 'blank');
+                window.open(data.url, 'blank');
                 console.log(data)
             })
         },
