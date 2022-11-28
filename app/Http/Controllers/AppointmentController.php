@@ -34,7 +34,8 @@ class AppointmentController extends Controller
             return Carbon::parse($item->date)->format('Y-m-d H:i');
         });
 
-        if (in_array(date('Y-m-d H:i', strtotime($request->get('date'))), array_keys($appointments->toArray()))) {
+        $date = date('Y-m-d H:i', strtotime($request->get('date')));
+        if (in_array($date, $appointments->keys()->toArray())) {
             return response()->json(['message' => 'الرجاء إدخال موعد أخر لا يتضارب مع المواعيد الأخرى وشكراً.'], 422);
         }
         Appointment::create($request->validated());
@@ -54,7 +55,8 @@ class AppointmentController extends Controller
             return Carbon::parse($item->date)->format('Y-m-d H:i');
         });
 
-        if (in_array(date('Y-m-d H:i', strtotime($request->get('date'))), array_keys($appointments->toArray()))) {
+        $date = date('Y-m-d H:i', strtotime($request->get('date')));
+        if (in_array($date, $appointments->keys()->toArray())) {
             return response()->json(['message' => 'الرجاء إدخال موعد أخر لا يتضارب مع المواعيد الأخرى وشكراً.'], 422);
         }
         $appointment->update($request->validated());
