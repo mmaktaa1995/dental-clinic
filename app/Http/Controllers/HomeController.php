@@ -10,6 +10,6 @@ class HomeController extends Controller
     public function __invoke()
     {
         $lastFileNumber = Patient::latest()->first()->file_number + 1;
-        return view('layout', ['lastFileNumber' => $lastFileNumber]);
+        return view('vue', ['lastFileNumber' => $lastFileNumber]);
     }
 }

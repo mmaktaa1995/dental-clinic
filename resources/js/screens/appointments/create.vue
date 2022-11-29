@@ -34,7 +34,7 @@
             -->
 
             <div
-                :class="`inline-block w-full align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full duration-200  ${opened?'scale-100':'scale-0'}` ">
+                :class="`inline-block w-full align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full duration-200  ${opened?'scale-100':'scale-0'}` ">
 
                 <div class="bg-gray-50 px-4 py-2 border-b border-gray-300 text-right">
                     <h3 class="font-bold text-lg text-gray-700">إضافة موعد</h3>

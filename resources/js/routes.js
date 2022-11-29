@@ -123,7 +123,7 @@ export default [
                 component: () => import('./screens/visits/delete.vue'),
                 meta: {
                     resource: 'visits',
-                    // createTitle: () => 'حذف الزيارة',
+                    createTitle: () => 'حذف الزيارة',
                 },
             },
             {
@@ -132,7 +132,7 @@ export default [
                 component: () => import('./screens/visits/create.vue'),
                 meta: {
                     resource: 'visits',
-                    // createTitle: () => 'إنشاء زيارة',
+                    createTitle: () => 'إنشاء زيارة',
                 },
             },
             {
@@ -141,7 +141,7 @@ export default [
                 component: () => import('./screens/visits/edit.vue'),
                 meta: {
                     resource: 'visits',
-                    // createTitle: () => 'تعديل زيارة',
+                    createTitle: () => 'تعديل زيارة',
                 },
             },
         ]
@@ -163,6 +163,7 @@ export default [
                 component: () => import('./screens/expenses/delete.vue'),
                 meta: {
                     resource: 'expenses',
+                    createTitle: () => 'حذف نفقة',
                 },
             },
             {
@@ -171,6 +172,7 @@ export default [
                 component: () => import('./screens/expenses/create.vue'),
                 meta: {
                     resource: 'expenses',
+                    createTitle: () => 'إضافة نفقة',
                 },
             },
             {
@@ -179,6 +181,7 @@ export default [
                 component: () => import('./screens/expenses/edit.vue'),
                 meta: {
                     resource: 'expenses',
+                    createTitle: () => 'تعديل نفقة',
                 },
             },
         ]
@@ -200,6 +203,7 @@ export default [
                 component: () => import('./screens/patients-files/show.vue'),
                 meta: {
                     resource: 'patients-files',
+                    createTitle: () => 'إضبارة مريض',
                 },
             }
         ]
@@ -231,6 +235,7 @@ export default [
                 component: () => import('./screens/appointments/create.vue'),
                 meta: {
                     resource: 'appointments',
+                    createTitle: () => 'إضافة موعد',
                 },
             },
             {
@@ -239,6 +244,7 @@ export default [
                 component: () => import('./screens/appointments/delete.vue'),
                 meta: {
                     resource: 'appointments',
+                     createTitle: () => 'حذف موعد',
                 },
             },
             {
@@ -247,6 +253,7 @@ export default [
                 component: () => import('./screens/appointments/edit.vue'),
                 meta: {
                     resource: 'appointments',
+                     createTitle: () => 'تعديل موعد',
                 },
             },
         ]

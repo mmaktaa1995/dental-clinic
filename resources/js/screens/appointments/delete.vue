@@ -33,7 +33,7 @@
                 To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             -->
             <div
-                :class="`inline-block w-full align-bottom bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full duration-200  ${opened?'scale-100':'scale-0'}` ">
+                :class="`inline-block w-full align-bottom bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full duration-200  ${opened?'scale-100':'scale-0'}` ">
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <div class="sm:flex sm:items-start">
                         <div
@@ -107,10 +107,10 @@ export default {
         deleteItem() {
             let self = this;
             this.submitted = true;
-            axios.delete(`/api/visits/${self.id}`).then(({data}) => {
+            axios.delete(`/api/appointments/${self.id}`).then(({data}) => {
                 bus.$emit('flash-message', {text: data.message, type: 'success'});
-                bus.$emit('item-deleted', self.id);
-                self.back();
+                bus.$emit('appointment-changed', self.id);
+                this.$router.push({name: 'appointments'})
             }).catch(({response}) => {
                 bus.$emit('flash-message', {text: response.data.message, type: 'error'});
             }).finally(() => {
