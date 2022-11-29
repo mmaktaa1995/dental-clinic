@@ -100,6 +100,7 @@
 <script>
 
 import axios from "axios";
+import moment from "moment";
 
 export default {
     data() {
@@ -121,7 +122,8 @@ export default {
             this.opened = true;
 
             this.$nextTick(function () {
-                this.form.date = this.$route.query.date;
+                this.form.date = moment(this.$route.query.date).tz('ASIA/DAMASCUS').format('Y-MM-DD');
+                this.form.time = moment(this.$route.query.date).tz('ASIA/DAMASCUS').format('HH:mm');
             });
             this.resetform();
             axios.get('/api/patients/dropdown').then(({data}) => {
