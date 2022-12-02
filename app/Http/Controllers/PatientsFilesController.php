@@ -132,8 +132,9 @@ class PatientsFilesController extends Controller
             $patient = Patient::find($patient_id);
             $payments = $patient->payments()->with(['patient', 'visit'])->orderBy('date', 'desc')->get();
             $totalPayments = $payments->sum->amount;
+            $totalRemainingPayments = $payments->sum->remaining_amount;
             $fileName = "{$patient->name}-{$patient->file_number}.pdf";
-            $pdf1 = LaravelMpdf::loadView('pdf', compact('payments', 'patient', 'totalPayments'));
+            $pdf1 = LaravelMpdf::loadView('pdf', compact('payments', 'patient', 'totalPayments', 'totalRemainingPayments'));
             $pdf1->save(storage_path("app/public/pdf/patients/$fileName"));
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage()], $exception->getCode());

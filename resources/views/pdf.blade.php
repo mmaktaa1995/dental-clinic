@@ -263,8 +263,13 @@
                 @endforeach
                 <tr>
                     <td class="c-brand f-w-bold" style="font-weight: bold; text-align: right">إجمالي المبلغ
-                        الدفوع</td>
+                        المدفوع</td>
                     <td colspan="2" style="text-align: right">{{number_format($totalPayments)}}</td>
+                </tr>
+                <tr>
+                    <td class="c-brand f-w-bold" style="font-weight: bold; text-align: right">إجمالي المبلغ
+                        المتبقي</td>
+                    <td colspan="2" style="text-align: right;color: crimson">{{number_format($totalRemainingPayments)}}</td>
                 </tr>
                 </tbody>
             </table>
