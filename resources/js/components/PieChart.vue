@@ -54,11 +54,11 @@ export default {
                 tooltips: {
                     displayColors: true,
                     callbacks: {
-                        // title: function(context){
-                        //     return $this.label
-                        // },
+                        title: function(context, data){
+                            return data.labels[context[0].index]
+                        },
                         label: function(context, data){
-                            return data.datasets[0].label + ': ' + data.datasets[0].data[context.index];
+                            return data.datasets[0].data[context.index] + ' ' + data.datasets[0].label
                         }
                     },
                 },
@@ -69,22 +69,22 @@ export default {
     },
     methods: {
         dynamicColors(index) {
-            let r = Math.floor(Math.random() * 255);
-            let g = Math.floor(Math.random() * 255);
-            let b = Math.floor(Math.random() * 255);
-
             const CHART_COLORS = {
+                red1: 'rgb(244, 67, 54)',
                 red: 'rgb(255, 99, 132)',
                 orange: 'rgb(255, 159, 64)',
                 yellow: 'rgb(255, 205, 86)',
                 green: 'rgb(75, 192, 192)',
                 blue: 'rgb(54, 162, 235)',
+                green1: 'rgb(76, 175, 80)',
+                grey: 'rgb(201, 203, 207)',
+                grey_blue: 'rgb(96, 125, 139)',
+                purple1: 'rgb(103, 58, 183)',
                 purple: 'rgb(153, 102, 255)',
-                grey: 'rgb(201, 203, 207)'
+                purple2: 'rgb(255, 100, 248)',
             };
             const colorIndex = index % Object.keys(CHART_COLORS).length;
             return  Object.values(CHART_COLORS)[colorIndex]
-            return "rgba(" + r + "," + g + "," + b + ", .3)";
         }
     },
 

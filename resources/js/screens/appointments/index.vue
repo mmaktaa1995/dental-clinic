@@ -91,7 +91,11 @@ export default {
         },
 
         handleEventClick(clickInfo) {
-            this.$router.push({name: 'appointments-edit', params: {id: clickInfo.event.id}});
+            this.$router.push({
+                name: 'appointments-edit',
+                params: {id: clickInfo.event.id},
+                query: {isPast: clickInfo.event.isPast}
+            });
         },
 
         handleEvents(events) {

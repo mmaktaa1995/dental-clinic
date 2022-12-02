@@ -4,7 +4,7 @@
             <div class="w-1/5">
                 <select
                     v-model="year"
-                    class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">>
+                    class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 h-full px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">>
                     <option value="">اختر السنة</option>
                     <option :value="y" v-for="y in years">{{ y }}</option>
                 </select>
@@ -12,9 +12,18 @@
             <div class="w-1/5">
                 <select
                     v-model="month"
-                    class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">>
+                    @change="monthChanged()"
+                    class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 h-full px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">>
                     <option value="">اختر الشهر</option>
                     <option :value="m" v-for="m in months">{{ m }}</option>
+                </select>
+            </div>
+            <div class="w-1/5" v-if="month">
+                <select
+                    v-model="day"
+                    class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 h-full px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">>
+                    <option value="">اختر اليوم</option>
+                    <option :value="d" v-for="d in days">{{ d }}</option>
                 </select>
             </div>
             <div class="w-1/5">
@@ -28,51 +37,20 @@
         </div>
         <div class="col-span-full">
             <div class="flex flex-wrap">
-                <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
+                <div class="w-full lg:w-6/12 xl:w-3/12 pl-4">
                     <div class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg">
                         <div class="flex-auto p-4">
                             <div class="flex flex-wrap">
                                 <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
                                     <h5 class="text-blueGray-400 uppercase font-bold text-xs">العدد الإجمالي للمرضى</h5>
-                                    <span class="font-semibold text-xl text-blueGray-700 mt-3">{{ patientsTotalCount }}</span>
+                                    <span class="font-semibold text-xl text-blueGray-700 mt-3">{{
+                                            patientsTotalCount
+                                        }}</span>
                                 </div>
                                 <div class="relative w-auto pl-4 flex-initial">
-                                    <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-red-500">
+                                    <div
+                                        class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-red-500">
                                         <icon-users size="6" class="text-white"></icon-users>
-                                    </div>
-                                </div>
-                            </div>
-                          </div>
-                    </div>
-                </div>
-                <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
-                    <div class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg">
-                        <div class="flex-auto p-4">
-                            <div class="flex flex-wrap">
-                                <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
-                                    <h5 class="text-blueGray-400 uppercase font-bold text-xs">إجمالي الدخل</h5>
-                                    <span class="font-semibold text-xl text-green-600 mt-3">{{ +incomeTotal | numberFormat}}</span>
-                                </div>
-                                <div class="relative w-auto pl-4 flex-initial">
-                                    <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-orange-500">
-                                        <icon-money size="6" class="text-white"></icon-money>
-                                    </div>
-                                </div>
-                            </div>
-                           </div>
-                    </div>
-                </div>
-                <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
-                    <div class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg">
-                        <div class="flex-auto p-4">
-                            <div class="flex flex-wrap">
-                                <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
-                                    <h5 class="text-blueGray-400 uppercase font-bold text-xs">إجمالي النفقات</h5>
-                                    <span class="font-semibold text-xl text-red-600 mt-3">-{{ +expensesTotal | numberFormat}}</span>
-                                </div>
-                                <div class="relative w-auto pl-4 flex-initial">
-                                    <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-pink-500">
-                                        <icon-expenses size="6" class="text-white"></icon-expenses>
                                     </div>
                                 </div>
                             </div>
@@ -84,11 +62,51 @@
                         <div class="flex-auto p-4">
                             <div class="flex flex-wrap">
                                 <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
-                                    <h5 class="text-blueGray-400 uppercase font-bold text-xs">صافي الربح الإجمالي</h5>
-                                    <span class="font-semibold text-xl mt-3" :class="{'text-green-600': Math.sign(incomeTotal - expensesTotal) === 1,'text-red-600': Math.sign(incomeTotal - expensesTotal) === -1}">{{ (incomeTotal - expensesTotal) | numberFormat}}</span>
+                                    <h5 class="text-blueGray-400 uppercase font-bold text-xs">إجمالي الدخل</h5>
+                                    <span
+                                        class="font-semibold text-xl text-green-600 mt-3">{{ +incomeTotal | numberFormat }}</span>
                                 </div>
                                 <div class="relative w-auto pl-4 flex-initial">
-                                    <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-teal-500">
+                                    <div
+                                        class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-orange-500">
+                                        <icon-money size="6" class="text-white"></icon-money>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
+                    <div class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg">
+                        <div class="flex-auto p-4">
+                            <div class="flex flex-wrap">
+                                <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
+                                    <h5 class="text-blueGray-400 uppercase font-bold text-xs">إجمالي النفقات</h5>
+                                    <span
+                                        class="font-semibold text-xl text-red-600 mt-3">-{{ +expensesTotal | numberFormat }}</span>
+                                </div>
+                                <div class="relative w-auto pl-4 flex-initial">
+                                    <div
+                                        class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-pink-500">
+                                        <icon-expenses size="6" class="text-white"></icon-expenses>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full lg:w-6/12 xl:w-3/12 pr-4">
+                    <div class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg">
+                        <div class="flex-auto p-4">
+                            <div class="flex flex-wrap">
+                                <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
+                                    <h5 class="text-blueGray-400 uppercase font-bold text-xs">صافي الربح الإجمالي</h5>
+                                    <span class="font-semibold text-xl mt-3"
+                                          :class="{'text-green-600': Math.sign(incomeTotal - expensesTotal) === 1,'text-red-600': Math.sign(incomeTotal - expensesTotal) === -1}">{{ (incomeTotal - expensesTotal) | numberFormat }}</span>
+                                </div>
+                                <div class="relative w-auto pl-4 flex-initial">
+                                    <div
+                                        class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-teal-500">
                                         <icon-money size="6" class="text-white"></icon-money>
                                     </div>
                                 </div>
@@ -145,14 +163,14 @@
         <div class="card" v-if="!loading && patients.length">
             <h1 class="text-lg font-semibold card-title">المرضى</h1>
             <div class="card-body">
-                <pie-chart label="مرضى" :formatTooltipTitle="['المرضى']" v-if="patients.length"
+                <pie-chart label="مريض" :formatTooltipTitle="['المرضى']" v-if="patients.length"
                            :data="patients"></pie-chart>
             </div>
         </div>
         <div class="card" v-if="!loading && visits.length">
             <h1 class="text-lg font-semibold card-title">الزيارات</h1>
             <div class="card-body">
-                <pie-chart label="زيارات" :formatTooltipTitle="['الزيارات']" v-if="visits.length"
+                <pie-chart label="زيارة" :formatTooltipTitle="['الزيارات']" v-if="visits.length"
                            :data="visits"></pie-chart>
             </div>
         </div>
@@ -176,6 +194,7 @@
 <script>
 import axios from 'axios';
 import moment from "moment";
+
 let year = new Date().getFullYear();
 export default {
     data() {
@@ -183,6 +202,7 @@ export default {
             loading: false,
             year,
             month: '',
+            day: '',
             patientsTotalCount: 0,
             expensesTotal: 0,
             totalPatients: 0,
@@ -193,6 +213,7 @@ export default {
             patients: [],
             visits: [],
             incomes: [],
+            days: [],
             years: [],
             months: [
                 1, 2, 3,
@@ -207,6 +228,10 @@ export default {
         this.getData();
     },
     methods: {
+        monthChanged() {
+            const year = this.year ? this.year : '2022'
+            this.days = this.range(1, moment(`${year}-${this.month}`).daysInMonth());
+        },
         range(start, stop, step = 1) {
             return Array.from({length: (stop - start) / step + 1}, (_, i) => start + (i * step))
         },
@@ -219,6 +244,9 @@ export default {
             }
             if (this.month) {
                 query.push('month=' + this.month);
+            }
+            if (this.day && this.month) {
+                query.push('day=' + this.day);
             }
             queryParams = query.join('&')
             axios.get('/api/statistics?' + queryParams).then(({data}) => {

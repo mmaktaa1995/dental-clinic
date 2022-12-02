@@ -89,6 +89,7 @@
                     </button>
                     <async-button
                         type="submit"
+                        :disabled="isPast"
                         :loading="submitted"
                         class="w-full inline-flex justify-center rounded-md border border-transparent transition duration-75 transition-all shadow-sm px-4 py-2 bg-teal-600 text-base font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:ml-3 sm:w-auto sm:text-sm">
                         حفظ
@@ -114,6 +115,7 @@ export default {
         return {
             id: null,
             opened: false,
+            isPast: false,
             submitted: false,
             errors: {},
             form: {
@@ -127,6 +129,7 @@ export default {
     },
     mounted() {
         this.id = this.$route.params.id;
+        this.isPast = this.$route.query.isPast;
         axios.get('/api/patients/dropdown').then(({data}) => {
             this.patients = data;
             axios.get(`/api/appointments/${this.id}`).then(({data}) => {
