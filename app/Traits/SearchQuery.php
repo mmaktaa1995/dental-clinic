@@ -74,7 +74,7 @@ trait SearchQuery
 
         if (isset($params['extra_filters']) && count($params['extra_filters'])) {
             foreach ($params['extra_filters'] as $field => $value) {
-                $query->where($field, $value);
+                $query->where($field, is_array($value) ? $value['operation'] : $value['value'], is_array($value) ? $value['value'] : null);
             }
         }
 

@@ -32,7 +32,10 @@ class VisitsController extends Controller
 
         if ($patient->exists) {
             $params['extra_filters'] = [
-                'patient_id' => $patient->id
+                'patient_id' => [
+                    'operation' => '=',
+                    'value' => $patient->id
+                ]
             ];
         }
         $data = Visit::getAll($params);

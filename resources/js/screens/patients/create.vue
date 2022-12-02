@@ -106,6 +106,15 @@
                                    v-if="errors && errors.amount">{{ errors.amount[0] }}</small>
                         </div>
 
+                        <div class="">
+                            <label for="remaining_amount" class="block text-sm font-medium text-gray-700 text-right">المبلغ
+                                المتبقي</label>
+                            <input type="number" id="remaining_amount" autocomplete="off" v-model="form.remaining_amount"
+                                   class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
+                            <small class="text-red-600 text-xs text-right block"
+                                   v-if="errors && errors.remaining_amount">{{ errors.remaining_amount[0] }}</small>
+                        </div>
+
                         <div class="col-span-full">
                             <label for="notes"
                                    class="block text-sm font-medium text-gray-700 text-right">الملاحظات</label>
@@ -150,6 +159,7 @@ export default {
                 phone: '',
                 date: '',
                 amount: '',
+                remaining_amount: '',
                 notes: '',
                 mobile: '',
             },
@@ -192,6 +202,7 @@ export default {
                 phone: '',
                 date: '',
                 amount: '',
+                remaining_amount: '',
                 notes: '',
                 mobile: '',
             }

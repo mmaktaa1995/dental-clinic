@@ -28,6 +28,7 @@ class PaymentRequest extends FormRequest
             'date' => ['required', 'date'],
             'notes' => ['nullable', 'string'],
             'amount' => ['required', 'numeric'],
+            'remaining_amount' => ['sometimes', 'numeric'],
         ];
     }
 }

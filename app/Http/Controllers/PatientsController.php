@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PatientRequest;
 use App\Http\Resources\BaseCollection;
 use App\Http\Resources\PatientResource;
+use App\Http\Resources\PaymentResource;
 use App\Models\DeletedPatient;
 use App\Models\Patient;
 use App\Models\Payment;
@@ -77,7 +78,8 @@ class PatientsController extends Controller
                     'patient_id' => $patient->id,
                     'visit_id' => $visit->id,
                     'date' => $request->get('date'),
-                    'amount' => $request->get('amount')
+                    'amount' => $request->get('amount'),
+                    'remaining_amount' => $request->get('remaining_amount', 0)
                 ]);
                 if ($request->filled('services'))
                     $visit->services()->sync($request->get('services'));
@@ -120,5 +122,34 @@ class PatientsController extends Controller
             return response()->json(['message' => $exception->getMessage()], $exception->getCode());
         }
         return response()->json(['message' => __('app.success')]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function debits(Request $request)
+    {
+        $params = [
+            'order_column' => $request->input('order_column', 'date'),
+            'order_dir' => $request->input('order_dir', 'desc'),
+            'per_page' => $request->input('per_page', 10),
+            'fromDate' => $request->input('fromDate', null),
+            'toDate' => $request->input('toDate', null),
+            'query' => $request->input('query', null),
+            'extra_filters' => [
+                'remaining_amount' => [
+                    'operation' => '>',
+                    'value' => 0
+                ]
+            ]
+        ];
+
+        Payment::$relationsWithForSearch =['patient', 'visit'];
+        $data = Payment::getAll($params);
+        return response()->json(BaseCollection::make($data, PaymentResource::class));
     }
 }

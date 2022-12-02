@@ -21,9 +21,17 @@
             </div>
             <div class="">
                 <label for="totalPayments" class="block text-sm font-medium text-gray-700 text-right">إجمالي المبلغ
-                    الدفوع</label>
+                    المدفوع</label>
                 <input type="text" id="totalPayments" disabled
                        v-model="totalPayments"
+                       class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
+            </div>
+            <div class="">
+                <label for="totalPayments" class="block text-sm font-medium text-gray-700 text-right">إجمالي المبلغ
+                    المتبقي</label>
+                <input type="text" id="totalRemainingPayments" disabled
+                       v-model="totalRemainingPayments"
+                       :class="{'text-red-600' : totalRemainingPayments > 0}"
                        class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
             </div>
         </div>
@@ -31,7 +39,7 @@
             <table class="bg-white min-w-full divide-y divide-gray-200 ">
                 <thead>
                 <tr class="bg-gray-200 text-gray-600 text-sm leading-normal">
-                    <th colspan="3" class="py-2 px-3 text-right">الدفعات</th>
+                    <th colspan="4" class="py-2 px-3 text-right">الدفعات</th>
                     <th class="py-2 px-3 text-left">
                         <a href="#" @click="isFormManipulating = true;isEdit = false"
                            class="ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-gray-100 hover:text-gray-50 bg-gray-800 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-gray-600 focus:outline-none">
@@ -41,7 +49,8 @@
                 </tr>
                 <tr class="bg-gray-50 text-gray-600 text-sm leading-normal">
                     <th class="py-2 px-3 text-right">الإجراء الذي تم</th>
-                    <th class="py-2 px-3 text-right">المبلغ</th>
+                    <th class="py-2 px-3 text-right">المبلغ المدفوع</th>
+                    <th class="py-2 px-3 text-right">المبلغ المتبقي</th>
                     <th class="py-2 px-3 text-right">التاريخ</th>
                     <th class="py-2 px-3 text-right"></th>
                 </tr>
@@ -58,6 +67,13 @@
                     <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-700">
                         <input type="number"
                                v-model="form.amount"
+                               :disabled="submitted"
+                               class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
+
+                    </td>
+                    <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-700">
+                        <input type="number"
+                               v-model="form.remaining_amount"
                                :disabled="submitted"
                                class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
 
@@ -86,7 +102,7 @@
                         <span v-if="!payment.isEdit">
                             {{ payment.visit.notes ? payment.visit.notes : '-' }}
                         </span>
-                         <input type="text"
+                        <input type="text"
                                v-model="payment.visit.notes" v-else :disabled="submitted"
                                class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
 
@@ -95,8 +111,19 @@
                         <span v-if="!payment.isEdit">
                             <b class="font-medium">{{ +payment.amount | numberFormat }}</b>
                         </span>
-                         <input type="number"
+                        <input type="number"
                                v-model="payment.amount" v-else :disabled="submitted"
+                               class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
+
+                    </td>
+                    <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-700">
+                        <span v-if="!payment.isEdit">
+                            <b class="font-medium" :class="{'text-red-500': payment.remaining_amount > 0}">{{
+                                    +payment.remaining_amount | numberFormat
+                                }}</b>
+                        </span>
+                        <input type="number"
+                               v-model="payment.remaining_amount" v-else :disabled="submitted"
                                class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
 
                     </td>
@@ -104,7 +131,7 @@
                         <span v-if="!payment.isEdit">
                             {{ payment.date }}
                         </span>
-                         <input type="date"
+                        <input type="date"
                                v-model="payment.date" v-else :disabled="submitted"
                                class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
 
@@ -125,8 +152,8 @@
                             />
                         </a>
                         <async-button v-if="payment.isEdit" @click="savePayment(payment)"
-                           :loading="submitted"
-                           class="ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-white bg-green-500 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-green-600 focus:outline-none">
+                                      :loading="submitted"
+                                      class="ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-white bg-green-500 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-green-600 focus:outline-none">
                             تعديل
                         </async-button>
                         <a v-if="payment.isEdit" href="#" @click="payment.isEdit = false"
@@ -161,8 +188,10 @@ export default {
             data: [],
             type: '',
             totalPayments: 0,
+            totalRemainingPayments: 0,
             form: {
                 amount: '',
+                remaining_amount: '',
                 date: '',
                 notes: ''
             }
@@ -180,6 +209,7 @@ export default {
         resetForm() {
             this.form = {
                 amount: '',
+                remaining_amount: '',
                 date: '',
                 notes: ''
             };
@@ -194,6 +224,7 @@ export default {
                     this.patient_name = this.data[0].patient.name;
                     this.patient_file_number = this.data[0].patient.file_number;
                     this.totalPayments = this.data.reduce((sum, payment) => sum + +payment.amount, 0)
+                    this.totalRemainingPayments = this.data.reduce((sum, payment) => sum + +payment.remaining_amount, 0)
                 }
             })
         },
@@ -221,9 +252,11 @@ export default {
             this.submitted = true;
             let data = {
                 amount: payment.amount,
+                remaining_amount: payment.remaining_amount,
                 date: payment.date,
                 notes: payment.visit.notes,
-                patient_id: this.id}
+                patient_id: this.id
+            }
             axios.put(`/api/patients-files/${this.payment_id}`, data).then(({data}) => {
                 bus.$emit('flash-message', {text: data.message, type: 'success'});
                 this.resetForm();
@@ -250,6 +283,7 @@ export default {
             this.payment_id = payment.id;
             this.form = {
                 amount: payment.amount,
+                remaining_amount: payment.remaining_amount,
                 date: payment.date,
                 notes: payment.visit.notes
             };

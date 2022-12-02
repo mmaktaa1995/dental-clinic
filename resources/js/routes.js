@@ -220,6 +220,16 @@ export default [
         },
     },
     {
+        path: '/debits',
+        name: 'debits-index',
+        beforeEnter: checkAuth,
+        component: () => import('./screens/debits/index.vue'),
+        meta: {
+            resource: 'patients/debits',
+            createTitle: () => ' المبالغ المتبقية',
+        },
+    },
+    {
         path: '/appointments',
         name: 'appointments',
         beforeEnter: checkAuth,

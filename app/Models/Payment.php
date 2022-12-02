@@ -18,7 +18,7 @@ class Payment extends \Eloquent
     public static $relationsWithForSearch = ['patient'];
     public static $columnsToSelect = [];
     public static $searchInRelations = ['patient:name,file_number'];
-    protected $fillable = ['visit_id', 'date', 'amount', 'patient_id'];
+    protected $fillable = ['visit_id', 'date', 'amount', 'remaining_amount', 'patient_id'];
 //    protected $appends = ['latestPaymentDate'];
 //
 //    public function getLatestPaymentDateAttribute()

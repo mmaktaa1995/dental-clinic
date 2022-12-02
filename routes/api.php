@@ -29,9 +29,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware('auth:api')->group(function () {
     Route::get('patients/dropdown', [PatientsController::class, 'dropdownData'])->name('patients.dropdown');
+    Route::get('patients/debits', [PatientsController::class, 'debits'])->name('patients.debits');
     Route::resource('patients', PatientsController::class)->except(['create', 'edit']);
     Route::resource('patients-files', PatientsFilesController::class)->parameters(['patients-files' => 'payment'])->except(['create', 'edit']);
-    Route::get('patients-files/{patient_id}/print', [PatientsFilesController::class, 'print']);
+    Route::get('patients-files/{patient_id}/print', [PatientsFilesController::class, 'print'])->name('patients-files.print');
     Route::resource('visits', VisitsController::class)->except(['create', 'edit']);
     Route::resource('expenses', ExpensesController::class)->except(['create', 'edit']);
     Route::resource('patients.visits', VisitsController::class)->except(['create', 'edit']);
@@ -40,9 +41,9 @@ Route::middleware('auth:api')->group(function () {
     Route::get('statistics', StatisticsController::class);
 });
 
-Route::post('upload', [UploadFilesController::class, 'store']);
-Route::delete('upload/{folder}/{name}/{type}', [UploadFilesController::class, 'destroy']);
-Route::get('upload/{folder}/{name}/{type}', [UploadFilesController::class, 'show']);
+Route::post('upload', [UploadFilesController::class, 'store'])->name('upload.save');
+Route::delete('upload/{folder}/{name}/{type}', [UploadFilesController::class, 'destroy'])->name('upload.delete');
+Route::get('upload/{folder}/{name}/{type}', [UploadFilesController::class, 'show'])->name('upload.show');
 
 Route::post('register', [RegisterController::class, 'register']);
 Route::post('login', [LoginController::class, 'login']);

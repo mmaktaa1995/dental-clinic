@@ -92,6 +92,7 @@ Vue.component('icon-x-circle', require('./components/icons/XCircle.vue').default
 Vue.component('icon-information-circle', require('./components/icons/InformationCircle.vue').default);
 Vue.component('icon-expenses', require('./components/icons/expenses.vue').default);
 Vue.component('icon-money', require('./components/icons/money.vue').default);
+Vue.component('icon-debit', require('./components/icons/debit.vue').default);
 
 Vue.component('flash-message', require('./components/FlashMessage.vue').default);
 
