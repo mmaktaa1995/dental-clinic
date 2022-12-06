@@ -16,6 +16,9 @@ class CopyDataFromOldDbToNew extends Migration
      */
     public function up()
     {
+        if (defined('PHPUNIT_DENTAL_TESTSUITE') && PHPUNIT_DENTAL_TESTSUITE) {
+            return;
+        }
         DB::connection('mysql_old')->beginTransaction();
         Schema::disableForeignKeyConstraints();
         $databaseName = DB::getDatabaseName();
@@ -102,10 +105,10 @@ class CopyDataFromOldDbToNew extends Migration
             $newItem->amount = $item->amount_paid ?? 0;
             return $newItem;
         });
-        $mappedVisits =  unserialize(serialize($visits));
-        $mappedVisits = $mappedVisits->map(function ($visit){
-           unset($visit->amount);
-           return $visit;
+        $mappedVisits = unserialize(serialize($visits));
+        $mappedVisits = $mappedVisits->map(function ($visit) {
+            unset($visit->amount);
+            return $visit;
         });
 
         DB::connection('mysql_new')->table('visits')->insert($mappedVisits->toArray());
@@ -154,6 +157,9 @@ class CopyDataFromOldDbToNew extends Migration
      */
     public function down()
     {
+        if (defined('PHPUNIT_DENTAL_TESTSUITE') && PHPUNIT_DENTAL_TESTSUITE) {
+            return;
+        }
         DB::connection('mysql_new')->table('users')->truncate();
         DB::connection('mysql_new')->table('patients')->truncate();
         DB::connection('mysql_new')->table('deleted_patients')->truncate();

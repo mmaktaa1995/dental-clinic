@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for /Users/mohammadaktaa/Desktop/Sites/dental-new1/app</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="_css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="_css/nv.d3.min.css" rel="stylesheet" type="text/css">
+  <link href="_css/style.css" rel="stylesheet" type="text/css">
+  <link href="_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="index.html">/Users/mohammadaktaa/Desktop/Sites/dental-new1/app</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Http/Controllers/AppointmentController.php.html#12">App\Http\Controllers\AppointmentController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/Auth/RegisterController.php.html#16">App\Http\Controllers\Auth\RegisterController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/ExpensesController.php.html#12">App\Http\Controllers\ExpensesController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/HomeController.php.html#8">App\Http\Controllers\HomeController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/PatientsController.php.html#15">App\Http\Controllers\PatientsController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/PatientsFilesController.php.html#17">App\Http\Controllers\PatientsFilesController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/StatisticsController.php.html#11">App\Http\Controllers\StatisticsController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/UploadFilesController.php.html#8">App\Http\Controllers\UploadFilesController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/VisitsController.php.html#13">App\Http\Controllers\VisitsController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Middleware/Authenticate.php.html#7">App\Http\Middleware\Authenticate</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Middleware/TrustHosts.php.html#7">App\Http\Middleware\TrustHosts</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/AppointmentRequest.php.html#7">App\Http\Requests\AppointmentRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/ExpenseRequest.php.html#7">App\Http\Requests\ExpenseRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/PatientRequest.php.html#7">App\Http\Requests\PatientRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/PaymentRequest.php.html#7">App\Http\Requests\PaymentRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/VisitRequest.php.html#7">App\Http\Requests\VisitRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Resources/AppointmentResource.php.html#12">App\Http\Resources\AppointmentResource</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Resources/BaseCollection.php.html#7">App\Http\Resources\BaseCollection</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Resources/EnrollmentResource.php.html#8">App\Http\Resources\EnrollmentResource</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Resources/ExpenseResource.php.html#11">App\Http\Resources\ExpenseResource</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Resources/InstructorResource.php.html#8">App\Http\Resources\InstructorResource</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Resources/PatientResource.php.html#11">App\Http\Resources\PatientResource</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Resources/PaymentResource.php.html#11">App\Http\Resources\PaymentResource</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Resources/SectionResource.php.html#8">App\Http\Resources\SectionResource</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Resources/StudentResource.php.html#8">App\Http\Resources\StudentResource</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Resources/VisitResource.php.html#11">App\Http\Resources\VisitResource</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Appointment.php.html#16">App\Models\Appointment</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/DeletedPatient.php.html#14">App\Models\DeletedPatient</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Patient.php.html#30">App\Models\Patient</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Payment.php.html#14">App\Models\Payment</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Service.php.html#5">App\Models\Service</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/ServiceVisit.php.html#15">App\Models\ServiceVisit</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Visit.php.html#26">App\Models\Visit</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Policies/StudentPolicy.php.html#9">App\Policies\StudentPolicy</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Policies/UserPolicy.php.html#9">App\Policies\UserPolicy</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Providers/BroadcastServiceProvider.php.html#8">App\Providers\BroadcastServiceProvider</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Traits/SearchQuery.php.html#5">App\Traits\SearchQuery</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Console/Kernel.php.html#8">App\Console\Kernel</a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="Providers/AppServiceProvider.php.html#8">App\Providers\AppServiceProvider</a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="Http/Middleware/RedirectIfAuthenticated.php.html#10">App\Http\Middleware\RedirectIfAuthenticated</a></td><td class="text-right">80%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Traits/SearchQuery.php.html#5">App\Traits\SearchQuery</a></td><td class="text-right">870</td></tr>
+       <tr><td><a href="Http/Controllers/PatientsController.php.html#15">App\Http\Controllers\PatientsController</a></td><td class="text-right">156</td></tr>
+       <tr><td><a href="Http/Controllers/UploadFilesController.php.html#8">App\Http\Controllers\UploadFilesController</a></td><td class="text-right">132</td></tr>
+       <tr><td><a href="Http/Controllers/VisitsController.php.html#13">App\Http\Controllers\VisitsController</a></td><td class="text-right">132</td></tr>
+       <tr><td><a href="Http/Controllers/PatientsFilesController.php.html#17">App\Http\Controllers\PatientsFilesController</a></td><td class="text-right">110</td></tr>
+       <tr><td><a href="Http/Controllers/AppointmentController.php.html#12">App\Http\Controllers\AppointmentController</a></td><td class="text-right">72</td></tr>
+       <tr><td><a href="Models/Patient.php.html#30">App\Models\Patient</a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Models/Visit.php.html#26">App\Models\Visit</a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Http/Controllers/ExpensesController.php.html#12">App\Http\Controllers\ExpensesController</a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Http/Requests/PatientRequest.php.html#7">App\Http\Requests\PatientRequest</a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Http/Middleware/Authenticate.php.html#7">App\Http\Middleware\Authenticate</a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Resources/AppointmentResource.php.html#12">App\Http\Resources\AppointmentResource</a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Middleware/RedirectIfAuthenticated.php.html#10">App\Http\Middleware\RedirectIfAuthenticated</a></td><td class="text-right">4</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Console/Kernel.php.html#25"><abbr title="App\Console\Kernel::schedule">schedule</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/AppointmentController.php.html#17"><abbr title="App\Http\Controllers\AppointmentController::index">index</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/AppointmentController.php.html#31"><abbr title="App\Http\Controllers\AppointmentController::store">store</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/AppointmentController.php.html#52"><abbr title="App\Http\Controllers\AppointmentController::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/AppointmentController.php.html#72"><abbr title="App\Http\Controllers\AppointmentController::destroy">destroy</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/AppointmentController.php.html#87"><abbr title="App\Http\Controllers\AppointmentController::show">show</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/Auth/RegisterController.php.html#43"><abbr title="App\Http\Controllers\Auth\RegisterController::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/Auth/RegisterController.php.html#55"><abbr title="App\Http\Controllers\Auth\RegisterController::validator">validator</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/Auth/RegisterController.php.html#73"><abbr title="App\Http\Controllers\Auth\RegisterController::create">create</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/Auth/RegisterController.php.html#85"><abbr title="App\Http\Controllers\Auth\RegisterController::registered">registered</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/ExpensesController.php.html#19"><abbr title="App\Http\Controllers\ExpensesController::index">index</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/ExpensesController.php.html#40"><abbr title="App\Http\Controllers\ExpensesController::show">show</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/ExpensesController.php.html#52"><abbr title="App\Http\Controllers\ExpensesController::store">store</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/ExpensesController.php.html#67"><abbr title="App\Http\Controllers\ExpensesController::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/ExpensesController.php.html#80"><abbr title="App\Http\Controllers\ExpensesController::destroy">destroy</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/HomeController.php.html#10"><abbr title="App\Http\Controllers\HomeController::__invoke">__invoke</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/PatientsController.php.html#24"><abbr title="App\Http\Controllers\PatientsController::index">index</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/PatientsController.php.html#48"><abbr title="App\Http\Controllers\PatientsController::dropdownData">dropdownData</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/PatientsController.php.html#58"><abbr title="App\Http\Controllers\PatientsController::show">show</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/PatientsController.php.html#70"><abbr title="App\Http\Controllers\PatientsController::store">store</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/PatientsController.php.html#104"><abbr title="App\Http\Controllers\PatientsController::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/PatientsController.php.html#117"><abbr title="App\Http\Controllers\PatientsController::destroy">destroy</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/PatientsController.php.html#134"><abbr title="App\Http\Controllers\PatientsController::debits">debits</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/PatientsFilesController.php.html#26"><abbr title="App\Http\Controllers\PatientsFilesController::index">index</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/PatientsFilesController.php.html#58"><abbr title="App\Http\Controllers\PatientsFilesController::show">show</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/PatientsFilesController.php.html#72"><abbr title="App\Http\Controllers\PatientsFilesController::store">store</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/PatientsFilesController.php.html#97"><abbr title="App\Http\Controllers\PatientsFilesController::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/PatientsFilesController.php.html#111"><abbr title="App\Http\Controllers\PatientsFilesController::destroy">destroy</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/PatientsFilesController.php.html#129"><abbr title="App\Http\Controllers\PatientsFilesController::print">print</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/StatisticsController.php.html#18"><abbr title="App\Http\Controllers\StatisticsController::__invoke">__invoke</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/UploadFilesController.php.html#10"><abbr title="App\Http\Controllers\UploadFilesController::store">store</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/UploadFilesController.php.html#46"><abbr title="App\Http\Controllers\UploadFilesController::destroy">destroy</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/UploadFilesController.php.html#65"><abbr title="App\Http\Controllers\UploadFilesController::show">show</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/UploadFilesController.php.html#84"><abbr title="App\Http\Controllers\UploadFilesController::getMime">getMime</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/UploadFilesController.php.html#89"><abbr title="App\Http\Controllers\UploadFilesController::sendImage">sendImage</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/UploadFilesController.php.html#97"><abbr title="App\Http\Controllers\UploadFilesController::getImageRaw">getImageRaw</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/VisitsController.php.html#22"><abbr title="App\Http\Controllers\VisitsController::index">index</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/VisitsController.php.html#51"><abbr title="App\Http\Controllers\VisitsController::show">show</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/VisitsController.php.html#63"><abbr title="App\Http\Controllers\VisitsController::store">store</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/VisitsController.php.html#88"><abbr title="App\Http\Controllers\VisitsController::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/VisitsController.php.html#104"><abbr title="App\Http\Controllers\VisitsController::destroy">destroy</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Middleware/Authenticate.php.html#15"><abbr title="App\Http\Middleware\Authenticate::redirectTo">redirectTo</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Middleware/TrustHosts.php.html#14"><abbr title="App\Http\Middleware\TrustHosts::hosts">hosts</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/AppointmentRequest.php.html#14"><abbr title="App\Http\Requests\AppointmentRequest::authorize">authorize</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/AppointmentRequest.php.html#24"><abbr title="App\Http\Requests\AppointmentRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/ExpenseRequest.php.html#14"><abbr title="App\Http\Requests\ExpenseRequest::authorize">authorize</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/ExpenseRequest.php.html#24"><abbr title="App\Http\Requests\ExpenseRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/PatientRequest.php.html#14"><abbr title="App\Http\Requests\PatientRequest::authorize">authorize</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/PatientRequest.php.html#24"><abbr title="App\Http\Requests\PatientRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/PaymentRequest.php.html#14"><abbr title="App\Http\Requests\PaymentRequest::authorize">authorize</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/PaymentRequest.php.html#24"><abbr title="App\Http\Requests\PaymentRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/VisitRequest.php.html#14"><abbr title="App\Http\Requests\VisitRequest::authorize">authorize</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/VisitRequest.php.html#24"><abbr title="App\Http\Requests\VisitRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Resources/AppointmentResource.php.html#23"><abbr title="App\Http\Resources\AppointmentResource::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Resources/BaseCollection.php.html#20"><abbr title="App\Http\Resources\BaseCollection::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Resources/BaseCollection.php.html#35"><abbr title="App\Http\Resources\BaseCollection::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Resources/EnrollmentResource.php.html#16"><abbr title="App\Http\Resources\EnrollmentResource::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Resources/ExpenseResource.php.html#19"><abbr title="App\Http\Resources\ExpenseResource::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Resources/InstructorResource.php.html#16"><abbr title="App\Http\Resources\InstructorResource::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Resources/PatientResource.php.html#19"><abbr title="App\Http\Resources\PatientResource::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Resources/PaymentResource.php.html#19"><abbr title="App\Http\Resources\PaymentResource::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Resources/SectionResource.php.html#16"><abbr title="App\Http\Resources\SectionResource::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Resources/StudentResource.php.html#16"><abbr title="App\Http\Resources\StudentResource::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Resources/VisitResource.php.html#19"><abbr title="App\Http\Resources\VisitResource::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Appointment.php.html#21"><abbr title="App\Models\Appointment::patient">patient</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/DeletedPatient.php.html#22"><abbr title="App\Models\DeletedPatient::visits">visits</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/DeletedPatient.php.html#27"><abbr title="App\Models\DeletedPatient::images">images</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Patient.php.html#41"><abbr title="App\Models\Patient::boot">boot</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Patient.php.html#57"><abbr title="App\Models\Patient::visits">visits</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Patient.php.html#62"><abbr title="App\Models\Patient::payments">payments</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Patient.php.html#67"><abbr title="App\Models\Patient::lastVisit">lastVisit</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Patient.php.html#72"><abbr title="App\Models\Patient::images">images</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Payment.php.html#30"><abbr title="App\Models\Payment::getDateAttribute">getDateAttribute</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Payment.php.html#35"><abbr title="App\Models\Payment::visit">visit</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Payment.php.html#40"><abbr title="App\Models\Payment::patient">patient</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Service.php.html#9"><abbr title="App\Models\Service::visit">visit</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Service.php.html#14"><abbr title="App\Models\Service::serviceVisit">serviceVisit</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/ServiceVisit.php.html#20"><abbr title="App\Models\ServiceVisit::service">service</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/ServiceVisit.php.html#25"><abbr title="App\Models\ServiceVisit::visit">visit</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Visit.php.html#37"><abbr title="App\Models\Visit::getDateAttribute">getDateAttribute</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Visit.php.html#42"><abbr title="App\Models\Visit::getAmountAttribute">getAmountAttribute</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Visit.php.html#47"><abbr title="App\Models\Visit::patient">patient</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Visit.php.html#52"><abbr title="App\Models\Visit::payment">payment</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Visit.php.html#57"><abbr title="App\Models\Visit::services">services</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Visit.php.html#62"><abbr title="App\Models\Visit::serviceVisit">serviceVisit</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Policies/StudentPolicy.php.html#18"><abbr title="App\Policies\StudentPolicy::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Policies/StudentPolicy.php.html#23"><abbr title="App\Policies\StudentPolicy::isStudent">isStudent</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Policies/UserPolicy.php.html#18"><abbr title="App\Policies\UserPolicy::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Policies/UserPolicy.php.html#23"><abbr title="App\Policies\UserPolicy::isAdmin">isAdmin</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Providers/BroadcastServiceProvider.php.html#15"><abbr title="App\Providers\BroadcastServiceProvider::boot">boot</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Traits/SearchQuery.php.html#7"><abbr title="App\Traits\SearchQuery::getAll">getAll</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Providers/AppServiceProvider.php.html#25"><abbr title="App\Providers\AppServiceProvider::boot">boot</abbr></a></td><td class="text-right">50%</td></tr>
+       <tr><td><a href="Http/Middleware/RedirectIfAuthenticated.php.html#20"><abbr title="App\Http\Middleware\RedirectIfAuthenticated::handle">handle</abbr></a></td><td class="text-right">80%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Traits/SearchQuery.php.html#7"><abbr title="App\Traits\SearchQuery::getAll">getAll</abbr></a></td><td class="text-right">870</td></tr>
+       <tr><td><a href="Http/Controllers/PatientsController.php.html#70"><abbr title="App\Http\Controllers\PatientsController::store">store</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Http/Controllers/UploadFilesController.php.html#10"><abbr title="App\Http\Controllers\UploadFilesController::store">store</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Http/Controllers/PatientsFilesController.php.html#72"><abbr title="App\Http\Controllers\PatientsFilesController::store">store</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Http/Controllers/VisitsController.php.html#22"><abbr title="App\Http\Controllers\VisitsController::index">index</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Http/Controllers/VisitsController.php.html#63"><abbr title="App\Http\Controllers\VisitsController::store">store</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Models/Patient.php.html#41"><abbr title="App\Models\Patient::boot">boot</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Http/Controllers/AppointmentController.php.html#31"><abbr title="App\Http\Controllers\AppointmentController::store">store</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/AppointmentController.php.html#52"><abbr title="App\Http\Controllers\AppointmentController::update">update</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/AppointmentController.php.html#72"><abbr title="App\Http\Controllers\AppointmentController::destroy">destroy</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/ExpensesController.php.html#80"><abbr title="App\Http\Controllers\ExpensesController::destroy">destroy</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/PatientsController.php.html#24"><abbr title="App\Http\Controllers\PatientsController::index">index</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/PatientsController.php.html#117"><abbr title="App\Http\Controllers\PatientsController::destroy">destroy</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/PatientsFilesController.php.html#111"><abbr title="App\Http\Controllers\PatientsFilesController::destroy">destroy</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/PatientsFilesController.php.html#129"><abbr title="App\Http\Controllers\PatientsFilesController::print">print</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/UploadFilesController.php.html#46"><abbr title="App\Http\Controllers\UploadFilesController::destroy">destroy</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/UploadFilesController.php.html#65"><abbr title="App\Http\Controllers\UploadFilesController::show">show</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/VisitsController.php.html#88"><abbr title="App\Http\Controllers\VisitsController::update">update</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/VisitsController.php.html#104"><abbr title="App\Http\Controllers\VisitsController::destroy">destroy</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Middleware/Authenticate.php.html#15"><abbr title="App\Http\Middleware\Authenticate::redirectTo">redirectTo</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Requests/PatientRequest.php.html#24"><abbr title="App\Http\Requests\PatientRequest::rules">rules</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Resources/AppointmentResource.php.html#23"><abbr title="App\Http\Resources\AppointmentResource::toArray">toArray</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Models/Visit.php.html#42"><abbr title="App\Models\Visit::getAmountAttribute">getAmountAttribute</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Middleware/RedirectIfAuthenticated.php.html#20"><abbr title="App\Http\Middleware\RedirectIfAuthenticated::handle">handle</abbr></a></td><td class="text-right">4</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 9.2.19</a> using <a href="https://secure.php.net/" target="_top">PHP 8.1.12</a> and <a href="https://phpunit.de/">PHPUnit 9.5.26</a> at Sun Dec 4 10:57:52 EET 2022.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="_js/jquery.min.js" type="text/javascript"></script>
+  <script src="_js/d3.min.js" type="text/javascript"></script>
+  <script src="_js/nv.d3.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([37,0,0,0,0,0,0,2,0,1,0,16], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([91,0,0,0,0,0,1,0,0,1,0,14], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[66.66666666666666,2,"<a href=\"Console\/Kernel.php.html#8\">App\\Console\\Kernel<\/a>"],[100,1,"<a href=\"Exceptions\/Handler.php.html#8\">App\\Exceptions\\Handler<\/a>"],[0,8,"<a href=\"Http\/Controllers\/AppointmentController.php.html#12\">App\\Http\\Controllers\\AppointmentController<\/a>"],[100,8,"<a href=\"Http\/Controllers\/Auth\/LoginController.php.html#14\">App\\Http\\Controllers\\Auth\\LoginController<\/a>"],[0,4,"<a href=\"Http\/Controllers\/Auth\/RegisterController.php.html#16\">App\\Http\\Controllers\\Auth\\RegisterController<\/a>"],[100,0,"<a href=\"Http\/Controllers\/Controller.php.html#10\">App\\Http\\Controllers\\Controller<\/a>"],[0,6,"<a href=\"Http\/Controllers\/ExpensesController.php.html#12\">App\\Http\\Controllers\\ExpensesController<\/a>"],[0,1,"<a href=\"Http\/Controllers\/HomeController.php.html#8\">App\\Http\\Controllers\\HomeController<\/a>"],[0,12,"<a href=\"Http\/Controllers\/PatientsController.php.html#15\">App\\Http\\Controllers\\PatientsController<\/a>"],[0,10,"<a href=\"Http\/Controllers\/PatientsFilesController.php.html#17\">App\\Http\\Controllers\\PatientsFilesController<\/a>"],[0,1,"<a href=\"Http\/Controllers\/StatisticsController.php.html#11\">App\\Http\\Controllers\\StatisticsController<\/a>"],[0,11,"<a href=\"Http\/Controllers\/UploadFilesController.php.html#8\">App\\Http\\Controllers\\UploadFilesController<\/a>"],[0,11,"<a href=\"Http\/Controllers\/VisitsController.php.html#13\">App\\Http\\Controllers\\VisitsController<\/a>"],[100,0,"<a href=\"Http\/Kernel.php.html#7\">App\\Http\\Kernel<\/a>"],[0,2,"<a href=\"Http\/Middleware\/Authenticate.php.html#7\">App\\Http\\Middleware\\Authenticate<\/a>"],[100,0,"<a href=\"Http\/Middleware\/EncryptCookies.php.html#7\">App\\Http\\Middleware\\EncryptCookies<\/a>"],[100,0,"<a href=\"Http\/Middleware\/PreventRequestsDuringMaintenance.php.html#7\">App\\Http\\Middleware\\PreventRequestsDuringMaintenance<\/a>"],[80,4,"<a href=\"Http\/Middleware\/RedirectIfAuthenticated.php.html#10\">App\\Http\\Middleware\\RedirectIfAuthenticated<\/a>"],[100,0,"<a href=\"Http\/Middleware\/TrimStrings.php.html#7\">App\\Http\\Middleware\\TrimStrings<\/a>"],[0,1,"<a href=\"Http\/Middleware\/TrustHosts.php.html#7\">App\\Http\\Middleware\\TrustHosts<\/a>"],[100,0,"<a href=\"Http\/Middleware\/TrustProxies.php.html#8\">App\\Http\\Middleware\\TrustProxies<\/a>"],[100,0,"<a href=\"Http\/Middleware\/VerifyCsrfToken.php.html#7\">App\\Http\\Middleware\\VerifyCsrfToken<\/a>"],[0,2,"<a href=\"Http\/Requests\/AppointmentRequest.php.html#7\">App\\Http\\Requests\\AppointmentRequest<\/a>"],[0,2,"<a href=\"Http\/Requests\/ExpenseRequest.php.html#7\">App\\Http\\Requests\\ExpenseRequest<\/a>"],[0,3,"<a href=\"Http\/Requests\/PatientRequest.php.html#7\">App\\Http\\Requests\\PatientRequest<\/a>"],[0,2,"<a href=\"Http\/Requests\/PaymentRequest.php.html#7\">App\\Http\\Requests\\PaymentRequest<\/a>"],[0,2,"<a href=\"Http\/Requests\/VisitRequest.php.html#7\">App\\Http\\Requests\\VisitRequest<\/a>"],[0,2,"<a href=\"Http\/Resources\/AppointmentResource.php.html#12\">App\\Http\\Resources\\AppointmentResource<\/a>"],[0,2,"<a href=\"Http\/Resources\/BaseCollection.php.html#7\">App\\Http\\Resources\\BaseCollection<\/a>"],[0,1,"<a href=\"Http\/Resources\/EnrollmentResource.php.html#8\">App\\Http\\Resources\\EnrollmentResource<\/a>"],[0,1,"<a href=\"Http\/Resources\/ExpenseResource.php.html#11\">App\\Http\\Resources\\ExpenseResource<\/a>"],[0,1,"<a href=\"Http\/Resources\/InstructorResource.php.html#8\">App\\Http\\Resources\\InstructorResource<\/a>"],[0,1,"<a href=\"Http\/Resources\/PatientResource.php.html#11\">App\\Http\\Resources\\PatientResource<\/a>"],[0,1,"<a href=\"Http\/Resources\/PaymentResource.php.html#11\">App\\Http\\Resources\\PaymentResource<\/a>"],[0,1,"<a href=\"Http\/Resources\/SectionResource.php.html#8\">App\\Http\\Resources\\SectionResource<\/a>"],[0,1,"<a href=\"Http\/Resources\/StudentResource.php.html#8\">App\\Http\\Resources\\StudentResource<\/a>"],[100,1,"<a href=\"Http\/Resources\/UserResource.php.html#7\">App\\Http\\Resources\\UserResource<\/a>"],[0,1,"<a href=\"Http\/Resources\/VisitResource.php.html#11\">App\\Http\\Resources\\VisitResource<\/a>"],[0,1,"<a href=\"Models\/Appointment.php.html#16\">App\\Models\\Appointment<\/a>"],[0,2,"<a href=\"Models\/DeletedPatient.php.html#14\">App\\Models\\DeletedPatient<\/a>"],[100,0,"<a href=\"Models\/Expense.php.html#21\">App\\Models\\Expense<\/a>"],[0,7,"<a href=\"Models\/Patient.php.html#30\">App\\Models\\Patient<\/a>"],[100,0,"<a href=\"Models\/PatientImage.php.html#11\">App\\Models\\PatientImage<\/a>"],[0,3,"<a href=\"Models\/Payment.php.html#14\">App\\Models\\Payment<\/a>"],[0,2,"<a href=\"Models\/Service.php.html#5\">App\\Models\\Service<\/a>"],[0,2,"<a href=\"Models\/ServiceVisit.php.html#15\">App\\Models\\ServiceVisit<\/a>"],[100,0,"<a href=\"Models\/User.php.html#18\">App\\Models\\User<\/a>"],[0,7,"<a href=\"Models\/Visit.php.html#26\">App\\Models\\Visit<\/a>"],[0,2,"<a href=\"Policies\/StudentPolicy.php.html#9\">App\\Policies\\StudentPolicy<\/a>"],[0,2,"<a href=\"Policies\/UserPolicy.php.html#9\">App\\Policies\\UserPolicy<\/a>"],[66.66666666666666,2,"<a href=\"Providers\/AppServiceProvider.php.html#8\">App\\Providers\\AppServiceProvider<\/a>"],[100,1,"<a href=\"Providers\/AuthServiceProvider.php.html#8\">App\\Providers\\AuthServiceProvider<\/a>"],[0,1,"<a href=\"Providers\/BroadcastServiceProvider.php.html#8\">App\\Providers\\BroadcastServiceProvider<\/a>"],[100,1,"<a href=\"Providers\/EventServiceProvider.php.html#10\">App\\Providers\\EventServiceProvider<\/a>"],[100,3,"<a href=\"Providers\/RouteServiceProvider.php.html#11\">App\\Providers\\RouteServiceProvider<\/a>"],[0,29,"<a href=\"Traits\/SearchQuery.php.html#5\">App\\Traits\\SearchQuery<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[0,1,"<a href=\"Console\/Kernel.php.html#25\">App\\Console\\Kernel::schedule<\/a>"],[100,1,"<a href=\"Console\/Kernel.php.html#35\">App\\Console\\Kernel::commands<\/a>"],[100,1,"<a href=\"Exceptions\/Handler.php.html#35\">App\\Exceptions\\Handler::register<\/a>"],[0,1,"<a href=\"Http\/Controllers\/AppointmentController.php.html#17\">App\\Http\\Controllers\\AppointmentController::index<\/a>"],[0,2,"<a href=\"Http\/Controllers\/AppointmentController.php.html#31\">App\\Http\\Controllers\\AppointmentController::store<\/a>"],[0,2,"<a href=\"Http\/Controllers\/AppointmentController.php.html#52\">App\\Http\\Controllers\\AppointmentController::update<\/a>"],[0,2,"<a href=\"Http\/Controllers\/AppointmentController.php.html#72\">App\\Http\\Controllers\\AppointmentController::destroy<\/a>"],[0,1,"<a href=\"Http\/Controllers\/AppointmentController.php.html#87\">App\\Http\\Controllers\\AppointmentController::show<\/a>"],[100,1,"<a href=\"Http\/Controllers\/Auth\/LoginController.php.html#34\">App\\Http\\Controllers\\Auth\\LoginController::__construct<\/a>"],[100,1,"<a href=\"Http\/Controllers\/Auth\/LoginController.php.html#39\">App\\Http\\Controllers\\Auth\\LoginController::logout<\/a>"],[100,3,"<a href=\"Http\/Controllers\/Auth\/LoginController.php.html#52\">App\\Http\\Controllers\\Auth\\LoginController::login<\/a>"],[100,1,"<a href=\"Http\/Controllers\/Auth\/LoginController.php.html#72\">App\\Http\\Controllers\\Auth\\LoginController::sendLoginResponse<\/a>"],[100,1,"<a href=\"Http\/Controllers\/Auth\/LoginController.php.html#79\">App\\Http\\Controllers\\Auth\\LoginController::authenticated<\/a>"],[100,1,"<a href=\"Http\/Controllers\/Auth\/LoginController.php.html#97\">App\\Http\\Controllers\\Auth\\LoginController::sendFailedLoginResponse<\/a>"],[0,1,"<a href=\"Http\/Controllers\/Auth\/RegisterController.php.html#43\">App\\Http\\Controllers\\Auth\\RegisterController::__construct<\/a>"],[0,1,"<a href=\"Http\/Controllers\/Auth\/RegisterController.php.html#55\">App\\Http\\Controllers\\Auth\\RegisterController::validator<\/a>"],[0,1,"<a href=\"Http\/Controllers\/Auth\/RegisterController.php.html#73\">App\\Http\\Controllers\\Auth\\RegisterController::create<\/a>"],[0,1,"<a href=\"Http\/Controllers\/Auth\/RegisterController.php.html#85\">App\\Http\\Controllers\\Auth\\RegisterController::registered<\/a>"],[0,1,"<a href=\"Http\/Controllers\/ExpensesController.php.html#19\">App\\Http\\Controllers\\ExpensesController::index<\/a>"],[0,1,"<a href=\"Http\/Controllers\/ExpensesController.php.html#40\">App\\Http\\Controllers\\ExpensesController::show<\/a>"],[0,1,"<a href=\"Http\/Controllers\/ExpensesController.php.html#52\">App\\Http\\Controllers\\ExpensesController::store<\/a>"],[0,1,"<a href=\"Http\/Controllers\/ExpensesController.php.html#67\">App\\Http\\Controllers\\ExpensesController::update<\/a>"],[0,2,"<a href=\"Http\/Controllers\/ExpensesController.php.html#80\">App\\Http\\Controllers\\ExpensesController::destroy<\/a>"],[0,1,"<a href=\"Http\/Controllers\/HomeController.php.html#10\">App\\Http\\Controllers\\HomeController::__invoke<\/a>"],[0,2,"<a href=\"Http\/Controllers\/PatientsController.php.html#24\">App\\Http\\Controllers\\PatientsController::index<\/a>"],[0,1,"<a href=\"Http\/Controllers\/PatientsController.php.html#48\">App\\Http\\Controllers\\PatientsController::dropdownData<\/a>"],[0,1,"<a href=\"Http\/Controllers\/PatientsController.php.html#58\">App\\Http\\Controllers\\PatientsController::show<\/a>"],[0,4,"<a href=\"Http\/Controllers\/PatientsController.php.html#70\">App\\Http\\Controllers\\PatientsController::store<\/a>"],[0,1,"<a href=\"Http\/Controllers\/PatientsController.php.html#104\">App\\Http\\Controllers\\PatientsController::update<\/a>"],[0,2,"<a href=\"Http\/Controllers\/PatientsController.php.html#117\">App\\Http\\Controllers\\PatientsController::destroy<\/a>"],[0,1,"<a href=\"Http\/Controllers\/PatientsController.php.html#134\">App\\Http\\Controllers\\PatientsController::debits<\/a>"],[0,1,"<a href=\"Http\/Controllers\/PatientsFilesController.php.html#26\">App\\Http\\Controllers\\PatientsFilesController::index<\/a>"],[0,1,"<a href=\"Http\/Controllers\/PatientsFilesController.php.html#58\">App\\Http\\Controllers\\PatientsFilesController::show<\/a>"],[0,3,"<a href=\"Http\/Controllers\/PatientsFilesController.php.html#72\">App\\Http\\Controllers\\PatientsFilesController::store<\/a>"],[0,1,"<a href=\"Http\/Controllers\/PatientsFilesController.php.html#97\">App\\Http\\Controllers\\PatientsFilesController::update<\/a>"],[0,2,"<a href=\"Http\/Controllers\/PatientsFilesController.php.html#111\">App\\Http\\Controllers\\PatientsFilesController::destroy<\/a>"],[0,2,"<a href=\"Http\/Controllers\/PatientsFilesController.php.html#129\">App\\Http\\Controllers\\PatientsFilesController::print<\/a>"],[0,1,"<a href=\"Http\/Controllers\/StatisticsController.php.html#18\">App\\Http\\Controllers\\StatisticsController::__invoke<\/a>"],[0,4,"<a href=\"Http\/Controllers\/UploadFilesController.php.html#10\">App\\Http\\Controllers\\UploadFilesController::store<\/a>"],[0,2,"<a href=\"Http\/Controllers\/UploadFilesController.php.html#46\">App\\Http\\Controllers\\UploadFilesController::destroy<\/a>"],[0,2,"<a href=\"Http\/Controllers\/UploadFilesController.php.html#65\">App\\Http\\Controllers\\UploadFilesController::show<\/a>"],[0,1,"<a href=\"Http\/Controllers\/UploadFilesController.php.html#84\">App\\Http\\Controllers\\UploadFilesController::getMime<\/a>"],[0,1,"<a href=\"Http\/Controllers\/UploadFilesController.php.html#89\">App\\Http\\Controllers\\UploadFilesController::sendImage<\/a>"],[0,1,"<a href=\"Http\/Controllers\/UploadFilesController.php.html#97\">App\\Http\\Controllers\\UploadFilesController::getImageRaw<\/a>"],[0,3,"<a href=\"Http\/Controllers\/VisitsController.php.html#22\">App\\Http\\Controllers\\VisitsController::index<\/a>"],[0,1,"<a href=\"Http\/Controllers\/VisitsController.php.html#51\">App\\Http\\Controllers\\VisitsController::show<\/a>"],[0,3,"<a href=\"Http\/Controllers\/VisitsController.php.html#63\">App\\Http\\Controllers\\VisitsController::store<\/a>"],[0,2,"<a href=\"Http\/Controllers\/VisitsController.php.html#88\">App\\Http\\Controllers\\VisitsController::update<\/a>"],[0,2,"<a href=\"Http\/Controllers\/VisitsController.php.html#104\">App\\Http\\Controllers\\VisitsController::destroy<\/a>"],[0,2,"<a href=\"Http\/Middleware\/Authenticate.php.html#15\">App\\Http\\Middleware\\Authenticate::redirectTo<\/a>"],[80,4,"<a href=\"Http\/Middleware\/RedirectIfAuthenticated.php.html#20\">App\\Http\\Middleware\\RedirectIfAuthenticated::handle<\/a>"],[0,1,"<a href=\"Http\/Middleware\/TrustHosts.php.html#14\">App\\Http\\Middleware\\TrustHosts::hosts<\/a>"],[0,1,"<a href=\"Http\/Requests\/AppointmentRequest.php.html#14\">App\\Http\\Requests\\AppointmentRequest::authorize<\/a>"],[0,1,"<a href=\"Http\/Requests\/AppointmentRequest.php.html#24\">App\\Http\\Requests\\AppointmentRequest::rules<\/a>"],[0,1,"<a href=\"Http\/Requests\/ExpenseRequest.php.html#14\">App\\Http\\Requests\\ExpenseRequest::authorize<\/a>"],[0,1,"<a href=\"Http\/Requests\/ExpenseRequest.php.html#24\">App\\Http\\Requests\\ExpenseRequest::rules<\/a>"],[0,1,"<a href=\"Http\/Requests\/PatientRequest.php.html#14\">App\\Http\\Requests\\PatientRequest::authorize<\/a>"],[0,2,"<a href=\"Http\/Requests\/PatientRequest.php.html#24\">App\\Http\\Requests\\PatientRequest::rules<\/a>"],[0,1,"<a href=\"Http\/Requests\/PaymentRequest.php.html#14\">App\\Http\\Requests\\PaymentRequest::authorize<\/a>"],[0,1,"<a href=\"Http\/Requests\/PaymentRequest.php.html#24\">App\\Http\\Requests\\PaymentRequest::rules<\/a>"],[0,1,"<a href=\"Http\/Requests\/VisitRequest.php.html#14\">App\\Http\\Requests\\VisitRequest::authorize<\/a>"],[0,1,"<a href=\"Http\/Requests\/VisitRequest.php.html#24\">App\\Http\\Requests\\VisitRequest::rules<\/a>"],[0,2,"<a href=\"Http\/Resources\/AppointmentResource.php.html#23\">App\\Http\\Resources\\AppointmentResource::toArray<\/a>"],[0,1,"<a href=\"Http\/Resources\/BaseCollection.php.html#20\">App\\Http\\Resources\\BaseCollection::__construct<\/a>"],[0,1,"<a href=\"Http\/Resources\/BaseCollection.php.html#35\">App\\Http\\Resources\\BaseCollection::toArray<\/a>"],[0,1,"<a href=\"Http\/Resources\/EnrollmentResource.php.html#16\">App\\Http\\Resources\\EnrollmentResource::toArray<\/a>"],[0,1,"<a href=\"Http\/Resources\/ExpenseResource.php.html#19\">App\\Http\\Resources\\ExpenseResource::toArray<\/a>"],[0,1,"<a href=\"Http\/Resources\/InstructorResource.php.html#16\">App\\Http\\Resources\\InstructorResource::toArray<\/a>"],[0,1,"<a href=\"Http\/Resources\/PatientResource.php.html#19\">App\\Http\\Resources\\PatientResource::toArray<\/a>"],[0,1,"<a href=\"Http\/Resources\/PaymentResource.php.html#19\">App\\Http\\Resources\\PaymentResource::toArray<\/a>"],[0,1,"<a href=\"Http\/Resources\/SectionResource.php.html#16\">App\\Http\\Resources\\SectionResource::toArray<\/a>"],[0,1,"<a href=\"Http\/Resources\/StudentResource.php.html#16\">App\\Http\\Resources\\StudentResource::toArray<\/a>"],[100,1,"<a href=\"Http\/Resources\/UserResource.php.html#15\">App\\Http\\Resources\\UserResource::toArray<\/a>"],[0,1,"<a href=\"Http\/Resources\/VisitResource.php.html#19\">App\\Http\\Resources\\VisitResource::toArray<\/a>"],[0,1,"<a href=\"Models\/Appointment.php.html#21\">App\\Models\\Appointment::patient<\/a>"],[0,1,"<a href=\"Models\/DeletedPatient.php.html#22\">App\\Models\\DeletedPatient::visits<\/a>"],[0,1,"<a href=\"Models\/DeletedPatient.php.html#27\">App\\Models\\DeletedPatient::images<\/a>"],[0,3,"<a href=\"Models\/Patient.php.html#41\">App\\Models\\Patient::boot<\/a>"],[0,1,"<a href=\"Models\/Patient.php.html#57\">App\\Models\\Patient::visits<\/a>"],[0,1,"<a href=\"Models\/Patient.php.html#62\">App\\Models\\Patient::payments<\/a>"],[0,1,"<a href=\"Models\/Patient.php.html#67\">App\\Models\\Patient::lastVisit<\/a>"],[0,1,"<a href=\"Models\/Patient.php.html#72\">App\\Models\\Patient::images<\/a>"],[0,1,"<a href=\"Models\/Payment.php.html#30\">App\\Models\\Payment::getDateAttribute<\/a>"],[0,1,"<a href=\"Models\/Payment.php.html#35\">App\\Models\\Payment::visit<\/a>"],[0,1,"<a href=\"Models\/Payment.php.html#40\">App\\Models\\Payment::patient<\/a>"],[0,1,"<a href=\"Models\/Service.php.html#9\">App\\Models\\Service::visit<\/a>"],[0,1,"<a href=\"Models\/Service.php.html#14\">App\\Models\\Service::serviceVisit<\/a>"],[0,1,"<a href=\"Models\/ServiceVisit.php.html#20\">App\\Models\\ServiceVisit::service<\/a>"],[0,1,"<a href=\"Models\/ServiceVisit.php.html#25\">App\\Models\\ServiceVisit::visit<\/a>"],[0,1,"<a href=\"Models\/Visit.php.html#37\">App\\Models\\Visit::getDateAttribute<\/a>"],[0,2,"<a href=\"Models\/Visit.php.html#42\">App\\Models\\Visit::getAmountAttribute<\/a>"],[0,1,"<a href=\"Models\/Visit.php.html#47\">App\\Models\\Visit::patient<\/a>"],[0,1,"<a href=\"Models\/Visit.php.html#52\">App\\Models\\Visit::payment<\/a>"],[0,1,"<a href=\"Models\/Visit.php.html#57\">App\\Models\\Visit::services<\/a>"],[0,1,"<a href=\"Models\/Visit.php.html#62\">App\\Models\\Visit::serviceVisit<\/a>"],[0,1,"<a href=\"Policies\/StudentPolicy.php.html#18\">App\\Policies\\StudentPolicy::__construct<\/a>"],[0,1,"<a href=\"Policies\/StudentPolicy.php.html#23\">App\\Policies\\StudentPolicy::isStudent<\/a>"],[0,1,"<a href=\"Policies\/UserPolicy.php.html#18\">App\\Policies\\UserPolicy::__construct<\/a>"],[0,1,"<a href=\"Policies\/UserPolicy.php.html#23\">App\\Policies\\UserPolicy::isAdmin<\/a>"],[100,1,"<a href=\"Providers\/AppServiceProvider.php.html#15\">App\\Providers\\AppServiceProvider::register<\/a>"],[50,1,"<a href=\"Providers\/AppServiceProvider.php.html#25\">App\\Providers\\AppServiceProvider::boot<\/a>"],[100,1,"<a href=\"Providers\/AuthServiceProvider.php.html#24\">App\\Providers\\AuthServiceProvider::boot<\/a>"],[0,1,"<a href=\"Providers\/BroadcastServiceProvider.php.html#15\">App\\Providers\\BroadcastServiceProvider::boot<\/a>"],[100,1,"<a href=\"Providers\/EventServiceProvider.php.html#28\">App\\Providers\\EventServiceProvider::boot<\/a>"],[100,1,"<a href=\"Providers\/RouteServiceProvider.php.html#36\">App\\Providers\\RouteServiceProvider::boot<\/a>"],[100,2,"<a href=\"Providers\/RouteServiceProvider.php.html#57\">App\\Providers\\RouteServiceProvider::configureRateLimiting<\/a>"],[0,29,"<a href=\"Traits\/SearchQuery.php.html#7\">App\\Traits\\SearchQuery::getAll<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>

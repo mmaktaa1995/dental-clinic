@@ -40,9 +40,9 @@ class LoginController extends Controller
     {
         $request->user()->currentAccessToken()->delete();
 
-        if ($response = $this->loggedOut($request)) {
-            return $response;
-        }
+//        if ($response = $this->loggedOut($request)) {
+//            return $response;
+//        }
 
         return response()->json([
             'message' => 'تم تسجيل الخروج بنجاح',
@@ -59,34 +59,21 @@ class LoginController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['كلمة المرور أو البريد الالكتروني غير صحيحين.'],
-            ]);
+            $this->incrementLoginAttempts($request);
+
+            return $this->sendFailedLoginResponse($request);
         }
 
-        return response()->json([
-            'message' => 'تم تسجيل الدخول بنجاح',
-            'data' => [
-                'access_token' => explode('|', $user->createToken('personal-access-token')->plainTextToken)[1],
-                'user' => UserResource::make($user)
-            ]
-        ], 200);
+        return $this->sendLoginResponse($request, $user);
 
 
     }
 
-    protected function sendLoginResponse(Request $request)
+    protected function sendLoginResponse(Request $request, $user)
     {
-        $user = $this->guard($request->get('type'))->user();
-
         $this->clearLoginAttempts($request);
 
         return $this->authenticated($request, $user);
-    }
-
-    protected function guard($guard)
-    {
-        return Auth::guard($guard);
     }
 
     protected function authenticated(Request $request, $user)
@@ -97,21 +84,20 @@ class LoginController extends Controller
                 'access_token' => explode('|', $user->createToken('personal-access-token')->plainTextToken)[1],
                 'user' => UserResource::make($user)
             ]
-        ], 200);
+        ]);
     }
 
 
-    protected function sendFailedLoginResponse()
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    protected function sendFailedLoginResponse($request)
     {
-        return response()->json([
-            'message' => __('auth.failed'),
-        ], 400);
+        throw ValidationException::withMessages([
+            $this->username() => [trans('auth.failed')],
+        ]);
     }
-
-//    public function user(Request $request)
-//    {
-//        return response()->json([
-//            'user' => UserResource::make($request->user())
-//        ]);
-//    }
 }

@@ -135,6 +135,13 @@
                     </tr>
                     <tr>
                         <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 text-md leading-5 text-gray-700">
+                            <b class="font-medium"> المبالغ المتبقية لدى المرضى</b></td>
+                        <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 text-md leading-5 text-red-500">
+                            {{ totalDebts | numberFormat }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 text-md leading-5 text-gray-700">
                             <b class="font-medium">النفقات</b></td>
                         <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 text-md leading-5 text-gray-500">
                             {{ expensesSum | numberFormat }}
@@ -208,6 +215,7 @@ export default {
             totalPatients: 0,
             incomeTotal: 0,
             expensesSum: 0,
+            totalDebts: 0,
             incomesSum: 0,
             expenses: [],
             patients: [],
@@ -262,6 +270,7 @@ export default {
                 this.patientsTotalCount = data.patientsTotalCount;
                 this.expensesTotal = data.expensesTotal;
                 this.incomeTotal = data.incomeTotal;
+                this.totalDebts = data.totalDebts;
             }).finally(() => {
                 this.loading = false;
             })

@@ -128,7 +128,7 @@
 
                 <!-- No Search Results -->
                 <search-empty-results v-if="!searching && !troubleshooting && entries.length === 0">
-                    No entries were found for the given search criteria.
+                    لم يتم العثور على إدخالات لبيانات البحث المقدمة.
                 </search-empty-results>
 
                 <!-- Troubleshooting -->

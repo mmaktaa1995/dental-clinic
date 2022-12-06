@@ -31,8 +31,8 @@ class Visit extends \Eloquent
     public static $searchInRelations = ['patient:name'];
     public static $searchableFields = ['date', 'notes'];
     public static $dateColumnFiltered = 'date';
-    protected $fillable = ['patient_id', 'date', 'notes'];
-    protected $appends = ['amount'];
+    protected $fillable = ['patient_id', 'date', 'notes']; //@todo revert amount when migration
+    protected $appends = ['amount'];//@todo comment amount when migration
 
     public function getDateAttribute($value)
     {

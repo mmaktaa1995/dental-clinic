@@ -37,7 +37,7 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('expenses', ExpensesController::class)->except(['create', 'edit']);
     Route::resource('patients.visits', VisitsController::class)->except(['create', 'edit']);
     Route::resource('appointments', AppointmentController::class)->except(['create', 'edit']);
-    Route::post('logout-admin', [LoginController::class, 'logout']);
+    Route::post('logout', [LoginController::class, 'logout']);
     Route::get('statistics', StatisticsController::class);
 });
 

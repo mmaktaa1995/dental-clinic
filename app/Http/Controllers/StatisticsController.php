@@ -75,7 +75,16 @@ class StatisticsController extends Controller
         $patientsTotalCount = Patient::count();
         $expensesTotal = Expense::sum('amount');
         $incomeTotal = Payment::sum('amount');
+        $totalDebts = Payment:: when($request->has('day'), function ($query) use ($request) {
+            $query->whereDay('created_at', $request->get('day', date('d')));
+        })
+            ->when($request->has('month'), function ($query) use ($request) {
+                $query->whereMonth('created_at', $request->get('month', date('m')));
+            })
+            ->when($type === 'YEARLY', function ($query) use ($request) {
+                $query->whereYear('created_at', $request->get('year', date('Y')));
+            })->sum('remaining_amount');
 
-        return response()->json(compact('expenses', 'visits', 'patients', 'incomes', 'patientsTotalCount', 'expensesTotal', 'incomeTotal'));
+        return response()->json(compact('expenses', 'visits', 'patients', 'incomes', 'patientsTotalCount', 'expensesTotal', 'incomeTotal', 'totalDebts'));
     }
 }

@@ -14,10 +14,6 @@
             </template>
 
             <template slot="create-btn">
-                <router-link :to="{ name: `expenses-create`}"
-                             class="ml-4 flex items-center justify-center h-12 px-4 text-sm text-center text-gray-100 hover:text-gray-50 bg-gray-800 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-gray-600 focus:outline-none">
-                    إضافة
-                </router-link>
             </template>
             <template slot="head">
                 <tr class="bg-gray-200 text-gray-600 text-sm leading-normal">
