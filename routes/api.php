@@ -31,6 +31,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('patients/dropdown', [PatientsController::class, 'dropdownData'])->name('patients.dropdown');
     Route::get('patients/debits', [PatientsController::class, 'debits'])->name('patients.debits');
     Route::resource('patients', PatientsController::class)->except(['create', 'edit']);
+    Route::patch('patients/{patient}/images', [PatientsController::class, 'updateImages'])->name('patients.update_images');
     Route::resource('patients-files', PatientsFilesController::class)->parameters(['patients-files' => 'payment'])->except(['create', 'edit']);
     Route::get('patients-files/{patient_id}/print', [PatientsFilesController::class, 'print'])->name('patients-files.print');
     Route::resource('visits', VisitsController::class)->except(['create', 'edit']);

@@ -33,7 +33,7 @@ class Patient extends Eloquent
 
     protected $dateFormat = 'Y-m-d H:i:s';
 
-    public static $relationsWithForSearch = [];
+    public static $relationsWithForSearch = ['images'];
     public static $searchableFields = ['name', 'file_number', 'mobile', 'phone'];
 
     protected $fillable = ['name', 'age', 'phone', 'mobile', 'file_number', 'image'];
@@ -71,6 +71,6 @@ class Patient extends Eloquent
 
     public function images()
     {
-        return self::hasMany(PatientImage::class, 'patient_id', 'id');
+        return $this->hasMany(PatientImage::class, 'patient_id');
     }
 }

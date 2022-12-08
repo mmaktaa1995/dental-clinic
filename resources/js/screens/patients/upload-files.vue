@@ -4,7 +4,7 @@
         aria-labelledby="modal-title"
         role="dialog" aria-modal="true">
         <div
-              class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <!--
               Background overlay, show/hide based on modal state.
 
@@ -42,9 +42,9 @@
                 </div>
                 <div class="bg-white px-4 pt-5 sm:p-6">
 
-                    <div class="grid grid-cols-2 gap-6">
+                    <div class="grid grid-cols-2 gap-6" v-if="loaded">
                         <div class="col-span-full">
-                            <file-pond-component folder="patients" type="images"/>
+                            <file-pond-component @updateFiles="setImages" :files="files" folder="patients" type="images"/>
                         </div>
                     </div>
                 </div>
@@ -54,12 +54,13 @@
                             class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
                         إلغاء
                     </button>
-                    <async-button
-                        type="submit"
-                        :loading="submitted"
-                        class="w-full inline-flex justify-center rounded-md border border-transparent transition duration-75 transition-all shadow-sm px-4 py-2 bg-teal-600 text-base font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:ml-3 sm:w-auto sm:text-sm">
-                        حفظ
-                    </async-button>
+<!--                    <async-button-->
+<!--                        type="submit"-->
+<!--                        :loading="submitted"-->
+<!--                        @click="update"-->
+<!--                        class="w-full inline-flex justify-center rounded-md border border-transparent transition duration-75 transition-all shadow-sm px-4 py-2 bg-teal-600 text-base font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:ml-3 sm:w-auto sm:text-sm">-->
+<!--                        حفظ-->
+<!--                    </async-button>-->
                 </div>
             </div>
         </div>
@@ -74,6 +75,7 @@ export default {
     data() {
         return {
             id: null,
+            loaded: false,
             opened: false,
             errors: {},
             submitted: false,
@@ -82,15 +84,49 @@ export default {
     },
     mounted() {
         this.id = this.$route.params.id;
-        setTimeout(() => {
-            this.opened = true;
-        }, 50)
+        this.loaded = false;
+        axios.get(`/api/patients/${this.id}`).then(({data}) => {
+            this.patient = {...data};
+            this.files = this.patient.images.map(image => {
+                return {
+                    source: image.image,
+                    options: {
+                        type: 'local',
+                        metadata: {
+                            poster: image.image,
+                        }
+                    },
+                }
+            });
+            setTimeout(() => {
+                this.opened = true;
+                this.loaded = true;
+            }, 50)
+            console.log(this.files)
+        })
+
     },
     methods: {
         back() {
             this.opened = false;
             setTimeout(() => this.$router.back(), 300);
         },
+        setImages(images) {
+            this.files = images;
+            this.update();
+        },
+        update() {
+            let self = this;
+            this.submitted = true;
+            axios.patch(`/api/patients/${this.id}/images`, {images: this.files}).then(({data}) => {
+                bus.$emit('flash-message', {text: data.message, type: 'success'});
+                // self.back();
+            }).catch((error) => {
+                bus.$emit('flash-message', {text: error.response.message, type: 'danger'});
+            }).finally(() => {
+                this.submitted = false;
+            })
+        }
     }
 }
 </script>

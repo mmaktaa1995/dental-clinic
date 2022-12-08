@@ -57,7 +57,8 @@ class PatientsController extends Controller
      */
     public function show(Patient $patient): \Illuminate\Http\JsonResponse
     {
-        return response()->json(PatientResource::make($patient), 200);
+        $patient->load('images');
+        return response()->json(PatientResource::make($patient));
     }
 
     /**
@@ -66,6 +67,7 @@ class PatientsController extends Controller
      * @param \App\Http\Requests\PatientRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function store(PatientRequest $request): \Illuminate\Http\JsonResponse
     {
@@ -104,6 +106,14 @@ class PatientsController extends Controller
     public function update(PatientRequest $request, Patient $patient): \Illuminate\Http\JsonResponse
     {
         $patient->update($request->validated());
+        return response()->json(['message' => __('app.success')], 200);
+    }
+
+    public function updateImages(Request $request, Patient $patient)
+    {
+        $images = $request->get('images', []);
+        $patient->images()->delete();
+        $patient->images()->createMany($images);
         return response()->json(['message' => __('app.success')], 200);
     }
 
@@ -148,7 +158,7 @@ class PatientsController extends Controller
             ]
         ];
 
-        Payment::$relationsWithForSearch =['patient', 'visit'];
+        Payment::$relationsWithForSearch = ['patient', 'visit'];
         $data = Payment::getAll($params);
         return response()->json(BaseCollection::make($data, PaymentResource::class));
     }

@@ -26,6 +26,7 @@ class PatientResource extends JsonResource
             'mobile' => $this->mobile,
             'file_number' => $this->file_number,
             'image' => $this->image,
+            'images' => $this->images,
             'created_at' => Carbon::parse(strtotime($this->created_at))->format('Y-m-d'),
         ];
     }

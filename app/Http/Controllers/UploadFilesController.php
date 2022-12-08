@@ -20,7 +20,7 @@ class UploadFilesController extends Controller
                     $name = time() . rand(10, 1000) . '.' . $ext;
                     $path = "$type/$folder/$name";
                     \Storage::disk('public')->put($path, file_get_contents($image->getRealPath()));
-                    $data[] = ['path' => $path];
+                    $data[] = ['path' => "/storage/$path"];
                 }
             } else {
                 $image = $request->file('files');
@@ -28,11 +28,11 @@ class UploadFilesController extends Controller
                 $name = time() . rand(10, 1000) . '.' . $ext;
                 $path = "$type/$folder/$name";
                 \Storage::disk('public')->put($path, file_get_contents($image->getRealPath()));
-                $data = ['path' => $path];
+                $data = ['path' => "/storage/$path"];
             }
             return response()->json($data);
         } else {
-            return response()->json(['message' => 'No files added!'], 422);
+            return response()->json(['message' => 'لا توجد ملفات مضافة!'], 422);
         }
     }
 
@@ -50,7 +50,7 @@ class UploadFilesController extends Controller
         else
             throw new FileNotFoundException("File not exists!");
 
-        return response()->json(['message' => 'File Deleted Successfully!']);
+        return response()->json(['message' => 'تم حذف الملف بنجاح!']);
     }
 
     /**
@@ -69,7 +69,7 @@ class UploadFilesController extends Controller
         if (\Storage::disk('public')->exists($path)) {
             return \Storage::disk('public')->download($path);
         } else
-            throw new FileNotFoundException("File not exists!");
+            throw new FileNotFoundException("الملف غير موجود!");
 
 
     }

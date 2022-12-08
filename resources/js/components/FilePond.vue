@@ -56,31 +56,16 @@ export default {
             default: 'images'
         },
         files: {
-            type: Object,
-            default: []
+            type: Array,
+            default() {
+                return [];
+            }
+
         }
     },
     data: function () {
         return {
-            myFiles: [{
-                source: "/storage/images/patients/1669151185373.png",
-                options: {
-                    type: 'local',
-                    metadata: {
-                        poster: '/storage/images/patients/1669151185373.png',
-                        size: 432523
-                    }
-                },
-                size: 12312
-            },{
-                source: "/storage/images/patients/1669151211771.png",
-                options: {
-                    type: 'local',
-                    metadata: {
-                        poster: '/storage/images/patients/1669151211771.png'
-                    }
-                }
-            }],
+            myFiles: this.files,
             serverConfig: {
                 process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
                     // fieldName is the name of the input field
@@ -102,8 +87,20 @@ export default {
                         .then(response => {
                             if (Array.isArray(response.data)) {
                                 response.data.forEach(path => load(path))
-                            } else
+                            } else {
+                                let file = {
+                                    source: response.data.path,
+                                    options: {
+                                        type: 'local',
+                                        metadata: {
+                                            poster: response.data.path,
+                                        }
+                                    },
+                                }
+                                this.myFiles.push(file)
+                                this.emitFiles();
                                 load(JSON.stringify(response.data))
+                            }
                         })
                         .catch((thrown) => {
                             if (axios.isCancel(thrown)) {
@@ -128,7 +125,9 @@ export default {
                     const folder = data[data.length - 2];
                     const type = this.type;
 
-                    axios.delete(`/api/upload/${folder}/${name}/${type}`, data).then(({date})=>{
+                    axios.delete(`/api/upload/${folder}/${name}/${type}`, data).then(({data}) => {
+                        this.myFiles = this.myFiles.filter(image => uniqueFileId.path !== image.source);
+                        this.emitFiles();
                         bus.$emit('flash-message', {text: data.message, type: 'success'});
                     });
 
@@ -141,7 +140,9 @@ export default {
                     const folder = data[data.length - 2];
                     const type = this.type;
 
-                    axios.delete(`/api/upload/${folder}/${name}/${type}`, data).then(({date})=>{
+                    axios.delete(`/api/upload/${folder}/${name}/${type}`, data).then(({data}) => {
+                        this.myFiles = this.myFiles.filter(image => uniqueFileId !== image.source);
+                        this.emitFiles();
                         bus.$emit('flash-message', {text: data.message, type: 'success'});
                     })
 
@@ -172,6 +173,9 @@ export default {
             ;
     },
     methods: {
+        emitFiles: function () {
+            this.$emit('updateFiles', this.myFiles.map(_ => ({image: _.source})));
+        },
         handleFilePondInit: function () {
             console.log("FilePond has initialized");
 
