@@ -34,9 +34,9 @@ class StatisticsController extends Controller
 
 
         $visits = Visit::
-            when($request->has('day'), function ($query) use ($request) {
-                $query->whereDay('date', $request->get('day', date('d')));
-            })
+        when($request->has('day'), function ($query) use ($request) {
+            $query->whereDay('date', $request->get('day', date('d')));
+        })
             ->when($request->has('month'), function ($query) use ($request) {
                 $query->whereMonth('date', $request->get('month', date('m')));
             })
@@ -47,9 +47,9 @@ class StatisticsController extends Controller
             ->groupByRaw("label")->get();
 
         $incomes = Payment::
-            when($request->has('day'), function ($query) use ($request) {
-                $query->whereDay('date', $request->get('day', date('d')));
-            })
+        when($request->has('day'), function ($query) use ($request) {
+            $query->whereDay('date', $request->get('day', date('d')));
+        })
             ->when($request->has('month'), function ($query) use ($request) {
                 $query->whereMonth('date', $request->get('month', date('m')));
             })
@@ -60,9 +60,9 @@ class StatisticsController extends Controller
             ->groupByRaw("label")->get();
 
         $patients = Patient::
-            when($request->has('day'), function ($query) use ($request) {
-                $query->whereDay('created_at', $request->get('day', date('d')));
-            })
+        when($request->has('day'), function ($query) use ($request) {
+            $query->whereDay('created_at', $request->get('day', date('d')));
+        })
             ->when($request->has('month'), function ($query) use ($request) {
                 $query->whereMonth('created_at', $request->get('month', date('m')));
             })
@@ -75,9 +75,10 @@ class StatisticsController extends Controller
         $patientsTotalCount = Patient::count();
         $expensesTotal = Expense::sum('amount');
         $incomeTotal = Payment::sum('amount');
-        $totalDebts = Payment:: when($request->has('day'), function ($query) use ($request) {
-            $query->whereDay('created_at', $request->get('day', date('d')));
-        })
+        $totalDebts = Payment:: query()
+            ->when($request->has('day'), function ($query) use ($request) {
+                $query->whereDay('created_at', $request->get('day', date('d')));
+            })
             ->when($request->has('month'), function ($query) use ($request) {
                 $query->whereMonth('created_at', $request->get('month', date('m')));
             })
@@ -85,6 +86,19 @@ class StatisticsController extends Controller
                 $query->whereYear('created_at', $request->get('year', date('Y')));
             })->sum('remaining_amount');
 
-        return response()->json(compact('expenses', 'visits', 'patients', 'incomes', 'patientsTotalCount', 'expensesTotal', 'incomeTotal', 'totalDebts'));
+        $debts = Payment:: query()
+            ->when($request->has('day'), function ($query) use ($request) {
+                $query->whereDay('created_at', $request->get('day', date('d')));
+            })
+            ->when($request->has('month'), function ($query) use ($request) {
+                $query->whereMonth('created_at', $request->get('month', date('m')));
+            })
+            ->when($type === 'YEARLY', function ($query) use ($request) {
+                $query->whereYear('created_at', $request->get('year', date('Y')));
+            })
+            ->select([\DB::raw("SUM(remaining_amount) as value"), \DB::raw("CONCAT(YEAR(created_at),'-', DATE_FORMAT(`created_at`,'%m')) as label")])
+            ->groupByRaw("label")->get();
+
+        return response()->json(compact('expenses', 'visits', 'patients', 'incomes', 'patientsTotalCount', 'expensesTotal', 'incomeTotal', 'totalDebts', 'debts'));
     }
 }

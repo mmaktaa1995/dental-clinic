@@ -181,13 +181,6 @@
                            :data="visits"></pie-chart>
             </div>
         </div>
-        <div class="card col-span-full" v-if="!loading && expenses.length">
-            <h1 class="text-lg font-semibold card-title">النفقات</h1>
-            <div class="card-body">
-                <bar-chart label="نفقات" color="red" :formatTooltipTitle="['النفقات']" v-if="expenses.length"
-                           :data="expenses"></bar-chart>
-            </div>
-        </div>
         <div class="card col-span-full" v-if="!loading && incomes.length">
             <h1 class="text-lg font-semibold card-title">الواردات</h1>
             <div class="card-body">
@@ -195,6 +188,21 @@
                            :data="incomes"></bar-chart>
             </div>
         </div>
+        <div class="card col-span-full" v-if="!loading && expenses.length">
+            <h1 class="text-lg font-semibold card-title">النفقات</h1>
+            <div class="card-body">
+                <bar-chart label="نفقات" color="red" :formatTooltipTitle="['النفقات']" v-if="expenses.length"
+                           :data="expenses"></bar-chart>
+            </div>
+        </div>
+        <div class="card col-span-full" v-if="!loading && debts.length">
+            <h1 class="text-lg font-semibold card-title">المبالغ المتبقية</h1>
+            <div class="card-body">
+                <bar-chart label="ديون" color="red" :formatTooltipTitle="['المبالغ المتبقية']" v-if="debts.length"
+                           :data="debts"></bar-chart>
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -218,6 +226,7 @@ export default {
             totalDebts: 0,
             incomesSum: 0,
             expenses: [],
+            debts: [],
             patients: [],
             visits: [],
             incomes: [],
@@ -262,6 +271,7 @@ export default {
                 this.visits = data.visits;
                 this.incomes = data.incomes;
                 this.patients = data.patients;
+                this.debts = data.debts;
 
                 this.totalPatients = this.patients.reduce((sum, item) => sum + +item.value, 0);
                 this.expensesSum = this.expenses.reduce((sum, item) => sum + +item.value, 0);
