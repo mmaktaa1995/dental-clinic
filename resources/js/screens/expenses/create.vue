@@ -37,7 +37,7 @@
                 :class="`inline-block w-full align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full duration-200  ${opened?'scale-100':'scale-0'}` ">
 
                 <div class="bg-gray-50 px-4 py-2 border-b border-gray-300 text-right">
-                    <h3 class="font-bold text-lg text-gray-700">إضافة زيارة</h3>
+                    <h3 class="font-bold text-lg text-gray-700">إضافة نفقة</h3>
                 </div>
                 <div class="bg-white px-4 pt-5 sm:p-6">
                     <div class="grid grid-cols-2 gap-6">
@@ -52,9 +52,9 @@
 
                         <div class="">
                             <label for="date" class="block text-sm font-medium text-gray-700 text-right">تاريخ
-                                الزيارة</label>
-                            <input type="date" id="date" autocomplete="off" v-model="form.date"
-                                   class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
+                                النفقة</label>
+                            <date-picker type="date" id="date" autocomplete="off" v-model="form.date"
+                            ></date-picker>
                             <small class="text-red-600 text-xs text-right block"
                                    v-if="errors && errors.date">{{ errors.date[0] }}</small>
                         </div>
@@ -98,8 +98,11 @@
 <script>
 
 import axios from "axios";
+import DatePicker from "vue2-datepicker";
+import moment from "moment";
 
 export default {
+    components: { DatePicker },
     data() {
         return {
             opened: false,
@@ -128,6 +131,8 @@ export default {
             let self = this;
             this.errors = {};
             this.submitted = true;
+            self.form.date = moment(self.form.date, 'YYYY-MM-DD').add(1, 'days')
+
             axios.post(`/api/expenses`, {...self.form}).then(({data}) => {
                 bus.$emit('flash-message', {text: data.message, type: 'success'});
                 bus.$emit('item-created', true);

@@ -5,6 +5,8 @@ import Routes from './routes';
 import Vue from 'vue';
 import VueJsonPretty from 'vue-json-pretty';
 import VueRouter from 'vue-router';
+import 'vue2-datepicker/index.css';
+import 'vue2-datepicker/locale/ar-sa';
 
 const token = document.head.querySelector('meta[name="csrf-token"]');
 const access_token = localStorage.getItem('access_token');

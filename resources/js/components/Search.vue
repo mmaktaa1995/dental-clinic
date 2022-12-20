@@ -43,16 +43,15 @@
                                     من تاريخ
                                 </label>
                                 <div class="mt-1 relative rounded-md shadow-sm">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <icon-calendar class="text-gray-400" size="5"/>
-                                    </div>
-                                    <input
+<!--                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">-->
+<!--                                        <icon-calendar class="text-gray-400" size="5"/>-->
+<!--                                    </div>-->
+                                    <date-picker
                                         v-model.lazy="filters.fromDate"
                                         v-on:change="loadEntries"
                                         id="from-date-input"
-                                        type="date"
-                                        class="form-input block w-full pl-10 sm:text-sm sm:leading-5"
-                                    />
+                                        class=""
+                                    ></date-picker>
                                     <!--                                    <div class="absolute inset-y-0 right-0 flex items-center">-->
                                     <!--                                        <select-->
                                     <!--                                            v-model="minutesAgo"-->
@@ -79,17 +78,16 @@
                                     الى تاريخ
                                 </label>
                                 <div class="mt-1 relative rounded-md shadow-sm">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <icon-calendar class="text-gray-400" size="5"/>
-                                    </div>
-                                    <input
+<!--                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">-->
+<!--                                        <icon-calendar class="text-gray-400" size="5"/>-->
+<!--                                    </div>-->
+                                    <date-picker
                                         v-model.lazy="filters.toDate"
                                         v-on:change="loadEntries"
                                         id="start-time-input"
-                                        type="date"
                                         :min="filters.fromDate"
-                                        class="form-input block w-full pl-10 sm:text-sm sm:leading-5"
-                                    />
+                                        class=""
+                                    ></date-picker>
                                     <!--                                    <div class="absolute inset-y-0 right-0 flex items-center">-->
                                     <!--                                        <select-->
                                     <!--                                            v-model="minutesAgo"-->
@@ -224,6 +222,7 @@
 <script>
 import axios from 'axios';
 import moment from 'moment';
+import DatePicker from 'vue2-datepicker';
 
 export default {
     props: {
@@ -329,14 +328,15 @@ export default {
          */
         request() {
             const filters = {...this.filters};
+
             const group = this.group;
 
             let params = {...this.filters};
             if (this.filters.fromDate) {
-                params.fromDate = moment(this.filters.fromDate, 'YYYY-MM-DD')
+                params.fromDate = moment(this.filters.fromDate, 'YYYY-MM-DD').add(1, 'days');
             }
             if (this.filters.toDate) {
-                params.toDate = moment(this.filters.toDate, 'YYYY-MM-DD')
+                params.toDate = moment(this.filters.toDate, 'YYYY-MM-DD').add(1, 'days');
             }
 
             let resource = this.$route.meta.resource;
@@ -441,5 +441,6 @@ export default {
             };
         },
     },
+    components: { DatePicker },
 };
 </script>

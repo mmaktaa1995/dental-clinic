@@ -57,19 +57,19 @@
                                 class=" text-gray-400 hover:text-blue-500 transition-colors"
                             />
                         </router-link>
-                        <router-link
-                            :to="{
-                            name: `patients-visits`,
-                            params: { id: entry.id},
-                        }"
-                            tag="a"
-                            class="w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent hover:text-gray-500 focus:outline-none focus:text-gray-500 focus:bg-gray-100 transition ease-in-out duration-150"
-                        >
-                            <icon-list
-                                size="5"
-                                class=" text-gray-400 hover:text-indigo-500 transition-colors"
-                            />
-                        </router-link>
+<!--                        <router-link-->
+<!--                            :to="{-->
+<!--                            name: `patients-visits`,-->
+<!--                            params: { id: entry.id},-->
+<!--                        }"-->
+<!--                            tag="a"-->
+<!--                            class="w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent hover:text-gray-500 focus:outline-none focus:text-gray-500 focus:bg-gray-100 transition ease-in-out duration-150"-->
+<!--                        >-->
+<!--                            <icon-list-->
+<!--                                size="5"-->
+<!--                                class=" text-gray-400 hover:text-indigo-500 transition-colors"-->
+<!--                            />-->
+<!--                        </router-link>-->
                         <router-link
                             :to="{
                             name: `patients-files`,

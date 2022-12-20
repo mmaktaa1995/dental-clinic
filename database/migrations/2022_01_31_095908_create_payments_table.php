@@ -15,8 +15,8 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->decimal('amount', 15);
-            $table->decimal('remaining_amount', 15)->default(0);
+            $table->decimal('amount', 15)->nullable()->default(0);
+            $table->decimal('remaining_amount', 15)->nullable()->default(0);
             $table->date('date');
             $table->unsignedBigInteger('patient_id');
             $table->unsignedBigInteger('visit_id');

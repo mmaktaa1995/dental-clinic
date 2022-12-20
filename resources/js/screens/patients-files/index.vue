@@ -18,6 +18,7 @@
                     <th class="py-2 px-3 text-right">رقم الملف</th>
                     <th class="py-2 px-3 text-right">تاريخ اخر دفعة</th>
                     <th class="py-2 px-3 text-right">اخر دفعة</th>
+                    <th class="py-2 px-3 text-right">المبلغ المتبقي</th>
                     <th class="py-2 px-3 text-right"></th>
                 </tr>
             </template>
@@ -33,6 +34,9 @@
                 </td>
                 <td class="px-3 py-1 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
                     {{ +entry.latest_payment | numberFormat}}
+                </td>
+                <td class="px-3 py-1 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-red-600">
+                    {{ +entry.total_remaining_amount | numberFormat}}
                 </td>
                 <td class="px-3 py-1 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
                     <div class="flex item-center">

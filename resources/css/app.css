@@ -92,5 +92,43 @@ input:disabled {
 }
 
 .filepond--file-poster-overlay{
-    opacity: 0 !important;
+    display: none !important;
+}
+
+.mx-datepicker{
+    width: 100% !important;
+}
+
+.mx-table-date .cell{
+    @apply rounded transition-colors;
+}
+.mx-table-date .today{
+    @apply bg-teal-700 bg-opacity-50 text-white rounded transition-colors
+}
+
+.mx-calendar-content .cell:hover{
+    background-color: #047481 !important;
+    background-color: rgba(4, 116, 129, var(--bg-opacity)) !important;
+    --bg-opacity: 0.5;
+}
+
+.mx-table-date .today div{
+    @apply text-white;
+}
+
+.mx-input{
+    margin-top: 0.25rem;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
+    --border-opacity: 1;
+    border-color: #d2d6dc;
+    border-color: rgba(210, 214, 220, var(--border-opacity)) !important;
+    font-size: 0.875rem !important;
+    border-radius: 0.375rem !important;
+    height: auto !important;
+    padding: 0.5rem !important;
+    border-width: 1px !important;
+}
+.mx-icon-calendar, .mx-icon-clear{
+    right: auto !important;
+    left: 8px !important;
 }

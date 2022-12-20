@@ -26,6 +26,7 @@ class PaymentResource extends JsonResource
             'visit' => VisitResource::make($this->whenLoaded('visit')),
             'amount' => $this->amount,
             'remaining_amount' => $this->remaining_amount,
+            'total_remaining_amount' => $this->total_remaining_amount,
             'latest_payment_date' => $this->latest_payment_date,
             'latest_payment' => $this->latest_payment,
             'date' => $this->date,

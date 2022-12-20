@@ -74,7 +74,7 @@ class PatientsController extends Controller
         try {
             \DB::beginTransaction();
             $patient = Patient::create($request->validated());
-            if ($request->filled('amount')) {
+//            if ($request->filled('amount')) {
                 $visit = $patient->visits()->create($request->validated());
                 Payment::create([
                     'patient_id' => $patient->id,
@@ -85,7 +85,7 @@ class PatientsController extends Controller
                 ]);
                 if ($request->filled('services'))
                     $visit->services()->sync($request->get('services'));
-            }
+//            }
             \DB::commit();
         } catch (\Exception $exception) {
             \DB::rollBack();

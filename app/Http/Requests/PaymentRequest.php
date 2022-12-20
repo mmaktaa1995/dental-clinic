@@ -27,8 +27,8 @@ class PaymentRequest extends FormRequest
             'patient_id' => ['required', 'exists:patients,id'],
             'date' => ['required', 'date'],
             'notes' => ['nullable', 'string'],
-            'amount' => ['required', 'numeric'],
-            'remaining_amount' => ['sometimes', 'numeric'],
+            'amount' => ['nullable', 'numeric'],
+            'remaining_amount' => ['nullable', 'numeric'],
         ];
     }
 }

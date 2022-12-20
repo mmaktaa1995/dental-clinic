@@ -52,8 +52,8 @@
                         <div class="">
                             <label for="date" class="block text-sm font-medium text-gray-700 text-right">تاريخ
                                 الزيارة</label>
-                            <input type="date" id="date" autocomplete="off" v-model="form.date"
-                                   class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
+                            <date-picker type="date" id="date" autocomplete="off" v-model="form.date"
+                            ></date-picker>
                             <small class="text-red-600 text-xs text-right block"
                                    v-if="errors && errors.date">{{ errors.date[0] }}</small>
                         </div>
@@ -98,8 +98,11 @@
 <script>
 
 import axios from "axios";
+import DatePicker from "vue2-datepicker";
+import moment from "moment";
 
 export default {
+    components: { DatePicker },
     data() {
         return {
             id: null,
@@ -133,6 +136,8 @@ export default {
             let self = this;
             this.errors = {};
             this.submitted = true;
+            self.form.date = moment(self.form.date, 'YYYY-MM-DD').add(1, 'days');
+
             axios.patch(`/api/expenses/${this.id}`, {...self.form}).then(({data}) => {
                 bus.$emit('flash-message', {text: data.message, type: 'success'});
                 bus.$emit('item-updated', 'true');

@@ -36,6 +36,7 @@
         "filepond-plugin-file-validate-type": "^1.2.8",
         "filepond-plugin-image-preview": "^4.6.11",
         "style-loader": "^2.0.0",
-        "vue-filepond": "^6.0.3"
+        "vue-filepond": "^6.0.3",
+        "vue2-datepicker": "^3.11.1"
     }
 }

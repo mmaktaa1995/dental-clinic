@@ -79,10 +79,10 @@
 
                     </td>
                     <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500">
-                        <input type="date"
+                        <date-picker type="date"
                                v-model="form.date"
                                :disabled="submitted"
-                               class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
+                        ></date-picker>
 
                     </td>
                     <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500">
@@ -171,10 +171,13 @@
 <script>
 import axios from 'axios';
 import AsyncButton from "../../components/AsyncButton";
+import DatePicker from "vue2-datepicker";
+import moment from "moment";
 
 export default {
     components: {
-        AsyncButton
+        AsyncButton,
+        DatePicker
     },
     data() {
         return {
@@ -237,6 +240,7 @@ export default {
         addPayment() {
             this.submitted = true;
             let data = {...this.form, patient_id: this.id}
+            data.date = moment(data.date, 'YYYY-MM-DD').add(1, 'days')
             axios.post(`/api/patients-files`, data).then(({data}) => {
                 bus.$emit('flash-message', {text: data.message, type: 'success'});
                 this.resetForm();

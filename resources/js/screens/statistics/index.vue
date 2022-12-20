@@ -1,5 +1,17 @@
 <template>
-    <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-8 px-16 py-8">
+    <div v-if="!passwordCorrect">
+        <div class=" max-w-md mx-auto py-4">
+            <label for="password-statistics" class="block text-sm font-medium text-gray-700 text-right">كلمة
+                المرور</label>
+            <input type="password" id="password-statistics"
+                   autocomplete="off"
+                   autofocus="autofocus"
+                   @input="checkPassword"
+                   v-model="password"
+                   class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
+        </div>
+    </div>
+    <div v-else class="w-full grid grid-cols-1 md:grid-cols-2 gap-8 px-16 py-8">
         <div class="col-span-full flex gap-5 mb-4">
             <div class="w-1/5">
                 <select
@@ -64,7 +76,9 @@
                                 <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
                                     <h5 class="text-blueGray-400 uppercase font-bold text-xs">إجمالي الدخل</h5>
                                     <span
-                                        class="font-semibold text-xl text-green-600 mt-3">{{ +incomeTotal | numberFormat }}</span>
+                                        class="font-semibold text-xl text-green-600 mt-3">{{
+                                            +incomeTotal | numberFormat
+                                        }}</span>
                                 </div>
                                 <div class="relative w-auto pl-4 flex-initial">
                                     <div
@@ -83,7 +97,9 @@
                                 <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
                                     <h5 class="text-blueGray-400 uppercase font-bold text-xs">إجمالي النفقات</h5>
                                     <span
-                                        class="font-semibold text-xl text-red-600 mt-3">-{{ +expensesTotal | numberFormat }}</span>
+                                        class="font-semibold text-xl text-red-600 mt-3">-{{
+                                            +expensesTotal | numberFormat
+                                        }}</span>
                                 </div>
                                 <div class="relative w-auto pl-4 flex-initial">
                                     <div
@@ -102,7 +118,9 @@
                                 <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
                                     <h5 class="text-blueGray-400 uppercase font-bold text-xs">صافي الربح الإجمالي</h5>
                                     <span class="font-semibold text-xl mt-3"
-                                          :class="{'text-green-600': Math.sign(incomeTotal - expensesTotal) === 1,'text-red-600': Math.sign(incomeTotal - expensesTotal) === -1}">{{ (incomeTotal - expensesTotal) | numberFormat }}</span>
+                                          :class="{'text-green-600': Math.sign(incomeTotal - expensesTotal) === 1,'text-red-600': Math.sign(incomeTotal - expensesTotal) === -1}">{{
+                                            (incomeTotal - expensesTotal) | numberFormat
+                                        }}</span>
                                 </div>
                                 <div class="relative w-auto pl-4 flex-initial">
                                     <div
@@ -215,8 +233,10 @@ export default {
     data() {
         return {
             loading: false,
+            passwordCorrect: false,
             year,
             month: '',
+            password: '',
             day: '',
             patientsTotalCount: 0,
             expensesTotal: 0,
@@ -243,6 +263,10 @@ export default {
     mounted() {
         this.years = this.range(2018, moment().year())
         this.getData();
+        setInterval(() => {
+            this.passwordCorrect = false;
+            this.password = '';
+        }, 120000)
     },
     methods: {
         monthChanged() {
@@ -284,6 +308,9 @@ export default {
             }).finally(() => {
                 this.loading = false;
             })
+        },
+        checkPassword() {
+            this.passwordCorrect = this.password === '1256';
         }
     }
 };

@@ -39,11 +39,16 @@ class PatientsFilesController extends Controller
             'patient_id', 'date', 'id',
             'latest_payment_date' => Payment::from('payments as p')->select('date')
                 ->whereColumn('p.patient_id', 'payments.patient_id')
+                ->whereColumn('p.amount', '>' , DB::raw("0"))
                 ->orderBy('id', 'desc')
                 ->limit('1'),
             'latest_payment' => Payment::from('payments as p')->select('amount')
                 ->whereColumn('p.patient_id', 'payments.patient_id')
+                ->whereColumn('p.amount', '>' , DB::raw("0"))
                 ->orderBy('id', 'desc')
+                ->limit('1'),
+            'total_remaining_amount' => Payment::from('payments as p')->select(DB::raw("SUM(remaining_amount)"))
+                ->whereColumn('p.patient_id', 'payments.patient_id')
                 ->limit('1'),
         ];
         $data = Payment::getAll($params);
@@ -74,9 +79,9 @@ class PatientsFilesController extends Controller
         try {
             DB::beginTransaction();
             $visit = Visit::create($request->validated());
-            if ($request->filled('amount')) {
-                $visit->payment()->create($request->validated());
-            }
+//            if ($request->filled('amount')) {
+            $visit->payment()->create($request->validated());
+//            }
             DB::commit();
         } catch (Exception $exception) {
             DB::rollBack();
