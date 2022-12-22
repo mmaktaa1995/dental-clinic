@@ -39,12 +39,12 @@ class PatientsFilesController extends Controller
             'patient_id', 'date', 'id',
             'latest_payment_date' => Payment::from('payments as p')->select('date')
                 ->whereColumn('p.patient_id', 'payments.patient_id')
-                ->whereColumn('p.amount', '>' , DB::raw("0"))
+                ->whereColumn('p.amount', '>', DB::raw("0"))
                 ->orderBy('id', 'desc')
                 ->limit('1'),
             'latest_payment' => Payment::from('payments as p')->select('amount')
                 ->whereColumn('p.patient_id', 'payments.patient_id')
-                ->whereColumn('p.amount', '>' , DB::raw("0"))
+                ->whereColumn('p.amount', '>', DB::raw("0"))
                 ->orderBy('id', 'desc')
                 ->limit('1'),
             'total_remaining_amount' => Payment::from('payments as p')->select(DB::raw("SUM(remaining_amount)"))
@@ -52,7 +52,7 @@ class PatientsFilesController extends Controller
                 ->limit('1'),
         ];
         $data = Payment::getAll($params);
-        return response()->json(BaseCollection::make($data, PaymentResource::class), 200);
+        return response()->json(BaseCollection::make($data, PaymentResource::class));
     }
 
     /**
@@ -63,7 +63,7 @@ class PatientsFilesController extends Controller
     public function show($patient_id): JsonResponse
     {
         $payments = Payment::with(['patient', 'visit'])->where('patient_id', $patient_id)->orderBy('date', 'desc')->get();
-        return response()->json(PaymentResource::collection($payments), 200);
+        return response()->json(PaymentResource::collection($payments));
     }
 
     /**
@@ -101,9 +101,27 @@ class PatientsFilesController extends Controller
      */
     public function update(PaymentRequest $request, Payment $payment): JsonResponse
     {
-        $payment->update($request->validated());
-        $payment->visit()->update(['date' => $request->get('date'), 'notes' => $request->get('notes')]);
-        return response()->json(['message' => __('app.success')], 200);
+        if (!$request->filled('is_pay_debt')) {
+            $payment->update($request->validated());
+            $payment->visit()->update(['date' => $request->get('date'), 'notes' => $request->get('notes')]);
+        } else {
+            $remainingAmount = $request->get('remaining_amount');
+            $amount = $request->get('amount');
+            $newRemainingAmount = $remainingAmount - $amount;
+            if ($newRemainingAmount < 0){
+                throw new Exception("المبلغ المدفوع لا يجب ان يكون اكبر من المبلغ المتبقي!");
+            }
+            DB::beginTransaction();
+            $visit = Visit::create(array_merge($request->validated(), ['notes' => 'دفعة']));
+            if ($newRemainingAmount == 0) {
+                $payment->delete();
+            } else {
+                $payment->update(array_merge($request->validated(), ['remaining_amount' => $newRemainingAmount, 'amount' => 0]));
+            }
+            Payment::create(array_merge($request->validated(), ['remaining_amount' => 0, 'visit_id' => $visit->id, 'date' => now()]));
+            DB::commit();
+        }
+        return response()->json(['message' => __('app.success')]);
     }
 
     /**

@@ -39,7 +39,7 @@ class ExpensesController extends Controller
      */
     public function show(Expense $expense): \Illuminate\Http\JsonResponse
     {
-        return response()->json(ExpenseResource::make($expense), 200);
+        return response()->json(ExpenseResource::make($expense));
     }
 
     /**
@@ -67,7 +67,7 @@ class ExpensesController extends Controller
     public function update(ExpenseRequest $request, Expense $expense)
     {
         $expense->update($request->validated());
-        return response()->json(['message' => __('app.success')], 200);
+        return response()->json(['message' => __('app.success')]);
     }
 
     /**

@@ -50,7 +50,7 @@ class VisitsController extends Controller
      */
     public function show(Visit $visit): \Illuminate\Http\JsonResponse
     {
-        return response()->json(VisitResource::make($visit), 200);
+        return response()->json(VisitResource::make($visit));
     }
 
     /**
@@ -91,7 +91,7 @@ class VisitsController extends Controller
         if ($request->filled('services'))
             $visit->services()->sync($request->get('services'));
         $visit->payment()->update(['amount' => $request->get('amount'), 'patient_id' => $request->get('patient_id')]);
-        return response()->json(['message' => __('app.success')], 200);
+        return response()->json(['message' => __('app.success')]);
     }
 
     /**

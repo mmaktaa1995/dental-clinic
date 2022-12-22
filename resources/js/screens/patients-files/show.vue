@@ -80,8 +80,8 @@
                     </td>
                     <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500">
                         <date-picker type="date"
-                               v-model="form.date"
-                               :disabled="submitted"
+                                     v-model="form.date"
+                                     :disabled="submitted"
                         ></date-picker>
 
                     </td>
@@ -108,7 +108,7 @@
 
                     </td>
                     <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-700">
-                        <span v-if="!payment.isEdit">
+                        <span v-if="!payment.isEdit && !payment.isPayDebtOpened">
                             <b class="font-medium">{{ +payment.amount | numberFormat }}</b>
                         </span>
                         <input type="number"
@@ -118,9 +118,13 @@
                     </td>
                     <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-700">
                         <span v-if="!payment.isEdit">
-                            <b class="font-medium" :class="{'text-red-500': payment.remaining_amount > 0}">{{
-                                    +payment.remaining_amount | numberFormat
-                                }}</b>
+                            <b v-if="!payment.isPayDebtOpened" class="font-medium"
+                               :class="{'text-red-500': payment.remaining_amount > 0}">
+                                {{ +payment.remaining_amount | numberFormat }}
+                            </b>
+                            <b v-else class="font-medium" :class="{'text-red-500': payment.remaining_amount > 0}">
+                                {{ +(payment.remaining_amount - payment.amount) | numberFormat }}
+                            </b>
                         </span>
                         <input type="number"
                                v-model="payment.remaining_amount" v-else :disabled="submitted"
@@ -137,26 +141,35 @@
 
                     </td>
                     <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500">
-                        <a v-if="!payment.isEdit" href="#" @click="editPayment(payment)"
+                        <a v-if="!payment.isEdit && !payment.isPayDebtOpened" href="#" @click="editPayment(payment)"
                            class="py-1 inline-flex h-12 px-2 text-sm text-center text-green-600 transition-colors duration-200 transform lg:h-8 hover:text-green-700 focus:outline-none">
                             <icon-edit
                                 size="5"
                                 class="transition-colors"
                             />
                         </a>
-                        <a v-if="!payment.isEdit" href="#" @click="deletePayment(payment.id)"
+                        <a v-if="!payment.isEdit && !payment.isPayDebtOpened" href="#"
+                           @click="deletePayment(payment.id)"
                            class="py-1 inline-flex h-12 px-2 text-sm text-center text-red-600 transition-colors duration-200 transform lg:h-8 hover:text-red-700 focus:outline-none">
                             <icon-delete
                                 size="5"
                                 class="transition-colors"
                             />
                         </a>
-                        <async-button v-if="payment.isEdit" @click="savePayment(payment)"
+                        <a v-if="payment.remaining_amount > 0 && !payment.isPayDebtOpened && !payment.isEdit" href="#"
+                           @click="addPaymentForDebt(payment)"
+                           class="py-1 inline-flex h-12 px-2 text-sm text-center text-teal-600 transition-colors duration-200 transform lg:h-8 hover:text-teal-700 focus:outline-none">
+                            <icon-money
+                                size="5"
+                                class="transition-colors"
+                            />
+                        </a>
+                        <async-button v-if="payment.isEdit || payment.isPayDebtOpened" @click="savePayment(payment)"
                                       :loading="submitted"
                                       class="ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-white bg-green-500 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-green-600 focus:outline-none">
                             تعديل
                         </async-button>
-                        <a v-if="payment.isEdit" href="#" @click="payment.isEdit = false"
+                        <a v-if="payment.isEdit || payment.isPayDebtOpened" href="#" @click="cancelPayment(payment)"
                            class="ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-white bg-red-600 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-red-700 focus:outline-none">
                             <span>إلغاء</span>
                         </a>
@@ -192,6 +205,7 @@ export default {
             type: '',
             totalPayments: 0,
             totalRemainingPayments: 0,
+            currentPayment: {},
             form: {
                 amount: '',
                 remaining_amount: '',
@@ -221,6 +235,7 @@ export default {
             axios.get(`/api/patients-files/${this.id}`).then(({data}) => {
                 this.data = data.map(item => {
                     item.isEdit = false;
+                    item.isPayDebtOpened = false;
                     return item;
                 });
                 if (this.data.length) {
@@ -261,6 +276,9 @@ export default {
                 notes: payment.visit.notes,
                 patient_id: this.id
             }
+            if (payment.isPayDebtOpened) {
+                data.is_pay_debt = true;
+            }
             axios.put(`/api/patients-files/${this.payment_id}`, data).then(({data}) => {
                 bus.$emit('flash-message', {text: data.message, type: 'success'});
                 this.resetForm();
@@ -291,6 +309,18 @@ export default {
                 date: payment.date,
                 notes: payment.visit.notes
             };
+        },
+        addPaymentForDebt(payment) {
+            this.currentPayment = {...payment};
+            payment.isPayDebtOpened = true;
+            this.payment_id = payment.id;
+            payment.amount = 0;
+            console.log(this.currentPayment)
+        },
+        cancelPayment(payment) {
+            payment.isEdit = false;
+            payment.isPayDebtOpened = false;
+            payment.amount = this.currentPayment.amount
         }
     },
     computed: {

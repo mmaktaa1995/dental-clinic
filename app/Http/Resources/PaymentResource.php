@@ -13,7 +13,8 @@ class PaymentResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function toArray($request)
@@ -24,8 +25,8 @@ class PaymentResource extends JsonResource
             'patient' => PatientResource::make($this->whenLoaded('patient')),
             'visit_id' => $this->visit_id,
             'visit' => VisitResource::make($this->whenLoaded('visit')),
-            'amount' => $this->amount,
-            'remaining_amount' => $this->remaining_amount,
+            'amount' => $this->amount ?: 0,
+            'remaining_amount' => $this->remaining_amount ?: 0,
             'total_remaining_amount' => $this->total_remaining_amount,
             'latest_payment_date' => $this->latest_payment_date,
             'latest_payment' => $this->latest_payment,

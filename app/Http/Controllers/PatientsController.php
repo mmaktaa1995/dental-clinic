@@ -35,7 +35,7 @@ class PatientsController extends Controller
         if ($request->filled('deleted')) {
             $data = DeletedPatient::getAll($params);
         }
-        return response()->json(BaseCollection::make($data, PatientResource::class), 200);
+        return response()->json(BaseCollection::make($data, PatientResource::class));
     }
 
     /**
@@ -106,7 +106,7 @@ class PatientsController extends Controller
     public function update(PatientRequest $request, Patient $patient): \Illuminate\Http\JsonResponse
     {
         $patient->update($request->validated());
-        return response()->json(['message' => __('app.success')], 200);
+        return response()->json(['message' => __('app.success')]);
     }
 
     public function updateImages(Request $request, Patient $patient)
@@ -114,7 +114,7 @@ class PatientsController extends Controller
         $images = $request->get('images', []);
         $patient->images()->delete();
         $patient->images()->createMany($images);
-        return response()->json(['message' => __('app.success')], 200);
+        return response()->json(['message' => __('app.success')]);
     }
 
     /**
