@@ -6,8 +6,9 @@ trait SearchQuery
 {
     public static function getAll($params, $count = false)
     {
-        $params['fromDate'] = $params['fromDate'] ? date('Y-m-d', strtotime(explode('T', str_replace('"', '', $params['fromDate']))[0])) : null;
-        $params['toDate'] = $params['toDate'] ? date('Y-m-d', strtotime(explode('T', str_replace('"', '', $params['toDate']))[0])) : null;
+        $params['fromDate'] = isset($params['fromDate']) && $params['fromDate'] ? date('Y-m-d', strtotime(explode('T', str_replace('"', '', $params['fromDate']))[0])) : null;
+        $params['toDate'] = isset($params['toDate']) && $params['toDate'] ? date('Y-m-d', strtotime(explode('T', str_replace('"', '', $params['toDate']))[0])) : null;
+        $params['date'] = isset($params['date']) && $params['date'] ? date('Y-m-d', strtotime(explode('T', str_replace('"', '', $params['date']))[0])) : null;
 
         $whereHsRelations = [];
         if (isset(static::$searchInRelations) && count(static::$searchInRelations) && $params['query']) {
@@ -57,6 +58,9 @@ trait SearchQuery
             })
             ->when($params['toDate'] && $params['fromDate'], function ($query) use ($params, $dateColumnFiltered) {
                 $query->whereBetween($dateColumnFiltered, [$params['fromDate'], $params['toDate']]);
+            })
+            ->when($params['date'] ?? false, function ($query) use ($params, $dateColumnFiltered) {
+                $query->whereDate($dateColumnFiltered, $params['date']);
             })
             ->when($params['query'], function ($query) use ($params) {
                 if (isset(static::$searchableFields)) {

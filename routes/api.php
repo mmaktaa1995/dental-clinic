@@ -35,6 +35,7 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('patients-files', PatientsFilesController::class)->parameters(['patients-files' => 'payment'])->except(['create', 'edit']);
     Route::get('patients-files/{patient_id}/print', [PatientsFilesController::class, 'print'])->name('patients-files.print');
     Route::resource('visits', VisitsController::class)->except(['create', 'edit']);
+    Route::resource('payments', VisitsController::class)->except(['create', 'edit']);
     Route::resource('expenses', ExpensesController::class)->except(['create', 'edit']);
     Route::resource('patients.visits', VisitsController::class)->except(['create', 'edit']);
     Route::resource('appointments', AppointmentController::class)->except(['create', 'edit']);

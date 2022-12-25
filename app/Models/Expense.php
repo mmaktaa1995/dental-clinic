@@ -22,6 +22,7 @@ class Expense extends Eloquent
 {
     use SearchQuery;
 
+    public static $searchableFields = ['name'];
     protected $fillable = ['date', 'description', 'name', 'amount'];
     protected $table = "financial_expenses";
     public static $dateColumnFiltered = 'date';

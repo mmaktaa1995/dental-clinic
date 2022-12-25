@@ -6,6 +6,7 @@ use App\Http\Requests\VisitRequest;
 use App\Http\Resources\BaseCollection;
 use App\Http\Resources\VisitResource;
 use App\Models\Patient;
+use App\Models\Payment;
 use App\Models\Visit;
 use Exception;
 use Illuminate\Http\Request;
@@ -25,10 +26,12 @@ class VisitsController extends Controller
             'order_column' => $request->input('order_column', 'date'),
             'order_dir' => $request->input('order_dir', 'desc'),
             'per_page' => $request->input('per_page', 10),
+            'date' => $request->input('date', null),
             'fromDate' => $request->input('fromDate', null),
             'toDate' => $request->input('toDate', null),
             'query' => $request->input('query', null),
         ];
+        $totalIncome = 0;
 
         if ($patient->exists) {
             $params['extra_filters'] = [
@@ -38,8 +41,33 @@ class VisitsController extends Controller
                 ]
             ];
         }
+
+        if ($request->filled('patient_id')) {
+            $params['extra_filters'] = [
+                'patient_id' => [
+                    'operation' => '=',
+                    'value' => $request->get('patient_id')
+                ]
+            ];
+
+            $totalIncome = Payment::query()
+                ->when($params['fromDate'] && !$params['toDate'], function ($query) use ($params) {
+                    $query->whereDate('date', '>=', $params['fromDate']);
+                })
+                ->when($params['toDate'] && !$params['fromDate'], function ($query) use ($params) {
+                    $query->whereDate('date', '<=', $params['toDate']);
+                })
+                ->when($params['toDate'] && $params['fromDate'], function ($query) use ($params) {
+                    $query->whereBetween('date', [$params['fromDate'], $params['toDate']]);
+                })
+                ->when($params['date'] ?? false, function ($query) use ($params) {
+                    $query->whereDate('date', $params['date']);
+                })
+                ->select([\DB::raw("SUM(amount) as value")])
+                ->value('value');
+        }
         $data = Visit::getAll($params);
-        $data = collect(BaseCollection::make($data, VisitResource::class))->merge(['item' => $patient->exists ? $patient : null]);
+        $data = collect(BaseCollection::make($data, VisitResource::class))->merge(['item' => $patient->exists ? $patient : null, 'totalValues' => $totalIncome]);
         return response()->json($data);
     }
 

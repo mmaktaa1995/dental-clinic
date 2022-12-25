@@ -1,7 +1,37 @@
 <template>
     <div class="w-full">
-        <search>
-            <template slot="filters" slot-scope="{ filters, loadEntries }"></template>
+        <search >
+            <template slot="filters" slot-scope="{ filters, loadEntries, totalValues }">
+                <div class="grid grid-cols-2 gap-6 min-w-0 w-full mt-3">
+                    <div class="pl-3">
+                        <label for="date-input" class="block text-sm font-medium leading-5 text-gray-700">
+                            التاريخ
+                        </label>
+                        <div class="mt-1 relative rounded-md shadow-sm">
+                            <date-picker
+                                v-model.lazy="filters.date"
+                                v-on:change="loadEntries"
+                                id="date-input"
+                                class=""
+                            ></date-picker>
+                        </div>
+                    </div>
+<!--                    <div class="pl-3">-->
+<!--                        <label for="date-input" class="block text-sm font-medium leading-5 text-gray-700">-->
+<!--                            إجمالي النفقات-->
+<!--                        </label>-->
+<!--                        <div class="mt-1 relative rounded-md shadow-sm">-->
+<!--                            <input-->
+<!--                               type="text"-->
+<!--                               readonly="readonly"-->
+<!--                               disabled-->
+<!--                               :value="totalValues"-->
+<!--                               class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full"-->
+<!--                            />-->
+<!--                        </div>-->
+<!--                    </div>-->
+                </div>
+            </template>
 
             <template slot="troubleshooting">
                 <p>It looks like there was an error. Please check your application logs.</p>
@@ -84,7 +114,8 @@
 </template>
 
 <script>
-
+import DatePicker from 'vue2-datepicker';
 export default {
+    components: { DatePicker },
 };
 </script>

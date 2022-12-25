@@ -22,13 +22,33 @@ class ExpensesController extends Controller
             'order_column' => $request->input('order_column', 'date'),
             'order_dir' => $request->input('order_dir', 'desc'),
             'per_page' => $request->input('per_page', 10),
+            'date' => $request->input('date', null),
             'fromDate' => $request->input('fromDate', null),
             'toDate' => $request->input('toDate', null),
             'query' => $request->input('query', null),
         ];
 
+        $totalExpenses = Expense::query()
+            ->when($params['fromDate'] && !$params['toDate'], function ($query) use ($params) {
+                $query->whereDate('date', '>=', $params['fromDate']);
+            })
+            ->when($params['toDate'] && !$params['fromDate'], function ($query) use ($params) {
+                $query->whereDate('date', '<=', $params['toDate']);
+            })
+            ->when($params['toDate'] && $params['fromDate'], function ($query) use ($params) {
+                $query->whereBetween('date', [$params['fromDate'], $params['toDate']]);
+            })
+            ->when($params['date'] ?? false, function ($query) use ($params) {
+                $query->whereDate('date', $params['date']);
+            })
+            ->when($params['query'], function ($query) use ($params) {
+                $query->where('name', 'like', "%{$params['query']}%");
+            })
+            ->select([\DB::raw("SUM(amount) as value")])
+            ->value('value');
+
         $data = Expense::getAll($params);
-        $data = collect(BaseCollection::make($data, ExpenseResource::class));
+        $data = collect(BaseCollection::make($data, ExpenseResource::class))->merge(['totalValues' => number_format($totalExpenses)]);
         return response()->json($data);
     }
 

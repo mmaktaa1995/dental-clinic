@@ -36,8 +36,8 @@
         <div class="flex-1 relative pb-8 z-0 overflow-y-auto">
             <div class="bg-white shadow">
                 <div class="px-4 sm:px-6 lg:max-w-6xl lg:mx-auto lg:px-8">
-                    <div class="py-6 md:flex md:items-center md:justify-between lg:border-t lg:border-cool-gray-200">
-                        <div class="grid grid-cols-2 gap-6 min-w-0 w-full">
+                    <div class="py-6 md:flex md:items-center md:flex-wrap md:justify-between lg:border-t lg:border-cool-gray-200">
+                        <div class="grid grid-cols-2 gap-6 min-w-0 w-full" v-if="showDatesFilters">
                             <div class="">
                                 <label for="from-date-input" class="block text-sm font-medium leading-5 text-gray-700">
                                     من تاريخ
@@ -111,7 +111,7 @@
                             </div>
                         </div>
 
-                        <slot name="filters" :loadEntries="loadEntries" :filters="filters"></slot>
+                        <slot name="filters" :loadEntries="loadEntries" :filters="filters" :totalValues="totalValues"></slot>
                     </div>
                 </div>
             </div>
@@ -228,6 +228,9 @@ export default {
     props: {
         hide: {
             default: false
+        },
+        showDatesFilters: {
+            default: true
         }
     },
     /**
@@ -246,6 +249,7 @@ export default {
             item: {},
             pagination: {},
             page: 1,
+            totalValues: 0,
         };
     },
 
@@ -315,6 +319,9 @@ export default {
                 this.pagination = data.pagination;
                 this.total = data.pagination.total;
                 this.cursor = data.cursor;
+                if(data.totalValues){
+                    this.totalValues = data.totalValues;
+                }
                 if (this.entries.length < 50 && this.cursor) {
                     this.loadMore();
                 }
@@ -337,6 +344,9 @@ export default {
             }
             if (this.filters.toDate) {
                 params.toDate = moment(this.filters.toDate, 'YYYY-MM-DD').add(1, 'days');
+            }
+            if (this.filters.date) {
+                params.date = moment(this.filters.date, 'YYYY-MM-DD').add(1, 'days');
             }
 
             let resource = this.$route.meta.resource;

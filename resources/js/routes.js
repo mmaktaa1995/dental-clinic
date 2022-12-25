@@ -188,6 +188,46 @@ export default [
     },
 
     {
+        path: '/payments',
+        name: 'payments-index',
+        beforeEnter: checkAuth,
+        component: () => import('./screens/payments/index.vue'),
+        meta: {
+            resource: 'payments',
+            createTitle: () => 'الدفعات',
+        },
+        children: [
+            {
+                path: ':id/delete',
+                name: 'payments-delete',
+                component: () => import('./screens/payments/delete.vue'),
+                meta: {
+                    resource: 'payments',
+                    createTitle: () => 'حذف دفعة',
+                },
+            },
+            {
+                path: 'create',
+                name: 'payments-create',
+                component: () => import('./screens/payments/create.vue'),
+                meta: {
+                    resource: 'payments',
+                    createTitle: () => 'إضافة دفعة',
+                },
+            },
+            {
+                path: ':id/edit',
+                name: 'payments-edit',
+                component: () => import('./screens/payments/edit.vue'),
+                meta: {
+                    resource: 'payments',
+                    createTitle: () => 'تعديل دفعة',
+                },
+            },
+        ]
+    },
+
+    {
         path: '/patients-files',
         name: 'patients-files-index',
         beforeEnter: checkAuth,
