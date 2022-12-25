@@ -98,6 +98,7 @@ class PatientsFilesController extends Controller
      * @param \App\Models\Payment $payment
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function update(PaymentRequest $request, Payment $payment): JsonResponse
     {
@@ -107,6 +108,7 @@ class PatientsFilesController extends Controller
         } else {
             $remainingAmount = $request->get('remaining_amount');
             $amount = $request->get('amount');
+            $oldAmount = $request->get('old_amount');
             $newRemainingAmount = $remainingAmount - $amount;
             if ($newRemainingAmount < 0){
                 throw new Exception("المبلغ المدفوع لا يجب ان يكون اكبر من المبلغ المتبقي!");
@@ -116,7 +118,7 @@ class PatientsFilesController extends Controller
             if ($newRemainingAmount == 0) {
                 $payment->delete();
             } else {
-                $payment->update(array_merge($request->validated(), ['remaining_amount' => $newRemainingAmount, 'amount' => 0]));
+                $payment->update(array_merge($request->validated(), ['remaining_amount' => $newRemainingAmount, 'amount' => $oldAmount]));
             }
             Payment::create(array_merge($request->validated(), ['remaining_amount' => 0, 'visit_id' => $visit->id, 'date' => now()]));
             DB::commit();

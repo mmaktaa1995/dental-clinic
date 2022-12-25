@@ -278,6 +278,7 @@ export default {
             }
             if (payment.isPayDebtOpened) {
                 data.is_pay_debt = true;
+                data.old_amount = this.currentPayment.amount;
             }
             axios.put(`/api/patients-files/${this.payment_id}`, data).then(({data}) => {
                 bus.$emit('flash-message', {text: data.message, type: 'success'});
