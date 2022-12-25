@@ -62,7 +62,12 @@ class PatientsFilesController extends Controller
      */
     public function show($patient_id): JsonResponse
     {
-        $payments = Payment::with(['patient', 'visit'])->where('patient_id', $patient_id)->orderBy('date', 'desc')->get();
+        $payments = Payment::query()
+            ->with(['patient', 'visit'])
+            ->where('patient_id', $patient_id)
+            ->orderBy('remaining_amount', 'desc')
+            ->orderBy('date', 'desc')
+            ->get();
         return response()->json(PaymentResource::collection($payments));
     }
 
@@ -79,9 +84,19 @@ class PatientsFilesController extends Controller
         try {
             DB::beginTransaction();
             $visit = Visit::create($request->validated());
-//            if ($request->filled('amount')) {
             $visit->payment()->create($request->validated());
-//            }
+            $amount = $request->get('amount');
+            $remainingAmountPayment = Payment::query()
+                ->where('patient_id', $request->get('patient_id'))
+                ->where('remaining_amount', '>', 0)
+                ->first();
+            if ($remainingAmountPayment) {
+                $remainingAmountPayment->decrement('remaining_amount', $amount);
+                if ($remainingAmountPayment->remaining_amount < 0){
+                    $remainingAmountPayment->remaining_amount = 0;
+                }
+                $remainingAmountPayment->save();
+            }
             DB::commit();
         } catch (Exception $exception) {
             DB::rollBack();
@@ -110,7 +125,7 @@ class PatientsFilesController extends Controller
             $amount = $request->get('amount');
             $oldAmount = $request->get('old_amount');
             $newRemainingAmount = $remainingAmount - $amount;
-            if ($newRemainingAmount < 0){
+            if ($newRemainingAmount < 0) {
                 throw new Exception("المبلغ المدفوع لا يجب ان يكون اكبر من المبلغ المتبقي!");
             }
             DB::beginTransaction();

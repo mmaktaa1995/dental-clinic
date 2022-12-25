@@ -245,6 +245,17 @@ export default [
                     resource: 'patients-files',
                     createTitle: () => 'إضبارة مريض',
                 },
+                children:[
+                    {
+                        path: 'delete',
+                        name: 'patients-files-delete',
+                        component: () => import('./screens/patients-files/delete.vue'),
+                        meta: {
+                            resource: 'patients-files',
+                            createTitle: () => 'حذف إضبارة مريض',
+                        },
+                    }
+                ]
             }
         ]
     },
