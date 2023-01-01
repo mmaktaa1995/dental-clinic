@@ -4,7 +4,7 @@ namespace App\Traits;
 
 trait SearchQuery
 {
-    public static function getAll($params, $count = false)
+    public static function getAll($params, $count = false, $withTrashed = false)
     {
         $params['fromDate'] = isset($params['fromDate']) && $params['fromDate'] ? date('Y-m-d', strtotime(explode('T', str_replace('"', '', $params['fromDate']))[0])) : null;
         $params['toDate'] = isset($params['toDate']) && $params['toDate'] ? date('Y-m-d', strtotime(explode('T', str_replace('"', '', $params['toDate']))[0])) : null;
@@ -98,6 +98,10 @@ trait SearchQuery
 
         if (isset(static::$columnsToSelect) && count(static::$columnsToSelect)) {
             $query->select(static::$columnsToSelect);
+        }
+
+        if ($withTrashed) {
+            return $query->withTrashed();
         }
 
         if ($count) {

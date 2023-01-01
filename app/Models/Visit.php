@@ -9,6 +9,7 @@
 namespace App\Models;
 
 use App\Traits\SearchQuery;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App/Models/Patient
@@ -22,10 +23,21 @@ use App\Traits\SearchQuery;
  * @property \Carbon\Carbon $updated_at
  * @method static \Illuminate\Contracts\Pagination\LengthAwarePaginator getAll($params)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\patient $patient
+ * @property-read \App\Models\Payment|null $payment
+ * @method static \Illuminate\Database\Eloquent\Builder|Visit newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Visit newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Visit query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Visit whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Visit whereDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Visit whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Visit whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Visit wherePatientId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Visit whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class Visit extends \Eloquent
 {
-    use SearchQuery;
+    use SearchQuery, SoftDeletes;
 
     public static $relationsWithForSearch = ['patient', 'payment'];
     public static $searchInRelations = ['patient:name'];
@@ -52,15 +64,5 @@ class Visit extends \Eloquent
     public function payment()
     {
         return $this->hasOne(Payment::class);
-    }
-
-    public function services()
-    {
-        return $this->belongsToMany(Service::class, 'service_visits', 'visit_id', 'service_id')->withPivot('id');
-    }
-
-    public function serviceVisit()
-    {
-        return $this->hasMany(ServiceVisit::class, 'visit_id');
     }
 }

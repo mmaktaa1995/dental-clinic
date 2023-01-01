@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ExpensesController;
 use App\Http\Controllers\PatientsController;
 use App\Http\Controllers\PatientsFilesController;
+use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\UploadFilesController;
 use App\Http\Controllers\VisitsController;
@@ -33,19 +34,25 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('patients', PatientsController::class)->except(['create', 'edit']);
     Route::patch('patients/{patient}/images', [PatientsController::class, 'updateImages'])->name('patients.update_images');
     Route::resource('patients-files', PatientsFilesController::class)->parameters(['patients-files' => 'payment'])->except(['create', 'edit']);
+    Route::post('patients-files/{payment}/restore', [PatientsFilesController::class, 'restore'])->withTrashed()->name('payments.restore');
     Route::get('patients-files/{patient_id}/print', [PatientsFilesController::class, 'print'])->name('patients-files.print');
+
     Route::resource('visits', VisitsController::class)->except(['create', 'edit']);
+    Route::resource('patients.visits', VisitsController::class)->except(['create', 'edit']);
     Route::resource('payments', VisitsController::class)->except(['create', 'edit']);
     Route::resource('expenses', ExpensesController::class)->except(['create', 'edit']);
-    Route::resource('patients.visits', VisitsController::class)->except(['create', 'edit']);
+    Route::resource('services', ServicesController::class)->except(['create', 'edit']);
+
     Route::resource('appointments', AppointmentController::class)->except(['create', 'edit']);
-    Route::post('logout', [LoginController::class, 'logout']);
-    Route::get('statistics', StatisticsController::class);
+
+    Route::get('statistics', StatisticsController::class)->name('statistics');
+
+    Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 });
 
 Route::post('upload', [UploadFilesController::class, 'store'])->name('upload.save');
 Route::delete('upload/{folder}/{name}/{type}', [UploadFilesController::class, 'destroy'])->name('upload.delete');
 Route::get('upload/{folder}/{name}/{type}', [UploadFilesController::class, 'show'])->name('upload.show');
 
-Route::post('register', [RegisterController::class, 'register']);
-Route::post('login', [LoginController::class, 'login']);
+//Route::post('register', [RegisterController::class, 'register']);
+Route::post('login', [LoginController::class, 'login'])->name('login');

@@ -26,6 +26,26 @@ use Eloquent;
  * @method static \Illuminate\Contracts\Pagination\LengthAwarePaginator getAll($params)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Visit[] $visits
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\PatientImage[] $patientImages
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\PatientImage[] $images
+ * @property-read int|null $images_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Visit[] $lastVisit
+ * @property-read int|null $last_visit_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Payment[] $payments
+ * @property-read int|null $payments_count
+ * @property-read int|null $visits_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Patient newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Patient newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Patient query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Patient whereAge($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Patient whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Patient whereFileNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Patient whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Patient whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Patient whereMobile($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Patient whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Patient wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Patient whereUpdatedAt($value)
+ * @mixin Eloquent
  */
 class Patient extends Eloquent
 {

@@ -163,7 +163,7 @@ class CopyDataFromOldDbToNew extends Migration
         DB::connection('mysql_new')->table('users')->truncate();
         DB::connection('mysql_new')->table('patients')->truncate();
         DB::connection('mysql_new')->table('deleted_patients')->truncate();
-        DB::connection('mysql_new')->table('service_visits')->truncate();
+        DB::connection('mysql_new')->table('service_payments')->truncate();
         DB::connection('mysql_new')->table('services')->truncate();
         DB::connection('mysql_new')->table('payments')->truncate();
         DB::connection('mysql_new')->table('visits')->truncate();

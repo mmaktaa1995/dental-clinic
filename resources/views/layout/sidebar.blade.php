@@ -77,7 +77,7 @@
                         النفقات
                     </router-link>
                     <router-link
-                        :to="{ name: `appointments`}"
+                        :to="{ name: `appointments-index`}"
                         href="#"
                         exact
                         active-class="text-white bg-gray-900 focus:outline-none focus:bg-gray-900 transition ease-in-out duration-150"
@@ -86,6 +86,17 @@
                         <icon-calendar size="6"
                                        class="ml-3 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150"></icon-calendar>
                         المواعيد
+                    </router-link>
+                    <router-link
+                        :to="{ name: `services-index`}"
+                        href="#"
+                        exact
+                        active-class="text-white bg-gray-900 focus:outline-none focus:bg-gray-900 transition ease-in-out duration-150"
+                        class="mt-1 group flex items-center px-2 py-2 text-sm leading-5  text-gray-300 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150"
+                    >
+                        <icon-collection size="6"
+                                       class="ml-3 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150"></icon-collection>
+                        الخدمات
                     </router-link>
                 </nav>
             </div>

@@ -79,7 +79,7 @@ export default {
                         //     return $this.label
                         // },
                         label: function(context, data){
-                            return data.datasets[0].label + ': ' + data.datasets[0].data[context.index];
+                            return data.datasets[0].label + ': ' + data.datasets[0].data[context.index] + ' ';
                         }
                     },
                 },
