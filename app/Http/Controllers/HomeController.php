@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AppConfig;
 use App\Models\Patient;
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     public function __invoke()
     {
         $lastFileNumber = Patient::latest()->first()->file_number + 1;
-        return view('vue', ['lastFileNumber' => $lastFileNumber]);
+        $exchangeRate = AppConfig::getByKey('usd_exchange');
+        return view('vue', compact('lastFileNumber', 'exchangeRate'));
     }
 }

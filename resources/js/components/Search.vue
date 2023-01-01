@@ -121,7 +121,7 @@
             <div class="flex flex-col mt-2">
                 <!-- Loader -->
                 <loader v-if="searching && entries.length === 0">
-                    <template v-if="cursor">No entries have been found yet, still searching...</template>
+                    <template v-if="cursor">لم يتم العثور على إدخالات حتى الآن ، لا يزال البحث ...</template>
                 </loader>
 
                 <!-- No Search Results -->
@@ -201,15 +201,27 @@
                          </span>
                         <!-- Buttons -->
                         <div class="inline-flex xs:mt-0">
+                            <button :disabled="pagination.current_page === 1" @click="first"
+                                    :class="{'cursor-not-allowed bg-gray-200 hover:bg-gray-800': pagination.current_page === 1}"
+                                    class="py-2 px-4 text-sm text-white bg-gray-700 rounded-r hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white focus:outline-none focus:shadow-none">
+                                الأول
+                            </button>
                             <button :disabled="pagination.current_page === 1" @click="prev"
-                                    :class="{'cursor-not-allowed bg-gray-200':pagination.current_page === 1}"
-                                    class="py-2 px-4 text-sm text-white bg-gray-800 rounded-r hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white focus:outline-none focus:shadow-none">
+                                    :class="{'cursor-not-allowed bg-gray-200 hover:bg-gray-800':pagination.current_page === 1}"
+                                    class="py-2 px-4 text-sm text-white bg-gray-800 hover:bg-gray-800 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white focus:outline-none focus:shadow-none">
                                 السابق
                             </button>
                             <button
                                 :disabled="pagination.current_page === pagination.last_page" @click="next"
-                                class="py-2 px-4 text-sm text-white bg-gray-800 rounded-l border-0 border-r border-gray-700 hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white focus:outline-none focus:shadow-none">
+                                :class="{'cursor-not-allowed bg-gray-200 hover:bg-gray-800':pagination.current_page === pagination.last_page}"
+                                class="py-2 px-4 text-sm text-white bg-gray-800 border-0 border-r border-gray-700 hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white focus:outline-none focus:shadow-none">
                                 التالي
+                            </button>
+                            <button
+                                :disabled="pagination.current_page === pagination.last_page" @click="last"
+                                :class="{'cursor-not-allowed bg-gray-200 hover:bg-gray-800':pagination.current_page === pagination.last_page}"
+                                class="py-2 px-4 text-sm text-white bg-gray-700 rounded-l border-0 border-r border-gray-700 hover:bg-gray-800 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white focus:outline-none focus:shadow-none">
+                                الأخير
                             </button>
                         </div>
                     </div>
@@ -249,6 +261,7 @@ export default {
             item: {},
             pagination: {},
             page: 1,
+            currentTab: 1,
             totalValues: 0,
         };
     },
@@ -258,9 +271,12 @@ export default {
      */
     watch: {
         $route(to, from) {
+            console.log(to.name, to.name.includes('index'))
+            if (to.name.includes('index')){
+                this.title = this.$route.meta.title;
+            }
             if (to.params.group !== this.group) {
                 this.group = this.$route.params.group;
-                this.title = this.$route.meta.title;
 
                 this.loadEntries();
             }
@@ -374,7 +390,7 @@ export default {
         },
 
         /**
-         * Creates a new debouncer when a the search input changes.
+         * Creates a new debouncer when the search input changes.
          */
         search() {
             this.debouncer(this.page = 1);
@@ -388,6 +404,16 @@ export default {
 
         next() {
             this.debouncer(++this.page);
+            this.debouncer(this.loadEntries);
+        },
+
+        first() {
+            this.debouncer(this.page = 1);
+            this.debouncer(this.loadEntries);
+        },
+
+        last() {
+            this.debouncer(this.page = this.pagination.last_page);
             this.debouncer(this.loadEntries);
         },
 

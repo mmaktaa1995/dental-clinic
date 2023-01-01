@@ -7,6 +7,7 @@
                    autocomplete="off"
                    autofocus="autofocus"
                    @input="checkPassword"
+                   ref="passwordStatistics"
                    v-model="password"
                    class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
         </div>
@@ -203,6 +204,7 @@
             <h1 class="text-lg font-semibold card-title">الواردات</h1>
             <div class="card-body">
                 <bar-chart label="واردات" color="green" :formatTooltipTitle="['الواردات']" v-if="incomes.length"
+                           :suggested-max="suggestedMax(incomes)"
                            :data="incomes"></bar-chart>
             </div>
         </div>
@@ -210,6 +212,7 @@
             <h1 class="text-lg font-semibold card-title">النفقات</h1>
             <div class="card-body">
                 <bar-chart label="نفقات" color="red" :formatTooltipTitle="['النفقات']" v-if="expenses.length"
+                           :suggested-max="suggestedMax(expenses)"
                            :data="expenses"></bar-chart>
             </div>
         </div>
@@ -217,6 +220,7 @@
             <h1 class="text-lg font-semibold card-title">المبالغ المتبقية</h1>
             <div class="card-body">
                 <bar-chart label="ديون" color="red" :formatTooltipTitle="['المبالغ المتبقية']" v-if="debts.length"
+                           :suggested-max="suggestedMax(debts)"
                            :data="debts"></bar-chart>
             </div>
         </div>
@@ -227,9 +231,11 @@
 <script>
 import axios from 'axios';
 import moment from "moment";
+import InteractsWithMetrics from './../../mixins/interactsWithMetrics';
 
 let year = new Date().getFullYear();
 export default {
+    mixins:[InteractsWithMetrics],
     data() {
         return {
             loading: false,
@@ -263,6 +269,7 @@ export default {
     mounted() {
         this.years = this.range(2018, moment().year())
         this.getData();
+        this.$refs.passwordStatistics.focus();
         setInterval(() => {
             this.passwordCorrect = false;
             this.password = '';

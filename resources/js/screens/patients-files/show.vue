@@ -35,88 +35,115 @@
                        class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
             </div>
         </div>
-        <div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg mt-8">
-            <table class="bg-white min-w-full divide-y divide-gray-200 ">
-                <thead>
-                <tr class="bg-gray-200 text-gray-600 text-sm leading-normal">
-                    <th colspan="4" class="py-2 px-3 text-right">الدفعات</th>
-                    <th class="py-2 px-3 text-left">
-                        <a href="#" @click="isFormManipulating = true;isEdit = false"
-                           class="ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-gray-100 hover:text-gray-50 bg-gray-800 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-gray-600 focus:outline-none">
-                            إضافة
-                        </a>
-                    </th>
-                </tr>
-                <tr class="bg-gray-50 text-gray-600 text-sm leading-normal">
-                    <th class="py-2 px-3 text-right">الإجراء الذي تم</th>
-                    <th class="py-2 px-3 text-right">المبلغ المدفوع</th>
-                    <th class="py-2 px-3 text-right">المبلغ المتبقي</th>
-                    <th class="py-2 px-3 text-right">التاريخ</th>
-                    <th class="py-2 px-3 text-right"></th>
-                </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200">
-                <tr v-if="isFormManipulating">
-                    <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500">
-                        <input type="text"
-                               v-model="form.notes"
-                               :disabled="submitted"
-                               class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
 
-                    </td>
-                    <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-700">
-                        <input type="number"
-                               v-model="form.amount"
-                               :disabled="submitted"
-                               class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
+        <div class="sm:block mt-4">
+            <nav class="flex">
+                <a
+                    href="#"
+                    @click.prevent="currentTab = 'PAYMENTS'"
+                    :class="
+                                'px-3 py-2 font-medium text-sm leading-5 rounded-md text-gray-500 hover:text-gray-700 focus:outline-none focus:text-indigo-600 focus:bg-indigo-200 ' +
+                                (currentTab === 'PAYMENTS' ? 'text-indigo-700 bg-indigo-200' : '')
+                            "
+                >
+                    الدفعات
+                </a>
+                <a
+                    href="#"
+                    @click.prevent="currentTab = 'DELETED_PAYMENTS'"
+                    :class="
+                                'ml-4 px-3 py-2 font-medium text-sm leading-5 rounded-md text-gray-500 hover:text-gray-700 focus:outline-none focus:text-indigo-600 focus:bg-indigo-200 ' +
+                                (currentTab === 'DELETED_PAYMENTS' ? 'text-indigo-700 bg-indigo-200' : '')
+                            "
+                >
+                    الدفعات المحذوفة
+                </a>
+            </nav>
+        </div>
 
-                    </td>
-                    <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-700">
-                        <input type="number"
-                               v-model="form.remaining_amount"
-                               :disabled="submitted"
-                               class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
+        <div >
+            <TransitionGroup name="list" tag="div" class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg mt-8">
+                <table class="bg-white min-w-full divide-y divide-gray-200" key="1" v-if="currentTab === 'PAYMENTS'">
+                    <thead>
+                    <tr class="bg-gray-200 text-gray-600 text-sm leading-normal">
+                        <th colspan="4" class="py-2 px-3 text-right">الدفعات</th>
+                        <th class="py-2 px-3 text-left">
+                            <a href="#" @click="isFormManipulating = true;isEdit = false"
+                               class="ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-gray-100 hover:text-gray-50 bg-gray-800 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-gray-600 focus:outline-none">
+                                إضافة
+                            </a>
+                        </th>
+                    </tr>
+                    <tr class="bg-gray-50 text-gray-600 text-sm leading-normal">
+                        <th class="py-2 px-3 text-right">الإجراء الذي تم</th>
+                        <th class="py-2 px-3 text-right">المبلغ المدفوع</th>
+                        <th class="py-2 px-3 text-right">المبلغ المتبقي</th>
+                        <th class="py-2 px-3 text-right">التاريخ</th>
+                        <th class="py-2 px-3 text-right"></th>
+                    </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                    <tr v-if="isFormManipulating">
+                        <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500">
+                            <input type="text"
+                                   v-model="form.notes"
+                                   :disabled="submitted"
+                                   class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
 
-                    </td>
-                    <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500">
-                        <date-picker type="date"
-                                     v-model="form.date"
-                                     :disabled="submitted"
-                        ></date-picker>
+                        </td>
+                        <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-700">
+                            <input type="number"
+                                   v-model="form.amount"
+                                   :disabled="submitted"
+                                   class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
 
-                    </td>
-                    <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500">
-                        <async-button @click="addPayment()"
-                                      :loading="submitted"
-                                      class="ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-white bg-green-500 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-green-600 focus:outline-none">
-                            حفظ
-                        </async-button>
-                        <a href="#" @click="resetForm();isFormManipulating = false;"
-                           class="ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-white bg-red-600 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-red-700 focus:outline-none">
-                            إلغاء
-                        </a>
-                    </td>
-                </tr>
-                <tr v-for="payment in data">
-                    <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500">
+                        </td>
+                        <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-700">
+                            <input type="number"
+                                   v-model="form.remaining_amount"
+                                   :disabled="submitted"
+                                   class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
+
+                        </td>
+                        <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500">
+                            <date-picker type="date"
+                                         v-model="form.date"
+                                         :disabled="submitted"
+                            ></date-picker>
+
+                        </td>
+                        <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500">
+                            <async-button @click="addPayment()"
+                                          :loading="submitted"
+                                          class="ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-white bg-green-500 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-green-600 focus:outline-none">
+                                حفظ
+                            </async-button>
+                            <a href="#" @click="resetForm();isFormManipulating = false;"
+                               class="ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-white bg-red-600 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-red-700 focus:outline-none">
+                                إلغاء
+                            </a>
+                        </td>
+                    </tr>
+                    <tr v-for="payment in data">
+                        <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500">
                         <span v-if="!payment.isEdit">
                             {{ payment.visit.notes ? payment.visit.notes : '-' }}
                         </span>
-                        <input type="text"
-                               v-model="payment.visit.notes" v-else :disabled="submitted"
-                               class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
+                            <input type="text"
+                                   v-model="payment.visit.notes" v-else :disabled="submitted"
+                                   class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
 
-                    </td>
-                    <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-700">
+                        </td>
+                        <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-700">
                         <span v-if="!payment.isEdit && !payment.isPayDebtOpened">
                             <b class="font-medium">{{ +payment.amount | numberFormat }}</b>
                         </span>
-                        <input type="number"
-                               v-model="payment.amount" v-else :disabled="submitted"
-                               class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
+                            <input type="number"
+                                   v-model="payment.amount" v-else :disabled="submitted"
+                                   class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
 
-                    </td>
-                    <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-700">
+                        </td>
+                        <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-700">
                         <span v-if="!payment.isEdit">
                             <b v-if="!payment.isPayDebtOpened" class="font-medium"
                                :class="{'text-red-500': payment.remaining_amount > 0}">
@@ -126,57 +153,111 @@
                                 {{ +(payment.remaining_amount - payment.amount) | numberFormat }}
                             </b>
                         </span>
-                        <input type="number"
-                               v-model="payment.remaining_amount" v-else :disabled="submitted"
-                               class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
+                            <input type="number"
+                                   v-model="payment.remaining_amount" v-else :disabled="submitted"
+                                   class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
 
-                    </td>
-                    <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500">
+                        </td>
+                        <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500">
                         <span v-if="!payment.isEdit">
                             {{ payment.date }}
                         </span>
-                        <input type="date"
-                               v-model="payment.date" v-else :disabled="submitted"
-                               class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
+                            <input type="date"
+                                   v-model="payment.date" v-else :disabled="submitted"
+                                   class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
 
-                    </td>
-                    <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500">
-                        <a v-if="!payment.isEdit && !payment.isPayDebtOpened" href="#" @click="editPayment(payment)"
-                           class="py-1 inline-flex h-12 px-2 text-sm text-center text-green-600 transition-colors duration-200 transform lg:h-8 hover:text-green-700 focus:outline-none">
-                            <icon-edit
-                                size="5"
-                                class="transition-colors"
-                            />
-                        </a>
-                        <a v-if="!payment.isEdit && !payment.isPayDebtOpened" href="#"
-                           @click="deletePayment(payment.id)"
-                                     class="py-1 inline-flex h-12 px-2 text-sm text-center text-red-600 transition-colors duration-200 transform lg:h-8 hover:text-red-700 focus:outline-none">
-                            <icon-delete
-                                size="5"
-                                class="transition-colors"
-                            />
-                        </a>
-                        <a v-if="payment.remaining_amount > 0 && !payment.isPayDebtOpened && !payment.isEdit" href="#"
-                           @click="addPaymentForDebt(payment)"
-                           class="py-1 inline-flex h-12 px-2 text-sm text-center text-teal-600 transition-colors duration-200 transform lg:h-8 hover:text-teal-700 focus:outline-none">
-                            <icon-money
-                                size="5"
-                                class="transition-colors"
-                            />
-                        </a>
-                        <async-button v-if="payment.isEdit || payment.isPayDebtOpened" @click="savePayment(payment)"
-                                      :loading="submitted"
-                                      class="ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-white bg-green-500 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-green-600 focus:outline-none">
-                            {{ payment.isPayDebtOpened ? 'حفظ' : 'تعديل' }}
-                        </async-button>
-                        <a v-if="payment.isEdit || payment.isPayDebtOpened" href="#" @click="cancelPayment(payment)"
-                           class="ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-white bg-red-600 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-red-700 focus:outline-none">
-                            <span>إلغاء</span>
-                        </a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                        </td>
+                        <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500">
+                            <a v-if="!payment.isEdit && !payment.isPayDebtOpened" href="#" @click="editPayment(payment)"
+                               class="py-1 inline-flex h-12 px-2 text-sm text-center text-green-600 transition-colors duration-200 transform lg:h-8 hover:text-green-700 focus:outline-none">
+                                <icon-edit
+                                    size="5"
+                                    class="transition-colors"
+                                />
+                            </a>
+                            <a v-if="!payment.isEdit && !payment.isPayDebtOpened" href="#"
+                               @click="deletePayment(payment.id)"
+                               class="py-1 inline-flex h-12 px-2 text-sm text-center text-red-600 transition-colors duration-200 transform lg:h-8 hover:text-red-700 focus:outline-none">
+                                <icon-delete
+                                    size="5"
+                                    class="transition-colors"
+                                />
+                            </a>
+                            <a v-if="payment.remaining_amount > 0 && !payment.isPayDebtOpened && !payment.isEdit"
+                               href="#"
+                               @click="addPaymentForDebt(payment)"
+                               class="py-1 inline-flex h-12 px-2 text-sm text-center text-teal-600 transition-colors duration-200 transform lg:h-8 hover:text-teal-700 focus:outline-none">
+                                <icon-money
+                                    size="5"
+                                    class="transition-colors"
+                                />
+                            </a>
+                            <async-button v-if="payment.isEdit || payment.isPayDebtOpened" @click="savePayment(payment)"
+                                          :loading="submitted"
+                                          class="ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-white bg-green-500 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-green-600 focus:outline-none">
+                                {{ payment.isPayDebtOpened ? 'حفظ' : 'تعديل' }}
+                            </async-button>
+                            <a v-if="payment.isEdit || payment.isPayDebtOpened" href="#" @click="cancelPayment(payment)"
+                               class="ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-white bg-red-600 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-red-700 focus:outline-none">
+                                <span>إلغاء</span>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="bg-white min-w-full divide-y divide-gray-200" key="2" v-if="currentTab === 'DELETED_PAYMENTS'">
+                    <thead>
+                    <tr class="bg-gray-200 text-gray-600 text-sm leading-normal">
+                        <th colspan="5" class="py-2 px-3 text-right">الدفعات المحذوفة</th>
+                    </tr>
+                    <tr class="bg-gray-50 text-gray-600 text-sm leading-normal">
+                        <th class="py-2 px-3 text-right">الإجراء الذي تم</th>
+                        <th class="py-2 px-3 text-right">المبلغ المدفوع</th>
+                        <th class="py-2 px-3 text-right">المبلغ المتبقي</th>
+                        <th class="py-2 px-3 text-right">التاريخ</th>
+                        <th class="py-2 px-3 text-right"></th>
+                    </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                    <tr v-for="payment in deletedPayments">
+                        <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500">
+                        <span>
+                            {{ payment.visit.notes ? payment.visit.notes : '-' }}
+                        </span>
+                        </td>
+                        <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-700">
+                        <span>
+                            <b class="font-medium">{{ +payment.amount | numberFormat }}</b>
+                        </span>
+                        </td>
+                        <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-700">
+                        <span v-if="!payment.isEdit">
+                            <b class="font-medium"
+                               :class="{'text-red-500': payment.remaining_amount > 0}">
+                                {{ +payment.remaining_amount | numberFormat }}
+                            </b>
+                        </span>
+                        </td>
+                        <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500">
+                        <span>
+                            {{ payment.date }}
+                        </span>
+
+                        </td>
+                        <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500">
+                            <a href="#" @click="restorePayment(payment)"
+                               title="استعادة"
+                               class="py-1 inline-flex h-12 px-2 text-sm text-center text-green-600 transition-colors duration-200 transform lg:h-8 hover:text-green-700 focus:outline-none">
+                                <icon-restore
+                                    size="5"
+                                    class="transition-colors"
+                                />
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </TransitionGroup>
         </div>
         <div
             v-if="opened"
@@ -276,9 +357,12 @@ export default {
             submitted: false,
             isEdit: false,
             opened: false,
+            isDeletedTab: false,
             patient_name: '',
+            currentTab: 'PAYMENTS',
             patient_file_number: '',
             data: [],
+            deletedPayments: [],
             type: '',
             totalPayments: 0,
             totalRemainingPayments: 0,
@@ -313,11 +397,12 @@ export default {
         },
         getData() {
             axios.get(`/api/patients-files/${this.id}`).then(({data}) => {
-                this.data = data.map(item => {
+                this.data = data.payments.map(item => {
                     item.isEdit = false;
                     item.isPayDebtOpened = false;
                     return item;
                 });
+                this.deletedPayments = data.deleted_payments;
                 if (this.data.length) {
                     this.patient_name = this.data[0].patient.name;
                     this.patient_file_number = this.data[0].patient.file_number;
@@ -373,11 +458,22 @@ export default {
         },
         deletePayment(id) {
             this.payment_id = id;
-            if (!this.opened){
+            if (!this.opened) {
                 this.opened = true;
                 return;
             }
             axios.delete(`/api/patients-files/${id}`).then(({data}) => {
+                bus.$emit('flash-message', {text: data.message, type: 'success'});
+                this.getData();
+            }).catch(({response}) => {
+                bus.$emit('flash-message', {text: response.data.message, type: 'error'});
+            }).finally(() => {
+                this.submitted = false;
+                this.opened = false;
+            })
+        },
+        restorePayment(payment) {
+            axios.post(`/api/patients-files/${payment.id}/restore`).then(({data}) => {
                 bus.$emit('flash-message', {text: data.message, type: 'success'});
                 this.getData();
             }).catch(({response}) => {
@@ -402,7 +498,6 @@ export default {
             payment.isPayDebtOpened = true;
             this.payment_id = payment.id;
             payment.amount = 0;
-            console.log(this.currentPayment)
         },
         cancelPayment(payment) {
             payment.isEdit = false;

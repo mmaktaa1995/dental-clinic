@@ -68,7 +68,21 @@ class PatientsFilesController extends Controller
             ->orderBy('remaining_amount', 'desc')
             ->orderBy('date', 'desc')
             ->get();
-        return response()->json(PaymentResource::collection($payments));
+
+        $deleted_payments = Payment::query()
+            ->with(['patient', 'visit'=>function($query){
+                $query->withTrashed();
+            }])
+            ->where('patient_id', $patient_id)
+            ->orderBy('remaining_amount', 'desc')
+            ->orderBy('date', 'desc')
+            ->onlyTrashed()
+            ->get();
+
+        return response()->json([
+            'payments' => PaymentResource::collection($payments),
+            'deleted_payments' => PaymentResource::collection($deleted_payments)
+        ]);
     }
 
     /**
@@ -130,11 +144,11 @@ class PatientsFilesController extends Controller
             }
             DB::beginTransaction();
             $visit = Visit::create(array_merge($request->validated(), ['notes' => 'دفعة']));
-            if ($newRemainingAmount == 0) {
-                $payment->delete();
-            } else {
-                $payment->update(array_merge($request->validated(), ['remaining_amount' => $newRemainingAmount, 'amount' => $oldAmount]));
-            }
+//            if ($newRemainingAmount == 0 && $payment->amount) {
+//                $payment->delete();
+//            } else {
+            $payment->update(array_merge($request->validated(), ['remaining_amount' => $newRemainingAmount, 'amount' => $oldAmount]));
+//            }
             Payment::create(array_merge($request->validated(), ['remaining_amount' => 0, 'visit_id' => $visit->id, 'date' => now()]));
             DB::commit();
         }
@@ -183,5 +197,23 @@ class PatientsFilesController extends Controller
         return response()->json([
             'url' => action([UploadFilesController::class, 'show'],
                 ['folder' => 'patients', 'name' => $fileName, 'type' => 'pdf'])]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param \App\Models\Payment $payment
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function restore(Payment $payment): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $payment->visit()->withTrashed()->restore();
+            $payment->restore();
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage()], $exception->getCode());
+        }
+        return response()->json(['message' => __('app.success')]);
     }
 }

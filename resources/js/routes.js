@@ -188,6 +188,46 @@ export default [
     },
 
     {
+        path: '/services',
+        name: 'services-index',
+        beforeEnter: checkAuth,
+        component: () => import('./screens/services/index.vue'),
+        meta: {
+            resource: 'services',
+            createTitle: () => 'الخدمات',
+        },
+        children: [
+            {
+                path: ':id/delete',
+                name: 'services-delete',
+                component: () => import('./screens/services/delete.vue'),
+                meta: {
+                    resource: 'services',
+                    createTitle: () => 'حذف خدمة',
+                },
+            },
+            {
+                path: 'create',
+                name: 'services-create',
+                component: () => import('./screens/services/create.vue'),
+                meta: {
+                    resource: 'services',
+                    createTitle: () => 'إضافة خدمة',
+                },
+            },
+            {
+                path: ':id/edit',
+                name: 'services-edit',
+                component: () => import('./screens/services/edit.vue'),
+                meta: {
+                    resource: 'services',
+                    createTitle: () => 'تعديل خدمة',
+                },
+            },
+        ]
+    },
+
+    {
         path: '/payments',
         name: 'payments-index',
         beforeEnter: checkAuth,
@@ -282,7 +322,7 @@ export default [
     },
     {
         path: '/appointments',
-        name: 'appointments',
+        name: 'appointments-index',
         beforeEnter: checkAuth,
         component: () => import('./screens/appointments/index.vue'),
         meta: {

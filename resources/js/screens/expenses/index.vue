@@ -3,7 +3,7 @@
         <search >
             <template slot="filters" slot-scope="{ filters, loadEntries, totalValues }">
                 <div class="grid grid-cols-2 gap-6 min-w-0 w-full mt-3">
-                    <div class="pl-3">
+                    <div class="">
                         <label for="date-input" class="block text-sm font-medium leading-5 text-gray-700">
                             التاريخ
                         </label>

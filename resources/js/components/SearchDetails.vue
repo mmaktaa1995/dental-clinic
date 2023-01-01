@@ -96,7 +96,7 @@ export default {
      */
     mounted() {
         axios
-            .get(`/vapor-ui/api/${this.$route.meta.resource}/${this.$route.params.group}/${this.$route.params.id}`, {
+            .get(`/api/${this.$route.meta.resource}/${this.$route.params.id}`, {
                 params: this.$route.query,
                 validateStatus: false,
             })
