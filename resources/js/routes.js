@@ -108,6 +108,29 @@ export default [
     },
 
     {
+        path: '/deleted-patients',
+        name: 'deleted-patients-index',
+        beforeEnter: checkAuth,
+        component: () => import('./screens/deleted-patients/index.vue'),
+        meta: {
+            resource: 'patients',
+            queryParams: {deleted: 1},
+            createTitle: () => 'المرضى المحذوفين',
+        },
+        children: [
+            {
+                path: ':id/restore',
+                name: 'deleted-patients-restore',
+                component: () => import('./screens/deleted-patients/restore.vue'),
+                meta: {
+                    resource: 'patients',
+                    createTitle: () => 'استعادة مريض',
+                },
+            },
+        ]
+    },
+
+    {
         path: '/visits',
         name: 'visits-index',
         beforeEnter: checkAuth,

@@ -97,6 +97,7 @@ class StatisticsController extends Controller
                 $query->whereYear('created_at', $request->get('year', date('Y')));
             })
             ->select([\DB::raw("SUM(remaining_amount) as value"), \DB::raw("CONCAT(YEAR(created_at),'-', DATE_FORMAT(`created_at`,'%m')) as label")])
+            ->orderBy('label')
             ->groupByRaw("label")->get();
 
         return response()->json(compact('expenses', 'visits', 'patients', 'incomes', 'patientsTotalCount', 'expensesTotal', 'incomeTotal', 'totalDebts', 'debts'));

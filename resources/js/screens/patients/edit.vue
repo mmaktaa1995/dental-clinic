@@ -74,7 +74,7 @@
                         <div class="">
                             <label for="phone" class="block text-sm font-medium text-gray-700 text-right">رقم
                                 الهاتف</label>
-                            <input type="number" id="phone" autocomplete="off" v-model="form.phone"
+                            <input type="tel" id="phone" autocomplete="off" v-model="form.phone"
                                    class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
                             <small class="text-red-600 text-xs text-right block"
                                    v-if="errors && errors.phone">{{ errors.phone[0] }}</small>
@@ -83,7 +83,7 @@
                         <div class="">
                             <label for="mobile" class="block text-sm font-medium text-gray-700 text-right">رقم
                                 الموبايل</label>
-                            <input type="number" id="mobile" autocomplete="off" v-model="form.mobile"
+                            <input type="tel" id="mobile" autocomplete="off" v-model="form.mobile"
                                    class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
                             <small class="text-red-600 text-xs text-right block"
                                    v-if="errors && errors.mobile">{{ errors.mobile[0] }}</small>

@@ -51,26 +51,35 @@ class Patient extends Eloquent
 {
     use SearchQuery;
 
-    protected $dateFormat = 'Y-m-d H:i:s';
-
     public static $relationsWithForSearch = ['images'];
     public static $searchableFields = ['name', 'file_number', 'mobile', 'phone'];
-
+    protected $dateFormat = 'Y-m-d H:i:s';
     protected $fillable = ['name', 'age', 'phone', 'mobile', 'file_number', 'image'];
 
     public static function boot()
     {
         parent::boot();
 
-        static::deleting(function (self $item) {
-            foreach ($item->visits()->get() as $visit) {
-                $visit->delete();
+        static::deleting(function (Patient $patient) {
+            try {
+                \DB::beginTransaction();
+                $patient->visits->each(function (Visit $visit) {
+                    $visit->delete();
+                });
+                $patient->payments->each(function (Payment $payment) {
+                    $payment->delete();
+                });
+//            foreach ($item->images()->get() as $image) {
+//                $imageName = Str::replace('/storage/', '', $image->image);
+//                $image->delete();
+//                \Storage::disk('public')->delete($imageName);
+//            }
+                DeletedPatient::insert($patient->withoutRelations()->toArray());
+                \DB::commit();
+            } catch (\Exception $exception) {
+                \DB::rollBack();
+                throw new $exception;
             }
-            foreach ($item->images()->get() as $image) {
-                $image->delete();
-            }
-
-            DeletedPatient::create($item->toArray());
         });
     }
 
@@ -84,13 +93,13 @@ class Patient extends Eloquent
         return $this->hasMany(Payment::class);
     }
 
-    public function lastVisit()
-    {
-        return $this->hasMany(Visit::class)->latest()->limit(1);
-    }
-
     public function images()
     {
         return $this->hasMany(PatientImage::class, 'patient_id');
+    }
+
+    public function lastVisit()
+    {
+        return $this->hasMany(Visit::class)->latest()->limit(1);
     }
 }

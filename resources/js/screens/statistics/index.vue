@@ -156,7 +156,7 @@
                         <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 text-md leading-5 text-gray-700">
                             <b class="font-medium"> المبالغ المتبقية لدى المرضى</b></td>
                         <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 text-md leading-5 text-red-500">
-                            {{ totalDebts | numberFormat }}
+                            {{ +totalDebts | numberFormat }}
                         </td>
                     </tr>
                     <tr>
@@ -189,39 +189,47 @@
         <div class="card" v-if="!loading && patients.length">
             <h1 class="text-lg font-semibold card-title">المرضى</h1>
             <div class="card-body">
-                <pie-chart label="مريض" :formatTooltipTitle="['المرضى']" v-if="patients.length"
-                           :data="patients"></pie-chart>
+                <apex-polar-chart label="مريض" :formatTooltipTitle="['المرضى']" v-if="patients.length"
+                           :data="patients"></apex-polar-chart>
             </div>
         </div>
         <div class="card" v-if="!loading && visits.length">
             <h1 class="text-lg font-semibold card-title">الزيارات</h1>
             <div class="card-body">
-                <pie-chart label="زيارة" :formatTooltipTitle="['الزيارات']" v-if="visits.length"
-                           :data="visits"></pie-chart>
+                <apex-polar-chart label="زيارة" :formatTooltipTitle="['الزيارات']" v-if="visits.length"
+                           :data="visits"></apex-polar-chart>
             </div>
         </div>
         <div class="card col-span-full" v-if="!loading && incomes.length">
             <h1 class="text-lg font-semibold card-title">الواردات</h1>
             <div class="card-body">
-                <bar-chart label="واردات" color="green" :formatTooltipTitle="['الواردات']" v-if="incomes.length"
+                <apex-line-chart label="<b class='mr-1'>واردات</b>" color="green" :formatTooltipTitle="['الواردات']" v-if="incomes.length"
                            :suggested-max="suggestedMax(incomes)"
-                           :data="incomes"></bar-chart>
+                           :data="incomes"></apex-line-chart>
             </div>
         </div>
         <div class="card col-span-full" v-if="!loading && expenses.length">
             <h1 class="text-lg font-semibold card-title">النفقات</h1>
             <div class="card-body">
-                <bar-chart label="نفقات" color="red" :formatTooltipTitle="['النفقات']" v-if="expenses.length"
+                <apex-line-chart label="<b class='mr-1'>نفقات</b>" color="red" :formatTooltipTitle="['النفقات']" v-if="expenses.length"
                            :suggested-max="suggestedMax(expenses)"
-                           :data="expenses"></bar-chart>
+                           :data="expenses"></apex-line-chart>
+            </div>
+        </div>
+        <div class="card col-span-full" v-if="!loading && incomes.length">
+            <h1 class="text-lg font-semibold card-title">الواردات و النفقات</h1>
+            <div class="card-body">
+                <apex-line-chart label="واردات" :colors="['blue', 'red']" :formatTooltipTitle="['الواردات']" v-if="incomes.length"
+                                 :suggested-max="suggestedMax(incomes)" :data="incomes"
+                                 :series="[{name: '<b class=\'mr-1\'>واردات </b>', data: incomes.map(_=>_.value)}, {name: '<b class=\'mr-1\'>نفقات </b>', data: expenses.map(_=>_.value)}]"></apex-line-chart>
             </div>
         </div>
         <div class="card col-span-full" v-if="!loading && debts.length">
             <h1 class="text-lg font-semibold card-title">المبالغ المتبقية</h1>
             <div class="card-body">
-                <bar-chart label="ديون" color="red" :formatTooltipTitle="['المبالغ المتبقية']" v-if="debts.length"
-                           :suggested-max="suggestedMax(debts)"
-                           :data="debts"></bar-chart>
+                <apex-line-chart label="<b class='mr-1'>ديون</b>" :formatTooltipTitle="['المبالغ المتبقية']" v-if="debts.length"
+                           :suggested-max="suggestedMax(debts)" color="default"
+                           :data="debts"></apex-line-chart>
             </div>
         </div>
 

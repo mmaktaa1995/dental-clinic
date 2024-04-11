@@ -10,6 +10,10 @@ trait SearchQuery
         $params['toDate'] = isset($params['toDate']) && $params['toDate'] ? date('Y-m-d', strtotime(explode('T', str_replace('"', '', $params['toDate']))[0])) : null;
         $params['date'] = isset($params['date']) && $params['date'] ? date('Y-m-d', strtotime(explode('T', str_replace('"', '', $params['date']))[0])) : null;
 
+        // Add all your patterns and replacement in these arrays
+//        $patterns     = array( "/(ا|أ|آ)/", "/(ه|ة)/" );
+//        $replacements = array( "[ا|أ|آ]",   "[ة|ه]" );
+//        $query_string = preg_replace($patterns, $replacements, $params['query']);
         $whereHsRelations = [];
         if (isset(static::$searchInRelations) && count(static::$searchInRelations) && $params['query']) {
             foreach (static::$searchInRelations as $searchInRelationItem) {
@@ -101,7 +105,7 @@ trait SearchQuery
         }
 
         if ($withTrashed) {
-            return $query->withTrashed();
+            $query->withTrashed();
         }
 
         if ($count) {

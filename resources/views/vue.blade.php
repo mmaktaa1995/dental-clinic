@@ -29,7 +29,7 @@
 <script>
     var app;
     var user = @json(Auth::guard('api')->user());
-    var lastFileNumber = +@json($lastFileNumber);
+    var LAST_FILE_NUMBER = +@json($lastFileNumber);
     var exchangeRate = +@json($exchangeRate);
 </script>
 <script src="{{ mix('app.js') }}"></script>

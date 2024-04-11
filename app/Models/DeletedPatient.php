@@ -23,6 +23,8 @@ use Eloquent;
  * @property string|null $image
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Payment[] $payments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Visit[] $visits
  * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient query()
@@ -47,7 +49,12 @@ class DeletedPatient extends Eloquent
 
     public function visits()
     {
-        return self::hasMany(Visit::class, 'user_id', 'id');
+        return self::hasMany(Visit::class, 'patient_id')->withTrashed();
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class, 'patient_id')->withTrashed();
     }
 
     public function images()

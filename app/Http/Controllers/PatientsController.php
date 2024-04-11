@@ -9,6 +9,8 @@ use App\Http\Resources\PaymentResource;
 use App\Models\DeletedPatient;
 use App\Models\Patient;
 use App\Models\Payment;
+use App\Models\Visit;
+use App\Services\PatientService;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -48,6 +50,18 @@ class PatientsController extends Controller
     public function dropdownData(Request $request): \Illuminate\Http\JsonResponse
     {
         return response()->json(Patient::all()->pluck('name', 'id'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param \App\Services\PatientService $patientService
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function lastFileNumber(PatientService $patientService): \Illuminate\Http\JsonResponse
+    {
+        return response()->json(['last_file_number' => $patientService->getLastFileNumber()]);
     }
 
     /**
@@ -127,7 +141,9 @@ class PatientsController extends Controller
     public function destroy(Patient $patient)
     {
         try {
+            \Schema::disableForeignKeyConstraints();
             $patient->delete();
+            \Schema::enableForeignKeyConstraints();
         } catch (Exception $exception) {
             return response()->json(['message' => $exception->getMessage()], $exception->getCode());
         }
@@ -161,5 +177,29 @@ class PatientsController extends Controller
         Payment::$relationsWithForSearch = ['patient', 'visit'];
         $data = Payment::getAll($params);
         return response()->json(BaseCollection::make($data, PaymentResource::class));
+    }
+
+    /**
+     * restore the specified resource.
+     *
+     * @psalm-param \App\Models\DeletedPatient $patient
+     *
+     * @psalm-return  \Illuminate\Http\JsonResponse
+     */
+    public function restore(DeletedPatient $patient): \Illuminate\Http\JsonResponse
+    {
+        try {
+            if ($patient->visits()->count()) {
+                $patient->visits()->restore();
+            }
+            if ($patient->payments()->count()) {
+                $patient->payments()->restore();
+            }
+            Patient::insert($patient->withoutRelations()->toArray());
+            $patient->delete();
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage()], $exception->getCode());
+        }
+        return response()->json(['message' => __('app.success')]);
     }
 }

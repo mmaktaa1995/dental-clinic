@@ -12,7 +12,7 @@ use DB;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Meneses\LaravelMpdf\Facades\LaravelMpdf;
+use Mccarlosen\LaravelMpdf\Facades\LaravelMpdf;
 
 class PatientsFilesController extends Controller
 {
@@ -97,13 +97,14 @@ class PatientsFilesController extends Controller
     {
         try {
             DB::beginTransaction();
-            $visit = Visit::create($request->validated());
-            $visit->payment()->create($request->validated());
-            $amount = $request->get('amount');
             $remainingAmountPayment = Payment::query()
                 ->where('patient_id', $request->get('patient_id'))
                 ->where('remaining_amount', '>', 0)
                 ->first();
+            $visit = Visit::create($request->validated());
+            $visit->payment()->create($request->validated());
+            $amount = $request->get('amount');
+
             if ($remainingAmountPayment) {
                 $remainingAmountPayment->decrement('remaining_amount', $amount);
                 if ($remainingAmountPayment->remaining_amount < 0){
@@ -185,8 +186,8 @@ class PatientsFilesController extends Controller
         try {
             $patient = Patient::find($patient_id);
             $payments = $patient->payments()->with(['patient', 'visit'])->orderBy('date', 'desc')->get();
-            $totalPayments = $payments->sum->amount;
-            $totalRemainingPayments = $payments->sum->remaining_amount;
+            $totalPayments = $payments->sum('amount');
+            $totalRemainingPayments = $payments->sum('remaining_amount');
             $fileName = "{$patient->name}-{$patient->file_number}.pdf";
             $pdf1 = LaravelMpdf::loadView('pdf', compact('payments', 'patient', 'totalPayments', 'totalRemainingPayments'));
             $pdf1->save(storage_path("app/public/pdf/patients/$fileName"));

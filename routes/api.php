@@ -30,9 +30,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware('auth:api')->group(function () {
     Route::get('patients/dropdown', [PatientsController::class, 'dropdownData'])->name('patients.dropdown');
+    Route::get('patients/lastFileNumber', [PatientsController::class, 'lastFileNumber'])->name('patients.last_file_number');
     Route::get('patients/debits', [PatientsController::class, 'debits'])->name('patients.debits');
     Route::resource('patients', PatientsController::class)->except(['create', 'edit']);
     Route::patch('patients/{patient}/images', [PatientsController::class, 'updateImages'])->name('patients.update_images');
+    Route::patch('patients/{patient}/restore', [PatientsController::class, 'restore'])->name('patients.restore');
     Route::resource('patients-files', PatientsFilesController::class)->parameters(['patients-files' => 'payment'])->except(['create', 'edit']);
     Route::post('patients-files/{payment}/restore', [PatientsFilesController::class, 'restore'])->withTrashed()->name('payments.restore');
     Route::get('patients-files/{patient_id}/print', [PatientsFilesController::class, 'print'])->name('patients-files.print');

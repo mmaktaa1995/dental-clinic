@@ -27,7 +27,6 @@ export default {
         disabled: {},
     },
     mounted(){
-        console.log(this.$props)
     }
 };
 </script>

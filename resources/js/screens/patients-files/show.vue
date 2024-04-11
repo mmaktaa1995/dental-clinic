@@ -379,8 +379,9 @@ export default {
         this.id = this.$route.params.id;
         this.type = this.$route.query.type;
         this.getData()
+        let self = this;
         bus.$on('item-deleted', function () {
-            this.getData();
+            self.getData();
         })
     },
     methods: {

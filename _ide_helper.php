@@ -16502,36 +16502,37 @@
      
 }
 
-    namespace Meneses\LaravelMpdf\Facades { 
+    namespace Mccarlosen\LaravelMpdf\Facades { 
             /**
      * Class LaravelMpdf
      *
-     * @package Meneses\LaravelMpdf\Facades
+     * @package Mccarlosen\LaravelMpdf\Facades
      */ 
         class LaravelMpdf {
                     /**
          * 
          *
-         * @param array $config
-         * @return \Meneses\LaravelMpdf\LaravelMpdf 
+         * @param array $config optional, default []
+         * @return \Mccarlosen\LaravelMpdf\LaravelMpdf 
          * @static 
          */ 
         public static function getPdf($config = [])
         {
-                        /** @var \Meneses\LaravelMpdf\LaravelMpdfWrapper $instance */
+                        /** @var \Mccarlosen\LaravelMpdf\LaravelMpdfWrapper $instance */
                         return $instance->getPdf($config);
         }
                     /**
          * Load a HTML string
          *
          * @param string $html
+         * @param array $config optional, default []
          * @return \Pdf 
          * @throws \Mpdf\MpdfException
          * @static 
          */ 
         public static function loadHTML($html, $config = [])
         {
-                        /** @var \Meneses\LaravelMpdf\LaravelMpdfWrapper $instance */
+                        /** @var \Mccarlosen\LaravelMpdf\LaravelMpdfWrapper $instance */
                         return $instance->loadHTML($html, $config);
         }
                     /**
@@ -16539,26 +16540,28 @@
          *
          * @param string $separator
          * @param string $html
+         * @param array $config optional, default []
          * @return \Pdf 
          * @throws \Mpdf\MpdfException
          * @static 
          */ 
         public static function chunkLoadHTML($separator, $html, $config = [])
         {
-                        /** @var \Meneses\LaravelMpdf\LaravelMpdfWrapper $instance */
+                        /** @var \Mccarlosen\LaravelMpdf\LaravelMpdfWrapper $instance */
                         return $instance->chunkLoadHTML($separator, $html, $config);
         }
                     /**
          * Load a HTML file
          *
          * @param string $file
+         * @param array $config optional, default []
          * @return \Pdf 
          * @throws \Mpdf\MpdfException
          * @static 
          */ 
         public static function loadFile($file, $config = [])
         {
-                        /** @var \Meneses\LaravelMpdf\LaravelMpdfWrapper $instance */
+                        /** @var \Mccarlosen\LaravelMpdf\LaravelMpdfWrapper $instance */
                         return $instance->loadFile($file, $config);
         }
                     /**
@@ -16566,12 +16569,13 @@
          *
          * @param string $separator
          * @param string $file
+         * @param array $config optional, default []
          * @return \Pdf 
          * @static 
          */ 
         public static function chunkLoadFile($separator, $file, $config = [])
         {
-                        /** @var \Meneses\LaravelMpdf\LaravelMpdfWrapper $instance */
+                        /** @var \Mccarlosen\LaravelMpdf\LaravelMpdfWrapper $instance */
                         return $instance->chunkLoadFile($separator, $file, $config);
         }
                     /**
@@ -16580,13 +16584,14 @@
          * @param string $view
          * @param array $data
          * @param array $mergeData
+         * @param array $config optional, default []
          * @return \Pdf 
          * @throws \Mpdf\MpdfException
          * @static 
          */ 
         public static function loadView($view, $data = [], $mergeData = [], $config = [])
         {
-                        /** @var \Meneses\LaravelMpdf\LaravelMpdfWrapper $instance */
+                        /** @var \Mccarlosen\LaravelMpdf\LaravelMpdfWrapper $instance */
                         return $instance->loadView($view, $data, $mergeData, $config);
         }
                     /**
@@ -16596,13 +16601,14 @@
          * @param string $view
          * @param array $data
          * @param array $mergeData
+         * @param array $config optional, default []
          * @return \Pdf 
          * @throws \Mpdf\MpdfException
          * @static 
          */ 
         public static function chunkLoadView($separator, $view, $data = [], $mergeData = [], $config = [])
         {
-                        /** @var \Meneses\LaravelMpdf\LaravelMpdfWrapper $instance */
+                        /** @var \Mccarlosen\LaravelMpdf\LaravelMpdfWrapper $instance */
                         return $instance->chunkLoadView($separator, $view, $data, $mergeData, $config);
         }
          
@@ -20531,7 +20537,7 @@ namespace  {
             class Validator extends \Illuminate\Support\Facades\Validator {}
             class View extends \Illuminate\Support\Facades\View {}
             class Debugbar extends \Barryvdh\Debugbar\Facades\Debugbar {}
-            class PDF extends \Meneses\LaravelMpdf\Facades\LaravelMpdf {}
+            class PDF extends \Mccarlosen\LaravelMpdf\Facades\LaravelMpdf {}
             class Flare extends \Facade\Ignition\Facades\Flare {}
      
 }

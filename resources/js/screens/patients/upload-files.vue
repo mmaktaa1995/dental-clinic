@@ -113,7 +113,9 @@ export default {
         },
         setImages(images) {
             this.files = images;
-            this.update();
+            if (this.files.length) {
+                this.update();
+            }
         },
         update() {
             let self = this;

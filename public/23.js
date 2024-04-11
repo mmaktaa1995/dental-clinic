@@ -1,1 +1,531 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[23],{kC26:function(t,e,r){"use strict";r.r(e);function s(t,e){var r=Object.keys(t);if(Object.getOwnPropertySymbols){var s=Object.getOwnPropertySymbols(t);e&&(s=s.filter((function(e){return Object.getOwnPropertyDescriptor(t,e).enumerable}))),r.push.apply(r,s)}return r}function a(t,e,r){return e in t?Object.defineProperty(t,e,{value:r,enumerable:!0,configurable:!0,writable:!0}):t[e]=r,t}var n={data:function(){return{}},mounted:function(){},computed:{item:function(){return function(t){for(var e=1;e<arguments.length;e++){var r=null!=arguments[e]?arguments[e]:{};e%2?s(Object(r),!0).forEach((function(e){a(t,e,r[e])})):Object.getOwnPropertyDescriptors?Object.defineProperties(t,Object.getOwnPropertyDescriptors(r)):s(Object(r)).forEach((function(e){Object.defineProperty(t,e,Object.getOwnPropertyDescriptor(r,e))}))}return t}({},this.$refs.search.item)}}},i=r("KHd+"),o=Object(i.a)(n,(function(){var t=this,e=t.$createElement,r=t._self._c||e;return r("div",{staticClass:"w-full"},[r("search",{ref:"search",scopedSlots:t._u([{key:"filters",fn:function(t){t.filters,t.loadEntries}},{key:"row",fn:function(e){var s=e.entry;return[r("td",{staticClass:"px-3 py-1 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500"},[t._v("\n                "+t._s(s.patient.name)+"\n            ")]),t._v(" "),r("td",{staticClass:"px-3 py-1 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500"},[t._v("\n                "+t._s(t._f("numberFormat")(s.amount))+"\n            ")]),t._v(" "),r("td",{staticClass:"px-3 py-1 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500"},[t._v("\n                "+t._s(s.notes)+"\n            ")]),t._v(" "),r("td",{staticClass:"px-3 py-1 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500"},[t._v("\n                "+t._s(s.date)+"\n            ")]),t._v(" "),r("td",{staticClass:"px-3 py-1 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500"},[r("div",{staticClass:"flex item-center"},[r("router-link",{staticClass:"w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent hover:text-gray-500 focus:outline-none focus:text-gray-500 focus:bg-gray-100 transition ease-in-out duration-150",attrs:{to:{name:"visits-edit",params:{id:s.id},query:s.filters},tag:"button",href:"#"}},[r("icon-edit",{staticClass:" text-gray-400 hover:text-blue-500 transition-colors",attrs:{size:"5"}})],1),t._v(" "),r("div",{staticClass:"w-4 mr-2 transform hover:text-purple-500"},[r("router-link",{staticClass:"w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent transition-colors hover:text-red-500 focus:outline-none focus:text-gray-500 focus:bg-gray-100 transition ease-in-out duration-150",attrs:{to:{name:"visits-delete",params:{id:s.id},query:{type:"زيارة"}},tag:"button",href:"#"}},[r("icon-delete",{staticClass:" text-gray-400 hover:text-red-500 transition-colors",attrs:{size:"5"}})],1)],1)],1)])]}}])},[t._v(" "),r("template",{slot:"troubleshooting"},[r("p",[t._v("It looks like there was an error. Please check your application logs.")]),t._v(" "),r("p",{staticClass:"mt-2"},[t._v('\n                Consider searching using a more recent "Starting from" date. The CloudWatch API may have long\n                response\n                times while searching far into the past. These requests may timeout or lead to unexpected errors.\n            ')])]),t._v(" "),r("template",{slot:"create-btn"},[r("router-link",{staticClass:"ml-4 flex items-center justify-center h-12 px-4 text-sm text-center text-gray-100 hover:text-gray-50 bg-gray-800 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-gray-600 focus:outline-none",attrs:{to:{name:"visits-create"}}},[t._v("\n                إضافة\n            ")])],1),t._v(" "),r("template",{slot:"head"},[r("tr",{staticClass:"bg-gray-200 text-gray-600 text-sm leading-normal"},[r("th",{staticClass:"py-2 px-3 text-right"},[t._v("الاسم")]),t._v(" "),r("th",{staticClass:"py-2 px-3 text-right"},[t._v("المبلغ")]),t._v(" "),r("th",{staticClass:"py-2 px-3 text-right"},[t._v("الملاحظات")]),t._v(" "),r("th",{staticClass:"py-2 px-3 text-right"},[t._v("التاريخ")]),t._v(" "),r("th",{staticClass:"py-2 px-3 text-right"})])])],2)],1)}),[],!1,null,null,null);e.default=o.exports}}]);
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[23],{
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/screens/patients/index.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/screens/patients/index.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  mounted: function mounted() {},
+  computed: {
+    isPatientVisits: function isPatientVisits() {
+      return this.$route.name === 'patients-visits';
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/screens/patients/index.vue?vue&type=template&id=246b7297&":
+/*!**************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/screens/patients/index.vue?vue&type=template&id=246b7297& ***!
+  \**************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return !_vm.isPatientVisits
+    ? _c(
+        "div",
+        { staticClass: "w-full" },
+        [
+          _c(
+            "search",
+            {
+              scopedSlots: _vm._u(
+                [
+                  {
+                    key: "filters",
+                    fn: function (ref) {
+                      var filters = ref.filters
+                      var loadEntries = ref.loadEntries
+                      return undefined
+                    },
+                  },
+                  {
+                    key: "row",
+                    fn: function (ref) {
+                      var entry = ref.entry
+                      return [
+                        _c(
+                          "td",
+                          {
+                            staticClass:
+                              "px-3 py-1 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500",
+                          },
+                          [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(entry.name) +
+                                "\n                "
+                            ),
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          {
+                            staticClass:
+                              "px-3 py-1 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500",
+                          },
+                          [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(entry.file_number) +
+                                "\n                "
+                            ),
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          {
+                            staticClass:
+                              "px-3 py-1 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500",
+                          },
+                          [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(
+                                  entry.mobile ? entry.mobile : entry.phone
+                                ) +
+                                "\n                "
+                            ),
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          {
+                            staticClass:
+                              "px-3 py-1 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500",
+                          },
+                          [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(entry.created_at) +
+                                "\n                "
+                            ),
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          {
+                            staticClass:
+                              "px-3 py-1 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500",
+                          },
+                          [
+                            _c(
+                              "div",
+                              { staticClass: "flex item-center" },
+                              [
+                                _c(
+                                  "router-link",
+                                  {
+                                    staticClass:
+                                      "w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent hover:text-gray-500 focus:outline-none focus:text-gray-500 focus:bg-gray-100 transition ease-in-out duration-150",
+                                    attrs: {
+                                      to: {
+                                        name: "patients-files-show",
+                                        params: { id: entry.id },
+                                        query: entry.filters,
+                                      },
+                                      tag: "a",
+                                    },
+                                  },
+                                  [
+                                    _c("icon-eye", {
+                                      staticClass:
+                                        " text-gray-400 hover:text-blue-500 transition-colors",
+                                      attrs: { size: "6" },
+                                    }),
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "router-link",
+                                  {
+                                    staticClass:
+                                      "w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent hover:text-gray-500 focus:outline-none focus:text-gray-500 focus:bg-gray-100 transition ease-in-out duration-150",
+                                    attrs: {
+                                      to: {
+                                        name: "patients-files",
+                                        params: { id: entry.id },
+                                      },
+                                      tag: "button",
+                                      href: "#",
+                                    },
+                                  },
+                                  [
+                                    _c("icon-file", {
+                                      staticClass:
+                                        " text-gray-400 hover:text-indigo-500 transition-colors",
+                                      attrs: { size: "5" },
+                                    }),
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "router-link",
+                                  {
+                                    staticClass:
+                                      "w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent hover:text-gray-500 focus:outline-none focus:text-gray-500 focus:bg-gray-100 transition ease-in-out duration-150",
+                                    attrs: {
+                                      to: {
+                                        name: "patients-edit",
+                                        params: { id: entry.id },
+                                        query: entry.filters,
+                                      },
+                                      tag: "button",
+                                      href: "#",
+                                    },
+                                  },
+                                  [
+                                    _c("icon-edit", {
+                                      staticClass:
+                                        " text-gray-400 hover:text-blue-500 transition-colors",
+                                      attrs: { size: "5" },
+                                    }),
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "w-4 mr-2 transform hover:text-purple-500",
+                                  },
+                                  [
+                                    _c(
+                                      "router-link",
+                                      {
+                                        staticClass:
+                                          "w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent transition-colors hover:text-red-500 focus:outline-none focus:text-gray-500 focus:bg-gray-100 transition ease-in-out duration-150",
+                                        attrs: {
+                                          to: {
+                                            name: "patients-delete",
+                                            params: { id: entry.id },
+                                            query: { type: "مريض" },
+                                          },
+                                          tag: "button",
+                                          href: "#",
+                                        },
+                                      },
+                                      [
+                                        _c("icon-delete", {
+                                          staticClass:
+                                            " text-gray-400 hover:text-red-500 transition-colors",
+                                          attrs: { size: "5" },
+                                        }),
+                                      ],
+                                      1
+                                    ),
+                                  ],
+                                  1
+                                ),
+                              ],
+                              1
+                            ),
+                          ]
+                        ),
+                      ]
+                    },
+                  },
+                ],
+                null,
+                false,
+                3792308354
+              ),
+            },
+            [
+              _vm._v(" "),
+              _c("template", { slot: "troubleshooting" }, [
+                _c("p", [
+                  _vm._v(
+                    "It looks like there was an error. Please check your application logs."
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "mt-2" }, [
+                  _vm._v(
+                    '\n                    Consider searching using a more recent "Starting from" date. The CloudWatch API may have long\n                    response\n                    times while searching far into the past. These requests may timeout or lead to unexpected errors.\n                '
+                  ),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c(
+                "template",
+                { slot: "create-btn" },
+                [
+                  _c(
+                    "router-link",
+                    {
+                      staticClass:
+                        "ml-4 flex items-center justify-center h-12 px-4 text-sm text-center text-gray-100 hover:text-gray-50 bg-gray-800 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-gray-600 focus:outline-none",
+                      attrs: { to: { name: "patients-create" } },
+                    },
+                    [_vm._v("\n                    إضافة\n                ")]
+                  ),
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("template", { slot: "head" }, [
+                _c(
+                  "tr",
+                  {
+                    staticClass:
+                      "bg-gray-200 text-gray-600 text-sm leading-normal",
+                  },
+                  [
+                    _c("th", { staticClass: "py-2 px-3 text-right" }, [
+                      _vm._v("الاسم"),
+                    ]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "py-2 px-3 text-right" }, [
+                      _vm._v("رقم الملف"),
+                    ]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "py-2 px-3 text-right" }, [
+                      _vm._v("رقم الموبايل"),
+                    ]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "py-2 px-3 text-right" }, [
+                      _vm._v("تاريخ الإنشاء"),
+                    ]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "py-2 px-3 text-right" }),
+                  ]
+                ),
+              ]),
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c("router-view"),
+        ],
+        1
+      )
+    : _c("div", { staticClass: "w-full" }, [_c("router-view")], 1)
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./resources/js/screens/patients/index.vue":
+/*!*************************************************!*\
+  !*** ./resources/js/screens/patients/index.vue ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _index_vue_vue_type_template_id_246b7297___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=246b7297& */ "./resources/js/screens/patients/index.vue?vue&type=template&id=246b7297&");
+/* harmony import */ var _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js& */ "./resources/js/screens/patients/index.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _index_vue_vue_type_template_id_246b7297___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _index_vue_vue_type_template_id_246b7297___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/screens/patients/index.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/screens/patients/index.vue?vue&type=script&lang=js&":
+/*!**************************************************************************!*\
+  !*** ./resources/js/screens/patients/index.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./index.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/screens/patients/index.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/screens/patients/index.vue?vue&type=template&id=246b7297&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/screens/patients/index.vue?vue&type=template&id=246b7297& ***!
+  \********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_246b7297___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./index.vue?vue&type=template&id=246b7297& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/screens/patients/index.vue?vue&type=template&id=246b7297&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_246b7297___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_template_id_246b7297___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ })
+
+}]);

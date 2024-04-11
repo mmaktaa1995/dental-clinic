@@ -34,6 +34,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Visit wherePatientId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Visit whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @psalm-template \Eloquent
  */
 class Visit extends \Eloquent
 {

@@ -36,16 +36,17 @@
         <div class="flex-1 relative pb-8 z-0 overflow-y-auto">
             <div class="bg-white shadow">
                 <div class="px-4 sm:px-6 lg:max-w-6xl lg:mx-auto lg:px-8">
-                    <div class="py-6 md:flex md:items-center md:flex-wrap md:justify-between lg:border-t lg:border-cool-gray-200">
+                    <div
+                        class="py-6 md:flex md:items-center md:flex-wrap md:justify-between lg:border-t lg:border-cool-gray-200">
                         <div class="grid grid-cols-2 gap-6 min-w-0 w-full" v-if="showDatesFilters">
                             <div class="">
                                 <label for="from-date-input" class="block text-sm font-medium leading-5 text-gray-700">
                                     من تاريخ
                                 </label>
                                 <div class="mt-1 relative rounded-md shadow-sm">
-<!--                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">-->
-<!--                                        <icon-calendar class="text-gray-400" size="5"/>-->
-<!--                                    </div>-->
+                                    <!--                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">-->
+                                    <!--                                        <icon-calendar class="text-gray-400" size="5"/>-->
+                                    <!--                                    </div>-->
                                     <date-picker
                                         v-model.lazy="filters.fromDate"
                                         v-on:change="loadEntries"
@@ -78,9 +79,9 @@
                                     الى تاريخ
                                 </label>
                                 <div class="mt-1 relative rounded-md shadow-sm">
-<!--                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">-->
-<!--                                        <icon-calendar class="text-gray-400" size="5"/>-->
-<!--                                    </div>-->
+                                    <!--                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">-->
+                                    <!--                                        <icon-calendar class="text-gray-400" size="5"/>-->
+                                    <!--                                    </div>-->
                                     <date-picker
                                         v-model.lazy="filters.toDate"
                                         v-on:change="loadEntries"
@@ -111,7 +112,8 @@
                             </div>
                         </div>
 
-                        <slot name="filters" :loadEntries="loadEntries" :filters="filters" :totalValues="totalValues"></slot>
+                        <slot name="filters" :loadEntries="loadEntries" :filters="filters"
+                              :totalValues="totalValues"></slot>
                     </div>
                 </div>
             </div>
@@ -192,10 +194,10 @@
                         <span class="text-sm text-gray-700 dark:text-gray-400">
                              عرض
                             <span class="font-semibold text-gray-900 dark:text-white">
-                                {{((pagination.current_page - 1) * pagination.per_page) + 1 }}
+                                {{ ((pagination.current_page - 1) * pagination.per_page) + 1 }}
                             </span> إلى
                             <span class="font-semibold text-gray-900 dark:text-white">
-                                {{(pagination.current_page) * pagination.per_page }}
+                                {{ (pagination.current_page) * pagination.per_page }}
                             </span>
                             من <span class="font-semibold text-gray-900 dark:text-white">{{ total }}</span> من الصفوف
                          </span>
@@ -271,8 +273,7 @@ export default {
      */
     watch: {
         $route(to, from) {
-            console.log(to.name, to.name.includes('index'))
-            if (to.name.includes('index')){
+            if (to.name.includes('index')) {
                 this.title = this.$route.meta.title;
             }
             if (to.params.group !== this.group) {
@@ -306,6 +307,11 @@ export default {
 
         bus.$on('item-deleted', function () {
             self.loadEntries();
+            if (self.$route.meta.resource.includes('patients')) {
+                axios.get('/api/patients/lastFileNumber').then(_ => {
+                    LAST_FILE_NUMBER = _.lastFileNumber
+                })
+            }
         }).$on('item-created', function () {
             self.loadEntries();
         }).$on('item-updated', function () {
@@ -331,11 +337,11 @@ export default {
             this.request().then(({data}) => {
                 this.searching = false;
                 this.entries = data.entries;
-                this.item = data.item ? data.item: {};
+                this.item = data.item ? data.item : {};
                 this.pagination = data.pagination;
                 this.total = data.pagination.total;
                 this.cursor = data.cursor;
-                if(data.totalValues){
+                if (data.totalValues) {
                     this.totalValues = data.totalValues;
                 }
                 if (this.entries.length < 50 && this.cursor) {
@@ -367,14 +373,23 @@ export default {
 
             let resource = this.$route.meta.resource;
             Object.entries(this.$route.params).forEach(([param, value]) => {
-                if (resource.includes(`:${param}`)){
+                if (resource.includes(`:${param}`)) {
                     resource = resource.replace(`:${param}`, value)
                 }
             })
+            let queryParams = '';
+            let queryFromMeta = this.$route.meta.queryParams
+
+            if (queryFromMeta) {
+                Object.entries(queryFromMeta).forEach(([key, value]) => {
+                    queryParams += `&${key}=${value}`
+                })
+            }
+            console.log(this.$route.meta)
 
             this.searching = true;
             return axios
-                .get(`/api/${resource}?page=${this.page}`, {params})
+                .get(`/api/${resource}?page=${this.page}${queryParams}`, {params})
                 .then((data) => {
                     this.troubleshooting = false;
                     if (group !== this.group || JSON.stringify(filters) !== JSON.stringify(this.filters)) {
@@ -477,6 +492,6 @@ export default {
             };
         },
     },
-    components: { DatePicker },
+    components: {DatePicker},
 };
 </script>

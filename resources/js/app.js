@@ -7,6 +7,7 @@ import VueJsonPretty from 'vue-json-pretty';
 import VueRouter from 'vue-router';
 import 'vue2-datepicker/index.css';
 import 'vue2-datepicker/locale/ar-sa';
+import 'vue2-datepicker/locale/ar-sa';
 
 const token = document.head.querySelector('meta[name="csrf-token"]');
 const access_token = localStorage.getItem('access_token');
@@ -51,12 +52,20 @@ axios.interceptors.response.use(function (response) {
     return Promise.reject(error)
 })
 
+import VueApexCharts from 'vue-apexcharts'
+Vue.use(VueApexCharts)
+
+Vue.component('apexchart', VueApexCharts)
+
 Vue.component('vue-json-pretty', VueJsonPretty);
 
 // Components
 Vue.component('async-button', require('./components/AsyncButton.vue').default);
 Vue.component('bar-chart', require('./components/BarChart.vue').default);
 Vue.component('pie-chart', require('./components/PieChart.vue').default);
+Vue.component('apex-polar-chart', require('./components/ApexCharts/PolarChart.vue').default);
+Vue.component('apex-bar-chart', require('./components/ApexCharts/BarChart.vue').default);
+Vue.component('apex-line-chart', require('./components/ApexCharts/LineChart.vue').default);
 Vue.component('file-pond-component', require('./components/FilePond.vue').default);
 Vue.component('search', require('./components/Search.vue').default);
 Vue.component('search-details', require('./components/SearchDetails.vue').default);

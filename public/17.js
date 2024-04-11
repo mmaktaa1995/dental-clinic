@@ -1,1 +1,413 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[17],{d6Hv:function(t,e,a){"use strict";a.r(e);var n=a("vDqi"),s=a.n(n),i=a("gU9Z"),r=a("7EX9"),o=a("wd/R"),d=a.n(o);function m(t,e){var a=Object.keys(t);if(Object.getOwnPropertySymbols){var n=Object.getOwnPropertySymbols(t);e&&(n=n.filter((function(e){return Object.getOwnPropertyDescriptor(t,e).enumerable}))),a.push.apply(a,n)}return a}function l(t){for(var e=1;e<arguments.length;e++){var a=null!=arguments[e]?arguments[e]:{};e%2?m(Object(a),!0).forEach((function(e){u(t,e,a[e])})):Object.getOwnPropertyDescriptors?Object.defineProperties(t,Object.getOwnPropertyDescriptors(a)):m(Object(a)).forEach((function(e){Object.defineProperty(t,e,Object.getOwnPropertyDescriptor(a,e))}))}return t}function u(t,e,a){return e in t?Object.defineProperty(t,e,{value:a,enumerable:!0,configurable:!0,writable:!0}):t[e]=a,t}var c={components:{AsyncButton:i.default,DatePicker:r.default},data:function(){return{id:null,payment_id:null,isFormManipulating:!1,submitted:!1,isEdit:!1,opened:!1,isDeletedTab:!1,patient_name:"",currentTab:"PAYMENTS",patient_file_number:"",data:[],deletedPayments:[],type:"",totalPayments:0,totalRemainingPayments:0,currentPayment:{},form:{amount:"",remaining_amount:"",date:"",notes:""}}},mounted:function(){this.id=this.$route.params.id,this.type=this.$route.query.type,this.getData(),bus.$on("item-deleted",(function(){this.getData()}))},methods:{back:function(){var t=this;setTimeout((function(){return t.$router.back()}),100)},resetForm:function(){this.form={amount:"",remaining_amount:"",date:"",notes:""}},getData:function(){var t=this;s.a.get("/api/patients-files/".concat(this.id)).then((function(e){var a=e.data;t.data=a.payments.map((function(t){return t.isEdit=!1,t.isPayDebtOpened=!1,t})),t.deletedPayments=a.deleted_payments,t.data.length&&(t.patient_name=t.data[0].patient.name,t.patient_file_number=t.data[0].patient.file_number,t.totalPayments=t.data.reduce((function(t,e){return t+ +e.amount}),0),t.totalRemainingPayments=t.data.reduce((function(t,e){return t+ +e.remaining_amount}),0))}))},print:function(){s.a.get("/api/patients-files/".concat(this.id,"/print")).then((function(t){var e=t.data;window.open(e.url,"blank")}))},addPayment:function(){var t=this;this.submitted=!0;var e=l(l({},this.form),{},{patient_id:this.id});e.date=d()(e.date,"YYYY-MM-DD").add(1,"days"),s.a.post("/api/patients-files",e).then((function(e){var a=e.data;bus.$emit("flash-message",{text:a.message,type:"success"}),t.resetForm(),t.isFormManipulating=!1,t.getData()})).catch((function(t){var e=t.response;bus.$emit("flash-message",{text:e.data.message,type:"error"})})).finally((function(){t.submitted=!1}))},savePayment:function(t){var e=this;this.submitted=!0;var a={amount:t.amount,remaining_amount:t.remaining_amount,date:t.date,notes:t.visit.notes,patient_id:this.id};t.isPayDebtOpened&&(a.is_pay_debt=!0,a.old_amount=this.currentPayment.amount),s.a.put("/api/patients-files/".concat(this.payment_id),a).then((function(a){var n=a.data;bus.$emit("flash-message",{text:n.message,type:"success"}),e.resetForm(),t.isEdit=!1,e.getData()})).catch((function(t){var e=t.response;bus.$emit("flash-message",{text:e.data.message,type:"error"})})).finally((function(){e.submitted=!1}))},deletePayment:function(t){var e=this;this.payment_id=t,this.opened?s.a.delete("/api/patients-files/".concat(t)).then((function(t){var a=t.data;bus.$emit("flash-message",{text:a.message,type:"success"}),e.getData()})).catch((function(t){var e=t.response;bus.$emit("flash-message",{text:e.data.message,type:"error"})})).finally((function(){e.submitted=!1,e.opened=!1})):this.opened=!0},restorePayment:function(t){var e=this;s.a.post("/api/patients-files/".concat(t.id,"/restore")).then((function(t){var a=t.data;bus.$emit("flash-message",{text:a.message,type:"success"}),e.getData()})).catch((function(t){var e=t.response;bus.$emit("flash-message",{text:e.data.message,type:"error"})})).finally((function(){e.submitted=!1,e.opened=!1}))},editPayment:function(t){t.isEdit=!0,this.payment_id=t.id,this.form={amount:t.amount,remaining_amount:t.remaining_amount,date:t.date,notes:t.visit.notes}},addPaymentForDebt:function(t){this.currentPayment=l({},t),t.isPayDebtOpened=!0,this.payment_id=t.id,t.amount=0},cancelPayment:function(t){t.isEdit=!1,t.isPayDebtOpened=!1,t.amount=this.currentPayment.amount}},computed:{isPatientFilesDetails:function(){return"patients-files-show"===this.$route.name}}},p=a("KHd+"),g=Object(p.a)(c,(function(){var t=this,e=t.$createElement,a=t._self._c||e;return a("div",{staticClass:"px-12 py-6"},[a("div",{staticClass:"w-full text-left"},[a("button",{staticClass:"py-1 items-center justify-center h-12 px-4 text-sm text-center text-gray-100 hover:text-gray-50 bg-purple-500 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-purple-600 focus:outline-none",on:{click:function(e){return t.print()}}},[t._v("\n            طباعة\n        ")])]),t._v(" "),a("div",{staticClass:"grid grid-cols-1 sm:grid-cols-2 gap-6"},[a("div",{},[a("label",{staticClass:"block text-sm font-medium text-gray-700 text-right",attrs:{for:"name"}},[t._v("الاسم")]),t._v(" "),a("input",{directives:[{name:"model",rawName:"v-model",value:t.patient_name,expression:"patient_name"}],staticClass:"block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full",attrs:{type:"text",id:"name",disabled:""},domProps:{value:t.patient_name},on:{input:function(e){e.target.composing||(t.patient_name=e.target.value)}}})]),t._v(" "),a("div",{},[a("label",{staticClass:"block text-sm font-medium text-gray-700 text-right",attrs:{for:"file_number"}},[t._v("رقم الملف")]),t._v(" "),a("input",{directives:[{name:"model",rawName:"v-model",value:t.patient_file_number,expression:"patient_file_number"}],staticClass:"block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full",attrs:{type:"text",id:"file_number",disabled:""},domProps:{value:t.patient_file_number},on:{input:function(e){e.target.composing||(t.patient_file_number=e.target.value)}}})]),t._v(" "),a("div",{},[a("label",{staticClass:"block text-sm font-medium text-gray-700 text-right",attrs:{for:"totalPayments"}},[t._v("إجمالي المبلغ\n                المدفوع")]),t._v(" "),a("input",{directives:[{name:"model",rawName:"v-model",value:t.totalPayments,expression:"totalPayments"}],staticClass:"block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full",attrs:{type:"text",id:"totalPayments",disabled:""},domProps:{value:t.totalPayments},on:{input:function(e){e.target.composing||(t.totalPayments=e.target.value)}}})]),t._v(" "),a("div",{},[a("label",{staticClass:"block text-sm font-medium text-gray-700 text-right",attrs:{for:"totalPayments"}},[t._v("إجمالي المبلغ\n                المتبقي")]),t._v(" "),a("input",{directives:[{name:"model",rawName:"v-model",value:t.totalRemainingPayments,expression:"totalRemainingPayments"}],staticClass:"block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full",class:{"text-red-600":t.totalRemainingPayments>0},attrs:{type:"text",id:"totalRemainingPayments",disabled:""},domProps:{value:t.totalRemainingPayments},on:{input:function(e){e.target.composing||(t.totalRemainingPayments=e.target.value)}}})])]),t._v(" "),a("div",{staticClass:"sm:block mt-4"},[a("nav",{staticClass:"flex"},[a("a",{class:"px-3 py-2 font-medium text-sm leading-5 rounded-md text-gray-500 hover:text-gray-700 focus:outline-none focus:text-indigo-600 focus:bg-indigo-200 "+("PAYMENTS"===t.currentTab?"text-indigo-700 bg-indigo-200":""),attrs:{href:"#"},on:{click:function(e){e.preventDefault(),t.currentTab="PAYMENTS"}}},[t._v("\n                الدفعات\n            ")]),t._v(" "),a("a",{class:"ml-4 px-3 py-2 font-medium text-sm leading-5 rounded-md text-gray-500 hover:text-gray-700 focus:outline-none focus:text-indigo-600 focus:bg-indigo-200 "+("DELETED_PAYMENTS"===t.currentTab?"text-indigo-700 bg-indigo-200":""),attrs:{href:"#"},on:{click:function(e){e.preventDefault(),t.currentTab="DELETED_PAYMENTS"}}},[t._v("\n                الدفعات المحذوفة\n            ")])])]),t._v(" "),a("div",[a("TransitionGroup",{staticClass:"align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg mt-8",attrs:{name:"list",tag:"div"}},["PAYMENTS"===t.currentTab?a("table",{key:"1",staticClass:"bg-white min-w-full divide-y divide-gray-200"},[a("thead",[a("tr",{staticClass:"bg-gray-200 text-gray-600 text-sm leading-normal"},[a("th",{staticClass:"py-2 px-3 text-right",attrs:{colspan:"4"}},[t._v("الدفعات")]),t._v(" "),a("th",{staticClass:"py-2 px-3 text-left"},[a("a",{staticClass:"ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-gray-100 hover:text-gray-50 bg-gray-800 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-gray-600 focus:outline-none",attrs:{href:"#"},on:{click:function(e){t.isFormManipulating=!0,t.isEdit=!1}}},[t._v("\n                            إضافة\n                        ")])])]),t._v(" "),a("tr",{staticClass:"bg-gray-50 text-gray-600 text-sm leading-normal"},[a("th",{staticClass:"py-2 px-3 text-right"},[t._v("الإجراء الذي تم")]),t._v(" "),a("th",{staticClass:"py-2 px-3 text-right"},[t._v("المبلغ المدفوع")]),t._v(" "),a("th",{staticClass:"py-2 px-3 text-right"},[t._v("المبلغ المتبقي")]),t._v(" "),a("th",{staticClass:"py-2 px-3 text-right"},[t._v("التاريخ")]),t._v(" "),a("th",{staticClass:"py-2 px-3 text-right"})])]),t._v(" "),a("tbody",{staticClass:"divide-y divide-gray-200"},[t.isFormManipulating?a("tr",[a("td",{staticClass:"px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500"},[a("input",{directives:[{name:"model",rawName:"v-model",value:t.form.notes,expression:"form.notes"}],staticClass:"block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full",attrs:{type:"text",disabled:t.submitted},domProps:{value:t.form.notes},on:{input:function(e){e.target.composing||t.$set(t.form,"notes",e.target.value)}}})]),t._v(" "),a("td",{staticClass:"px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-700"},[a("input",{directives:[{name:"model",rawName:"v-model",value:t.form.amount,expression:"form.amount"}],staticClass:"block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full",attrs:{type:"number",disabled:t.submitted},domProps:{value:t.form.amount},on:{input:function(e){e.target.composing||t.$set(t.form,"amount",e.target.value)}}})]),t._v(" "),a("td",{staticClass:"px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-700"},[a("input",{directives:[{name:"model",rawName:"v-model",value:t.form.remaining_amount,expression:"form.remaining_amount"}],staticClass:"block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full",attrs:{type:"number",disabled:t.submitted},domProps:{value:t.form.remaining_amount},on:{input:function(e){e.target.composing||t.$set(t.form,"remaining_amount",e.target.value)}}})]),t._v(" "),a("td",{staticClass:"px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500"},[a("date-picker",{attrs:{type:"date",disabled:t.submitted},model:{value:t.form.date,callback:function(e){t.$set(t.form,"date",e)},expression:"form.date"}})],1),t._v(" "),a("td",{staticClass:"px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500"},[a("async-button",{staticClass:"ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-white bg-green-500 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-green-600 focus:outline-none",attrs:{loading:t.submitted},on:{click:function(e){return t.addPayment()}}},[t._v("\n                            حفظ\n                        ")]),t._v(" "),a("a",{staticClass:"ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-white bg-red-600 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-red-700 focus:outline-none",attrs:{href:"#"},on:{click:function(e){t.resetForm(),t.isFormManipulating=!1}}},[t._v("\n                            إلغاء\n                        ")])],1)]):t._e(),t._v(" "),t._l(t.data,(function(e){return a("tr",[a("td",{staticClass:"px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500"},[e.isEdit?a("input",{directives:[{name:"model",rawName:"v-model",value:e.visit.notes,expression:"payment.visit.notes"}],staticClass:"block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full",attrs:{type:"text",disabled:t.submitted},domProps:{value:e.visit.notes},on:{input:function(a){a.target.composing||t.$set(e.visit,"notes",a.target.value)}}}):a("span",[t._v("\n                        "+t._s(e.visit.notes?e.visit.notes:"-")+"\n                    ")])]),t._v(" "),a("td",{staticClass:"px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-700"},[e.isEdit||e.isPayDebtOpened?a("input",{directives:[{name:"model",rawName:"v-model",value:e.amount,expression:"payment.amount"}],staticClass:"block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full",attrs:{type:"number",disabled:t.submitted},domProps:{value:e.amount},on:{input:function(a){a.target.composing||t.$set(e,"amount",a.target.value)}}}):a("span",[a("b",{staticClass:"font-medium"},[t._v(t._s(t._f("numberFormat")(+e.amount)))])])]),t._v(" "),a("td",{staticClass:"px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-700"},[e.isEdit?a("input",{directives:[{name:"model",rawName:"v-model",value:e.remaining_amount,expression:"payment.remaining_amount"}],staticClass:"block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full",attrs:{type:"number",disabled:t.submitted},domProps:{value:e.remaining_amount},on:{input:function(a){a.target.composing||t.$set(e,"remaining_amount",a.target.value)}}}):a("span",[e.isPayDebtOpened?a("b",{staticClass:"font-medium",class:{"text-red-500":e.remaining_amount>0}},[t._v("\n                            "+t._s(t._f("numberFormat")(+(e.remaining_amount-e.amount)))+"\n                        ")]):a("b",{staticClass:"font-medium",class:{"text-red-500":e.remaining_amount>0}},[t._v("\n                            "+t._s(t._f("numberFormat")(+e.remaining_amount))+"\n                        ")])])]),t._v(" "),a("td",{staticClass:"px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500"},[e.isEdit?a("input",{directives:[{name:"model",rawName:"v-model",value:e.date,expression:"payment.date"}],staticClass:"block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full",attrs:{type:"date",disabled:t.submitted},domProps:{value:e.date},on:{input:function(a){a.target.composing||t.$set(e,"date",a.target.value)}}}):a("span",[t._v("\n                        "+t._s(e.date)+"\n                    ")])]),t._v(" "),a("td",{staticClass:"px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500"},[e.isEdit||e.isPayDebtOpened?t._e():a("a",{staticClass:"py-1 inline-flex h-12 px-2 text-sm text-center text-green-600 transition-colors duration-200 transform lg:h-8 hover:text-green-700 focus:outline-none",attrs:{href:"#"},on:{click:function(a){return t.editPayment(e)}}},[a("icon-edit",{staticClass:"transition-colors",attrs:{size:"5"}})],1),t._v(" "),e.isEdit||e.isPayDebtOpened?t._e():a("a",{staticClass:"py-1 inline-flex h-12 px-2 text-sm text-center text-red-600 transition-colors duration-200 transform lg:h-8 hover:text-red-700 focus:outline-none",attrs:{href:"#"},on:{click:function(a){return t.deletePayment(e.id)}}},[a("icon-delete",{staticClass:"transition-colors",attrs:{size:"5"}})],1),t._v(" "),e.remaining_amount>0&&!e.isPayDebtOpened&&!e.isEdit?a("a",{staticClass:"py-1 inline-flex h-12 px-2 text-sm text-center text-teal-600 transition-colors duration-200 transform lg:h-8 hover:text-teal-700 focus:outline-none",attrs:{href:"#"},on:{click:function(a){return t.addPaymentForDebt(e)}}},[a("icon-money",{staticClass:"transition-colors",attrs:{size:"5"}})],1):t._e(),t._v(" "),e.isEdit||e.isPayDebtOpened?a("async-button",{staticClass:"ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-white bg-green-500 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-green-600 focus:outline-none",attrs:{loading:t.submitted},on:{click:function(a){return t.savePayment(e)}}},[t._v("\n                            "+t._s(e.isPayDebtOpened?"حفظ":"تعديل")+"\n                        ")]):t._e(),t._v(" "),e.isEdit||e.isPayDebtOpened?a("a",{staticClass:"ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-white bg-red-600 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-red-700 focus:outline-none",attrs:{href:"#"},on:{click:function(a){return t.cancelPayment(e)}}},[a("span",[t._v("إلغاء")])]):t._e()],1)])}))],2)]):t._e(),t._v(" "),"DELETED_PAYMENTS"===t.currentTab?a("table",{key:"2",staticClass:"bg-white min-w-full divide-y divide-gray-200"},[a("thead",[a("tr",{staticClass:"bg-gray-200 text-gray-600 text-sm leading-normal"},[a("th",{staticClass:"py-2 px-3 text-right",attrs:{colspan:"5"}},[t._v("الدفعات المحذوفة")])]),t._v(" "),a("tr",{staticClass:"bg-gray-50 text-gray-600 text-sm leading-normal"},[a("th",{staticClass:"py-2 px-3 text-right"},[t._v("الإجراء الذي تم")]),t._v(" "),a("th",{staticClass:"py-2 px-3 text-right"},[t._v("المبلغ المدفوع")]),t._v(" "),a("th",{staticClass:"py-2 px-3 text-right"},[t._v("المبلغ المتبقي")]),t._v(" "),a("th",{staticClass:"py-2 px-3 text-right"},[t._v("التاريخ")]),t._v(" "),a("th",{staticClass:"py-2 px-3 text-right"})])]),t._v(" "),a("tbody",{staticClass:"divide-y divide-gray-200"},t._l(t.deletedPayments,(function(e){return a("tr",[a("td",{staticClass:"px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500"},[a("span",[t._v("\n                        "+t._s(e.visit.notes?e.visit.notes:"-")+"\n                    ")])]),t._v(" "),a("td",{staticClass:"px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-700"},[a("span",[a("b",{staticClass:"font-medium"},[t._v(t._s(t._f("numberFormat")(+e.amount)))])])]),t._v(" "),a("td",{staticClass:"px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-700"},[e.isEdit?t._e():a("span",[a("b",{staticClass:"font-medium",class:{"text-red-500":e.remaining_amount>0}},[t._v("\n                            "+t._s(t._f("numberFormat")(+e.remaining_amount))+"\n                        ")])])]),t._v(" "),a("td",{staticClass:"px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500"},[a("span",[t._v("\n                        "+t._s(e.date)+"\n                    ")])]),t._v(" "),a("td",{staticClass:"px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500"},[a("a",{staticClass:"py-1 inline-flex h-12 px-2 text-sm text-center text-green-600 transition-colors duration-200 transform lg:h-8 hover:text-green-700 focus:outline-none",attrs:{href:"#",title:"استعادة"},on:{click:function(a){return t.restorePayment(e)}}},[a("icon-restore",{staticClass:"transition-colors",attrs:{size:"5"}})],1)])])})),0)]):t._e()])],1),t._v(" "),t.opened?a("div",{class:"fixed z-10 inset-0 overflow-y-auto ",attrs:{"aria-labelledby":"modal-title",role:"dialog","aria-modal":"true"}},[a("div",{staticClass:"flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"},[a("div",{class:"fixed inset-0 bg-gray-500 transition-opacity duration-200 "+(t.opened?"bg-opacity-75":"bg-opacity-0"),attrs:{"aria-hidden":"true"},on:{click:function(e){t.opened=!1}}}),t._v(" "),a("span",{staticClass:"hidden sm:inline-block sm:align-middle sm:h-screen",attrs:{"aria-hidden":"true"}},[t._v("​")]),t._v(" "),a("div",{class:"inline-block w-full align-bottom bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full duration-200  "+(t.opened?"scale-100":"scale-0")},[a("div",{staticClass:"bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4"},[a("div",{staticClass:"sm:flex sm:items-start"},[a("div",{staticClass:"mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10"},[a("svg",{staticClass:"h-6 w-6 text-red-600",attrs:{xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",stroke:"currentColor","aria-hidden":"true"}},[a("path",{attrs:{"stroke-linecap":"round","stroke-linejoin":"round","stroke-width":"2",d:"M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"}})])]),t._v(" "),t._m(0)])]),t._v(" "),a("div",{staticClass:"bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row"},[a("async-button",{staticClass:"mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:mr-3 sm:w-auto sm:text-sm",attrs:{type:"button",loading:t.submitted},on:{click:function(e){return t.deletePayment(t.payment_id)}}},[t._v("\n                        حذف\n                    ")]),t._v(" "),a("button",{staticClass:"mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mr-3 sm:w-auto sm:text-sm",attrs:{type:"button"},on:{click:function(e){t.opened=!1}}},[t._v("\n                        إلغاء\n                    ")])],1)])])]):t._e()])}),[function(){var t=this.$createElement,e=this._self._c||t;return e("div",{staticClass:"mt-3 text-center sm:mt-0 sm:mr-4 sm:text-right"},[e("h3",{staticClass:"text-lg leading-6 font-medium text-gray-900",attrs:{id:"modal-title"}},[this._v("\n                                حذف دفعة\n                            ")]),this._v(" "),e("div",{staticClass:"mt-2"},[e("p",{staticClass:"text-sm text-gray-500"},[this._v("\n                                    هل أنت متأكد من حذف هذه الدفعة؟\n                                ")])])])}],!1,null,null,null);e.default=g.exports}}]);
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[17],{
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/screens/patients-files/delete.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/screens/patients-files/delete.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_AsyncButton__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/AsyncButton */ "./resources/js/components/AsyncButton.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    AsyncButton: _components_AsyncButton__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  data: function data() {
+    return {
+      id: null,
+      opened: false,
+      submitted: false,
+      type: ''
+    };
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    this.id = this.$route.params.id;
+    this.type = this.$route.query.type;
+    setTimeout(function () {
+      _this.opened = true;
+    }, 50);
+  },
+  methods: {
+    back: function back() {
+      var _this2 = this;
+
+      this.opened = false;
+      setTimeout(function () {
+        return _this2.$router.back();
+      }, 100);
+    },
+    deleteItem: function deleteItem() {
+      var _this3 = this;
+
+      var self = this;
+      this.submitted = true;
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"]("/api/patients-files/".concat(self.id)).then(function (_ref) {
+        var data = _ref.data;
+        bus.$emit('flash-message', {
+          text: data.message,
+          type: 'success'
+        });
+        bus.$emit('item-deleted', self.id);
+        self.back();
+      })["catch"](function (_ref2) {
+        var response = _ref2.response;
+        bus.$emit('flash-message', {
+          text: response.data.message,
+          type: 'error'
+        });
+      })["finally"](function () {
+        _this3.submitted = false;
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/screens/patients-files/delete.vue?vue&type=template&id=2f2ef88c&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/screens/patients-files/delete.vue?vue&type=template&id=2f2ef88c& ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      class: "fixed z-10 inset-0 overflow-y-auto ",
+      attrs: {
+        "aria-labelledby": "modal-title",
+        role: "dialog",
+        "aria-modal": "true",
+      },
+    },
+    [
+      _c(
+        "div",
+        {
+          staticClass:
+            "flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0",
+        },
+        [
+          _c("div", {
+            class:
+              "fixed inset-0 bg-gray-500 transition-opacity duration-200 " +
+              (_vm.opened ? "bg-opacity-75" : "bg-opacity-0"),
+            attrs: { "aria-hidden": "true" },
+            on: {
+              click: function ($event) {
+                return _vm.back()
+              },
+            },
+          }),
+          _vm._v(" "),
+          _c(
+            "span",
+            {
+              staticClass: "hidden sm:inline-block sm:align-middle sm:h-screen",
+              attrs: { "aria-hidden": "true" },
+            },
+            [_vm._v("​")]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              class:
+                "inline-block w-full align-bottom bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full duration-200  " +
+                (_vm.opened ? "scale-100" : "scale-0"),
+            },
+            [
+              _c(
+                "div",
+                { staticClass: "bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4" },
+                [
+                  _c("div", { staticClass: "sm:flex sm:items-start" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10",
+                      },
+                      [
+                        _c(
+                          "svg",
+                          {
+                            staticClass: "h-6 w-6 text-red-600",
+                            attrs: {
+                              xmlns: "http://www.w3.org/2000/svg",
+                              fill: "none",
+                              viewBox: "0 0 24 24",
+                              stroke: "currentColor",
+                              "aria-hidden": "true",
+                            },
+                          },
+                          [
+                            _c("path", {
+                              attrs: {
+                                "stroke-linecap": "round",
+                                "stroke-linejoin": "round",
+                                "stroke-width": "2",
+                                d: "M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z",
+                              },
+                            }),
+                          ]
+                        ),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "mt-3 text-center sm:mt-0 sm:mr-4 sm:text-right",
+                      },
+                      [
+                        _c(
+                          "h3",
+                          {
+                            staticClass:
+                              "text-lg leading-6 font-medium text-gray-900",
+                            attrs: { id: "modal-title" },
+                          },
+                          [
+                            _vm._v(
+                              "\n                            حذف " +
+                                _vm._s(_vm.type) +
+                                "\n                        "
+                            ),
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "mt-2" }, [
+                          _c("p", { staticClass: "text-sm text-gray-500" }, [
+                            _vm._v(
+                              "\n                                هل أنت متأكد من حذف هذه ال" +
+                                _vm._s(_vm.type) +
+                                "؟\n                            "
+                            ),
+                          ]),
+                        ]),
+                      ]
+                    ),
+                  ]),
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row",
+                },
+                [
+                  _c(
+                    "async-button",
+                    {
+                      staticClass:
+                        "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:mr-3 sm:w-auto sm:text-sm",
+                      attrs: { type: "button", loading: _vm.submitted },
+                      on: {
+                        click: function ($event) {
+                          return _vm.deleteItem()
+                        },
+                      },
+                    },
+                    [_vm._v("\n                    حذف\n                ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass:
+                        "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mr-3 sm:w-auto sm:text-sm",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function ($event) {
+                          return _vm.back()
+                        },
+                      },
+                    },
+                    [_vm._v("\n                    إلغاء\n                ")]
+                  ),
+                ],
+                1
+              ),
+            ]
+          ),
+        ]
+      ),
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./resources/js/screens/patients-files/delete.vue":
+/*!********************************************************!*\
+  !*** ./resources/js/screens/patients-files/delete.vue ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _delete_vue_vue_type_template_id_2f2ef88c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./delete.vue?vue&type=template&id=2f2ef88c& */ "./resources/js/screens/patients-files/delete.vue?vue&type=template&id=2f2ef88c&");
+/* harmony import */ var _delete_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./delete.vue?vue&type=script&lang=js& */ "./resources/js/screens/patients-files/delete.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _delete_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _delete_vue_vue_type_template_id_2f2ef88c___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _delete_vue_vue_type_template_id_2f2ef88c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/screens/patients-files/delete.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/screens/patients-files/delete.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/screens/patients-files/delete.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_delete_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./delete.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/screens/patients-files/delete.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_delete_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/screens/patients-files/delete.vue?vue&type=template&id=2f2ef88c&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/screens/patients-files/delete.vue?vue&type=template&id=2f2ef88c& ***!
+  \***************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_delete_vue_vue_type_template_id_2f2ef88c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./delete.vue?vue&type=template&id=2f2ef88c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/screens/patients-files/delete.vue?vue&type=template&id=2f2ef88c&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_delete_vue_vue_type_template_id_2f2ef88c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_delete_vue_vue_type_template_id_2f2ef88c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ })
+
+}]);

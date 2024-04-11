@@ -24,7 +24,7 @@
                     <th class="py-2 px-3 text-right">الاسم</th>
                     <th class="py-2 px-3 text-right">رقم الملف</th>
                     <th class="py-2 px-3 text-right">رقم الموبايل</th>
-                    <th class="py-2 px-3 text-right">التاريخ</th>
+                    <th class="py-2 px-3 text-right">تاريخ الإنشاء</th>
                     <th class="py-2 px-3 text-right"></th>
                 </tr>
             </template>
@@ -36,7 +36,7 @@
                     {{ entry.file_number }}
                 </td>
                 <td class="px-3 py-1 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
-                    {{ entry.mobile }}
+                    {{ entry.mobile ? entry.mobile : entry.phone }}
                 </td>
                 <td class="px-3 py-1 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
                     {{ entry.created_at }}
