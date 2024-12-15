@@ -91,6 +91,7 @@ import piniaPluginPersistedstate from "pinia-plugin-persistedstate"
 import router from "./router"
 import { useRouter } from "vue-router"
 import { loadComponents } from "./clinicComponents"
+import { setupI18n } from "./i18n.js"
 
 const pinia = createPinia()
 pinia.use(({ store }) => {
@@ -155,5 +156,6 @@ const app = createApp({
 app.use(router)
 app.use(pinia)
 loadComponents(app)
+setupI18n(app)
 
 app.mount("#vapor-ui")
