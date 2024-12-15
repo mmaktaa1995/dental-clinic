@@ -22,8 +22,8 @@
                         active-class="text-white bg-gray-900 focus:outline-none focus:bg-gray-900 transition ease-in-out duration-150"
                         class="mt-1 group flex items-center px-2 py-2 text-sm leading-5  text-gray-300 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150"
                     >
-                        <icon-chart-bar size="6"
-                                        class="ml-3 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150"></icon-chart-bar>
+                        <c-icon-chart-bar size="6"
+                                        class="ml-3 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150"></c-icon-chart-bar>
                         الإحصائيات
                     </router-link>
                     <router-link
@@ -32,8 +32,8 @@
                         active-class="text-white bg-gray-900 focus:outline-none focus:bg-gray-900 transition ease-in-out duration-150"
                         class="group flex items-center px-2 py-2 text-sm leading-5  text-gray-300 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150"
                     >
-                        <icon-users size="6"
-                                    class="ml-3 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150"></icon-users>
+                        <c-icon-users size="6"
+                                    class="ml-3 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150"></c-icon-users>
                         المرضى
                     </router-link>
                     <router-link
@@ -42,8 +42,8 @@
                         active-class="text-white bg-gray-900 focus:outline-none focus:bg-gray-900 transition ease-in-out duration-150"
                         class="mt-1 group flex items-center px-2 py-2 text-sm leading-5  text-gray-300 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150"
                     >
-                        <icon-file size="6"
-                                   class="ml-3 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150"></icon-file>
+                        <c-icon-file size="6"
+                                   class="ml-3 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150"></c-icon-file>
                         الإضبارات
                     </router-link>
                     <router-link
@@ -52,8 +52,8 @@
                         active-class="text-white bg-gray-900 focus:outline-none focus:bg-gray-900 transition ease-in-out duration-150"
                         class="mt-1 group flex items-center px-2 py-2 text-sm leading-5  text-gray-300 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150"
                     >
-                        <icon-money size="6"
-                                               class="ml-3 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150"></icon-money>
+                        <c-icon-money size="6"
+                                               class="ml-3 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150"></c-icon-money>
                         الدفعات
                     </router-link>
                     <router-link
@@ -62,8 +62,8 @@
                         active-class="text-white bg-gray-900 focus:outline-none focus:bg-gray-900 transition ease-in-out duration-150"
                         class="mt-1 group flex items-center px-2 py-2 text-sm leading-5  text-gray-300 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150"
                     >
-                        <icon-debit size="6"
-                                       class="ml-3 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150"></icon-debit>
+                        <c-icon-debit size="6"
+                                       class="ml-3 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150"></c-icon-debit>
                         المبالغ المتبقية
                     </router-link>
                     <router-link
@@ -72,8 +72,8 @@
                         active-class="text-white bg-gray-900 focus:outline-none focus:bg-gray-900 transition ease-in-out duration-150"
                         class="mt-1 group flex items-center px-2 py-2 text-sm leading-5  text-gray-300 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150"
                     >
-                        <icon-expenses size="6"
-                                       class="ml-3 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150"></icon-expenses>
+                        <c-icon-expenses size="6"
+                                       class="ml-3 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150"></c-icon-expenses>
                         النفقات
                     </router-link>
                     <router-link
@@ -83,8 +83,8 @@
                         active-class="text-white bg-gray-900 focus:outline-none focus:bg-gray-900 transition ease-in-out duration-150"
                         class="mt-1 group flex items-center px-2 py-2 text-sm leading-5  text-gray-300 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150"
                     >
-                        <icon-calendar size="6"
-                                       class="ml-3 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150"></icon-calendar>
+                        <c-icon-calendar size="6"
+                                       class="ml-3 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150"></c-icon-calendar>
                         المواعيد
                     </router-link>
                     <router-link
@@ -94,8 +94,8 @@
                         active-class="text-white bg-gray-900 focus:outline-none focus:bg-gray-900 transition ease-in-out duration-150"
                         class="mt-1 group flex items-center px-2 py-2 text-sm leading-5  text-gray-300 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150"
                     >
-                        <icon-collection size="6"
-                                       class="ml-3 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150"></icon-collection>
+                        <c-icon-collection size="6"
+                                       class="ml-3 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150"></c-icon-collection>
                         الخدمات
                     </router-link>
                 </nav>

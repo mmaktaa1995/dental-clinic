@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import Sizable from './Sizable';
+import Sizable from "./Sizable"
 
 export default {
     mixins: [Sizable],
-};
+}
 </script>

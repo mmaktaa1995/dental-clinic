@@ -1,14 +1,10 @@
-@import 'tailwindcss/base';
-
-@import 'tailwindcss/components';
-
-@import 'tailwindcss/utilities';
-
+@import './app.css';
 @import 'code-editor.css';
-
 @import './transitions.css';
 
-@import './app.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @media (max-width: 768px) {
     .sidebar{

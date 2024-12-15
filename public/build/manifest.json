@@ -1,0 +1,33 @@
+{
+  "public/fonts/Tajawal-Bold.ttf": {
+    "file": "assets/Tajawal-Bold-iiJYAreQ.ttf",
+    "src": "public/fonts/Tajawal-Bold.ttf"
+  },
+  "public/fonts/Tajawal-ExtraBold.ttf": {
+    "file": "assets/Tajawal-ExtraBold-DH4JsDqA.ttf",
+    "src": "public/fonts/Tajawal-ExtraBold.ttf"
+  },
+  "public/fonts/Tajawal-Light.ttf": {
+    "file": "assets/Tajawal-Light-Bb-WBDNg.ttf",
+    "src": "public/fonts/Tajawal-Light.ttf"
+  },
+  "public/fonts/Tajawal-Medium.ttf": {
+    "file": "assets/Tajawal-Medium-BEy05kv0.ttf",
+    "src": "public/fonts/Tajawal-Medium.ttf"
+  },
+  "public/fonts/Tajawal-Regular.ttf": {
+    "file": "assets/Tajawal-Regular-BF6-vjr0.ttf",
+    "src": "public/fonts/Tajawal-Regular.ttf"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-CPGLWz1F.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-l0sNRNKZ.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  }
+}

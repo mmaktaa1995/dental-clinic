@@ -8,33 +8,27 @@
                             <router-link
                                 :to="{
                                     name: `${$route.meta.resource}-index`,
-                                    query: this.$route.query,
+                                    query: $route.query,
                                     params: { group: $route.params.group },
                                 }"
                                 class="text-gray-500 hover:text-gray-700 transition duration-150 ease-in-out"
                             >
-                                {{
-                                    $router
-                                        .resolve({ name: `${$route.meta.resource}-index` })
-                                        .route.meta.createTitle({ group: $route.params.group })
-                                }}
+                                {{ $router.resolve({ name: `${$route.meta.resource}-index` }).route.meta.createTitle({ group: $route.params.group }) }}
                             </router-link>
-                            <icon-chevron-right size="5" class="flex-shrink-0 mx-2 text-gray-400"></icon-chevron-right>
-                            <a href="#" class="text-gray-500 hover:text-gray-700 transition duration-150 ease-in-out"
-                                >Details</a
-                            >
+                            <c-icon-chevron-right size="5" class="flex-shrink-0 mx-2 text-gray-400"></c-icon-chevron-right>
+                            <a href="#" class="text-gray-500 hover:text-gray-700 transition duration-150 ease-in-out">Details</a>
                         </nav>
                     </div>
                 </div>
                 <div class="mt-3 flex">
                     <transition name="fade">
-                        <span class="text-sm leading-5 text-green-500 p-2" v-if="sharing"> Copied to clipboard </span>
+                        <span v-if="sharing" class="text-sm leading-5 text-green-500 p-2"> Copied to clipboard </span>
                     </transition>
                     <span class="order-1 ml-3 shadow-sm rounded-md sm:order-0 sm:ml-0">
                         <button
-                            v-on:click="share(entry)"
                             type="button"
                             class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:text-gray-800 active:bg-gray-50 transition duration-150 ease-in-out"
+                            @click="share(entry)"
                         >
                             Share
                         </button>
@@ -70,9 +64,9 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios"
 
-import ClipboardMixin from './../mixins/clipboard';
+import ClipboardMixin from "./../mixins/clipboard"
 
 export default {
     /**
@@ -88,7 +82,7 @@ export default {
             entry: null,
             ready: false,
             sharing: false,
-        };
+        }
     },
 
     /**
@@ -101,9 +95,9 @@ export default {
                 validateStatus: false,
             })
             .then(({ data }) => {
-                this.ready = true;
-                this.entry = data;
-            });
+                this.ready = true
+                this.entry = data
+            })
     },
 
     /**
@@ -119,13 +113,13 @@ export default {
                     name: `${this.$route.meta.resource}-show`,
                     params: { id: this.$route.params.id, group: this.$route.params.group },
                     query: this.$route.query,
-                }).href
-            );
+                }).href,
+            )
 
-            this.sharing = true;
+            this.sharing = true
 
-            setTimeout(() => (this.sharing = false), 2000);
+            setTimeout(() => (this.sharing = false), 2000)
         },
     },
-};
+}
 </script>

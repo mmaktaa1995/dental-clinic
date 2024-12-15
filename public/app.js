@@ -87455,7 +87455,7 @@ vue__WEBPACK_IMPORTED_MODULE_4___default.a.directive('click-outside', {
     document.body.removeEventListener('click', el.clickOutsideEvent);
   }
 });
-app = new vue__WEBPACK_IMPORTED_MODULE_4___default.a({
+var app = new vue__WEBPACK_IMPORTED_MODULE_4___default.a({
   el: '#vapor-ui',
   router: router,
   data: function data() {

@@ -1,13 +1,15 @@
 <template>
-    <div id="chart" class="relative" :style="{ height: height+'px' }">
-        <apexchart v-if="loaded" type="bar" :options="chartOptions"
-                   :series="[{name: label, data: chartData}]"></apexchart>
+    <div id="chart" class="relative" :style="{ height: height + 'px' }">
+        <apexchart v-if="loaded" type="bar" :options="chartOptions" :series="[{ name: label, data: chartData }]"></apexchart>
     </div>
 </template>
 
 <script>
-
 export default {
+    /**
+     * The component's props.
+     */
+    props: ["label", "data", "labels", "series", "color", "height", "formatTooltipTitle", "suggestedMax"],
     data() {
         return {
             loaded: false,
@@ -16,36 +18,36 @@ export default {
                 // colors: [],
                 chart: {
                     height: this.height,
-                    type: 'bar',
+                    type: "bar",
                 },
                 plotOptions: {
                     bar: {
                         borderRadius: 10,
                         dataLabels: {
-                            position: 'top', // top, center, bottom
+                            position: "top", // top, center, bottom
                         },
-                    }
+                    },
                 },
                 dataLabels: {
                     enabled: false,
                     formatter: function (val) {
-                        return val + "%";
+                        return val + "%"
                     },
                     offsetY: -20,
                     style: {
-                        fontSize: '12px',
-                        colors: ["#304758"]
-                    }
+                        fontSize: "12px",
+                        colors: ["#304758"],
+                    },
                 },
 
                 xaxis: {
                     categories: [],
-                    position: 'bottom',
+                    position: "bottom",
                     axisBorder: {
-                        show: true
+                        show: true,
                     },
                     axisTicks: {
-                        show: true
+                        show: true,
                     },
                     // crosshairs: {
                     //     fill: {
@@ -62,15 +64,15 @@ export default {
                     tooltip: {
                         enabled: true,
                         y: {
-                            formatter: function (value, {series, seriesIndex, dataPointIndex, w}) {
+                            formatter: function (value, { series, seriesIndex, dataPointIndex, w }) {
                                 return this.label + ": " + value
-                            }
-                        }
-                    }
+                            },
+                        },
+                    },
                 },
                 yaxis: {
                     axisBorder: {
-                        show: true
+                        show: true,
                     },
                     axisTicks: {
                         show: true,
@@ -78,13 +80,11 @@ export default {
                     labels: {
                         show: true,
                         formatter: function (val) {
-                            return ' ' + val;
-                        }
-                    }
-
+                            return " " + val
+                        },
+                    },
                 },
             },
-
         }
     },
     /**
@@ -92,11 +92,11 @@ export default {
      */
     computed: {
         chartLabels() {
-            return this.data.map((dataPoint) => ' ' + dataPoint.label);
+            return this.data.map((dataPoint) => " " + dataPoint.label)
         },
 
         chartData() {
-            return this.data.map((dataPoint) => dataPoint.value);
+            return this.data.map((dataPoint) => dataPoint.value)
         },
     },
 
@@ -104,54 +104,49 @@ export default {
      * Prepare the component.
      */
     mounted() {
-        this.chartOptions.xaxis.categories = this.chartLabels;
-        let colors = {
+        this.chartOptions.xaxis.categories = this.chartLabels
+        const colors = {
             green: {
-                backgroundColor: '#BDFADB',
-                borderColor: 'hsla(150, 75%, 65% , 0.4)',
+                backgroundColor: "#BDFADB",
+                borderColor: "hsla(150, 75%, 65% , 0.4)",
             },
             red: {
-                backgroundColor: '#FF8A8A',
-                borderColor: 'hsla(0, 75%, 65% , 0.4)',
+                backgroundColor: "#FF8A8A",
+                borderColor: "hsla(0, 75%, 65% , 0.4)",
             },
             default: {
-                backgroundColor: '#D6BDFA',
-                borderColor: 'hsla(260, 73%, 70%, 0.4)',
-            }
+                backgroundColor: "#D6BDFA",
+                borderColor: "hsla(260, 73%, 70%, 0.4)",
+            },
         }
-        let color = colors[this.color];
+        let color = colors[this.color]
         if (!color) {
-            color = colors.default;
+            color = colors.default
         }
-        this.colors = Object.values(colors).map(_ => _.backgroundColor);
-        this.chartOptions.colors = [color.backgroundColor, ...this.colors];
+        this.colors = Object.values(colors).map((_) => _.backgroundColor)
+        this.chartOptions.colors = [color.backgroundColor, ...this.colors]
         console.log(this.colors)
-        setTimeout(() => this.loaded = true);
+        setTimeout(() => (this.loaded = true))
     },
     methods: {
         dynamicColors(index) {
             const CHART_COLORS = {
-                red1: 'rgb(244, 67, 54)',
-                red: 'rgb(255, 99, 132)',
-                orange: 'rgb(255, 159, 64)',
-                yellow: 'rgb(255, 205, 86)',
-                green: 'rgb(75, 192, 192)',
-                blue: 'rgb(54, 162, 235)',
-                green1: 'rgb(76, 175, 80)',
-                grey: 'rgb(201, 203, 207)',
-                grey_blue: 'rgb(96, 125, 139)',
-                purple1: 'rgb(103, 58, 183)',
-                purple: 'rgb(153, 102, 255)',
-                purple2: 'rgb(255, 100, 248)',
-            };
-            const colorIndex = index % Object.keys(CHART_COLORS).length;
+                red1: "rgb(244, 67, 54)",
+                red: "rgb(255, 99, 132)",
+                orange: "rgb(255, 159, 64)",
+                yellow: "rgb(255, 205, 86)",
+                green: "rgb(75, 192, 192)",
+                blue: "rgb(54, 162, 235)",
+                green1: "rgb(76, 175, 80)",
+                grey: "rgb(201, 203, 207)",
+                grey_blue: "rgb(96, 125, 139)",
+                purple1: "rgb(103, 58, 183)",
+                purple: "rgb(153, 102, 255)",
+                purple2: "rgb(255, 100, 248)",
+            }
+            const colorIndex = index % Object.keys(CHART_COLORS).length
             return Object.values(CHART_COLORS)[colorIndex]
-        }
+        },
     },
-
-    /**
-     * The component's props.
-     */
-    props: ['label', 'data', 'labels', 'series', 'color', 'height', 'formatTooltipTitle', 'suggestedMax'],
-};
+}
 </script>
