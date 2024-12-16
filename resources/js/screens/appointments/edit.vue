@@ -1,31 +1,8 @@
 <template>
     <div :class="`fixed z-10 inset-0 overflow-y-auto `" aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <form class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0" @submit.prevent="update()">
-            <!--
-              Background overlay, show/hide based on modal state.
-
-              Entering: "ease-out duration-300"
-                From: "opacity-0"
-                To: "opacity-100"
-              Leaving: "ease-in duration-200"
-                From: "opacity-100"
-                To: "opacity-0"
-            -->
             <div :class="`fixed inset-0 bg-gray-500 transition-opacity duration-200 ${opened ? 'bg-opacity-75' : 'bg-opacity-0'}`" aria-hidden="true" @click="back()"></div>
-
-            <!-- This element is to trick the browser into centering the modal contents. -->
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-
-            <!--
-              Modal panel, show/hide based on modal state.
-
-              Entering: "ease-out duration-300"
-                From: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                To: "opacity-100 translate-y-0 sm:scale-100"
-              Leaving: "ease-in duration-200"
-                From: "opacity-100 translate-y-0 sm:scale-100"
-                To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            -->
 
             <div :class="`inline-block w-full align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full duration-200  ${opened ? 'scale-100' : 'scale-0'}`">
                 <div class="bg-gray-50 px-4 py-2 border-b border-gray-300 text-right">
@@ -33,21 +10,21 @@
                 </div>
                 <div class="bg-white px-4 pt-5 sm:p-6">
                     <div class="grid grid-cols-2 gap-6">
-                        <div class="">
+                        <div>
                             <label for="patient_id" class="block text-sm font-medium text-gray-700 text-right">المريض</label>
                             <select id="patient_id" v-model="form.patient_id" autocomplete="off" class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
                                 <option value="">اختر مريض</option>
-                                <option v-for="(name, id) in patients" :value="id">{{ name }}</option>
+                                <option v-for="(name, id) in patients" :key="id" :value="id">{{ name }}</option>
                             </select>
                             <small v-if="errors && errors.patient_id" class="text-red-600 text-xs text-right block">{{ errors.patient_id[0] }}</small>
                         </div>
-                        <div class="">
+                        <div>
                             <label for="date" class="block text-sm font-medium text-gray-700 text-right">تاريخ الزيارة</label>
                             <input id="date" v-model="form.date" type="date" autocomplete="off" class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full" />
                             <small v-if="errors && errors.date" class="text-red-600 text-xs text-right block">{{ errors.date[0] }}</small>
                         </div>
 
-                        <div class="">
+                        <div>
                             <label for="time" class="block text-sm font-medium text-gray-700 text-right">وقت الزيارة</label>
                             <input id="time" v-model="form.time" type="time" autocomplete="off" class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full" />
                             <small v-if="errors && errors.time" class="text-red-600 text-xs text-right block">{{ errors.time[0] }}</small>
@@ -60,7 +37,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-revers">
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                     <button
                         type="button"
                         class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
@@ -68,16 +45,15 @@
                     >
                         إلغاء
                     </button>
-                    <async-button
+                    <c-async-button
                         type="submit"
                         :disabled="isPast"
                         :loading="submitted"
                         class="w-full inline-flex justify-center rounded-md border border-transparent transition duration-75 transition-all shadow-sm px-4 py-2 bg-teal-600 text-base font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:ml-3 sm:w-auto sm:text-sm"
                     >
                         حفظ
-                    </async-button>
+                    </c-async-button>
                     <router-link
-                        tag="a"
                         :to="{ name: 'appointments-delete', params: { id }, query: { type: 'موعد' } }"
                         class="mr-auto w-32 text-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:text-sm"
                     >
@@ -89,65 +65,67 @@
     </div>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted } from "vue"
+import { formatISO, parseISO } from "date-fns"
 import axios from "axios"
+import { useRoute } from "vue-router"
 
-export default {
-    data() {
-        return {
-            id: null,
-            opened: false,
-            isPast: false,
-            submitted: false,
-            errors: {},
-            form: {
-                date: "",
-                time: "",
-                notes: "",
-                patient_id: "",
-            },
-            patients: [],
-        }
-    },
-    mounted() {
-        this.id = this.$route.params.id
-        this.isPast = this.$route.query.isPast
-        axios.get("/api/patients/dropdown").then(({ data }) => {
-            this.patients = data
-            axios.get(`/api/appointments/${this.id}`).then(({ data }) => {
-                const date = data.date.replace(/.(\d)*Z/g, "")
-                this.form = { ...data, date: date.split("T")[0], time: date.split("T")[1] }
-            })
-        })
-        setTimeout(() => {
-            this.opened = true
-        }, 50)
-    },
-    methods: {
-        back() {
-            this.opened = false
-            setTimeout(() => this.$router.back(), 300)
-        },
-        update() {
-            const self = this
-            this.errors = {}
-            this.submitted = true
-            axios
-                .patch(`/api/appointments/${this.id}`, { ...self.form })
-                .then(({ data }) => {
-                    bus.$emit("flash-message", { text: data.message, type: "success" })
-                    bus.$emit("appointment-changed", "true")
-                    self.back()
-                })
-                .catch((error) => {
-                    if (error.response && error.response.status === 422) {
-                        this.errors = error.response.data.errors
-                    }
-                })
-                .finally(() => {
-                    this.submitted = false
-                })
-        },
-    },
+const id = ref(null)
+const opened = ref(false)
+const isPast = ref(false)
+const submitted = ref(false)
+const errors = ref({})
+const route = useRoute()
+const form = ref({
+    date: "",
+    time: "",
+    notes: "",
+    patient_id: "",
+})
+const patients = ref([])
+
+const back = () => {
+    opened.value = false
+    setTimeout(() => {
+        window.history.back()
+    }, 300)
 }
+
+const update = async () => {
+    errors.value = {}
+    submitted.value = true
+    try {
+        const { data } = await axios.patch(`/api/appointments/${id.value}`, form.value)
+        bus.$emit("flash-message", { text: data.message, type: "success" })
+        bus.$emit("appointment-changed", "true")
+        back()
+    } catch (error) {
+        if (error.response?.status === 422) {
+            errors.value = error.response.data.errors
+        }
+    } finally {
+        submitted.value = false
+    }
+}
+
+onMounted(async () => {
+    id.value = route.params.id
+    isPast.value = route.query.isPast
+    const patientResponse = await axios.get("/api/patients/dropdown")
+    patients.value = patientResponse.data
+
+    const appointmentResponse = await axios.get(`/api/appointments/${id.value}`)
+    const appointment = appointmentResponse.data
+    const parsedDate = parseISO(appointment.date)
+    form.value = {
+        ...appointment,
+        date: formatISO(parsedDate, { representation: "date" }),
+        time: formatISO(parsedDate, { representation: "time" }).split("T")[1],
+    }
+
+    setTimeout(() => {
+        opened.value = true
+    }, 50)
+})
 </script>

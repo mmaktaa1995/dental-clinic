@@ -1,28 +1,22 @@
 <template>
     <div class="w-full">
-        <search>
+        <CSearch>
             <template #filters="{ filters, loadEntries }">
                 <div class="grid grid-cols-2 gap-6 min-w-0 w-full mt-3">
                     <div class="w-1/">
                         <label for="date-input" class="block text-sm font-medium leading-5 text-gray-700"> التاريخ </label>
                         <div class="mt-1 relative rounded-md shadow-sm">
-                            <date-picker id="date-input" v-model.lazy="filters.date" class="" @change="loadEntries"></date-picker>
+                            <input id="date-input" v-model.lazy="filters.date" class="" @change="loadEntries" />
                         </div>
                     </div>
                     <div class="">
                         <label for="patient_id" class="block text-sm font-medium text-gray-700 text-right">المريض</label>
                         <select id="patient_id" v-model="filters.patient_id" autocomplete="off" class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-2 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full" @change="loadEntries">
                             <option value="">اختر مريض</option>
-                            <option v-for="(name, id) in patients" :value="id">{{ name }}</option>
+                            <option v-for="(name, id) in patients" :key="id" :value="id">{{ name }}</option>
                         </select>
                     </div>
                 </div>
-            </template>
-
-            <template #troubleshooting>
-                <p>It looks like there was an error. Please check your application logs.</p>
-
-                <p class="mt-2">Consider searching using a more recent "Starting from" date. The CloudWatch API may have long response times while searching far into the past. These requests may timeout or lead to unexpected errors.</p>
             </template>
 
             <template #create-btn>
@@ -42,23 +36,21 @@
                     {{ entry.patient.name }}
                 </td>
                 <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
-                    {{ entry.amount | numberFormat }}
+                    {{ entry.amount }}
                 </td>
                 <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
                     {{ entry.date }}
                 </td>
             </template>
-        </search>
+        </CSearch>
         <router-view></router-view>
     </div>
 </template>
 
 <script>
 import axios from "axios"
-import DatePicker from "vue2-datepicker"
 
 export default {
-    components: { DatePicker },
     data() {
         return {
             patients: [],

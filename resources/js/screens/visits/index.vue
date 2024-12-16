@@ -1,14 +1,6 @@
 <template>
     <div class="w-full">
         <CSearch>
-            <template #filters="{ filters, loadEntries }"></template>
-
-            <template #troubleshooting>
-                <p>It looks like there was an error. Please check your application logs.</p>
-
-                <p class="mt-2">Consider searching using a more recent "Starting from" date. The CloudWatch API may have long response times while searching far into the past. These requests may timeout or lead to unexpected errors.</p>
-            </template>
-
             <template #create-btn>
                 <router-link :to="{ name: `visits-create` }" class="ml-4 flex items-center justify-center h-12 px-4 text-sm text-center text-gray-100 hover:text-gray-50 bg-gray-800 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-gray-600 focus:outline-none">
                     إضافة
@@ -28,7 +20,7 @@
                     {{ entry.patient.name }}
                 </td>
                 <td class="px-3 py-1 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
-                    {{ entry.amount | numberFormat }}
+                    {{ entry.amount }}
                 </td>
                 <td class="px-3 py-1 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
                     {{ entry.notes }}
@@ -44,8 +36,6 @@
                                 params: { id: entry.id },
                                 query: entry.filters,
                             }"
-                            tag="button"
-                            href="#"
                             class="w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent hover:text-gray-500 focus:outline-none focus:text-gray-500 focus:bg-gray-100 transition ease-in-out duration-150"
                         >
                             <c-icon-edit size="5" class="text-gray-400 hover:text-blue-500 transition-colors" />
@@ -57,8 +47,6 @@
                                     params: { id: entry.id },
                                     query: { type: 'زيارة' },
                                 }"
-                                tag="button"
-                                href="#"
                                 class="w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent transition-colors hover:text-red-500 focus:outline-none focus:text-gray-500 focus:bg-gray-100 transition ease-in-out duration-150"
                             >
                                 <c-icon-delete size="5" class="text-gray-400 hover:text-red-500 transition-colors" />
@@ -71,11 +59,3 @@
         <router-view></router-view>
     </div>
 </template>
-
-<script>
-import Search from "@/components/icons/Search.vue"
-
-export default {
-    components: { Search },
-}
-</script>

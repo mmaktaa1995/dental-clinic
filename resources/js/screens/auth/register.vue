@@ -20,23 +20,23 @@
                         </svg>
                         <div class="ml-2text-center text-3xl font-extrabold text-gray-900">Aktaa Dental</div>
                     </div>
-                    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Register new account</h2>
+                    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">{{ $t('auth.registerNewAccount', 'Register new account') }}</h2>
                 </div>
                 <form class="mt-8 space-y-6" action="#" method="POST" @submit.prevent="register()">
                     <nav class="flex flex-col sm:flex-row">
                         <label :class="`text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none w-1/2 text-center duration-75 cursor-pointer border-b-2 ${type === 'api' ? 'text-blue-500 font-bold border-blue-500' : 'font-medium border-gray-200'}`">
-                            Admin
+                            {{ $t('auth.admin', 'Admin') }}
                             <input v-model="type" type="radio" name="type" value="api" class="hidden" />
                         </label>
                         <label :class="`text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none w-1/2 text-center duration-75 cursor-pointer border-b-2 ${type === 'student' ? 'text-blue-500 font-bold border-blue-500' : 'font-medium border-gray-200'}`">
-                            Student
+                            {{ $t('auth.student', 'Student') }}
                             <input v-model="type" type="radio" name="type" value="student" class="hidden" />
                         </label>
                     </nav>
                     <transition name="fade" mode="out-in" appear :duration="500">
                         <div v-if="type === 'api'" :key="type + '-api'" class="rounded-md shadow-sm -space-y-px">
                             <div>
-                                <label for="username" class="sr-only">Username</label>
+                                <label for="username" class="sr-only">{{ $t('auth.username', 'Username') }}</label>
                                 <input
                                     id="username"
                                     v-model="username"
@@ -44,12 +44,12 @@
                                     type="text"
                                     autocomplete="username"
                                     :class="`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${errors && errors.username ? 'border-red-500' : ''}`"
-                                    placeholder="Username"
+                                    :placeholder="$t('auth.usernamePlaceholder', 'Username')"
                                 />
                                 <small v-if="errors && errors.username" class="text-red-600 text-xs text-right block">{{ errors.username[0] }}</small>
                             </div>
                             <div>
-                                <label for="name" class="sr-only">Name</label>
+                                <label for="name" class="sr-only">{{ $t('auth.name', 'Name') }}</label>
                                 <input
                                     id="name"
                                     v-model="name"
@@ -57,12 +57,12 @@
                                     type="text"
                                     autocomplete="name"
                                     :class="`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${errors && errors.name ? 'border-red-500' : ''}`"
-                                    placeholder="Name"
+                                    :placeholder="$t('auth.namePlaceholder', 'Name')"
                                 />
                                 <small v-if="errors && errors.name" class="text-red-600 text-xs text-right block">{{ errors.name[0] }}</small>
                             </div>
                             <div>
-                                <label for="email-address" class="sr-only">Email address</label>
+                                <label for="email-address" class="sr-only">{{ $t('auth.email', 'Email address') }}</label>
                                 <input
                                     id="email-address"
                                     v-model="email"
@@ -70,12 +70,12 @@
                                     type="email"
                                     autocomplete="email"
                                     :class="`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${errors && errors.email ? 'border-red-500' : ''}`"
-                                    placeholder="Email address"
+                                    :placeholder="$t('auth.emailPlaceholder', 'Email address')"
                                 />
                                 <small v-if="errors && errors.email" class="text-red-600 text-xs text-right block">{{ errors.email[0] }}</small>
                             </div>
                             <div>
-                                <label for="password" class="sr-only">Password</label>
+                                <label for="password" class="sr-only">{{ $t('auth.password', 'Password') }}</label>
                                 <input
                                     id="password"
                                     v-model="password"
@@ -83,7 +83,7 @@
                                     type="password"
                                     autocomplete="current-password"
                                     :class="`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${errors && errors.password ? 'border-red-500' : ''}`"
-                                    placeholder="Password"
+                                    :placeholder="$t('auth.passwordPlaceholder', 'Password')"
                                 />
                                 <small v-if="errors && errors.password" class="text-red-600 text-xs text-right block">{{ errors.password[0] }}</small>
                             </div>
@@ -97,7 +97,7 @@
                                     <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
                                 </svg>
                             </span>
-                            Sign up
+                            {{ $t('auth.signUp', 'Sign up') }}
                         </button>
                     </div>
                 </form>

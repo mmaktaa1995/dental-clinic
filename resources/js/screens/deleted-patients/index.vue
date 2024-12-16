@@ -1,14 +1,6 @@
 <template>
     <div class="w-full">
-        <search>
-            <template #filters="{ filters, loadEntries }"></template>
-
-            <template #troubleshooting>
-                <p>It looks like there was an error. Please check your application logs.</p>
-
-                <p class="mt-2">Consider searching using a more recent "Starting from" date. The CloudWatch API may have long response times while searching far into the past. These requests may timeout or lead to unexpected errors.</p>
-            </template>
-
+        <CSearch>
             <template #create-btn>
                 <router-link :to="{ name: `patients-create` }" class="ml-4 flex items-center justify-center h-12 px-4 text-sm text-center text-gray-100 hover:text-gray-50 bg-gray-800 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-gray-600 focus:outline-none">
                     إضافة
@@ -41,7 +33,6 @@
                                     params: { id: entry.id },
                                     query: { type: 'مريض' },
                                 }"
-                                tag="a"
                                 class="w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent transition-colors hover:text-red-500 focus:outline-none focus:text-gray-500 focus:bg-gray-100 transition ease-in-out duration-150"
                             >
                                 <c-icon-restore size="5" class="text-gray-400 hover:text-red-500 transition-colors" />
@@ -50,14 +41,7 @@
                     </div>
                 </td>
             </template>
-        </search>
+        </CSearch>
         <router-view></router-view>
     </div>
 </template>
-
-<script>
-export default {
-    computed: {},
-    mounted() {},
-}
-</script>

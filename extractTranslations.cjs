@@ -28,13 +28,18 @@ function showLoading(message) {
     let index = 0
 
     const interval = setInterval(() => {
-        process.stdout.write(`\r${message} ${frames[index]}`)
+        if (index === 0) {
+            message = `\r${message} -`
+        } else {
+            message = `-`
+        }
+        process.stdout.write(`${message}`)
         index = (index + 1) % frames.length
-    }, 100)
+    }, 1000)
 
     return () => {
         clearInterval(interval)
-        process.stdout.write("\r") // Clear the line
+        process.stdout.write("\r\n") // Clear the line
     }
 }
 
@@ -47,7 +52,7 @@ const sendToOpenAI = async (fileContent, filePath) => {
             Authorization: `Bearer ${OPENAI_API_KEY}`,
         },
         body: JSON.stringify({
-            model: "gpt-4-1106-preview",
+            model: "gpt-4o-mini-2024-07-18",
             messages: [
                 {
                     role: "system",
@@ -73,7 +78,7 @@ Should be:
 <template>
   <div>
     {{ $t('courses.saveDialog', 'Are you sure you want to save the changes?') }}
-    <v-alert :message="$t('courses.importantMessage', 'This is an important message')" color="primary" />
+    <v-alert :message="$t('courses.importantMessage')" color="primary" />
     <KButton flat color="red">{{ $t('courses.saveChanges') }}</KButton>
   </div>
 </template>
@@ -81,7 +86,7 @@ Should be:
 <script setup>Fix and convert the code here  also to be compatible with vue 3 and setup attribute in the script tag. Don't miss any import for the newely generated code. Any code related to moment please conver tit to use date-fns</script>
 <style lang="scss">Copy the style here if exists and convert it to Scss</style>
 
- and don't remove any of the script tag or style tag also, append them to the generated component with fixes that already mentioned before
+ and don't remove any of the html content or script tag or style tag also, append them to the generated component with fixes that already mentioned before
 
 
 Here are the custom components names
@@ -145,7 +150,7 @@ The response should be json
                 },
             ],
             temperature: 1,
-            max_tokens: 4096,
+            max_tokens: 8096,
             top_p: 1,
             frequency_penalty: 0,
             presence_penalty: 0,
@@ -190,18 +195,40 @@ function replacePlaceholders(str, data) {
     return str
 }
 
+function setNestedTranslations(obj, keyPath, value) {
+    const keys = keyPath.split(".")
+    let current = obj
+
+    keys.forEach((key, index) => {
+        if (!current[key]) {
+            current[key] = {}
+        }
+        if (index === keys.length - 1) {
+            current[key] = value // Set the value at the final key
+        } else {
+            current = current[key]
+        }
+    })
+}
+
 async function replaceLangMessages(content) {
     const arTranslations = JSON.parse(await fs.readFile("./resources/js/lang/ar.json"), "utf8")
     const translations = JSON.parse(await fs.readFile("./resources/js/lang/en.json"), "utf8")
 
     content.translations.forEach((item) => {
-        arTranslations[item.key] = item.text
-        translations[item.key] = item.text_en
+        setNestedTranslations(arTranslations, item.key, item.text)
+        setNestedTranslations(translations, item.key, item.text_en)
     })
-    // return replacePlaceholders(content.component, translations)
+    await fs.writeFile("./resources/js/lang/ar.json", JSON.stringify(arTranslations))
+    await fs.writeFile("./resources/js/lang/en.json", JSON.stringify(translations))
 }
+const excludedFilePaths = [
+    /*"./resources/js/screens/403.vue", "./resources/js/screens/404.vue"*/
+]
 
-const main = async (filePath) => {
+const main = async (files, index = 0) => {
+    const filePath = files[index]
+    console.log(`Start processing ${filePath}! \n\n`)
     const stopLoading = showLoading("Processing \n")
     try {
         if (!OPENAI_API_KEY) {
@@ -216,7 +243,7 @@ const main = async (filePath) => {
 
         // Update the file with the response from OpenAI
         await fs.writeFile(filePath, response.component)
-
+        excludedFilePaths.push(filePath)
         console.log(`File updated successfully with the response from OpenAI: ${filePath} \n`)
     } catch (error) {
         console.log(error.stack)
@@ -224,6 +251,9 @@ const main = async (filePath) => {
     } finally {
         stopLoading()
     }
+    setTimeout(() => {
+        main(files, ++index)
+    })
 }
 
 // Get the file path from command line arguments
@@ -264,11 +294,5 @@ async function getFilesInFolder(folderPath) {
 
 const folderPath = "./resources/js/screens"
 getFilesInFolder(folderPath).then((files) => {
-    files.forEach((file, index) => {
-        console.log(index)
-        setTimeout(() => {
-            console.log(`Start processing ${file}! \n\n`)
-            main(file)
-        }, 60000 * index)
-    })
+    main(files)
 })

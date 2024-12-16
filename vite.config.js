@@ -32,7 +32,7 @@ export default defineConfig(({ mode }) => {
         },
         server: {
             host: "clinic.test",
-            port: 3000,
+            port: 3001,
         },
     }
 })

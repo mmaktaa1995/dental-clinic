@@ -1,14 +1,6 @@
 <template>
     <div class="w-full">
         <CSearch ref="search">
-            <template #filters="{ filters, loadEntries }"></template>
-
-            <template #troubleshooting>
-                <p>It looks like there was an error. Please check your application logs.</p>
-
-                <p class="mt-2">Consider searching using a more recent "Starting from" date. The CloudWatch API may have long response times while searching far into the past. These requests may timeout or lead to unexpected errors.</p>
-            </template>
-
             <template #create-btn>
                 <router-link :to="{ name: `visits-create` }" class="ml-4 flex items-center justify-center h-12 px-4 text-sm text-center text-gray-100 hover:text-gray-50 bg-gray-800 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-gray-600 focus:outline-none">
                     إضافة

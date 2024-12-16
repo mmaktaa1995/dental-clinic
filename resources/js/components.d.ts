@@ -41,6 +41,11 @@ import ArrowUp from "@/components/icons/ArrowUp.vue"
 import Refresh from "@/components/icons/Refresh.vue"
 import Cloud from "@/components/icons/Cloud.vue"
 import DocumentIcon from "@/components/icons/DocumentIcon.vue"
+import ConfirmModal from "@/components/ConfirmModal.vue"
+import Dialog from "@/components/Dialog.vue"
+import CButton from "@/components/CButton.vue"
+import CFullCalendar from "@/components/CFullCalendar.vue"
+
 declare module "pinia" {
     import { Router } from "vue-router"
 
@@ -51,6 +56,10 @@ declare module "pinia" {
 
 declare module "@vue/runtime-core" {
     export interface GlobalComponents {
+        CConfirmModal: typeof ConfirmModal
+        CFullCalendar: typeof CFullCalendar
+        CDialog: typeof Dialog
+        CButton: typeof CButton
         CAsyncButton: typeof AsyncButton
         CBarChart: typeof BarChart
         CPieChart: typeof PieChart

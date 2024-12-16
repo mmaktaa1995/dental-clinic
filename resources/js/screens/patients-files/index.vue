@@ -1,13 +1,6 @@
 <template>
     <div v-if="!isPatientFilesDetails" class="w-full">
         <CSearch>
-            <!--            <template #filters="{ filters, loadEntries }"></template>-->
-
-            <template #troubleshooting>
-                <p>It looks like there was an error. Please check your application logs.</p>
-
-                <p class="mt-2">Consider searching using a more recent "Starting from" date. The CloudWatch API may have long response times while searching far into the past. These requests may timeout or lead to unexpected errors.</p>
-            </template>
             <template #head>
                 <tr class="bg-gray-200 text-gray-600 text-sm leading-normal">
                     <th class="py-2 px-3 text-right">الاسم</th>

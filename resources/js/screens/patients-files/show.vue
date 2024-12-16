@@ -44,16 +44,7 @@
                         <tr class="bg-gray-200 text-gray-600 text-sm leading-normal">
                             <th colspan="4" class="py-2 px-3 text-right">الدفعات</th>
                             <th class="py-2 px-3 text-left">
-                                <a
-                                    href="#"
-                                    class="ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-gray-100 hover:text-gray-50 bg-gray-800 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-gray-600 focus:outline-none"
-                                    @click="
-                                        isFormManipulating = true
-                                        isEdit = false
-                                    "
-                                >
-                                    إضافة
-                                </a>
+                                <a href="#" class="ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-gray-100 hover:text-gray-50 bg-gray-800 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-gray-600 focus:outline-none" @click="add"> إضافة </a>
                             </th>
                         </tr>
                         <tr class="bg-gray-50 text-gray-600 text-sm leading-normal">
@@ -76,25 +67,16 @@
                                 <input v-model="form.remaining_amount" type="number" :disabled="submitted" class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full" />
                             </td>
                             <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500">
-                                <date-picker v-model="form.date" type="date" :disabled="submitted"></date-picker>
+                                <input v-model="form.date" type="date" :disabled="submitted" />
                             </td>
                             <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500">
-                                <async-button :loading="submitted" class="ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-white bg-green-500 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-green-600 focus:outline-none" @click="addPayment()">
+                                <CAsyncButton :loading="submitted" class="ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-white bg-green-500 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-green-600 focus:outline-none" @click="addPayment()">
                                     حفظ
-                                </async-button>
-                                <a
-                                    href="#"
-                                    class="ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-white bg-red-600 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-red-700 focus:outline-none"
-                                    @click="
-                                        resetForm()
-                                        isFormManipulating = false
-                                    "
-                                >
-                                    إلغاء
-                                </a>
+                                </CAsyncButton>
+                                <a href="#" class="ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-white bg-red-600 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-red-700 focus:outline-none" @click="cancel"> إلغاء </a>
                             </td>
                         </tr>
-                        <tr v-for="payment in data">
+                        <tr v-for="payment in data" :key="payment.id">
                             <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500">
                                 <span v-if="!payment.isEdit">
                                     {{ payment.visit.notes ? payment.visit.notes : "-" }}
@@ -103,17 +85,17 @@
                             </td>
                             <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-700">
                                 <span v-if="!payment.isEdit && !payment.isPayDebtOpened">
-                                    <b class="font-medium">{{ +payment.amount | numberFormat }}</b>
+                                    <b class="font-medium">{{ +payment.amount }}</b>
                                 </span>
                                 <input v-else v-model="payment.amount" type="number" :disabled="submitted" class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full" />
                             </td>
                             <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-700">
                                 <span v-if="!payment.isEdit">
                                     <b v-if="!payment.isPayDebtOpened" class="font-medium" :class="{ 'text-red-500': payment.remaining_amount > 0 }">
-                                        {{ +payment.remaining_amount | numberFormat }}
+                                        {{ +payment.remaining_amount }}
                                     </b>
                                     <b v-else class="font-medium" :class="{ 'text-red-500': payment.remaining_amount > 0 }">
-                                        {{ +(payment.remaining_amount - payment.amount) | numberFormat }}
+                                        {{ +(payment.remaining_amount - payment.amount) }}
                                     </b>
                                 </span>
                                 <input v-else v-model="payment.remaining_amount" type="number" :disabled="submitted" class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full" />
@@ -140,14 +122,14 @@
                                     >
                                     <c-icon-money size="5" class="transition-colors" />
                                 </a>
-                                <async-button
+                                <CAsyncButton
                                     v-if="payment.isEdit || payment.isPayDebtOpened"
                                     :loading="submitted"
                                     class="ml-4 py-1 items-center justify-center h-12 px-4 text-sm text-center text-white bg-green-500 transition-colors duration-200 transform border rounded-lg lg:h-8 hover:bg-green-600 focus:outline-none"
                                     @click="savePayment(payment)"
                                 >
                                     {{ payment.isPayDebtOpened ? "حفظ" : "تعديل" }}
-                                </async-button>
+                                </CAsyncButton>
                                 <a
                                     v-if="payment.isEdit || payment.isPayDebtOpened"
                                     href="#"
@@ -174,7 +156,7 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
-                        <tr v-for="payment in deletedPayments">
+                        <tr v-for="payment in deletedPayments" :key="payment.id">
                             <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-500">
                                 <span>
                                     {{ payment.visit.notes ? payment.visit.notes : "-" }}
@@ -182,13 +164,13 @@
                             </td>
                             <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-700">
                                 <span>
-                                    <b class="font-medium">{{ +payment.amount | numberFormat }}</b>
+                                    <b class="font-medium">{{ +payment.amount }}</b>
                                 </span>
                             </td>
                             <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 leading-5 text-gray-700">
                                 <span v-if="!payment.isEdit">
                                     <b class="font-medium" :class="{ 'text-red-500': payment.remaining_amount > 0 }">
-                                        {{ +payment.remaining_amount | numberFormat }}
+                                        {{ +payment.remaining_amount }}
                                     </b>
                                 </span>
                             </td>
@@ -252,14 +234,14 @@
                         </div>
                     </div>
                     <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row">
-                        <async-button
+                        <CAsyncButton
                             type="button"
                             :loading="submitted"
                             class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:mr-3 sm:w-auto sm:text-sm"
                             @click="deletePayment(payment_id)"
                         >
                             حذف
-                        </async-button>
+                        </CAsyncButton>
                         <button
                             type="button"
                             class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mr-3 sm:w-auto sm:text-sm"
@@ -276,15 +258,9 @@
 
 <script>
 import axios from "axios"
-import AsyncButton from "../../components/AsyncButton"
-import DatePicker from "vue2-datepicker"
 import moment from "moment"
 
 export default {
-    components: {
-        AsyncButton,
-        DatePicker,
-    },
     data() {
         return {
             id: null,
@@ -321,9 +297,9 @@ export default {
         this.type = this.$route.query.type
         this.getData()
         const self = this
-        bus.$on("item-deleted", function () {
-            self.getData()
-        })
+        // bus.$on("item-deleted", function () {
+        //     self.getData()
+        // })
     },
     methods: {
         back() {
@@ -366,13 +342,13 @@ export default {
             axios
                 .post(`/api/patients-files`, data)
                 .then(({ data }) => {
-                    bus.$emit("flash-message", { text: data.message, type: "success" })
+                    // bus.$emit("flash-message", { text: data.message, type: "success" })
                     this.resetForm()
                     this.isFormManipulating = false
                     this.getData()
                 })
                 .catch(({ response }) => {
-                    bus.$emit("flash-message", { text: response.data.message, type: "error" })
+                    // bus.$emit("flash-message", { text: response.data.message, type: "error" })
                 })
                 .finally(() => {
                     this.submitted = false
@@ -394,13 +370,13 @@ export default {
             axios
                 .put(`/api/patients-files/${this.payment_id}`, data)
                 .then(({ data }) => {
-                    bus.$emit("flash-message", { text: data.message, type: "success" })
+                    // bus.$emit("flash-message", { text: data.message, type: "success" })
                     this.resetForm()
                     payment.isEdit = false
                     this.getData()
                 })
                 .catch(({ response }) => {
-                    bus.$emit("flash-message", { text: response.data.message, type: "error" })
+                    // bus.$emit("flash-message", { text: response.data.message, type: "error" })
                 })
                 .finally(() => {
                     this.submitted = false
@@ -415,11 +391,11 @@ export default {
             axios
                 .delete(`/api/patients-files/${id}`)
                 .then(({ data }) => {
-                    bus.$emit("flash-message", { text: data.message, type: "success" })
+                    // bus.$emit("flash-message", { text: data.message, type: "success" })
                     this.getData()
                 })
                 .catch(({ response }) => {
-                    bus.$emit("flash-message", { text: response.data.message, type: "error" })
+                    // bus.$emit("flash-message", { text: response.data.message, type: "error" })
                 })
                 .finally(() => {
                     this.submitted = false
@@ -430,11 +406,11 @@ export default {
             axios
                 .post(`/api/patients-files/${payment.id}/restore`)
                 .then(({ data }) => {
-                    bus.$emit("flash-message", { text: data.message, type: "success" })
+                    // bus.$emit("flash-message", { text: data.message, type: "success" })
                     this.getData()
                 })
                 .catch(({ response }) => {
-                    bus.$emit("flash-message", { text: response.data.message, type: "error" })
+                    // bus.$emit("flash-message", { text: response.data.message, type: "error" })
                 })
                 .finally(() => {
                     this.submitted = false
@@ -461,6 +437,14 @@ export default {
             payment.isEdit = false
             payment.isPayDebtOpened = false
             payment.amount = this.currentPayment.amount
+        },
+        cancel() {
+            this.resetForm()
+            this.isFormManipulating = false
+        },
+        add() {
+            this.isFormManipulating = true
+            this.isEdit = false
         },
     },
 }

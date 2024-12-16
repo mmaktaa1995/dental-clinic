@@ -40,7 +40,7 @@
                         </div>
                         <div class="">
                             <label for="date" class="block text-sm font-medium text-gray-700 text-right">تاريخ الزيارة</label>
-                            <date-picker id="date" v-model="form.date" type="date" autocomplete="off"></date-picker>
+                            <input id="date" v-model="form.date" type="date" autocomplete="off" />
                             <small v-if="errors && errors.date" class="text-red-600 text-xs text-right block">{{ errors.date[0] }}</small>
                         </div>
 
@@ -65,13 +65,13 @@
                     >
                         إلغاء
                     </button>
-                    <async-button
+                    <CAsyncButton
                         type="submit"
                         :loading="submitted"
                         class="w-full inline-flex justify-center rounded-md border border-transparent transition duration-75 transition-all shadow-sm px-4 py-2 bg-teal-600 text-base font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:ml-3 sm:w-auto sm:text-sm"
                     >
                         حفظ
-                    </async-button>
+                    </CAsyncButton>
                 </div>
             </div>
         </form>
@@ -80,11 +80,9 @@
 
 <script>
 import axios from "axios"
-import DatePicker from "vue2-datepicker"
 import moment from "moment"
 
 export default {
-    components: { DatePicker },
     data() {
         return {
             id: null,

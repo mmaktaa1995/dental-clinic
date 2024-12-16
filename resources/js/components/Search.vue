@@ -116,7 +116,12 @@
                         </div>
 
                         <div class="mt-3 text-sm text-gray-700">
-                            <slot name="troubleshooting"></slot>
+                            <template v-if="!$slots['troubleshooting']">
+                                <p>{{ $t("debits.errorMessage") }}</p>
+
+                                <p class="mt-2">{{ $t("debits.suggestRecentDate") }}</p>
+                            </template>
+                            <slot v-else name="troubleshooting"></slot>
                         </div>
                     </div>
                 </template>

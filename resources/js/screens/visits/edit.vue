@@ -68,13 +68,13 @@
                     >
                         إلغاء
                     </button>
-                    <async-button
+                    <CAsyncButton
                         type="submit"
                         :loading="submitted"
                         class="w-full inline-flex justify-center rounded-md border border-transparent transition duration-75 transition-all shadow-sm px-4 py-2 bg-teal-600 text-base font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:ml-3 sm:w-auto sm:text-sm"
                     >
                         حفظ
-                    </async-button>
+                    </CAsyncButton>
                 </div>
             </div>
         </form>

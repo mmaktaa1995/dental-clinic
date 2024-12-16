@@ -42,8 +42,16 @@ import ArrowUp from "@/components/icons/ArrowUp.vue"
 import Refresh from "@/components/icons/Refresh.vue"
 import Cloud from "@/components/icons/Cloud.vue"
 import Document from "@/components/icons/DocumentIcon.vue"
+import ConfirmModal from "@/components/ConfirmModal.vue"
+import Dialog from "@/components/Dialog.vue"
+import CButton from "@/components/CButton.vue"
+import CFullCalendar from "@/components/CFullCalendar.vue"
 
 export const loadComponents = (app: App<Element>) => {
+    app.component("CConfirmModal", ConfirmModal)
+    app.component("CFullCalendar", CFullCalendar)
+    app.component("CDialog", Dialog)
+    app.component("CButton", CButton)
     app.component("CAsyncButton", AsyncButton)
     app.component("CBarChart", BarChart)
     app.component("CPieChart", PieChart)

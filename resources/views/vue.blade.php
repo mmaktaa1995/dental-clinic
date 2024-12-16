@@ -20,12 +20,6 @@
 <body>
 <!-- Vue App-->
 <div id="vapor-ui" class="antialiased min-h-screen flex overflow-hidden bg-gray-100" v-cloak>
-    @include('layout.sidebar')
-{{--    <c-flash-message></c-flash-message>--}}
-    <div class="w-full">
-        @include('layout.nav')
-        <router-view></router-view>
-    </div>
 </div>
 <script>
     var app;
