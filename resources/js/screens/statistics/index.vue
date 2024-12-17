@@ -36,7 +36,7 @@
             </div>
             <div class="w-1/5">
                 <CAsyncButton
-                    type="button"
+                    type="primary"
                     :loading="loading"
                     class="w-full inline-flex justify-center rounded-md border border-transparent transition duration-75 transition-all shadow-sm px-4 py-2 bg-teal-600 text-base font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:ml-3 sm:w-auto sm:text-sm"
                     @click="getData"
@@ -188,11 +188,47 @@
                 <c-apex-polar-chart v-if="incomes.length" label="إيراد" :format-tooltip-title="['الواردات']" :data="incomes"></c-apex-polar-chart>
             </div>
         </div>
+        <div v-if="!loading && incomes.length" class="card col-span-full">
+            <h1 class="text-lg font-semibold card-title">الواردات</h1>
+            <div class="card-body">
+                <c-apex-line-chart v-if="incomes.length" label="<b class='mr-1'>واردات</b>" color="green" :format-tooltip-title="['الواردات']" :suggested-max="suggestedMax(incomes)" :data="incomes"></c-apex-line-chart>
+            </div>
+        </div>
+        <div v-if="!loading && expenses.length" class="card col-span-full">
+            <h1 class="text-lg font-semibold card-title">النفقات</h1>
+            <div class="card-body">
+                <c-apex-line-chart v-if="expenses.length" label="<b class='mr-1'>نفقات</b>" color="red" :format-tooltip-title="['النفقات']" :suggested-max="suggestedMax(expenses)" :data="expenses"></c-apex-line-chart>
+            </div>
+        </div>
+        <div v-if="!loading && incomes.length" class="card col-span-full">
+            <h1 class="text-lg font-semibold card-title">الواردات و النفقات</h1>
+            <div class="card-body">
+                <c-apex-line-chart
+                    v-if="incomes.length"
+                    label="واردات"
+                    :colors="['blue', 'red']"
+                    :format-tooltip-title="['الواردات']"
+                    :suggested-max="suggestedMax(incomes)"
+                    :data="incomes"
+                    :series="[
+                        { name: '<b class=\'mr-1\'>واردات </b>', data: incomes.map((_) => _.value) },
+                        { name: '<b class=\'mr-1\'>نفقات </b>', data: expenses.map((_) => _.value) },
+                    ]"
+                ></c-apex-line-chart>
+            </div>
+        </div>
+        <div v-if="!loading && debts.length" class="card col-span-full">
+            <h1 class="text-lg font-semibold card-title">المبالغ المتبقية</h1>
+            <div class="card-body">
+                <c-apex-line-chart v-if="debts.length" label="<b class='mr-1'>ديون</b>" :format-tooltip-title="['المبالغ المتبقية']" :suggested-max="suggestedMax(debts)" color="default" :data="debts"></c-apex-line-chart>
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup>
-import { ref } from "vue"
+import { computed, ref } from "vue"
+import axios from "axios"
 
 const passwordCorrect = ref(false)
 const password = ref("")
@@ -202,7 +238,15 @@ const month = ref("")
 const day = ref("")
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 const days = ref([])
-const years = ["2020", "2021", "2022", "2023"]
+const years = computed(() => {
+    const currentYear = new Date().getFullYear()
+    const years = [currentYear]
+    for (let i = 1; i < 5; i++) {
+        years.push(currentYear - i)
+    }
+    console.log(years, currentYear)
+    return years
+})
 const patientsTotalCount = ref(0)
 const incomeTotal = ref(0)
 const expensesTotal = ref(0)
@@ -212,26 +256,68 @@ const expensesSum = ref(0)
 const incomesSum = ref(0)
 const patients = ref([])
 const visits = ref([])
+const expenses = ref([])
+const debts = ref([])
 const incomes = ref([])
 
 const checkPassword = () => {
-    passwordCorrect.value = password.value === "yourpassword" // Replace with your own logic
+    passwordCorrect.value = password.value === "1256" // Replace with your own logic
 }
 
 const getData = async () => {
-    loading.value = true
-    // Fetch or calculate data based on selected values
-    await fetchData(year.value, month.value, day.value)
-    loading.value = false
+    await fetchData()
 }
 
-const fetchData = (year, month, day) => {
+const fetchData = async () => {
+    loading.value = true
+    const query = []
+    let queryParams = ""
+    if (year.value) {
+        query.push("year=" + year.value)
+        query.push("year=" + year.value)
+    }
+    if (month.value) {
+        query.push("month=" + month.value)
+        query.push("month=" + month.value)
+    }
+    if (day.value && month.value) {
+        query.push("day=" + day.value)
+        query.push("day=" + day.value)
+    }
+    queryParams = query.join("&")
+    await axios
+        .get("/api/statistics?" + queryParams)
+        .then(({ data }) => {
+            expenses.value = data.expenses
+            visits.value = data.visits
+            incomes.value = data.incomes
+            patients.value = data.patients
+            debts.value = data.debts
+
+            totalPatients.value = patients.value.reduce((sum, item) => sum + +item.value, 0)
+            expensesSum.value = expenses.value.reduce((sum, item) => sum + +item.value, 0)
+            incomesSum.value = incomes.value.reduce((sum, item) => sum + +item.value, 0)
+
+            patientsTotalCount.value = data.patientsTotalCount
+            expensesTotal.value = data.expensesTotal
+            incomeTotal.value = data.incomeTotal
+            totalDebts.value = data.totalDebts
+        })
+        .finally(() => {
+            loading.value = false
+        })
     // Mock data fetching logic
-    console.log(`Fetching data for year: ${year}, month: ${month}, day: ${day}`)
+    console.log(`Fetching data for year: ${year.value}, month: ${month.value}, day: ${day.value}`)
 }
 
 const monthChanged = () => {
     days.value = month.value ? Array.from({ length: 31 }, (_, i) => i + 1) : []
+}
+
+const suggestedMax = (timeseries) => {
+    const data = timeseries.map((point) => point.value)
+
+    return Math.max(Math.max(...data), 1)
 }
 </script>
 

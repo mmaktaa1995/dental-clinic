@@ -1,5 +1,5 @@
 <template>
-    <div v-if="user && !$route.path.includes('unauthorized') && !$route.path.includes('404')" class="flex flex-shrink-0 sidebar" :class="{ active: showSidebar }">
+    <div v-if="showSide" class="flex flex-shrink-0 sidebar" :class="{ active: layoutStore.showSidebar }">
         <div class="flex flex-col w-64">
             <div class="flex flex-col h-0 flex-1">
                 <!-- Logo -->
@@ -11,7 +11,7 @@
                     <!-- Logs tabs -->
                     <h3 class="px-3 mt-8 text-xs leading-4 font-semibold text-gray-500 uppercase tracking-wider">النظام</h3>
 
-                    <nav v-if="user && user.admin" class="px-2 py-4 bg-gray-800">
+                    <nav v-if="accountStore.user!.admin" class="px-2 py-4 bg-gray-800">
                         <router-link
                             :to="{ name: `statistics` }"
                             href="#"
@@ -96,11 +96,17 @@
     </div>
 </template>
 <script setup lang="ts">
-import { ref } from "vue"
+import { computed, ref } from "vue"
+import { useAccountStore } from "@/stores/accountStore"
+import { useRoute } from "vue-router"
+import { useLayoutStore } from "@/stores/layoutStore"
 
-const user = ref({ full_name: "Aktaa", admin: 1 })
-const showSidebar = ref(false)
-const toggleSideBar = () => {
-    showSidebar.value = !showSidebar.value
-}
+const accountStore = useAccountStore()
+const layoutStore = useLayoutStore()
+const route = useRoute()
+
+const showSide = computed(() => {
+    console.log(accountStore.user && !route.path.includes("unauthorized") && !route.path.includes("404"))
+    return accountStore.user && !route.path.includes("unauthorized") && !route.path.includes("404")
+})
 </script>

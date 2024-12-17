@@ -29,6 +29,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:api')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
     Route::get('patients/dropdown', [PatientsController::class, 'dropdownData'])->name('patients.dropdown');
     Route::get('patients/lastFileNumber', [PatientsController::class, 'lastFileNumber'])->name('patients.last_file_number');
     Route::get('patients/debits', [PatientsController::class, 'debits'])->name('patients.debits');

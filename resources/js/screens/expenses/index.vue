@@ -1,6 +1,6 @@
 <template>
     <div class="w-full">
-        <search>
+        <CSearch>
             <template #filters="{ filters, loadEntries }">
                 <div class="grid grid-cols-2 gap-6 min-w-0 w-full mt-3">
                     <div>
@@ -45,7 +45,6 @@
                     <div class="flex item-center">
                         <router-link
                             :to="{ name: 'expenses-edit', params: { id: entry.id }, query: entry.filters }"
-                            tag="button"
                             href="#"
                             class="w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent hover:text-gray-500 focus:outline-none focus:text-gray-500 focus:bg-gray-100 transition ease-in-out duration-150"
                         >
@@ -54,7 +53,6 @@
                         <div class="w-4 mr-2 transform hover:text-purple-500">
                             <router-link
                                 :to="{ name: 'expenses-delete', params: { id: entry.id }, query: { type: 'نفقة' } }"
-                                tag="button"
                                 href="#"
                                 class="w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent transition-colors hover:text-red-500 focus:outline-none focus:text-gray-500 focus:bg-gray-100 transition ease-in-out duration-150"
                             >
@@ -64,7 +62,7 @@
                     </div>
                 </td>
             </template>
-        </search>
+        </CSearch>
         <router-view></router-view>
     </div>
 </template>
