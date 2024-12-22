@@ -1,11 +1,12 @@
 import { createRouter, createWebHistory } from "vue-router"
+import { getPatientsRoutes } from "@/modules/patients/routes.js"
 
 const redirectIfNotAuth = (to, from, next) => {
     if (localStorage.getItem("user")) next("/")
     else next()
 }
 
-const checkAuth = (to, from, next) => {
+export const checkAuth = (to, from, next) => {
     const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
     if (user) {
         if (user.admin) next()
@@ -26,7 +27,7 @@ const routes = [
         path: "/login",
         name: "login",
         beforeEnter: redirectIfNotAuth,
-        component: () => import("./screens/auth/login.vue"),
+        component: () => import("./modules/auth/views/login.vue"),
         meta: {
             createTitle: () => "Login",
         },
@@ -35,75 +36,18 @@ const routes = [
         path: "/register",
         name: "register",
         beforeEnter: redirectIfNotAuth,
-        component: () => import("./screens/auth/register.vue"),
+        component: () => import("./modules/auth/views/register.vue"),
         meta: {
             createTitle: () => "Register",
         },
     },
-
-    {
-        path: "/patients",
-        name: "patients-index",
-        beforeEnter: checkAuth,
-        component: () => import("./screens/patients/index.vue"),
-        meta: {
-            resource: "patients",
-            createTitle: () => "المرضى",
-        },
-        children: [
-            {
-                path: ":id/delete",
-                name: "patients-delete",
-                component: () => import("./screens/patients/delete.vue"),
-                meta: {
-                    resource: "patients",
-                    createTitle: () => "حذف مريض",
-                },
-            },
-            {
-                path: "create",
-                name: "patients-create",
-                component: () => import("./screens/patients/create.vue"),
-                meta: {
-                    resource: "patients",
-                    createTitle: () => "إضافة مريض",
-                },
-            },
-            {
-                path: ":id/edit",
-                name: "patients-edit",
-                component: () => import("./screens/patients/edit.vue"),
-                meta: {
-                    resource: "patients",
-                    createTitle: () => "تعديل مريض",
-                },
-            },
-            {
-                path: ":id/visits",
-                name: "patients-visits",
-                component: () => import("./screens/patients/visits.vue"),
-                meta: {
-                    resource: "patients/:id/visits",
-                    createTitle: () => "زيارات المريض",
-                },
-            },
-            {
-                path: ":id/files",
-                name: "patients-files",
-                component: () => import("./screens/patients/upload-files.vue"),
-                meta: {
-                    resource: "patients",
-                    createTitle: () => "ملفات المريض",
-                },
-            },
-        ],
-    },
+    ...getPatientsRoutes(),
 
     {
         path: "/deleted-patients",
         name: "deleted-patients-index",
         beforeEnter: checkAuth,
-        component: () => import("./screens/deleted-patients/index.vue"),
+        component: () => import("./modules/deleted-patients/index.vue"),
         meta: {
             resource: "patients",
             queryParams: { deleted: 1 },
@@ -113,7 +57,7 @@ const routes = [
             {
                 path: ":id/restore",
                 name: "deleted-patients-restore",
-                component: () => import("./screens/deleted-patients/restore.vue"),
+                component: () => import("./modules/deleted-patients/restore.vue"),
                 meta: {
                     resource: "patients",
                     createTitle: () => "استعادة مريض",
@@ -126,7 +70,7 @@ const routes = [
         path: "/visits",
         name: "visits-index",
         beforeEnter: checkAuth,
-        component: () => import("./screens/visits/index.vue"),
+        component: () => import("./modules/visits/index.vue"),
         meta: {
             resource: "visits",
             createTitle: () => "الزيارات",
@@ -135,7 +79,7 @@ const routes = [
             {
                 path: ":id/delete",
                 name: "visits-delete",
-                component: () => import("./screens/visits/delete.vue"),
+                component: () => import("./modules/visits/delete.vue"),
                 meta: {
                     resource: "visits",
                     createTitle: () => "حذف الزيارة",
@@ -144,7 +88,7 @@ const routes = [
             {
                 path: "create",
                 name: "visits-create",
-                component: () => import("./screens/visits/create.vue"),
+                component: () => import("./modules/visits/create.vue"),
                 meta: {
                     resource: "visits",
                     createTitle: () => "إنشاء زيارة",
@@ -153,7 +97,7 @@ const routes = [
             {
                 path: ":id/edit",
                 name: "visits-edit",
-                component: () => import("./screens/visits/edit.vue"),
+                component: () => import("./modules/visits/edit.vue"),
                 meta: {
                     resource: "visits",
                     createTitle: () => "تعديل زيارة",
@@ -166,7 +110,7 @@ const routes = [
         path: "/expenses",
         name: "expenses-index",
         beforeEnter: checkAuth,
-        component: () => import("./screens/expenses/index.vue"),
+        component: () => import("./modules/expenses/index.vue"),
         meta: {
             resource: "expenses",
             createTitle: () => "النفقات",
@@ -175,7 +119,7 @@ const routes = [
             {
                 path: ":id/delete",
                 name: "expenses-delete",
-                component: () => import("./screens/expenses/delete.vue"),
+                component: () => import("./modules/expenses/delete.vue"),
                 meta: {
                     resource: "expenses",
                     createTitle: () => "حذف نفقة",
@@ -184,7 +128,7 @@ const routes = [
             {
                 path: "create",
                 name: "expenses-create",
-                component: () => import("./screens/expenses/create.vue"),
+                component: () => import("./modules/expenses/create.vue"),
                 meta: {
                     resource: "expenses",
                     createTitle: () => "إضافة نفقة",
@@ -193,7 +137,7 @@ const routes = [
             {
                 path: ":id/edit",
                 name: "expenses-edit",
-                component: () => import("./screens/expenses/edit.vue"),
+                component: () => import("./modules/expenses/edit.vue"),
                 meta: {
                     resource: "expenses",
                     createTitle: () => "تعديل نفقة",
@@ -206,7 +150,7 @@ const routes = [
         path: "/services",
         name: "services-index",
         beforeEnter: checkAuth,
-        component: () => import("./screens/services/index.vue"),
+        component: () => import("./modules/services/index.vue"),
         meta: {
             resource: "services",
             createTitle: () => "الخدمات",
@@ -215,7 +159,7 @@ const routes = [
             {
                 path: ":id/delete",
                 name: "services-delete",
-                component: () => import("./screens/services/delete.vue"),
+                component: () => import("./modules/services/delete.vue"),
                 meta: {
                     resource: "services",
                     createTitle: () => "حذف خدمة",
@@ -224,7 +168,7 @@ const routes = [
             {
                 path: "create",
                 name: "services-create",
-                component: () => import("./screens/services/create.vue"),
+                component: () => import("./modules/services/create.vue"),
                 meta: {
                     resource: "services",
                     createTitle: () => "إضافة خدمة",
@@ -233,7 +177,7 @@ const routes = [
             {
                 path: ":id/edit",
                 name: "services-edit",
-                component: () => import("./screens/services/edit.vue"),
+                component: () => import("./modules/services/edit.vue"),
                 meta: {
                     resource: "services",
                     createTitle: () => "تعديل خدمة",
@@ -246,7 +190,7 @@ const routes = [
         path: "/payments",
         name: "payments-index",
         beforeEnter: checkAuth,
-        component: () => import("./screens/payments/index.vue"),
+        component: () => import("./modules/payments/index.vue"),
         meta: {
             resource: "payments",
             createTitle: () => "الدفعات",
@@ -255,7 +199,7 @@ const routes = [
             {
                 path: ":id/delete",
                 name: "payments-delete",
-                component: () => import("./screens/payments/delete.vue"),
+                component: () => import("./modules/payments/delete.vue"),
                 meta: {
                     resource: "payments",
                     createTitle: () => "حذف دفعة",
@@ -264,7 +208,7 @@ const routes = [
             {
                 path: "create",
                 name: "payments-create",
-                component: () => import("./screens/payments/create.vue"),
+                component: () => import("./modules/payments/create.vue"),
                 meta: {
                     resource: "payments",
                     createTitle: () => "إضافة دفعة",
@@ -273,7 +217,7 @@ const routes = [
             {
                 path: ":id/edit",
                 name: "payments-edit",
-                component: () => import("./screens/payments/edit.vue"),
+                component: () => import("./modules/payments/edit.vue"),
                 meta: {
                     resource: "payments",
                     createTitle: () => "تعديل دفعة",
@@ -286,7 +230,7 @@ const routes = [
         path: "/patients-files",
         name: "patients-files-index",
         beforeEnter: checkAuth,
-        component: () => import("./screens/patients-files/index.vue"),
+        component: () => import("./modules/patients-files/index.vue"),
         meta: {
             resource: "patients-files",
             createTitle: () => "الإضبارات",
@@ -295,7 +239,7 @@ const routes = [
             {
                 path: ":id/show",
                 name: "patients-files-show",
-                component: () => import("./screens/patients-files/show.vue"),
+                component: () => import("./modules/patients-files/show.vue"),
                 meta: {
                     resource: "patients-files",
                     createTitle: () => "إضبارة مريض",
@@ -304,7 +248,7 @@ const routes = [
                     {
                         path: "delete",
                         name: "patients-files-delete",
-                        component: () => import("./screens/patients-files/delete.vue"),
+                        component: () => import("./modules/patients-files/delete.vue"),
                         meta: {
                             resource: "patients-files",
                             createTitle: () => "حذف إضبارة مريض",
@@ -319,7 +263,7 @@ const routes = [
         path: "/statistics",
         name: "statistics",
         beforeEnter: checkAuth,
-        component: () => import("./screens/statistics/index.vue"),
+        component: () => import("./modules/statistics/Index.vue"),
         meta: {
             resource: "statistics",
             createTitle: () => "الإحصائيات",
@@ -329,7 +273,7 @@ const routes = [
         path: "/debits",
         name: "debits-index",
         beforeEnter: checkAuth,
-        component: () => import("./screens/debits/index.vue"),
+        component: () => import("./modules/debits/index.vue"),
         meta: {
             resource: "patients/debits",
             createTitle: () => " المبالغ المتبقية",
@@ -339,7 +283,7 @@ const routes = [
         path: "/appointments",
         name: "appointments-index",
         beforeEnter: checkAuth,
-        component: () => import("./screens/appointments/index.vue"),
+        component: () => import("./modules/appointments/index.vue"),
         meta: {
             resource: "appointments",
             createTitle: () => "المواعيد",
@@ -348,7 +292,7 @@ const routes = [
             {
                 path: "create",
                 name: "appointments-create",
-                component: () => import("./screens/appointments/create.vue"),
+                component: () => import("./modules/appointments/create.vue"),
                 meta: {
                     resource: "appointments",
                     createTitle: () => "إضافة موعد",
@@ -357,7 +301,7 @@ const routes = [
             {
                 path: ":id/delete",
                 name: "appointments-delete",
-                component: () => import("./screens/appointments/delete.vue"),
+                component: () => import("./modules/appointments/delete.vue"),
                 meta: {
                     resource: "appointments",
                     createTitle: () => "حذف موعد",
@@ -366,7 +310,7 @@ const routes = [
             {
                 path: ":id/edit",
                 name: "appointments-edit",
-                component: () => import("./screens/appointments/edit.vue"),
+                component: () => import("./modules/appointments/edit.vue"),
                 meta: {
                     resource: "appointments",
                     createTitle: () => "تعديل موعد",
@@ -376,14 +320,14 @@ const routes = [
     },
     {
         path: "/unauthorized",
-        component: () => import("./screens/403.vue"),
+        component: () => import("./modules/403.vue"),
         meta: {
             createTitle: () => "Login",
         },
     },
     {
         path: "/404",
-        component: () => import("./screens/404.vue"),
+        component: () => import("./modules/404.vue"),
         meta: {
             createTitle: () => "Login",
         },
@@ -391,7 +335,7 @@ const routes = [
 ]
 
 const router = createRouter({
-    history: createWebHistory("/admin"),
+    history: createWebHistory(),
     routes,
     scrollBehavior(to, from, savedPosition) {
         if (savedPosition) {
@@ -412,5 +356,9 @@ router.beforeEach((to, from, next) => {
 
     next()
 })
+
+export function useCurrentRouter() {
+    return router
+}
 
 export default router

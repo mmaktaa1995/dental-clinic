@@ -1,1 +1,68 @@
-{"error":{"errorCode403":"403","notAuthorizedToViewPage":"You are not authorized to view this page","backToHomepage":"Back to Homepage"},"errors":{"pageNotFound":"Page Not Found","findOtherThings":"Find other things","backToHomepage":"Back to Homepage"},"auth":{"registerNewAccount":"Register new account","admin":"Admin","student":"Student","username":"Username","usernamePlaceholder":"Username","name":"Name","namePlaceholder":"Name","email":"Email address","emailPlaceholder":"Email address","password":"Password","passwordPlaceholder":"Password","signUp":"Sign up"},"debits":{"errorMessage":"It looks like there was an error. Please check your application logs.","suggestRecentDate":"Consider searching using a more recent 'Starting from' date. The CloudWatch API may have long response times while searching far into the past. These requests may timeout or lead to unexpected errors.","name":"Name","amount":"Amount","actionTaken":"Action Taken","date":"Date"}}
+{
+    "auth": {
+        "admin": "Admin",
+        "email": "Email address",
+        "emailPlaceholder": "Email address",
+        "name": "Name",
+        "namePlaceholder": "Name",
+        "password": "Password",
+        "passwordPlaceholder": "Password",
+        "registerNewAccount": "Register new account",
+        "signUp": "Sign up",
+        "student": "Student",
+        "username": "Username",
+        "usernamePlaceholder": "Username"
+    },
+    "cDetailPage": {
+        "backToOverview": "Back"
+    },
+    "debits": {
+        "actionTaken": "Action Taken",
+        "amount": "Amount",
+        "date": "Date",
+        "errorMessage": "It looks like there was an error. Please check your application logs.",
+        "name": "Name",
+        "suggestRecentDate": "Consider searching using a more recent 'Starting from' date. The CloudWatch API may have long response times while searching far into the past. These requests may timeout or lead to unexpected errors."
+    },
+    "error": {
+        "backToHomepage": "Back to Homepage",
+        "errorCode403": 403,
+        "notAuthorizedToViewPage": "You are not authorized to view this page"
+    },
+    "errors": {
+        "backToHomepage": "Back to Homepage",
+        "findOtherThings": "Find other things",
+        "pageNotFound": "Page Not Found"
+    },
+    "global": {
+        "create": "Create",
+        "date": "Date",
+        "from_date": "From",
+        "pagination": {
+            "entriesPerPage": "Entries Per Page:",
+            "of": "Of",
+            "page": "Page:"
+        },
+        "saveChanges": "Save changes",
+        "to_date": "To"
+    },
+    "patients": {
+        "createdAt": "Created At",
+        "fileNumber": "File Number",
+        "mobile": "Mobile",
+        "moduleName": "Patients",
+        "name": "Name"
+    },
+    "sideBar": {
+        "menu": {
+            "appointments": "Appointments",
+            "debits": "Debits",
+            "expenses": "Expenses",
+            "patients": "Patients",
+            "patientsFiles": "Patients Files",
+            "payments": "Payments",
+            "services": "Services",
+            "statistics": "Statistics"
+        }
+    }
+}

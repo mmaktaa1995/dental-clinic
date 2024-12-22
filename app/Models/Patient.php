@@ -53,7 +53,7 @@ class Patient extends Eloquent
 
     public static $relationsWithForSearch = ['images'];
     public static $searchableFields = ['name', 'file_number', 'mobile', 'phone'];
-    protected $dateFormat = 'Y-m-d H:i:s';
+//    protected $dateFormat = 'Y-m-d H:i:s';
     protected $fillable = ['name', 'age', 'phone', 'mobile', 'file_number', 'image'];
 
     public static function boot()

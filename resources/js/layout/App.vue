@@ -1,18 +1,28 @@
 <template>
-    <CSidebar></CSidebar>
-    <div class="w-full">
-        <CNavbar></CNavbar>
-        <router-view></router-view>
-    </div>
+    <template v-if="loaded">
+        <CSidebar></CSidebar>
+        <div class="w-full">
+            <CNavbar></CNavbar>
+            <router-view></router-view>
+        </div>
+    </template>
 </template>
 <script setup lang="ts">
 import CNavbar from "@/layout/CNavbar.vue"
 import CSidebar from "@/layout/CSidebar.vue"
-import { onBeforeMount } from "vue"
-import { useAccountStore } from "@/stores/accountStore"
+import { onBeforeMount, ref } from "vue"
+import { useAccountStore } from "@/modules/auth/accountStore"
+import { getSelectedLanguage, setI18n } from "@/logic/i18n"
+import { useI18n } from "vue-i18n"
 
+setI18n(useI18n<any, ReturnType<typeof getSelectedLanguage>["value"]>())
+
+const loaded = ref(false)
 const accountStore = useAccountStore()
-onBeforeMount(() => {
-    accountStore.getUser()
+
+onBeforeMount(async () => {
+    await accountStore.getUser()
+    await accountStore.getLastFileNumber()
+    loaded.value = true
 })
 </script>

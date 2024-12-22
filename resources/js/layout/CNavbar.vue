@@ -49,9 +49,9 @@
 <script setup lang="ts">
 import { computed, ref } from "vue"
 import { useRoute, useRouter } from "vue-router"
-import { useAccountStore, User } from "@/stores/accountStore"
+import { useAccountStore, User } from "@/modules/auth/accountStore"
 import axios from "axios"
-import { useLayoutStore } from "@/stores/layoutStore"
+import { useLayoutStore } from "@/store/layoutStore"
 
 const accountStore = useAccountStore()
 

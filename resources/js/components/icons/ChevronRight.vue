@@ -4,10 +4,12 @@
     </svg>
 </template>
 
-<script>
-import Sizable from "./Sizable"
+<script setup lang="ts">
+import { useSizeClass } from "@/composables/sizable.js"
 
-export default {
-    mixins: [Sizable],
-}
+const { size } = defineProps<{
+    size: number | string
+}>()
+const sizeClass = useSizeClass(size)
+console.log(sizeClass)
 </script>

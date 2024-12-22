@@ -45,6 +45,15 @@ import ConfirmModal from "@/components/ConfirmModal.vue"
 import Dialog from "@/components/Dialog.vue"
 import CButton from "@/components/CButton.vue"
 import CFullCalendar from "@/components/CFullCalendar.vue"
+import NavigationDrawer from "@/components/NavigationDrawer.vue"
+import CDetailPage from "@/components/CDetailPage/CDetailPage.vue"
+import TextField from "@/components/TextField.vue"
+import Dropdown from "@/components/Dropdown.vue"
+import Container from "@/components/Container.vue"
+import CSelect from "@/components/CSelect.vue"
+import DataTable from "@/components/table/DataTable.vue"
+import TimePicker from "@/components/TimePicker.vue"
+import DatePicker from "@/components/DatePicker.vue"
 
 declare module "pinia" {
     import { Router } from "vue-router"
@@ -56,6 +65,15 @@ declare module "pinia" {
 
 declare module "@vue/runtime-core" {
     export interface GlobalComponents {
+        CDatePicker: typeof DatePicker
+        CTimePicker: typeof TimePicker
+        CDataTable: typeof DataTable
+        CSelect: typeof CSelect
+        CContainer: typeof Container
+        CDropdown: typeof Dropdown
+        CDetailPage: typeof CDetailPage
+        CTextField: typeof TextField
+        CNavigationDrawer: typeof NavigationDrawer
         CConfirmModal: typeof ConfirmModal
         CFullCalendar: typeof CFullCalendar
         CDialog: typeof Dialog

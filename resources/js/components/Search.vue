@@ -159,53 +159,48 @@
                             </tr>
                         </transition-group>
                     </table>
-                    <div v-if="state.entries.length > 0" class="flex justify-between items-center bg-white divide-y divide-gray-200 py-2 px-3">
+                    <div v-if="state.entries.length > 0" class="flex justify-between items-center bg-white py-2 px-3">
                         <!-- Help text -->
-                        <span class="text-sm text-gray-700 dark:text-gray-400">
-                            عرض
-                            <span class="font-semibold text-gray-900 dark:text-white">
-                                {{ (state.pagination.current_page - 1) * state.pagination.per_page + 1 }}
-                            </span>
-                            إلى
-                            <span class="font-semibold text-gray-900 dark:text-white">
-                                {{ state.pagination.current_page * state.pagination.per_page }}
-                            </span>
-                            من <span class="font-semibold text-gray-900 dark:text-white">{{ state.total }}</span> من الصفوف
-                        </span>
-                        <!-- Buttons -->
-                        <div class="inline-flex xs:mt-0">
+
+                        <nav class="flex justify-center items-center gap-x-1" aria-label="Pagination">
                             <button
+                                type="button"
                                 :disabled="state.pagination.current_page === 1"
-                                :class="{ 'cursor-not-allowed bg-gray-200 hover:bg-gray-800': state.pagination.current_page === 1 }"
-                                class="py-2 px-4 text-sm text-white bg-gray-700 rounded-r hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white focus:outline-none focus:shadow-none"
-                                @click="first"
-                            >
-                                الأول
-                            </button>
-                            <button
-                                :disabled="state.pagination.current_page === 1"
-                                :class="{ 'cursor-not-allowed bg-gray-200 hover:bg-gray-800': state.pagination.current_page === 1 }"
-                                class="py-2 px-4 text-sm text-white bg-gray-800 hover:bg-gray-800 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white focus:outline-none focus:shadow-none"
+                                class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-2 text-sm rounded-lg text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10"
+                                aria-label="Previous"
                                 @click="prev"
                             >
-                                السابق
+                                <svg class="shrink-0 size-3.5 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m15 18-6-6 6-6"></path>
+                                </svg>
+                                <span class="sr-only">Previous</span>
                             </button>
+                            <div class="flex items-center gap-x-1">
+                                <span
+                                    class="min-h-[38px] min-w-[38px] flex justify-center items-center border border-gray-200 text-gray-800 py-2 px-3 text-sm rounded-lg focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:border-neutral-700 dark:text-white dark:focus:bg-white/10"
+                                >
+                                    {{ state.pagination.current_page }}
+                                </span>
+                                <span class="min-h-[38px] flex justify-center items-center text-gray-500 py-2 px-1.5 text-sm dark:text-neutral-500">of</span>
+                                <span class="min-h-[38px] flex justify-center items-center text-gray-500 py-2 px-1.5 text-sm dark:text-neutral-500">
+                                    {{ state.pagination.last_page }}
+                                </span>
+                            </div>
                             <button
                                 :disabled="state.pagination.current_page === state.pagination.last_page"
-                                :class="{ 'cursor-not-allowed bg-gray-200 hover:bg-gray-800': state.pagination.current_page === state.pagination.last_page }"
-                                class="py-2 px-4 text-sm text-white bg-gray-800 border-0 border-r border-gray-700 hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white focus:outline-none focus:shadow-none"
+                                type="button"
+                                class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-2 text-sm rounded-lg text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10"
+                                aria-label="Next"
                                 @click="next"
                             >
-                                التالي
+                                <span class="sr-only">Next</span>
+                                <svg class="shrink-0 size-3.5 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m9 18 6-6-6-6"></path>
+                                </svg>
                             </button>
-                            <button
-                                :disabled="state.pagination.current_page === state.pagination.last_page"
-                                :class="{ 'cursor-not-allowed bg-gray-200 hover:bg-gray-800': state.pagination.current_page === state.pagination.last_page }"
-                                class="py-2 px-4 text-sm text-white bg-gray-700 rounded-l border-0 border-r border-gray-700 hover:bg-gray-800 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white focus:outline-none focus:shadow-none"
-                                @click="last"
-                            >
-                                الأخير
-                            </button>
+                        </nav>
+                        <div>
+                            <CSelect v-model="state.pagination.per_page" :options="pageOptions" @change="search"></CSelect>
                         </div>
                     </div>
                 </div>
@@ -218,6 +213,7 @@
 import { onBeforeUnmount, onMounted, reactive, ref, watch } from "vue"
 import axios from "axios"
 import { useRoute } from "vue-router"
+import { useRouteQueryParam } from "@/logic/routeQuerySync"
 
 // Props
 withDefaults(
@@ -257,17 +253,22 @@ const state = reactive({
     totalValues: 0,
 })
 
+useRouteQueryParam("query", "", "string", { targetRef: state.filters.query })
 // Reactive variables
 const group = ref("")
 const title = ref("")
 const route = useRoute()
+const pageOptions = [
+    { id: 10, label: 10 },
+    { id: 20, label: 20 },
+    { id: 50, label: 50 },
+    { id: 100, label: 100 },
+]
 
 // Watchers
 watch(
     () => route.fullPath,
     () => {
-        console.log(route.name, route.meta)
-        console.log((route.name! as string).includes("index"))
         if ((route.name! as string).includes("index")) {
             title.value = route.meta?.title as unknown as string
         }
@@ -334,7 +335,7 @@ function request() {
 
     state.searching = true
     return axios
-        .get(`/api/${resource}?page=${state.page}${queryParams}`, { params })
+        .get(`/api/${resource}?page=${state.page}&per_page=${state.pagination.per_page}${queryParams}`, { params })
         .then((data) => {
             state.troubleshooting = false
             if (JSON.stringify(filters) !== JSON.stringify(state.filters)) {

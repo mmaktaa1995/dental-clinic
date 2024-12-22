@@ -46,8 +46,26 @@ import ConfirmModal from "@/components/ConfirmModal.vue"
 import Dialog from "@/components/Dialog.vue"
 import CButton from "@/components/CButton.vue"
 import CFullCalendar from "@/components/CFullCalendar.vue"
+import NavigationDrawer from "@/components/NavigationDrawer.vue"
+import CDetailPage from "@/components/CDetailPage/CDetailPage.vue"
+import TextField from "@/components/TextField.vue"
+import Dropdown from "@/components/Dropdown.vue"
+import Container from "@/components/Container.vue"
+import CSelect from "@/components/CSelect.vue"
+import DataTable from "@/components/table/DataTable.vue"
+import DatePicker from "@/components/DatePicker.vue"
+import TimePicker from "@/components/TimePicker.vue"
 
 export const loadComponents = (app: App<Element>) => {
+    app.component("CDatePicker", DatePicker)
+    app.component("CTimePicker", TimePicker)
+    app.component("CDataTable", DataTable)
+    app.component("CContainer", Container)
+    app.component("CSelect", CSelect)
+    app.component("CDropdown", Dropdown)
+    app.component("CDetailPage", CDetailPage)
+    app.component("CTextField", TextField)
+    app.component("CNavigationDrawer", NavigationDrawer)
     app.component("CConfirmModal", ConfirmModal)
     app.component("CFullCalendar", CFullCalendar)
     app.component("CDialog", Dialog)

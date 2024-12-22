@@ -13,81 +13,15 @@
 
                     <nav v-if="accountStore.user!.admin" class="px-2 py-4 bg-gray-800">
                         <router-link
-                            :to="{ name: `statistics` }"
-                            href="#"
+                            v-for="link in links"
+                            :key="link.name"
+                            :to="{ name: link.name }"
                             exact
                             active-class="text-white bg-gray-900 focus:outline-none focus:bg-gray-900 transition ease-in-out duration-150"
                             class="mt-1 group flex items-center px-2 py-2 text-sm leading-5 text-gray-300 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150"
                         >
-                            <c-icon-chart-bar size="6" class="ml-3 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150"></c-icon-chart-bar>
-                            الإحصائيات
-                        </router-link>
-                        <router-link
-                            :to="{ name: `patients-index` }"
-                            exact
-                            active-class="text-white bg-gray-900 focus:outline-none focus:bg-gray-900 transition ease-in-out duration-150"
-                            class="group flex items-center px-2 py-2 text-sm leading-5 text-gray-300 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150"
-                        >
-                            <c-icon-users size="6" class="ml-3 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150"></c-icon-users>
-                            المرضى
-                        </router-link>
-                        <router-link
-                            :to="{ name: `patients-files-index` }"
-                            exact
-                            active-class="text-white bg-gray-900 focus:outline-none focus:bg-gray-900 transition ease-in-out duration-150"
-                            class="mt-1 group flex items-center px-2 py-2 text-sm leading-5 text-gray-300 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150"
-                        >
-                            <c-icon-file size="6" class="ml-3 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150"></c-icon-file>
-                            الإضبارات
-                        </router-link>
-                        <router-link
-                            :to="{ name: `payments-index` }"
-                            exact
-                            active-class="text-white bg-gray-900 focus:outline-none focus:bg-gray-900 transition ease-in-out duration-150"
-                            class="mt-1 group flex items-center px-2 py-2 text-sm leading-5 text-gray-300 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150"
-                        >
-                            <c-icon-money size="6" class="ml-3 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150"></c-icon-money>
-                            الدفعات
-                        </router-link>
-                        <router-link
-                            :to="{ name: `debits-index` }"
-                            href="#"
-                            exact
-                            active-class="text-white bg-gray-900 focus:outline-none focus:bg-gray-900 transition ease-in-out duration-150"
-                            class="mt-1 group flex items-center px-2 py-2 text-sm leading-5 text-gray-300 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150"
-                        >
-                            <c-icon-debit size="6" class="ml-3 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150"></c-icon-debit>
-                            المبالغ المتبقية
-                        </router-link>
-                        <router-link
-                            :to="{ name: `expenses-index` }"
-                            href="#"
-                            exact
-                            active-class="text-white bg-gray-900 focus:outline-none focus:bg-gray-900 transition ease-in-out duration-150"
-                            class="mt-1 group flex items-center px-2 py-2 text-sm leading-5 text-gray-300 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150"
-                        >
-                            <c-icon-expenses size="6" class="ml-3 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150"></c-icon-expenses>
-                            النفقات
-                        </router-link>
-                        <router-link
-                            :to="{ name: `appointments-index` }"
-                            href="#"
-                            exact
-                            active-class="text-white bg-gray-900 focus:outline-none focus:bg-gray-900 transition ease-in-out duration-150"
-                            class="mt-1 group flex items-center px-2 py-2 text-sm leading-5 text-gray-300 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150"
-                        >
-                            <c-icon-calendar size="6" class="ml-3 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150"></c-icon-calendar>
-                            المواعيد
-                        </router-link>
-                        <router-link
-                            :to="{ name: `services-index` }"
-                            href="#"
-                            exact
-                            active-class="text-white bg-gray-900 focus:outline-none focus:bg-gray-900 transition ease-in-out duration-150"
-                            class="mt-1 group flex items-center px-2 py-2 text-sm leading-5 text-gray-300 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150"
-                        >
-                            <c-icon-collection size="6" class="ml-3 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150"></c-icon-collection>
-                            الخدمات
+                            <component :is="link.icon" size="6" class="ml-3 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150"></component>
+                            {{ link.text }}
                         </router-link>
                     </nav>
                 </div>
@@ -96,17 +30,61 @@
     </div>
 </template>
 <script setup lang="ts">
-import { computed, ref } from "vue"
-import { useAccountStore } from "@/stores/accountStore"
+import { computed } from "vue"
+import { useAccountStore } from "@/modules/auth/accountStore"
 import { useRoute } from "vue-router"
-import { useLayoutStore } from "@/stores/layoutStore"
+import { useLayoutStore } from "@/store/layoutStore"
+import { useI18n } from "vue-i18n"
 
 const accountStore = useAccountStore()
 const layoutStore = useLayoutStore()
 const route = useRoute()
+const { t } = useI18n()
 
 const showSide = computed(() => {
-    console.log(accountStore.user && !route.path.includes("unauthorized") && !route.path.includes("404"))
     return accountStore.user && !route.path.includes("unauthorized") && !route.path.includes("404")
 })
+
+const links = [
+    {
+        name: "statistics",
+        text: t("sideBar.menu.statistics"),
+        icon: "CIconChartBar",
+    },
+    {
+        name: "patients-index",
+        text: t("sideBar.menu.patients"),
+        icon: "CIconUsers",
+    },
+    {
+        name: "patients-files-index",
+        text: t("sideBar.menu.patientsFiles"),
+        icon: "CIconFile",
+    },
+    {
+        name: "payments-index",
+        text: t("sideBar.menu.payments"),
+        icon: "CIconMoney",
+    },
+    {
+        name: "debits-index",
+        text: t("sideBar.menu.debits"),
+        icon: "CIconDebit",
+    },
+    {
+        name: "expenses-index",
+        text: t("sideBar.menu.expenses"),
+        icon: "CIconExpenses",
+    },
+    {
+        name: "appointments-index",
+        text: t("sideBar.menu.appointments"),
+        icon: "CIconCalendar",
+    },
+    {
+        name: "services-index",
+        text: t("sideBar.menu.services"),
+        icon: "CIconCollection",
+    },
+]
 </script>

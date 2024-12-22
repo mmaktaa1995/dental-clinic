@@ -191,7 +191,7 @@
         <div v-if="!loading && incomes.length" class="card col-span-full">
             <h1 class="text-lg font-semibold card-title">الواردات</h1>
             <div class="card-body">
-                <c-apex-line-chart v-if="incomes.length" label="<b class='mr-1'>واردات</b>" color="green" :format-tooltip-title="['الواردات']" :suggested-max="suggestedMax(incomes)" :data="incomes"></c-apex-line-chart>
+                <c-apex-line-chart v-if="incomes.length" height="700" label="<b class='mr-1'>واردات</b>" color="green" :format-tooltip-title="['الواردات']" :suggested-max="suggestedMax(incomes)" :data="incomes"></c-apex-line-chart>
             </div>
         </div>
         <div v-if="!loading && expenses.length" class="card col-span-full">

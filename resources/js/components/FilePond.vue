@@ -19,8 +19,8 @@
     />
 </template>
 
-<script setup>
-import { ref, computed, watch, onMounted } from "vue"
+<script setup lang="ts">
+import { ref, computed, watch } from "vue"
 import vueFilePond from "vue-filepond"
 import axios from "axios"
 import "filepond/dist/filepond.min.css"
@@ -32,6 +32,7 @@ import FilePondPluginFilePoster from "filepond-plugin-file-poster"
 // Initialize FilePond component with plugins
 const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginFilePoster, FilePondPluginImagePreview)
 
+const files = defineModel < [] > { required: true }
 // Props
 const props = defineProps({
     folder: {
@@ -47,6 +48,7 @@ const props = defineProps({
         default: () => [],
     },
 })
+const $emits = defineEmits(["updateFiles"])
 
 // Refs
 const pond = ref(null)
@@ -84,6 +86,7 @@ const serverConfig = computed(() => ({
                         },
                     }
                     myFiles.value.push(file)
+                    files.value.push(file)
                     emitFiles()
                     load(JSON.stringify(response.data))
                 }
@@ -139,7 +142,8 @@ const serverConfig = computed(() => ({
 
 // Methods
 const emitFiles = () => {
-    emit(
+    console.log(myFiles.value)
+    $emits(
         "updateFiles",
         myFiles.value.map((file) => ({ image: file.source })),
     )

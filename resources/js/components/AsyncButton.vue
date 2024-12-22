@@ -1,33 +1,31 @@
 <template>
-    <CButton :type :disabled v-bind="attrs">
+    <CButton :to :type :disabled :class="{ 'cursor-not-allowed': loading }">
         <span v-if="loading" class="absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%)">
             <c-loader color="white" width="32"></c-loader>
         </span>
 
-        <span :class="{ invisible: loading }">
+        <span v-if="!loading">
             <slot></slot>
         </span>
     </CButton>
 </template>
 
 <script setup lang="ts">
-import { useAttrs } from "vue"
-
-// Props
-type ButtonType = "primary" | "warning" | "error" | "default"
+import { ButtonType } from "@/components/CButton.vue"
+import { RouteLocationNormalized } from "vue-router"
 
 withDefaults(
     defineProps<{
         type?: ButtonType
-        loading: boolean
+        loading?: boolean
         disabled?: boolean
+        to?: RouteLocationNormalized
     }>(),
     {
         disabled: false,
+        loading: false,
         type: "default",
+        to: undefined,
     },
 )
-
-// Access $attrs and $listeners
-const attrs = useAttrs()
 </script>

@@ -32,10 +32,17 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-    Route::get('patients/dropdown', [PatientsController::class, 'dropdownData'])->name('patients.dropdown');
+    // New Routes
     Route::get('patients/lastFileNumber', [PatientsController::class, 'lastFileNumber'])->name('patients.last_file_number');
+    Route::post('patients', [PatientsController::class, 'list']);
+    Route::post('patients/create', [PatientsController::class, 'store']);
+    Route::get('patients/{patient}', [PatientsController::class, 'show']);
+    Route::patch('patients/{patient}', [PatientsController::class, 'update']);
+
+    // Old Routes
+    Route::get('patients/dropdown', [PatientsController::class, 'dropdownData'])->name('patients.dropdown');
     Route::get('patients/debits', [PatientsController::class, 'debits'])->name('patients.debits');
-    Route::resource('patients', PatientsController::class)->except(['create', 'edit']);
+//    Route::resource('patients', PatientsController::class)->except(['create', 'edit']);
     Route::patch('patients/{patient}/images', [PatientsController::class, 'updateImages'])->name('patients.update_images');
     Route::patch('patients/{patient}/restore', [PatientsController::class, 'restore'])->name('patients.restore');
     Route::resource('patients-files', PatientsFilesController::class)->parameters(['patients-files' => 'payment'])->except(['create', 'edit']);

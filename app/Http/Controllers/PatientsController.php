@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PatientRequest;
+use App\Http\Requests\PatientSearchRequest;
 use App\Http\Resources\BaseCollection;
 use App\Http\Resources\PatientResource;
 use App\Http\Resources\PaymentResource;
@@ -11,11 +12,20 @@ use App\Models\Patient;
 use App\Models\Payment;
 use App\Models\Visit;
 use App\Services\PatientService;
+use App\Services\Search\Base\SearchRequest;
+use App\Services\Search\PatientSearch;
 use Exception;
 use Illuminate\Http\Request;
 
 class PatientsController extends Controller
 {
+    public function list(PatientSearchRequest $request)
+    {
+        $patientSearch = new PatientSearch($request);
+
+        return response()->json(BaseCollection::make($patientSearch->getEntries(), PatientResource::class));
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -40,49 +50,22 @@ class PatientsController extends Controller
         return response()->json(BaseCollection::make($data, PatientResource::class));
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @param Request $request
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function dropdownData(Request $request): \Illuminate\Http\JsonResponse
     {
         return response()->json(Patient::all()->pluck('name', 'id'));
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @param \App\Services\PatientService $patientService
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function lastFileNumber(PatientService $patientService): \Illuminate\Http\JsonResponse
     {
         return response()->json(['last_file_number' => $patientService->getLastFileNumber()]);
     }
 
-    /**
-     * @param \App\Models\Patient $patient
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function show(Patient $patient): \Illuminate\Http\JsonResponse
     {
         $patient->load('images');
         return response()->json(PatientResource::make($patient));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \App\Http\Requests\PatientRequest $request
-     *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
-     */
     public function store(PatientRequest $request): \Illuminate\Http\JsonResponse
     {
         try {
@@ -105,7 +88,7 @@ class PatientsController extends Controller
             \DB::rollBack();
             throw new Exception($exception->getMessage());
         }
-        return response()->json(['message' => __('app.success')]);
+        return response()->json(['message' => __('app.success'), 'id' => $patient->id]);
     }
 
 

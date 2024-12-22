@@ -27,7 +27,7 @@ class BaseCollection extends ResourceCollection
         $this->pagination = array_merge([
             'total' => $resource->total(),
             'last_page' => $resource->lastPage(),
-            'current_page' => $resource->currentPage(),
+            'page' => $resource->currentPage(),
             'per_page' => $resource->perPage()
         ], []);
 

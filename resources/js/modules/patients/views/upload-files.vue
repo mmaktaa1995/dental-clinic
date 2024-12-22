@@ -3,7 +3,7 @@
         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <div :class="`fixed inset-0 bg-gray-500 transition-opacity duration-200 ${opened ? 'bg-opacity-75' : 'bg-opacity-0'}`" aria-hidden="true" @click="back"></div>
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-            <div :class="`inline-block w-full align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full duration-200  ${opened.value ? 'scale-100' : 'scale-0'}`">
+            <div :class="`inline-block w-full align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full duration-200  ${opened ? 'scale-100' : 'scale-0'}`">
                 <div class="bg-gray-50 px-4 py-2 border-b border-gray-300 text-right">
                     <h3 class="text-lg text-gray-700 font-normal">ملفات المريض</h3>
                 </div>
@@ -52,6 +52,7 @@ const back = () => {
 
 const setImages = (images) => {
     files.value = images
+    console.log(images)
     if (files.value.length) {
         update()
     }

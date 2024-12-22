@@ -16,6 +16,7 @@
         "@fullcalendar/interaction": "^6.1.15",
         "@fullcalendar/timegrid": "^6.1.15",
         "@fullcalendar/vue3": "^6.1.15",
+        "@heroicons/vue": "^2.2.0",
         "@vueuse/core": "^9.13.0",
         "apexcharts": "^4.1.0",
         "axios": "^1.4.8",
