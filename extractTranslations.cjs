@@ -21,7 +21,7 @@
 
 const fs = require("fs").promises
 
-const OPENAI_API_KEY = "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"
+const OPENAI_API_KEY = process.env.API_KEY
 
 function showLoading(message) {
     const frames = ["-", "\\", "|", "/"]
