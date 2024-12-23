@@ -103,22 +103,23 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useEntryListUpdater } from "@/composables/entryListUpdater"
 import { usePatientsStore } from "@/modules/patients/store"
 import { useRouter } from "vue-router"
 import CDetailPageOutlet from "@/components/CDetailPage/CDetailPageOutlet.vue"
 import { useI18n } from "vue-i18n"
+import { DataTableColumn } from "@/components/table/DataTable.vue"
 
 const patientsStore = usePatientsStore()
 const router = useRouter()
 const { t } = useI18n()
 const { reload } = useEntryListUpdater("/patients", patientsStore)
 
-const columns = [
+const columns: DataTableColumn[] = [
     { field: "name", headerName: t("patients.name") },
     { field: "file_number", headerName: t("patients.fileNumber") },
-    { field: "mobile", headerName: t("patients.mobile") },
+    { field: "mobile", headerName: t("patients.mobile"), sortable: false },
     { field: "created_at", headerName: t("patients.createdAt") },
 ]
 

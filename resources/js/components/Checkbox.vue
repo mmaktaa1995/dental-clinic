@@ -35,7 +35,7 @@ const randomId = computed(() => {
     return new Date().valueOf() * Math.floor(Math.random() * 100)
 })
 
-const modelValue = defineModel<boolean | undefined>({ required: true })
+const modelValue = defineModel<boolean | null | undefined>({ required: true })
 
 const checkbox = ref<HTMLInputElement | null>(null)
 
