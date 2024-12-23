@@ -38,6 +38,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('patients/create', [PatientsController::class, 'store']);
     Route::get('patients/{patient}', [PatientsController::class, 'show']);
     Route::patch('patients/{patient}', [PatientsController::class, 'update']);
+    Route::delete('patients/{patient}', [PatientsController::class, 'destroy']);
 
     // Old Routes
     Route::get('patients/dropdown', [PatientsController::class, 'dropdownData'])->name('patients.dropdown');

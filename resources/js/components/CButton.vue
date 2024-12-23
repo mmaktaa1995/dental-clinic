@@ -17,10 +17,12 @@ const props = withDefaults(
         type?: ButtonType
         disabled?: boolean
         to?: RouteLocationRaw
+        sm?: boolean
     }>(),
     {
         type: "default",
         disabled: false,
+        sm: false,
         to: undefined,
     },
 )
@@ -28,8 +30,11 @@ const props = withDefaults(
 // Access $attrs and $listeners
 const attrs = useAttrs()
 const classes = computed(() => {
-    const baseStyle = "w-full inline-flex justify-center rounded-md border border-transparent duration-75 transition-all shadow-sm px-4 py-2 text-base font-medium sm:h-10 sm:w-auto sm:text-sm"
+    let baseStyle = "min-w-[60px] w-full rounded-md border border-transparent duration-75 transition-all shadow-sm px-4 py-2 font-medium sm:h-10 sm:w-auto sm:text-sm"
 
+    if (props.sm) {
+        baseStyle = baseStyle.replace("sm:h-10", "sm:h-8").replace("px-4", "px-2").replace("py-2", "py-1").replace("text-base", "").replace("sm:text-sm", "text-xs")
+    }
     const styles: Record<string, string> = {
         primary: "bg-teal-600 text-white hover:bg-teal-700",
         info: "bg-blue-400 text-white hover:bg-blue-500",

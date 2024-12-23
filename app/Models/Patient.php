@@ -61,8 +61,7 @@ class Patient extends Eloquent
         parent::boot();
 
         static::deleting(function (Patient $patient) {
-            try {
-                \DB::beginTransaction();
+            \DB::transaction(function () use ($patient) {
                 $patient->visits->each(function (Visit $visit) {
                     $visit->delete();
                 });
@@ -75,11 +74,7 @@ class Patient extends Eloquent
 //                \Storage::disk('public')->delete($imageName);
 //            }
                 DeletedPatient::insert($patient->withoutRelations()->toArray());
-                \DB::commit();
-            } catch (\Exception $exception) {
-                \DB::rollBack();
-                throw new $exception;
-            }
+            });
         });
     }
 

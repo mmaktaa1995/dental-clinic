@@ -94,8 +94,8 @@
                 <div class="grid grid-cols-2 gap-4 w-full">
                     <CTextField v-model="patientsStore.query" class="w-100" :label="$t('patients.name')" name="name"></CTextField>
                     <CTextField v-model="patientsStore.file_number" class="w-100" :label="$t('patients.fileNumber')" name="file_number"></CTextField>
-                    <CDatePicker v-model="patientsStore.from_date" :label="$t('global.from_date')" name="from_date"></CDatePicker>
-                    <CDatePicker v-model="patientsStore.to_date" :label="$t('global.to_date')" name="to_date"></CDatePicker>
+                    <CDatePicker v-model="patientsStore.from_date" :label="$t('global.fromDate')" name="from_date"></CDatePicker>
+                    <CDatePicker v-model="patientsStore.to_date" :label="$t('global.toDate')" name="to_date"></CDatePicker>
                 </div>
             </template>
         </CDataTable>

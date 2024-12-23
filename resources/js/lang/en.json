@@ -35,19 +35,27 @@
         "pageNotFound": "Page Not Found"
     },
     "global": {
-        "create": "Create",
+        "actions": {
+            "cancel": "Cancel",
+            "create": "Create",
+            "delete": "Delete",
+            "saveChanges": "Save changes"
+        },
         "date": "Date",
-        "from_date": "From",
+        "deleteEntryBodyMessage": "Are you sure you want to delete this {type}?",
+        "deleteEntryTitle": "Delete {type}",
+        "fromDate": "From",
+        "noEntriesFound": "No content found with the specified search criteria. You can adjust the filters above to see results.",
         "pagination": {
             "entriesPerPage": "Entries Per Page:",
             "of": "Of",
             "page": "Page:"
         },
-        "saveChanges": "Save changes",
-        "to_date": "To"
+        "toDate": "To"
     },
     "patients": {
         "createdAt": "Created At",
+        "entryName": "Patient",
         "fileNumber": "File Number",
         "mobile": "Mobile",
         "moduleName": "Patients",

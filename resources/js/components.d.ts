@@ -54,6 +54,7 @@ import CSelect from "@/components/CSelect.vue"
 import DataTable from "@/components/table/DataTable.vue"
 import TimePicker from "@/components/TimePicker.vue"
 import DatePicker from "@/components/DatePicker.vue"
+import Checkbox from "@/components/Checkbox.vue"
 
 declare module "pinia" {
     import { Router } from "vue-router"
@@ -65,6 +66,7 @@ declare module "pinia" {
 
 declare module "@vue/runtime-core" {
     export interface GlobalComponents {
+        CCheckbox: typeof Checkbox
         CDatePicker: typeof DatePicker
         CTimePicker: typeof TimePicker
         CDataTable: typeof DataTable

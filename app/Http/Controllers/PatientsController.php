@@ -15,6 +15,7 @@ use App\Services\PatientService;
 use App\Services\Search\Base\SearchRequest;
 use App\Services\Search\PatientSearch;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class PatientsController extends Controller
@@ -114,20 +115,14 @@ class PatientsController extends Controller
         return response()->json(['message' => __('app.success')]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Models\Patient $patient
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function destroy(Patient $patient)
+    public function destroy(Patient $patient): JsonResponse
     {
         try {
             \Schema::disableForeignKeyConstraints();
             $patient->delete();
             \Schema::enableForeignKeyConstraints();
         } catch (Exception $exception) {
+            dd($exception->getCode(), $exception->getMessage());
             return response()->json(['message' => $exception->getMessage()], $exception->getCode());
         }
         return response()->json(['message' => __('app.success')]);

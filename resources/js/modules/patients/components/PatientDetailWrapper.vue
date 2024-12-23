@@ -4,7 +4,9 @@
             <div v-if="patientDetailsStore.entry.id" class="c-detailsWrapper__sidebarHeader flex items-center">
                 <img src="/images/user.png" class="h-9 w-9 ml-3 ltr:mr-3 ltr:ml-0" :alt="patientDetailsStore.entry.name" />
                 <div class="d-flex flex-column">
-                    <div class="text-base font-semibold text-gray-900">{{ patientDetailsStore.entry.name }}</div>
+                    <div class="text-base font-semibold text-gray-900">
+                        {{ patientDetailsStore.entry.name }}
+                    </div>
                     <div v-if="!patientDetailsStore.isNewEntry" class="text-base font-normal text-teal-600">#{{ patientDetailsStore.entry.file_number }}</div>
                 </div>
             </div>
@@ -12,18 +14,28 @@
         <template #actionButtons>
             <CDropdown v-if="!patientDetailsStore.isNewEntry" :loading="isDeleting" :items="actions" :button-label="'الاإجرا،ات'" @select="handleAction"></CDropdown>
             <AsyncButton v-if="patientDetailsStore.isNewEntry" :disabled="!patientDetailsStore.watchers?.entry.isChanged" :loading="isSaving" type="primary" @click="save">
-                {{ $t("global.create") }}
+                {{ $t("global.actions.create") }}
             </AsyncButton>
             <AsyncButton v-else :loading="isSaving" :disabled="!patientDetailsStore.watchers?.entry.isChanged" type="primary" @click="save">
-                {{ $t("global.saveChanges") }}
+                {{ $t("global.actions.saveChanges") }}
             </AsyncButton>
         </template>
         <!--            <template v-if="patientDetailsStore.entry.isBinned" #sidebarContent>-->
         <!--                <KAlert>{{ $t("appointments.appointmentDetailsPage.alerts.isBinned") }}</KAlert>-->
         <!--            </template>-->
     </CDetailPage>
-    <CConfirmModal v-model="isPatientDeleteModalOpened" :confirm-title="`حذف ${type}`" :confirm-body-message="`هل أنت متأكد من حذف هذا ال${type}؟`" @confirm-callback="deletePatient"> </CConfirmModal>
-    <!--        <AppointmentDeleteModal v-model="isAppointmentDeleteModalOpen" @delete-appointment="deleteAppointment()"></AppointmentDeleteModal>-->
+    <CConfirmModal
+        v-model="isPatientDeleteModalOpened"
+        v-model:loading="isDeleting"
+        :confirm-title="$t('global.deleteEntryTitle', { type: $t('patients.entryName') })"
+        :confirm-body-message="
+            $t('global.deleteEntryBodyMessage', {
+                type: $t('patients.entryName'),
+            })
+        "
+        @confirm-callback="deletePatient"
+    >
+    </CConfirmModal>
 </template>
 
 <script setup lang="ts">
@@ -32,16 +44,17 @@ import { computed, ref, watch } from "vue"
 import { usePatientDetailStore } from "@/modules/patients/detailStore"
 import axios from "axios"
 import AsyncButton from "@/components/AsyncButton.vue"
+import { useI18n } from "vue-i18n"
 
 // const accountStore = useAccountStore()
 const isDeleting = ref(false)
+const isSaving = ref(false)
 const isPatientDeleteModalOpened = ref(false)
 const patientDetailsStore = usePatientDetailStore()
 const router = useRouter()
 const route = useRoute()
+const { t } = useI18n()
 patientDetailsStore.addWatcher("entry")
-
-const isSaving = ref(false)
 
 const props = defineProps<{
     reloadList?: () => any
@@ -71,7 +84,13 @@ const save = () => {
     axios[patientDetailsStore.isNewEntry ? "post" : "patch"](url, patientDetailsStore.entry)
         .then(({ data }) => {
             console.log(data)
-            router.replace({ name: "patients/general", params: { id: data.id } })
+            router.replace({
+                name: "patients/general",
+                params: { id: data.id },
+            })
+            if (props?.reloadList) {
+                props?.reloadList()
+            }
         })
         .catch((error) => {
             if (error.response && error.response.status === 422) {
@@ -85,25 +104,26 @@ const save = () => {
 
 const actions = computed(() => {
     const actions: Record<string, string> = {
-        delete: "Delete",
+        delete: t("global.actions.delete"),
     }
 
     return actions
 })
 const deletePatient = () => {
-    submitted.value = true
+    isDeleting.value = true
     axios
         .delete(`/api/patients/${patientDetailsStore.entryId}`)
-        .then(({ data }) => {
+        .then(() => {
             // bus.emit("flash-message", { text: data.message, type: "success" });
             // bus.emit("item-deleted", id.value);
-            back()
+            isDeleting.value = false
+            router.back()
+            if (props?.reloadList) {
+                props?.reloadList()
+            }
         })
-        .catch(({ response }) => {
+        .catch(() => {
             // bus.emit("flash-message", { text: response.data.message, type: "error" });
-        })
-        .finally(() => {
-            submitted.value = false
         })
 }
 // const deleteAppointment = async () => {

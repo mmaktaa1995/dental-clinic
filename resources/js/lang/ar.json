@@ -35,19 +35,27 @@
         "pageNotFound": "صفحة غير موجودة"
     },
     "global": {
-        "create": "إنشاء جديد",
+        "actions": {
+            "cancel": "إلغاء",
+            "create": "إنشاء جديد",
+            "delete": "حذف",
+            "saveChanges": "حفظ التغييرات"
+        },
         "date": "التاريخ",
-        "from_date": "من تاريخ",
+        "deleteEntryBodyMessage": "هل أنت متأكد من حذف هذا {type}؟",
+        "deleteEntryTitle": "حذف {type}",
+        "fromDate": "من تاريخ",
+        "noEntriesFound": "لم يتم العثور على أي محتوى يتوافق مع معايير البحث المحددة. يمكنك تعديل المرشحات أعلاه لرؤية النتائج.",
         "pagination": {
             "entriesPerPage": "الإدخالات لكل صفحة:",
             "of": "من",
             "page": "الصفحة:"
         },
-        "saveChanges": "حفظ التغييرات",
-        "to_date": "إلى تاريخ"
+        "toDate": "إلى تاريخ"
     },
     "patients": {
         "createdAt": "تاريخ الإنشاء",
+        "entryName": "المريض",
         "fileNumber": "رقم الملف",
         "mobile": "رقم الموبايل",
         "moduleName": "المرضى",

@@ -19,9 +19,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row">
-                    <CButton @click="back"> إلغاء </CButton>
-                    <CAsyncButton type="error" :loading="loading" @click="confirm"> حذف </CAsyncButton>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row gap-2">
+                    <CAsyncButton type="error" :loading="loading" @click="confirm"> {{ $t("global.actions.delete") }} </CAsyncButton>
+                    <CButton type="default" @click="back"> {{ $t("global.actions.cancel") }} </CButton>
                 </div>
             </div>
         </div>
