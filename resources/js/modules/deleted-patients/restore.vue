@@ -14,7 +14,7 @@
                             </svg>
                         </div>
                         <div class="mt-3 text-center sm:mt-0 sm:mr-4 sm:text-right">
-                            <h3 id="modal-title" class="text-lg leading-6 font-medium text-gray-900">استعادة {{ type }}</h3>
+                            <h3 id="modal-title" class="text-lg leading-6 font-medium text-gray-700">استعادة {{ type }}</h3>
                             <div class="mt-2">
                                 <p class="text-sm text-gray-500">هل أنت متأكد من استعادة هذا ال{{ type }}؟</p>
                             </div>
@@ -25,7 +25,7 @@
                     <CAsyncButton
                         type="button"
                         :loading="submitted"
-                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-teal-600 text-base font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:mr-3 sm:w-auto sm:text-sm"
+                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-cyan-700 text-base font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:mr-3 sm:w-auto sm:text-sm"
                         @click="deleteItem"
                     >
                         استعادة

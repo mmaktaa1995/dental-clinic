@@ -3,7 +3,7 @@
         <tr>
             <td :colspan="columnCount">
                 <div class="relative h-1 bg-gray-200 overflow-hidden">
-                    <div class="absolute left-0 top-0 h-full bg-gray-400 transition-transform duration-400 ease-in-out animate-indeterminate"></div>
+                    <div class="absolute right-0 ltr:left-0 top-0 h-full bg-gray-400 transition-transform duration-400 ease-in-out animate-indeterminate ltr:-animate-indeterminate"></div>
                 </div>
             </td>
         </tr>
@@ -24,6 +24,17 @@ withDefaults(
 /* Animation for the indeterminate progress bar */
 @keyframes indeterminate {
     0% {
+        transform: translateX(100%);
+    }
+    50% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+@keyframes -indeterminate {
+    0% {
         transform: translateX(-100%);
     }
     50% {
@@ -36,6 +47,11 @@ withDefaults(
 
 .animate-indeterminate {
     animation: indeterminate 1s infinite linear;
+    width: 50%; /* Width of the moving bar */
+}
+
+[dir="ltr"] .ltr\:-animate-indeterminate {
+    animation: -indeterminate 1s infinite linear;
     width: 50%; /* Width of the moving bar */
 }
 </style>

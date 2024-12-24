@@ -2,7 +2,7 @@
     <div class="border-t border-gray-200 md:border-0 md:border-l">
         <div class="px-4 py-5 sm:p-6">
             <dl>
-                <dt class="text-base leading-6 font-normal text-gray-900">
+                <dt class="text-base leading-6 font-normal text-gray-700">
                     <template>
                         {{ title }}
                     </template>

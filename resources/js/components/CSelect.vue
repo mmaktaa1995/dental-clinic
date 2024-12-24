@@ -26,7 +26,7 @@
                 {{ option.label }}
             </option>
         </select>
-        <small v-if="errors && errors[name]" class="text-red-600 text-xs text-right block">
+        <small v-if="errors && errors[name]" class="text-pink-600 text-xs text-right block">
             {{ errors[name][0] }}
         </small>
     </div>

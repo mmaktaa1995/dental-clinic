@@ -30,6 +30,7 @@ class PatientRequest extends FormRequest
             'notes' => ['nullable', 'string'],
             'amount' => ['nullable', 'numeric'],
             'age' => ['nullable', 'numeric'],
+            'gender' => ['nullable', 'numeric', 'in:1,2'],
             'phone' => ['nullable', 'numeric'],
             'mobile' => ['nullable', 'numeric'],
         ];

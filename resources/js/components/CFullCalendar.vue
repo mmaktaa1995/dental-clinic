@@ -165,6 +165,6 @@ const calendarOptions = ref({
     @apply text-gray-400; /* De-emphasize past days */
 }
 .fc-day-sun {
-    @apply text-red-600; /* Highlight Sundays */
+    @apply text-pink-600; /* Highlight Sundays */
 }
 </style>

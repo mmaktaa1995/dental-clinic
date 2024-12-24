@@ -9,7 +9,7 @@
                             <div class="absolute inset-y-0 left-0 flex items-center pointer-events-none">
                                 <c-icon-search size="5" />
                             </div>
-                            <input id="search-input" v-model="state.filters.query" class="block w-full h-full pl-8 pr-3 py-5 rounded-md text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 sm:text-sm" placeholder="ابحث عن" type="search" @input.stop="search" />
+                            <input id="search-input" v-model="state.filters.query" class="block w-full h-full pl-8 pr-3 py-5 rounded-md text-gray-700 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 sm:text-sm" placeholder="ابحث عن" type="search" @input.stop="search" />
                         </div>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                                     <!--                                    </div>-->
                                 </div>
                                 <template v-if="state.errors.length">
-                                    <p v-for="error in state.errors" :key="error" class="mt-2 text-sm text-red-600">
+                                    <p v-for="error in state.errors" :key="error" class="mt-2 text-sm text-pink-600">
                                         {{ error }}
                                     </p>
                                 </template>
@@ -82,7 +82,7 @@
                                     <!--                                    </div>-->
                                 </div>
                                 <template v-if="state.errors.length">
-                                    <p v-for="error in state.errors" :key="error" class="mt-2 text-sm text-red-600">
+                                    <p v-for="error in state.errors" :key="error" class="mt-2 text-sm text-pink-600">
                                         {{ error }}
                                     </p>
                                 </template>

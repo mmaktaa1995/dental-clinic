@@ -24,7 +24,7 @@
                 <td class="px-3 py-1 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
                     {{ +entry.latest_payment }}
                 </td>
-                <td class="px-3 py-1 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-red-600">
+                <td class="px-3 py-1 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-pink-600">
                     {{ +entry.total_remaining_amount }}
                 </td>
                 <td class="px-3 py-1 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">

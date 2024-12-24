@@ -12,49 +12,16 @@ use App\Traits\SearchQuery;
 use Eloquent;
 
 /**
- * App/Models/Patient
- *
- * @property int $id
- * @property string $name
- * @property string $age
- * @property string $phone
- * @property string $mobile
- * @property string $file_number
- * @property string $image
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @method static \Illuminate\Contracts\Pagination\LengthAwarePaginator getAll($params)
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Visit[] $visits
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\PatientImage[] $patientImages
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\PatientImage[] $images
- * @property-read int|null $images_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Visit[] $lastVisit
- * @property-read int|null $last_visit_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Payment[] $payments
- * @property-read int|null $payments_count
- * @property-read int|null $visits_count
- * @method static \Illuminate\Database\Eloquent\Builder|Patient newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Patient newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Patient query()
- * @method static \Illuminate\Database\Eloquent\Builder|Patient whereAge($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Patient whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Patient whereFileNumber($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Patient whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Patient whereImage($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Patient whereMobile($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Patient whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Patient wherePhone($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Patient whereUpdatedAt($value)
- * @mixin Eloquent
+ * @mixin IdeHelperPatient
  */
-class Patient extends Eloquent
+class Patient extends BaseModel
 {
     use SearchQuery;
 
     public static $relationsWithForSearch = ['images'];
     public static $searchableFields = ['name', 'file_number', 'mobile', 'phone'];
 //    protected $dateFormat = 'Y-m-d H:i:s';
-    protected $fillable = ['name', 'age', 'phone', 'mobile', 'file_number', 'image'];
+    protected $fillable = ['name', 'age', 'phone', 'mobile', 'file_number', 'image', 'gender', 'user_id'];
 
     public static function boot()
     {

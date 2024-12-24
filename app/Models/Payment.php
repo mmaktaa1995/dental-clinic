@@ -1,55 +1,26 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Eng.Mohammad
- * Date: 8/10/2017
- * Time: 12:09 PM
- */
 
 namespace App\Models;
 
 
 use App\Traits\SearchQuery;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\Payment
- *
- * @property int $id
- * @property string|null $amount
- * @property string|null $remaining_amount
- * @property string $date
- * @property int $patient_id
- * @property int $visit_id
- * @property \Illuminate\Support\Carbon $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Patient $patient
- * @property-read Payment|null $payment
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ServicePayment[] $servicePayment
- * @property-read int|null $service_payment_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Service[] $services
- * @property-read int|null $services_count
- * @method static \Illuminate\Database\Eloquent\Builder|Payment newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Payment newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Payment query()
- * @method static \Illuminate\Database\Eloquent\Builder|Payment whereAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Payment whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Payment whereDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Payment whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Payment wherePatientId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Payment whereRemainingAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Payment whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Payment whereVisitId($value)
- * @mixin \Eloquent
+ * @mixin IdeHelperPayment
  */
-class Payment extends \Eloquent
+class Payment extends BaseModel
 {
     use SearchQuery, SoftDeletes;
 
     public static $relationsWithForSearch = ['patient'];
     public static $columnsToSelect = [];
     public static $searchInRelations = ['patient:name,file_number'];
-    protected $fillable = ['visit_id', 'date', 'amount', 'remaining_amount', 'patient_id'];
+    protected $fillable = ['visit_id', 'date', 'amount', 'remaining_amount', 'patient_id', 'user_id', 'status'];
 //    protected $appends = ['latestPaymentDate'];
 //
 //    public function getLatestPaymentDateAttribute()
@@ -63,23 +34,60 @@ class Payment extends \Eloquent
         return date('Y-m-d', strtotime($value));
     }
 
-    public function visit()
+    public function visit(): BelongsTo
     {
         return $this->belongsTo(Visit::class);
     }
 
-    public function patient()
+    public function patient(): BelongsTo
     {
         return $this->belongsTo(Patient::class);
     }
 
-    public function services()
+    public function services(): BelongsToMany
     {
         return $this->belongsToMany(Service::class, 'service_payments', 'payment_id', 'service_id')->withPivot('id');
     }
 
-    public function servicePayment()
+    public function servicePayment(): HasMany
     {
         return $this->hasMany(ServicePayment::class, 'payment_id');
+    }
+
+    public function children(): HasMany
+    {
+        return $this->hasMany(self::class, 'parent_id');
+    }
+
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(self::class);
+    }
+
+    public function scopeWithLatestPayment($query): void
+    {
+        $query->addSelect([
+            'latest_payment_date' => static::select('created_at')
+                ->whereColumn('patient_id', 'payments.patient_id')
+                ->where('amount', '>', 0)
+                ->orderByDesc('id')
+                ->limit(1),
+            'latest_payment' => static::select('amount')
+                ->whereColumn('patient_id', 'payments.patient_id')
+                ->where('amount', '>', 0)
+                ->orderByDesc('id')
+                ->limit(1),
+        ]);
+    }
+
+    public function scopeWithTotalRemainingAmount($query): void
+    {
+        $query->addSelect([
+            'total_remaining_amount' => static::selectRaw('SUM(remaining_amount)')
+                ->whereColumn('patient_id', 'payments.patient_id')
+                ->groupBy('payments.patient_id')
+                ->where('remaining_amount', '>', 0)
+                ->limit(1),
+        ]);
     }
 }

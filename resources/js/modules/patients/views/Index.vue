@@ -109,7 +109,8 @@ import { usePatientsStore } from "@/modules/patients/store"
 import { useRouter } from "vue-router"
 import CDetailPageOutlet from "@/components/CDetailPage/CDetailPageOutlet.vue"
 import { useI18n } from "vue-i18n"
-import { DataTableColumn } from "@/components/table/DataTable.vue"
+import { DataTableColumn } from "@/components/Table/DataTable.vue"
+import DateTime from "@/components/Table/components/DateTime.vue"
 
 const patientsStore = usePatientsStore()
 const router = useRouter()
@@ -120,7 +121,7 @@ const columns: DataTableColumn[] = [
     { field: "name", headerName: t("patients.name") },
     { field: "file_number", headerName: t("patients.fileNumber") },
     { field: "mobile", headerName: t("patients.mobile"), sortable: false },
-    { field: "created_at", headerName: t("patients.createdAt") },
+    { field: "created_at", headerName: t("patients.createdAt"), cellRenderer: DateTime },
 ]
 
 const openPatientDetails = (rowData) => {

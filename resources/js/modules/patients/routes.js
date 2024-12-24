@@ -39,6 +39,15 @@ export const getPatientsRoutes = () => {
                                 module: "patients",
                             },
                         },
+                        {
+                            path: `:id/debits`,
+                            name: `patients/debits`,
+                            component: () => import("@/modules/patients/views/Debits.vue"),
+                            meta: {
+                                isDetailPage: true,
+                                module: "patients",
+                            },
+                        },
                     ],
                 },
                 {

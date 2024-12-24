@@ -1,7 +1,7 @@
 <template>
     <ul>
         <li v-for="(subPage, subPageKey) in visibleSubPages" :key="subPageKey" :title="subPage.title" :append-icon="subPage.isDirty ? 'far fa-pencil' : ''">
-            <router-link :to="store.subPageLinks[subPageKey]" active-class="s-k-detail-menu-item-active" class="s-k-detail-menu-item text-base text-gray-900 transition block p-2">
+            <router-link :to="store.subPageLinks[subPageKey]" active-class="s-k-detail-menu-item-active" class="s-k-detail-menu-item text-base text-gray-700 transition duration-100 block py-2 px-3">
                 {{ subPage.title }}
             </router-link>
         </li>
@@ -34,11 +34,7 @@ const visibleSubPages = computed(() => {
 <style scoped lang="scss">
 .s-k-detail-menu-item-active,
 .s-k-detail-menu-item:hover {
-    @apply text-teal-600 bg-gray-200 bg-opacity-50;
+    @apply text-cyan-700 bg-gray-300 bg-opacity-50;
     border-radius: 0;
-}
-:global(.s-k-detail-menu-item-active .v-list-item__overlay),
-:global(.s-k-detail-menu-item:hover .v-list-item__overlay) {
-    opacity: 0;
 }
 </style>

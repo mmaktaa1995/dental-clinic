@@ -157,3 +157,8 @@ export function slugify(str: string): string {
         .replace(/^-+|-+$/g, "")
         .replace(/-{2,}/g, "-")
 }
+
+export function formatNumber(value, options = {}) {
+    const defaultOptions = { style: "decimal", minimumFractionDigits: 2, maximumFractionDigits: 2 }
+    return new Intl.NumberFormat("en-US", { ...defaultOptions, ...options }).format(value)
+}

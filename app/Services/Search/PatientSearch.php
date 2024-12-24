@@ -16,7 +16,7 @@ class PatientSearch extends BaseSearch
     {
         /** @var PatientSearchRequest $request */
         parent::__construct($request);
-        $this->fileNumber = $request->get('file_number');
+        $this->fileNumber = $request->input('file_number');
     }
 
     public function getBaseQuery(): EloquentBuilder|QueryBuilder

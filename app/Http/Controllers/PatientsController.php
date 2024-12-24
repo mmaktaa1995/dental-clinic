@@ -2,21 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DebitsSearchRequest;
 use App\Http\Requests\PatientRequest;
 use App\Http\Requests\PatientSearchRequest;
 use App\Http\Resources\BaseCollection;
+use App\Http\Resources\DebitsResource;
+use App\Http\Resources\PatientApiResource;
 use App\Http\Resources\PatientResource;
 use App\Http\Resources\PaymentResource;
 use App\Models\DeletedPatient;
 use App\Models\Patient;
 use App\Models\Payment;
-use App\Models\Visit;
 use App\Services\PatientService;
-use App\Services\Search\Base\SearchRequest;
+use App\Services\Search\DebitsSearch;
+use App\Services\Search\PatientApiListSearch;
 use App\Services\Search\PatientSearch;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use DB;
+use Schema;
 
 class PatientsController extends Controller
 {
@@ -27,50 +32,36 @@ class PatientsController extends Controller
         return response()->json(BaseCollection::make($patientSearch->getEntries(), PatientResource::class));
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @param Request $request
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function index(Request $request)
-    {
-        $params = [
-            'order_column' => $request->input('order_column', 'created_at'),
-            'order_dir' => $request->input('order_dir', 'desc'),
-            'per_page' => $request->input('per_page', 10),
-            'fromDate' => $request->input('fromDate', null),
-            'toDate' => $request->input('toDate', null),
-            'query' => $request->input('query', null),
-        ];
-        $data = Patient::getAll($params);
-        if ($request->filled('deleted')) {
-            $data = DeletedPatient::getAll($params);
-        }
-        return response()->json(BaseCollection::make($data, PatientResource::class));
-    }
-
-    public function dropdownData(Request $request): \Illuminate\Http\JsonResponse
+    public function dropdownData(Request $request): JsonResponse
     {
         return response()->json(Patient::all()->pluck('name', 'id'));
     }
 
-    public function lastFileNumber(PatientService $patientService): \Illuminate\Http\JsonResponse
+    public function apiList(PatientSearchRequest $request): JsonResponse
     {
-        return response()->json(['last_file_number' => $patientService->getLastFileNumber()]);
+        $patientSearch = new PatientApiListSearch($request);
+
+        return response()->json(BaseCollection::make($patientSearch->getEntries(), PatientApiResource::class));
+
     }
 
-    public function show(Patient $patient): \Illuminate\Http\JsonResponse
+    public function lastFileNumber(PatientService $patientService): JsonResponse
+    {
+        $lastFileNumber = $patientService->getLastFileNumber();
+
+        return response()->json(['last_file_number' => $lastFileNumber]);
+    }
+
+    public function show(Patient $patient): JsonResponse
     {
         $patient->load('images');
         return response()->json(PatientResource::make($patient));
     }
 
-    public function store(PatientRequest $request): \Illuminate\Http\JsonResponse
+    public function store(PatientRequest $request): JsonResponse
     {
         try {
-            \DB::beginTransaction();
+            DB::beginTransaction();
             $patient = Patient::create($request->validated());
             if ($request->filled('amount') && $request->filled('date')) {
                 $visit = $patient->visits()->create($request->validated());
@@ -84,9 +75,9 @@ class PatientsController extends Controller
                 if ($request->filled('services'))
                     $visit->services()->sync($request->get('services'));
             }
-            \DB::commit();
-        } catch (\Exception $exception) {
-            \DB::rollBack();
+            DB::commit();
+        } catch (Exception $exception) {
+            DB::rollBack();
             throw new Exception($exception->getMessage());
         }
         return response()->json(['message' => __('app.success'), 'id' => $patient->id]);
@@ -96,12 +87,12 @@ class PatientsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\PatientRequest $request
-     * @param \App\Models\Patient $patient
+     * @param PatientRequest $request
+     * @param Patient $patient
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function update(PatientRequest $request, Patient $patient): \Illuminate\Http\JsonResponse
+    public function update(PatientRequest $request, Patient $patient): JsonResponse
     {
         $patient->update($request->validated());
         return response()->json(['message' => __('app.success')]);
@@ -118,11 +109,12 @@ class PatientsController extends Controller
     public function destroy(Patient $patient): JsonResponse
     {
         try {
-            \Schema::disableForeignKeyConstraints();
-            $patient->delete();
-            \Schema::enableForeignKeyConstraints();
+           DB::transaction(function () use ($patient) {
+               Schema::disableForeignKeyConstraints();
+               $patient->delete();
+               Schema::enableForeignKeyConstraints();
+           });
         } catch (Exception $exception) {
-            dd($exception->getCode(), $exception->getMessage());
             return response()->json(['message' => $exception->getMessage()], $exception->getCode());
         }
         return response()->json(['message' => __('app.success')]);
@@ -133,38 +125,23 @@ class PatientsController extends Controller
      *
      * @param Request $request
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function debits(Request $request)
+    public function debits(DebitsSearchRequest $request, ?Patient $patient): JsonResponse
     {
-        $params = [
-            'order_column' => $request->input('order_column', 'date'),
-            'order_dir' => $request->input('order_dir', 'desc'),
-            'per_page' => $request->input('per_page', 10),
-            'fromDate' => $request->input('fromDate', null),
-            'toDate' => $request->input('toDate', null),
-            'query' => $request->input('query', null),
-            'extra_filters' => [
-                'remaining_amount' => [
-                    'operation' => '>',
-                    'value' => 0
-                ]
-            ]
-        ];
+        $debitsSearch = new DebitsSearch($request->merge(['patient_id' => $patient?->id]));
 
-        Payment::$relationsWithForSearch = ['patient', 'visit'];
-        $data = Payment::getAll($params);
-        return response()->json(BaseCollection::make($data, PaymentResource::class));
+        return response()->json(BaseCollection::make($debitsSearch->getEntries(), DebitsResource::class));
     }
 
     /**
      * restore the specified resource.
      *
-     * @psalm-param \App\Models\DeletedPatient $patient
+     * @psalm-param DeletedPatient $patient
      *
-     * @psalm-return  \Illuminate\Http\JsonResponse
+     * @psalm-return  JsonResponse
      */
-    public function restore(DeletedPatient $patient): \Illuminate\Http\JsonResponse
+    public function restore(DeletedPatient $patient): JsonResponse
     {
         try {
             if ($patient->visits()->count()) {

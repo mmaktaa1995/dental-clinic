@@ -12,34 +12,9 @@ use App\Traits\SearchQuery;
 use Eloquent;
 
 /**
- * App\Models\DeletedPatient
- *
- * @property int $id
- * @property string|null $name
- * @property string|null $age
- * @property string|null $phone
- * @property string|null $mobile
- * @property string|null $file_number
- * @property string|null $image
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Payment[] $payments
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Visit[] $visits
- * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient query()
- * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient whereAge($value)
- * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient whereFileNumber($value)
- * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient whereImage($value)
- * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient whereMobile($value)
- * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient wherePhone($value)
- * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient whereUpdatedAt($value)
- * @mixin Eloquent
+ * @mixin IdeHelperDeletedPatient
  */
-class DeletedPatient extends Eloquent
+class DeletedPatient extends BaseModel
 {
     public static $relationsWithForSearch = [];
     use SearchQuery;

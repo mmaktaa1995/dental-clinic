@@ -15,7 +15,7 @@
             </CDetailHeader>
             <div class="c-detailPage__content">
                 <div v-if="store.hasSubPages || $slots.sidebarHeader" class="c-detailPage__sidebar">
-                    <div v-if="$slots.sidebarHeader" class="c-detailPage__sidebarHeader p-4">
+                    <div v-if="$slots.sidebarHeader" class="c-detailPage__sidebarHeader p-3">
                         <slot name="sidebarHeader"></slot>
                     </div>
 

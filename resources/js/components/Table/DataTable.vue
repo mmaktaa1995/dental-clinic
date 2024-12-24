@@ -1,9 +1,9 @@
 <template>
     <!-- eslint-disable vue/no-mutating-props -->
     <div class="flex-1 relative pb-8 z-0 overflow-y-auto">
-        <div class="flex-1 relative pb-8 z-0 overflow-y-auto">
+        <div v-if="$slots['header'] || $slots['filters']" class="flex-1 relative pb-8 z-0 overflow-y-auto">
             <div class="bg-white shadow">
-                <div class="px-4 sm:px-6 lg:max-w-6xl lg:mx-auto lg:px-8 divide-y divide-dashed divide-gray-200">
+                <div class="lg:max-w-7xl lg:mx-auto divide-y divide-dashed divide-gray-200">
                     <div class="py-3">
                         <slot name="header"></slot>
                     </div>
@@ -14,24 +14,24 @@
             </div>
         </div>
 
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-32 mb-32">
+        <div class="max-w-7xl mx-auto pb-32 mb-32">
             <div class="flex flex-col mt-2">
                 <div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
                     <table class="datatable bg-white min-w-full divide-y divide-gray-200">
                         <thead>
-                            <tr class="bg-gray-200 text-gray-600 text-sm leading-normal">
+                            <tr class="bg-gray-600 bg-opacity-10 text-gray-600 text-sm leading-normal">
                                 <th v-if="selectable" :key="`header-0`" class="py-2 px-3 text-right ltr:text-left">
                                     <CCheckbox v-model="selectAllRows" :indeterminate="selectAllRows === null"></CCheckbox>
                                 </th>
-                                <th v-for="column in computedColumns" :key="`header-${column.field}`" class="py-2.5 px-3 text-right ltr:text-left" :class="{ 'cursor-pointer': column.sortable }" @click="column.sortable && toggleSort(column.field)">
+                                <th v-for="column in computedColumns" :key="`header-${column.field}`" class="py-2 px-3 text-right ltr:text-left" :class="{ 'cursor-pointer': column.sortable }" @click="column.sortable && toggleSort(column.field)">
                                     <div class="flex items-center gap-1">
                                         <span class="peer">{{ column.headerName }}</span>
                                         <template v-if="column.sortable">
                                             <span v-if="store.order.by !== column.field" class="flex flex-col opacity-0 transition peer-hover:opacity-100">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block relative -bottom-[4px]" viewBox="0 0 24 24" fill="currentColor">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-3 inline-block relative -bottom-[4px]" viewBox="0 0 24 24" fill="currentColor">
                                                     <path d="M12 8l6 8H6l6-8z" />
                                                 </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block relative -top-[4px]" viewBox="0 0 24 24" fill="currentColor">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-3 inline-block relative -top-[4px]" viewBox="0 0 24 24" fill="currentColor">
                                                     <path d="M12 16l-6-8h12l-6 8z" />
                                                 </svg>
                                             </span>
@@ -74,7 +74,7 @@
                             </template>
                             <template v-else>
                                 <tr class="tr">
-                                    <td class="td text-center" :colspan="columns.length">
+                                    <td class="td text-center py-2.5" :colspan="columns.length">
                                         {{ $t("global.noEntriesFound") }}
                                     </td>
                                 </tr>
@@ -93,9 +93,9 @@
 /* eslint-disable vue/no-mutating-props */
 import { Component, computed, onBeforeUnmount, reactive, ref, watch } from "vue"
 import { EntryListStore } from "@/store/factories/entryListStore"
-import Pagination from "@/components/table/Pagination.vue"
-import CellRenderer from "@/components/table/CellRenderer.vue"
-import TableLoader from "@/components/table/TableLoader.vue"
+import Pagination from "@/components/Table/Pagination.vue"
+import CellRenderer from "@/components/Table/CellRenderer.vue"
+import TableLoader from "@/components/Table/TableLoader.vue"
 import { ButtonType } from "@/components/CButton.vue"
 
 type CellRendererType = (rowData: any) => HTMLElement | Component
@@ -103,6 +103,8 @@ export type DataTableColumn = {
     headerName: string
     field: string
     isHtml?: boolean
+    textClass?: string
+    valueFormatter?: (value: any, entry: any) => any
     sortable?: boolean
     cellRenderer?: CellRendererType
 }
@@ -196,7 +198,10 @@ const rowClicked = (row: any) => {
 }
 
 const actionClicked = (action: DataTableAction) => {
-    console.log(action)
+    if (!action.action) {
+        console.error("Action obj should have action function.")
+        return
+    }
     const selectedRowsIds = Object.entries(selectedRows)
         .filter(([, value]) => !!value)
         .map(([id]) => +id)

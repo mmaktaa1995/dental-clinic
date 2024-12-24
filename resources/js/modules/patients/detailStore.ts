@@ -16,6 +16,7 @@ export type PatientEntry = {
     id: number
     name: string
     age: number
+    gender: number
     file_number: number
     phone: string
     mobile: string
@@ -41,17 +42,31 @@ export const usePatientDetailStore = defineDetailPageStore("patient-details", {
             isLoading: false as boolean,
             subPages: {
                 general: {
-                    title: "عام",
+                    title: t("global.general"),
                     isDirty: false,
                     buildSubPath() {
                         return `/${this.entryId}/general`
                     },
                 },
+                files: {
+                    title: t("patients.files"),
+                    isDirty: false,
+                    buildSubPath() {
+                        return `/${this.entryId}/files`
+                    },
+                },
                 payments: {
-                    title: "المدفوعات",
+                    title: t("payments.title"),
                     isDirty: false,
                     buildSubPath() {
                         return `/${this.entryId}/payments`
+                    },
+                },
+                debits: {
+                    title: t("payments.debits"),
+                    isDirty: false,
+                    buildSubPath() {
+                        return `/${this.entryId}/debits`
                     },
                 },
             },
@@ -67,6 +82,7 @@ export const usePatientDetailStore = defineDetailPageStore("patient-details", {
                     id: -1,
                     name: "",
                     age: 0,
+                    gender: 0,
                     file_number: accountStore.lastFileNumber,
                     phone: "",
                     mobile: "",

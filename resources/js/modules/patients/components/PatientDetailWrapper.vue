@@ -4,10 +4,10 @@
             <div v-if="patientDetailsStore.entry.id" class="c-detailsWrapper__sidebarHeader flex items-center">
                 <img src="/images/user.png" class="h-9 w-9 ml-3 ltr:mr-3 ltr:ml-0" :alt="patientDetailsStore.entry.name" />
                 <div class="d-flex flex-column">
-                    <div class="text-base font-semibold text-gray-900">
+                    <div class="text-base font-semibold text-gray-700">
                         {{ patientDetailsStore.entry.name }}
                     </div>
-                    <div v-if="!patientDetailsStore.isNewEntry" class="text-base font-normal text-teal-600">#{{ patientDetailsStore.entry.file_number }}</div>
+                    <div v-if="!patientDetailsStore.isNewEntry" class="text-base font-normal text-cyan-700">#{{ patientDetailsStore.entry.file_number }}</div>
                 </div>
             </div>
         </template>

@@ -4,6 +4,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ExpensesController;
+use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\PatientsController;
 use App\Http\Controllers\PatientsFilesController;
 use App\Http\Controllers\ServicesController;
@@ -34,25 +35,37 @@ Route::middleware('auth:api')->group(function () {
     });
     // New Routes
     Route::get('patients/lastFileNumber', [PatientsController::class, 'lastFileNumber'])->name('patients.last_file_number');
+    Route::get('patients/list', [PatientsController::class, 'apiList'])->name('patients.api-list');
+
+    Route::post('payments', [PaymentsController::class, 'list']);
+    Route::post('payments/{payment?}', [PaymentsController::class, 'show']);
+    Route::post('payments/{patient?}/patients', [PaymentsController::class, 'list']);
+    Route::post('payments/{patient?}/patients/create', [PaymentsController::class, 'store']);
+    Route::get('payments/{patient?}/patients/print', [PaymentsController::class, 'print'])->name('patients-payments.print');
+    Route::patch('payments/{patient?}/patients/{payment}', [PaymentsController::class, 'update']);
+
+
     Route::post('patients', [PatientsController::class, 'list']);
     Route::post('patients/create', [PatientsController::class, 'store']);
     Route::get('patients/{patient}', [PatientsController::class, 'show']);
     Route::patch('patients/{patient}', [PatientsController::class, 'update']);
     Route::delete('patients/{patient}', [PatientsController::class, 'destroy']);
 
+
+    Route::post('debits/', [PatientsController::class, 'debits'])->name('debits');
+    Route::post('debits/{patient?}/patients', [PatientsController::class, 'debits'])->name('patients.debits');
+
     // Old Routes
     Route::get('patients/dropdown', [PatientsController::class, 'dropdownData'])->name('patients.dropdown');
-    Route::get('patients/debits', [PatientsController::class, 'debits'])->name('patients.debits');
-//    Route::resource('patients', PatientsController::class)->except(['create', 'edit']);
     Route::patch('patients/{patient}/images', [PatientsController::class, 'updateImages'])->name('patients.update_images');
     Route::patch('patients/{patient}/restore', [PatientsController::class, 'restore'])->name('patients.restore');
     Route::resource('patients-files', PatientsFilesController::class)->parameters(['patients-files' => 'payment'])->except(['create', 'edit']);
     Route::post('patients-files/{payment}/restore', [PatientsFilesController::class, 'restore'])->withTrashed()->name('payments.restore');
-    Route::get('patients-files/{patient_id}/print', [PatientsFilesController::class, 'print'])->name('patients-files.print');
+    Route::get('patients-files/{patient}/print', [PatientsFilesController::class, 'print'])->name('patients-files.print');
 
     Route::resource('visits', VisitsController::class)->except(['create', 'edit']);
     Route::resource('patients.visits', VisitsController::class)->except(['create', 'edit']);
-    Route::resource('payments', VisitsController::class)->except(['create', 'edit']);
+//    Route::resource('payments', VisitsController::class)->except(['create', 'edit']);
     Route::resource('expenses', ExpensesController::class)->except(['create', 'edit']);
     Route::resource('services', ServicesController::class)->except(['create', 'edit']);
 

@@ -36,24 +36,24 @@
                         <div class="">
                             <label for="name" class="block text-sm font-medium text-gray-700 text-right">الاسم</label>
                             <input id="name" v-model="form.name" type="text" class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full" />
-                            <small v-if="errors && errors.name" class="text-red-600 text-xs text-right block">{{ errors.name[0] }}</small>
+                            <small v-if="errors && errors.name" class="text-pink-600 text-xs text-right block">{{ errors.name[0] }}</small>
                         </div>
                         <div class="">
                             <label for="date" class="block text-sm font-medium text-gray-700 text-right">تاريخ الزيارة</label>
                             <input id="date" v-model="form.date" type="date" autocomplete="off" />
-                            <small v-if="errors && errors.date" class="text-red-600 text-xs text-right block">{{ errors.date[0] }}</small>
+                            <small v-if="errors && errors.date" class="text-pink-600 text-xs text-right block">{{ errors.date[0] }}</small>
                         </div>
 
                         <div class="">
                             <label for="amount" class="block text-sm font-medium text-gray-700 text-right">المبلغ المدفوع</label>
                             <input id="amount" v-model="form.amount" type="number" autocomplete="off" class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full" />
-                            <small v-if="errors && errors.amount" class="text-red-600 text-xs text-right block">{{ errors.amount[0] }}</small>
+                            <small v-if="errors && errors.amount" class="text-pink-600 text-xs text-right block">{{ errors.amount[0] }}</small>
                         </div>
 
                         <div class="col-span-full">
                             <label for="notes" class="block text-sm font-medium text-gray-700 text-right">الملاحظات</label>
                             <textarea id="notes" v-model="form.notes" autocomplete="off" class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full"></textarea>
-                            <small v-if="errors && errors.notes" class="text-red-600 text-xs text-right block">{{ errors.notes[0] }}</small>
+                            <small v-if="errors && errors.notes" class="text-pink-600 text-xs text-right block">{{ errors.notes[0] }}</small>
                         </div>
                     </div>
                 </div>
@@ -68,7 +68,7 @@
                     <CAsyncButton
                         type="submit"
                         :loading="submitted"
-                        class="w-full inline-flex justify-center rounded-md border border-transparent transition duration-75 transition-all shadow-sm px-4 py-2 bg-teal-600 text-base font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:ml-3 sm:w-auto sm:text-sm"
+                        class="w-full inline-flex justify-center rounded-md border border-transparent transition duration-75 transition-all shadow-sm px-4 py-2 bg-cyan-700 text-base font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:ml-3 sm:w-auto sm:text-sm"
                     >
                         حفظ
                     </CAsyncButton>

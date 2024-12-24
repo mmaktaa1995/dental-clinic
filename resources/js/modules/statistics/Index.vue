@@ -38,7 +38,7 @@
                 <CAsyncButton
                     type="primary"
                     :loading="loading"
-                    class="w-full inline-flex justify-center rounded-md border border-transparent transition duration-75 transition-all shadow-sm px-4 py-2 bg-teal-600 text-base font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:ml-3 sm:w-auto sm:text-sm"
+                    class="w-full inline-flex justify-center rounded-md border border-transparent transition duration-75 transition-all shadow-sm px-4 py-2 bg-cyan-700 text-base font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:ml-3 sm:w-auto sm:text-sm"
                     @click="getData"
                 >
                     بحث
@@ -87,7 +87,7 @@
                             <div class="flex flex-wrap">
                                 <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
                                     <h5 class="text-blueGray-400 uppercase font-bold text-xs">إجمالي النفقات</h5>
-                                    <span class="font-semibold text-xl text-red-600 mt-3">-{{ +expensesTotal }}</span>
+                                    <span class="font-semibold text-xl text-pink-600 mt-3">-{{ +expensesTotal }}</span>
                                 </div>
                                 <div class="relative w-auto pl-4 flex-initial">
                                     <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-pink-500">
@@ -104,7 +104,7 @@
                             <div class="flex flex-wrap">
                                 <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
                                     <h5 class="text-blueGray-400 uppercase font-bold text-xs">صافي الربح الإجمالي</h5>
-                                    <span class="font-semibold text-xl mt-3" :class="{ 'text-green-600': Math.sign(incomeTotal - expensesTotal) === 1, 'text-red-600': Math.sign(incomeTotal - expensesTotal) === -1 }">{{ incomeTotal - expensesTotal }}</span>
+                                    <span class="font-semibold text-xl mt-3" :class="{ 'text-green-600': Math.sign(incomeTotal - expensesTotal) === 1, 'text-pink-600': Math.sign(incomeTotal - expensesTotal) === -1 }">{{ incomeTotal - expensesTotal }}</span>
                                 </div>
                                 <div class="relative w-auto pl-4 flex-initial">
                                     <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-teal-500">

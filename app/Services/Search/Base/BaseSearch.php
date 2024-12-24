@@ -38,6 +38,7 @@ abstract class BaseSearch
     public function getQuery(): EloquentBuilder|QueryBuilder
     {
         $query = $this->getBaseQuery();
+//        $query = $this->applySelectColumns($query);
         $query = $this->applyUserIdFilter($query);
         $query = $this->applyDatesFilter($query);
         $query = $this->applySqlSort($query);
@@ -85,6 +86,11 @@ abstract class BaseSearch
     protected function applySqlPagination(QueryBuilder|EloquentBuilder $query): LengthAwarePaginator
     {
         return $query->paginate($this->perPage);
+    }
+
+    protected function applySelectColumns($query, $columns = ['*']): QueryBuilder|EloquentBuilder
+    {
+        return $query->select($columns);
     }
 
 }

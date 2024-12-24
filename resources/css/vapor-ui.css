@@ -26,7 +26,7 @@
     @apply bg-white;
 }
 .datatable .td {
-    @apply px-3 py-2.5 whitespace-nowrap border-b border-gray-200 text-sm leading-5 text-gray-500;
+    @apply px-3 whitespace-nowrap border-b border-gray-200 text-sm leading-5 text-gray-500 h-[45px];
 }
 .datatable .tr.clickable{
     @apply cursor-pointer transition-colors duration-150;

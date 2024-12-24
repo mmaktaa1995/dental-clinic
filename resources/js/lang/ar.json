@@ -45,6 +45,11 @@
         "deleteEntryBodyMessage": "هل أنت متأكد من حذف هذا {type}؟",
         "deleteEntryTitle": "حذف {type}",
         "fromDate": "من تاريخ",
+        "genders": {
+            "female": "أنثى",
+            "male": "ذكر"
+        },
+        "general": "عام",
         "noEntriesFound": "لم يتم العثور على أي محتوى يتوافق مع معايير البحث المحددة. يمكنك تعديل المرشحات أعلاه لرؤية النتائج.",
         "pagination": {
             "entriesPerPage": "الإدخالات لكل صفحة:",
@@ -54,12 +59,36 @@
         "toDate": "إلى تاريخ"
     },
     "patients": {
+        "age": "العمر",
         "createdAt": "تاريخ الإنشاء",
         "entryName": "المريض",
         "fileNumber": "رقم الملف",
+        "files": "الملفات",
+        "gender": "الجنس",
         "mobile": "رقم الموبايل",
         "moduleName": "المرضى",
-        "name": "الاسم"
+        "name": "الاسم",
+        "patientContactInfo": "معلومات الاتصال",
+        "patientContactInfoDescription": "معلومات الاتصال لتتمكن من الوصول إلى المريض في حالة حدوث أمر طارئ أو لطرح الأسئلة أو لمناقشة المواعيد التالية.",
+        "patientInfo": "معلومات المريض",
+        "patientInfoDescription": "البيانات الشخصية للمريض."
+    },
+    "payments": {
+        "action": "الإجراء الذي تم",
+        "amount": "المبلغ المدفوع",
+        "date": "التاريخ",
+        "debits": "المبالغ المتبقية",
+        "deletedPayments": "الدفعات المحذوفة",
+        "remainingAmount": "المبلغ المتبقي",
+        "status": "الحالة",
+        "statuses": {
+            "failed": "فشل",
+            "refunded": "تم استرداد المبلغ",
+            "success": "نجاح"
+        },
+        "title": "الدفعات",
+        "totalAmount": "إجمالي المبلغ المدفوع",
+        "totalRemainingAmount": "إجمالي المبلغ المتبقي"
     },
     "sideBar": {
         "menu": {

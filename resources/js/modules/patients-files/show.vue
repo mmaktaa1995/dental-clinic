@@ -18,7 +18,14 @@
             </div>
             <div class="">
                 <label for="totalPayments" class="block text-sm font-medium text-gray-700 text-right">إجمالي المبلغ المتبقي</label>
-                <input id="totalRemainingPayments" v-model="totalRemainingPayments" type="text" disabled :class="{ 'text-red-600': totalRemainingPayments > 0 }" class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full" />
+                <input
+                    id="totalRemainingPayments"
+                    v-model="totalRemainingPayments"
+                    type="text"
+                    disabled
+                    :class="{ 'text-pink-600': totalRemainingPayments > 0 }"
+                    class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full"
+                />
             </div>
         </div>
 
@@ -110,13 +117,13 @@
                                 <a v-if="!payment.isEdit && !payment.isPayDebtOpened" href="#" class="py-1 inline-flex h-12 px-2 text-sm text-center text-green-600 transition-colors duration-200 transform lg:h-8 hover:text-green-700 focus:outline-none" @click="editPayment(payment)">
                                     <c-icon-edit size="5" class="transition-colors" />
                                 </a>
-                                <a v-if="!payment.isEdit && !payment.isPayDebtOpened" href="#" class="py-1 inline-flex h-12 px-2 text-sm text-center text-red-600 transition-colors duration-200 transform lg:h-8 hover:text-red-700 focus:outline-none" @click="deletePayment(payment.id)">
+                                <a v-if="!payment.isEdit && !payment.isPayDebtOpened" href="#" class="py-1 inline-flex h-12 px-2 text-sm text-center text-pink-600 transition-colors duration-200 transform lg:h-8 hover:text-red-700 focus:outline-none" @click="deletePayment(payment.id)">
                                     <c-icon-delete size="5" class="transition-colors" />
                                 </a>
                                 <a
                                     v-if="payment.remaining_amount > 0 && !payment.isPayDebtOpened && !payment.isEdit"
                                     href="#"
-                                    class="py-1 inline-flex h-12 px-2 text-sm text-center text-teal-600 transition-colors duration-200 transform lg:h-8 hover:text-teal-700 focus:outline-none"
+                                    class="py-1 inline-flex h-12 px-2 text-sm text-center text-cyan-700 transition-colors duration-200 transform lg:h-8 hover:text-cyan-800 focus:outline-none"
                                     @click="addPaymentForDebt(payment)"
                                 >
                                     >
@@ -221,12 +228,12 @@
                         <div class="sm:flex sm:items-start">
                             <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
                                 <!-- Heroicon name: outline/exclamation -->
-                                <svg class="h-6 w-6 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <svg class="h-6 w-6 text-pink-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                                 </svg>
                             </div>
                             <div class="mt-3 text-center sm:mt-0 sm:mr-4 sm:text-right">
-                                <h3 id="modal-title" class="text-lg leading-6 font-medium text-gray-900">حذف دفعة</h3>
+                                <h3 id="modal-title" class="text-lg leading-6 font-medium text-gray-700">حذف دفعة</h3>
                                 <div class="mt-2">
                                     <p class="text-sm text-gray-500">هل أنت متأكد من حذف هذه الدفعة؟</p>
                                 </div>
