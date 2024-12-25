@@ -68,6 +68,8 @@
         "mobile": "رقم الموبايل",
         "moduleName": "المرضى",
         "name": "الاسم",
+        "relatedPatientFiles": "إدارة ملفات المريض",
+        "relatedPatientFilesDescription": "إدارة الملفات المتعلقة بسجلات المريض والوصول إليها بكفاءة.",
         "patientContactInfo": "معلومات الاتصال",
         "patientContactInfoDescription": "معلومات الاتصال لتتمكن من الوصول إلى المريض في حالة حدوث أمر طارئ أو لطرح الأسئلة أو لمناقشة المواعيد التالية.",
         "patientInfo": "معلومات المريض",

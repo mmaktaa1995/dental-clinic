@@ -19,7 +19,7 @@
                 <div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
                     <table class="datatable bg-white min-w-full divide-y divide-gray-200">
                         <thead>
-                            <tr class="bg-gray-600 bg-opacity-10 text-gray-600 text-sm leading-normal">
+                            <tr class="bg-gray-300 bg-opacity-20 text-gray-600 text-sm leading-normal">
                                 <th v-if="selectable" :key="`header-0`" class="py-2 px-3 text-right ltr:text-left">
                                     <CCheckbox v-model="selectAllRows" :indeterminate="selectAllRows === null"></CCheckbox>
                                 </th>
@@ -98,12 +98,13 @@ import CellRenderer from "@/components/Table/CellRenderer.vue"
 import TableLoader from "@/components/Table/TableLoader.vue"
 import { ButtonType } from "@/components/CButton.vue"
 
-type CellRendererType = (rowData: any) => HTMLElement | Component
+type CellRendererType = Component
 export type DataTableColumn = {
     headerName: string
     field: string
     isHtml?: boolean
     textClass?: string
+    textClassCondition?: (rowData: any) => boolean
     valueFormatter?: (value: any, entry: any) => any
     sortable?: boolean
     cellRenderer?: CellRendererType

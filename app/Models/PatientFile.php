@@ -9,10 +9,10 @@
 namespace App\Models;
 
 /**
- * @mixin IdeHelperPatientImage
+ * @mixin IdeHelperPatientFile
  */
-class PatientImage extends \Eloquent
+class PatientFile extends \Eloquent
 {
-    protected $fillable = ['image', 'patient_id'];
+    protected $fillable = ['file', 'patient_id', 'type'];
 
 }

@@ -2,8 +2,8 @@
     <div class="relative w-full">
         <!-- Input field -->
         <div class="relative">
-            <input v-model="searchQuery" type="text" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Search..." @input="onSearch" @focus="(showDropdown = true)" />
-            <span class="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500" @click="toggleDropdown">
+            <CTextField v-model="searchQuery" name="ser" label="Search" @input="onSearch" @focus="(showDropdown = true)" />
+            <span class="absolute left-3 ltr:right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500" @click="toggleDropdown">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 9l6 6 6-6" />
                 </svg>

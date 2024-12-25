@@ -142,6 +142,35 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Medication
+ *
+ * @property int $id
+ * @property string $name
+ * @property string|null $description
+ * @property string|null $manufacturer
+ * @property string|null $price
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Patient> $patients
+ * @property-read int|null $patients_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Medication newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Medication newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Medication query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Medication whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Medication whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Medication whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Medication whereManufacturer($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Medication whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Medication wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Medication whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperMedication {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Patient
  *
  * @property int $id
@@ -155,10 +184,12 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int|null $user_id
  * @property int $gender
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PatientImage> $images
- * @property-read int|null $images_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PatientFile> $files
+ * @property-read int|null $files_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Visit> $lastVisit
  * @property-read int|null $last_visit_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Medication> $medications
+ * @property-read int|null $medications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Payment> $payments
  * @property-read int|null $payments_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Visit> $visits
@@ -185,25 +216,55 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\PatientImage
+ * App\Models\PatientFile
  *
  * @property int $id
  * @property int $patient_id
- * @property string|null $image
+ * @property string|null $file
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|PatientImage newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|PatientImage newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|PatientImage query()
- * @method static \Illuminate\Database\Eloquent\Builder|PatientImage whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PatientImage whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PatientImage whereImage($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PatientImage wherePatientId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PatientImage whereUpdatedAt($value)
+ * @property string|null $type
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientFile newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientFile newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientFile query()
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientFile whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientFile whereFile($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientFile whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientFile wherePatientId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientFile whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientFile whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
-	class IdeHelperPatientImage {}
+	class IdeHelperPatientFile {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\PatientRecord
+ *
+ * @property int $id
+ * @property int $patient_id
+ * @property string|null $symptoms
+ * @property string|null $diagnosis
+ * @property string $record_date
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Patient $patient
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientRecord newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientRecord newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientRecord query()
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientRecord whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientRecord whereDiagnosis($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientRecord whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientRecord wherePatientId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientRecord whereRecordDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientRecord whereSymptoms($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientRecord whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperPatientRecord {}
 }
 
 namespace App\Models{
@@ -222,6 +283,9 @@ namespace App\Models{
  * @property int|null $user_id
  * @property int $status
  * @property int|null $parent_id
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Payment> $children
+ * @property-read int|null $children_count
+ * @property-read Payment|null $parent
  * @property-read \App\Models\Patient $patient
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ServicePayment> $servicePayment
  * @property-read int|null $service_payment_count

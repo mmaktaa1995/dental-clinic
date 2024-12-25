@@ -7,7 +7,6 @@ use App\Models\Payment;
 use App\Services\Search\Base\BaseSearch;
 use App\Services\Search\Base\SearchRequest;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class PaymentsSearch extends BaseSearch
@@ -27,11 +26,11 @@ class PaymentsSearch extends BaseSearch
     public function getBaseQuery(): EloquentBuilder|QueryBuilder
     {
         return Payment::when($this->patient_id, function ($query) {
-                $query->where('patient_id', $this->patient_id)
-                    ->with(['visit' => function ($query) {
-                        $query->with('payment')->when($this->request->get('deleted'), fn($query) => $query->withTrashed());
-                    }]);
-            })
+            $query->where('patient_id', $this->patient_id)
+                ->with(['visit' => function ($query) {
+                    $query->with('payment')->when($this->request->get('deleted'), fn($query) => $query->withTrashed());
+                }]);
+        })
             ->with('patient')
             ->select("payments.*")
             ->when(!$this->patient_id, function ($query) {
@@ -51,5 +50,18 @@ class PaymentsSearch extends BaseSearch
     protected function applySelectColumns($query, $columns = ['*']): QueryBuilder|EloquentBuilder
     {
         return $query->select("payments.*");
+    }
+
+    protected function applySqlSort(EloquentBuilder|QueryBuilder $query): QueryBuilder|EloquentBuilder
+    {
+        if (!($this->order['by'] ?? false)) {
+            return $query;
+        }
+        if ($this->order['by'] === 'patient.name') {
+            $this->order['by'] = 'patients.name';
+        }
+
+        return $query->orderBy($this->order['by'], $this->order['desc'] ? 'desc' : 'asc');
+
     }
 }

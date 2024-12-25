@@ -50,7 +50,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('patients/{patient}', [PatientsController::class, 'show']);
     Route::patch('patients/{patient}', [PatientsController::class, 'update']);
     Route::delete('patients/{patient}', [PatientsController::class, 'destroy']);
-
+    Route::patch('patients/{patient}/files', [PatientsController::class, 'updateImages'])->name('patients.update_images');
 
     Route::post('debits/', [PatientsController::class, 'debits'])->name('debits');
     Route::post('debits/{patient?}/patients', [PatientsController::class, 'debits'])->name('patients.debits');
@@ -77,7 +77,7 @@ Route::middleware('auth:api')->group(function () {
 });
 
 Route::post('upload', [UploadFilesController::class, 'store'])->name('upload.save');
-Route::delete('upload/{folder}/{name}/{type}', [UploadFilesController::class, 'destroy'])->name('upload.delete');
+Route::delete('upload/{folder}/{type}', [UploadFilesController::class, 'destroy'])->name('upload.delete');
 Route::get('upload/{folder}/{name}/{type}', [UploadFilesController::class, 'show'])->name('upload.show');
 
 //Route::post('register', [RegisterController::class, 'register']);

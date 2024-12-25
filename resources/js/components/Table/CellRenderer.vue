@@ -1,13 +1,13 @@
 <template>
     <template v-if="column.cellRenderer">
-        <td class="td">
+        <td class="td" :class="getTextClass">
             <component :is="column.cellRenderer" v-if="isComponent" :value="getValue" :entry :column></component>
-            <div v-if="isFunction" v-html="column.cellRenderer(entry)"></div>
+            <!--            <div v-if="isFunction" v-html="column.cellRenderer(entry)"></div>-->
         </td>
     </template>
     <template v-else>
-        <td v-if="column.isHtml" class="td" :class="{ [column.textClass]: column.textClass }" v-html="getValue"></td>
-        <td v-else class="td" :class="{ [column.textClass]: column.textClass }">
+        <td v-if="column.isHtml" class="td" :class="getTextClass" v-html="getValue"></td>
+        <td v-else class="td" :class="getTextClass">
             {{ getValue }}
         </td>
     </template>
@@ -38,7 +38,14 @@ const isFunction = computed(() => {
     return props.column.cellRenderer && typeof props.column.cellRenderer === "function"
 })
 
-function getNestedValue(obj, keyPath, defaultValue = undefined) {
+const getTextClass = computed(() => {
+    if (!props.column.textClass) {
+        return {}
+    }
+    return { [props.column.textClass!]: setTextClass.value }
+})
+
+function getNestedValue(obj: Record<any, any>, keyPath: string, defaultValue = undefined) {
     return keyPath.split(".").reduce((current, key) => {
         return current && key in current ? current[key] : defaultValue
     }, obj)

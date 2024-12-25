@@ -34,6 +34,6 @@ class DeletedPatient extends BaseModel
 
     public function images()
     {
-        return self::hasMany(PatientImage::class, 'patient_id', 'id');
+        return self::hasMany(PatientFile::class, 'patient_id', 'id');
     }
 }

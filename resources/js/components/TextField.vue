@@ -1,7 +1,6 @@
 <template>
     <div
         class="relative w-full"
-        v-bind="attrs"
         :class="{
             'opacity-50': disabled,
         }"
@@ -17,6 +16,7 @@
             {{ label }}
         </label>
         <input
+            v-bind="attrs"
             :id="name"
             v-model="modelValue"
             :type="type"

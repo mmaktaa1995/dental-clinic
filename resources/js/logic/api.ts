@@ -105,7 +105,7 @@ export const api = {
     post(url: string, body?: Record<string, any> | FormData, abortController: AbortController | null = null) {
         return this.send(url, "POST", undefined, body, abortController)
     },
-    delete(url: string, body: Record<string, any>) {
+    delete(url: string, body?: Record<string, any>) {
         return this.send(url, "DELETE", undefined, body)
     },
     getErrorMessage(response: Response) {

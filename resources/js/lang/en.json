@@ -68,6 +68,8 @@
         "mobile": "Mobile",
         "moduleName": "Patients",
         "name": "Name",
+        "relatedPatientFiles": "Patient Document Manager",
+        "relatedPatientFilesDescription": "Manage and access files related to patient records efficiently.",
         "patientContactInfo": "Contact Information",
         "patientContactInfoDescription": "Contact information to be able to reach the patient in case something urgent has happened or to ask questions or to discuss the next appointments.",
         "patientInfo": "Patient Information",

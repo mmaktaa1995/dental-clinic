@@ -54,7 +54,7 @@ class PatientsController extends Controller
 
     public function show(Patient $patient): JsonResponse
     {
-        $patient->load('images');
+        $patient->load('files');
         return response()->json(PatientResource::make($patient));
     }
 
@@ -83,15 +83,6 @@ class PatientsController extends Controller
         return response()->json(['message' => __('app.success'), 'id' => $patient->id]);
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param PatientRequest $request
-     * @param Patient $patient
-     *
-     * @return JsonResponse
-     */
     public function update(PatientRequest $request, Patient $patient): JsonResponse
     {
         $patient->update($request->validated());
@@ -100,9 +91,19 @@ class PatientsController extends Controller
 
     public function updateImages(Request $request, Patient $patient)
     {
-        $images = $request->get('images', []);
-        $patient->images()->delete();
-        $patient->images()->createMany($images);
+        DB::transaction(function () use ($request, $patient) {
+            $files = $request->get('files', []);
+            $filesToAdd =  [];
+            foreach ($files as $file) {
+                $filesToAdd[] = [
+                    'file' => $file['file'],
+                    'type' => $file['type'],
+                    'patient_id' => $patient->id,
+                ];
+            }
+            $patient->files()->delete();
+            $patient->files()->createMany($files);
+        });
         return response()->json(['message' => __('app.success')]);
     }
 

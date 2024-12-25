@@ -1,6 +1,7 @@
 import * as FilePond from "filepond"
 import { FilePondErrorDescription, FilePondFile } from "filepond"
 import { FilePond as FilePondInterface } from "filepond/types"
+import { api } from "@/logic/api"
 
 export interface ImageEditorResult {
     file?: File

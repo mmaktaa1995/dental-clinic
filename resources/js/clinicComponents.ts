@@ -56,8 +56,10 @@ import DataTable from "@/components/Table/DataTable.vue"
 import DatePicker from "@/components/DatePicker.vue"
 import TimePicker from "@/components/TimePicker.vue"
 import Checkbox from "@/components/Checkbox.vue"
+import Autocomplete from "@/components/Autocomplete.vue"
 
 export const loadComponents = (app: App<Element>) => {
+    app.component("CAutocomplete", Autocomplete)
     app.component("CCheckbox", Checkbox)
     app.component("CDatePicker", DatePicker)
     app.component("CTimePicker", TimePicker)

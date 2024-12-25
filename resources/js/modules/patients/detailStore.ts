@@ -20,6 +20,7 @@ export type PatientEntry = {
     file_number: number
     phone: string
     mobile: string
+    files: { id: number; file: string; type: string }[]
     // created_at?: string
     // updated_at?: string
     // createdBy?: UserEntry
@@ -86,6 +87,7 @@ export const usePatientDetailStore = defineDetailPageStore("patient-details", {
                     file_number: accountStore.lastFileNumber,
                     phone: "",
                     mobile: "",
+                    files: [],
                 }
                 return
             }

@@ -27,7 +27,7 @@ class PatientResource extends JsonResource
             'gender' => $this->gender,
             'file_number' => $this->file_number,
             'image' => $this->image,
-            'images' => $this->images,
+            'files' => FileResource::collection($this->whenLoaded('files')),
             'created_at' => $this->created_at->format("Y-m-d H:i:s"),
         ];
     }

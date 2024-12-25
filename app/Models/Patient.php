@@ -10,6 +10,7 @@ namespace App\Models;
 
 use App\Traits\SearchQuery;
 use Eloquent;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @mixin IdeHelperPatient
@@ -55,13 +56,20 @@ class Patient extends BaseModel
         return $this->hasMany(Payment::class);
     }
 
-    public function images()
+    public function files()
     {
-        return $this->hasMany(PatientImage::class, 'patient_id');
+        return $this->hasMany(PatientFile::class);
     }
 
     public function lastVisit()
     {
         return $this->hasMany(Visit::class)->latest()->limit(1);
+    }
+
+    public function medications(): BelongsToMany
+    {
+        return $this->belongsToMany(Medication::class, 'patient_medications')
+            ->withPivot('dosage', 'frequency', 'start_date', 'end_date')
+            ->withTimestamps();
     }
 }

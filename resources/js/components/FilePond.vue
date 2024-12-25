@@ -2,6 +2,8 @@
     <file-pond
         ref="pond"
         name="files"
+        :disabled="disabled"
+        :max-file-size="props.maxFileSize"
         label-idle="اسحب وافلت الملفات هنا..."
         label-tap-to-cancel="اضغط هنا للإلغاء"
         label-tap-to-retry="اضغط هنا للإعادة"
@@ -9,165 +11,124 @@
         label-file-processing="جاري رفع الملفات"
         label-file-processing-complete="تم رفع الملفات"
         :allow-multiple="true"
-        accepted-file-types="image/jpeg, image/png"
+        :accepted-file-types="acceptedFileTypes"
         :server="serverConfig"
         chunk-uploads="true"
         :files="myFiles"
-        @init="handleFilePondInit"
-        @ended="handleFilePondEnd"
-        @error="handleFilePondError"
+        @processfiles="fileUploaded"
+        @ended="fileUploaded"
+        @addfile="fileAdded"
+        @removefile="fileRemoved"
     />
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from "vue"
+import { ref, computed } from "vue"
 import vueFilePond from "vue-filepond"
-import axios from "axios"
 import "filepond/dist/filepond.min.css"
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css"
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type"
-import FilePondPluginImagePreview from "filepond-plugin-image-preview"
 import FilePondPluginFilePoster from "filepond-plugin-file-poster"
+import { FilePondErrorDescription, FilePondFile } from "filepond"
+import { api } from "@/logic/api"
 
 // Initialize FilePond component with plugins
-const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginFilePoster, FilePondPluginImagePreview)
-
-const files = defineModel < [] > { required: true }
+const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginFilePoster)
+// const pond = ref()
+const myFiles = defineModel<any[]>({ required: true })
 // Props
-const props = defineProps({
-    folder: {
-        type: String,
-        default: "temp",
+const props = withDefaults(
+    defineProps<{
+        folder?: string
+        type?: string
+        acceptedFileTypes?: string[]
+        maxFileSize?: string
+        disabled?: boolean
+    }>(),
+    {
+        folder: "temp",
+        type: "images",
+        acceptedFileTypes: undefined,
+        maxFileSize: undefined,
+        disabled: undefined,
     },
-    type: {
-        type: String,
-        default: "images",
-    },
-    files: {
-        type: Array,
-        default: () => [],
-    },
-})
-const $emits = defineEmits(["updateFiles"])
+)
+
+const $emits = defineEmits<{
+    (e: "fileUploaded", serverId: string, file: FilePondFile): void
+    (e: "fileAdded", file: FilePondFile): void
+    (e: "fileRemoved", file: FilePondFile): void
+    (e: "error"): void
+}>()
 
 // Refs
 const pond = ref(null)
-const myFiles = ref(props.files)
 
 // Computed server config
+const defaultHeaders = api.getDefaultHeaders()
+delete defaultHeaders["Content-Type"]
 const serverConfig = computed(() => ({
-    process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
-        const formData = new FormData()
-        formData.append(fieldName, file, file.name)
-        formData.append("folder", props.folder)
-        formData.append("type", props.type)
-
-        const CancelToken = axios.CancelToken
-        const source = CancelToken.source()
-
-        axios
-            .post(`/api/upload`, formData, {
-                cancelToken: source.token,
-                onUploadProgress: (e) => {
-                    progress(e.lengthComputable, e.loaded, e.total)
-                },
-            })
-            .then((response) => {
-                if (Array.isArray(response.data)) {
-                    response.data.forEach((path) => load(path))
-                } else {
-                    const file = {
-                        source: response.data.path,
-                        options: {
-                            type: "local",
-                            metadata: {
-                                poster: response.data.path,
-                            },
-                        },
-                    }
-                    myFiles.value.push(file)
-                    files.value.push(file)
-                    emitFiles()
-                    load(JSON.stringify(response.data))
-                }
-            })
-            .catch((thrown) => {
-                if (axios.isCancel(thrown)) {
-                    console.log("Request canceled", thrown.message)
-                } else {
-                    error("Upload failed")
-                }
-            })
-
-        return {
-            abort: () => {
-                source.cancel("Operation canceled by the user.")
-                abort()
-            },
-        }
+    process: {
+        url: `/api/upload`,
+        headers: (file: File) => {
+            if (file.size <= 0 && pond.value) {
+                pond.value.removeFile(file)
+            }
+            return { ...defaultHeaders, "Upload-Name": file.name }
+        },
+        ondata: (formData: FormData) => {
+            formData.append("folder", props.folder)
+            formData.append("type", props.type)
+            return formData
+        },
+        withCredentials: true,
     },
-    revert: (uniqueFileId, load, error) => {
-        const data = JSON.parse(uniqueFileId).path.split("/")
-        const name = data[data.length - 1]
-        const folder = data[data.length - 2]
-
-        axios
-            .delete(`/api/upload/${folder}/${name}/${props.type}`, data)
-            .then(({ data }) => {
-                myFiles.value = myFiles.value.filter((image) => uniqueFileId.path !== image.source)
-                emitFiles()
-                console.log("File removed:", data.message)
-            })
-            .catch(error)
-
-        load()
+    revert: {
+        url: `/api/upload/${props.folder}/${props.type}`,
+        headers: defaultHeaders,
+        withCredentials: true,
     },
-    remove: (uniqueFileId, load, error) => {
-        const data = uniqueFileId.split("/")
-        const name = data[data.length - 1]
-        const folder = data[data.length - 2]
-
-        axios
-            .delete(`/api/upload/${folder}/${name}/${props.type}`, data)
-            .then(({ data }) => {
-                myFiles.value = myFiles.value.filter((image) => uniqueFileId !== image.source)
-                emitFiles()
-                console.log("File removed:", data.message)
-            })
-            .catch(error)
-
-        load()
+    remove: {
+        url: `/api/upload/${props.folder}/${props.type}`,
+        headers: defaultHeaders,
+        withCredentials: true,
     },
 }))
 
 // Methods
 const emitFiles = () => {
-    console.log(myFiles.value)
-    $emits(
-        "updateFiles",
-        myFiles.value.map((file) => ({ image: file.source })),
-    )
+    // console.log(myFiles.value)
+    // $emits(
+    //     "updateFiles",
+    //     myFiles.value.map((file) => ({ image: file.source })),
+    // )
 }
 
-const handleFilePondInit = () => {
-    console.log("FilePond has initialized")
+const fileAdded = (_: FilePondErrorDescription, file: FilePondFile) => {
+    console.log(file)
+    // After a file was added, we decide if we want to upload it to our servers or upload it to bunny.net
+    $emits("fileAdded", file)
 }
 
-const handleFilePondEnd = (data) => {
-    console.log("FilePond has ended", data)
+const fileRemoved = (_: FilePondErrorDescription, file: FilePondFile) => {
+    $emits("fileRemoved", file)
 }
 
-const handleFilePondError = (error) => {
-    console.log("FilePond encountered an error", error)
+const fileUploaded = () => {
+    const file: FilePondFile = pond.value!.getFiles()[0]
+    const filesUploaded = JSON.parse(file.serverId)
+    filesUploaded?.data?.forEach((uploadedFile) => {
+        $emits("fileUploaded", uploadedFile, file)
+    })
 }
 
-watch(
-    () => props.files,
-    (newFiles) => {
-        myFiles.value = newFiles
-    },
-    { immediate: true },
-)
+// watch(
+//     () => props.files,
+//     (newFiles) => {
+//         myFiles.value = newFiles
+//     },
+//     { immediate: true },
+// )
 </script>
 
 <style scoped></style>
