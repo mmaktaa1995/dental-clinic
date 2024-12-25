@@ -1,18 +1,18 @@
 <template>
-    <CDetailPage :store="serviceDetailsStore" :load-data-immediately="false">
+    <CDetailPage :store="expenseDetailsStore" :load-data-immediately="false">
         <template #sidebarHeader>
-            <div v-if="serviceDetailsStore.entry.id" class="c-detailsWrapper__sidebarHeader flex items-center">
+            <div v-if="expenseDetailsStore.entry.id" class="c-detailsWrapper__sidebarHeader flex items-center">
                 <div class="text-base font-semibold text-gray-700">
-                    {{ serviceDetailsStore.entry.name }}
+                    {{ expenseDetailsStore.entry.name }}
                 </div>
             </div>
         </template>
         <template #actionButtons>
-            <CDropdown v-if="!serviceDetailsStore.isNewEntry" type="accent" :loading="isDeleting" :items="actions" :button-label="$t('global.actions.label')" @select="handleAction"></CDropdown>
-            <AsyncButton v-if="serviceDetailsStore.isNewEntry" :disabled="!serviceDetailsStore.watchers?.entry.isChanged" :loading="isSaving" type="primary" @click="save">
+            <CDropdown v-if="!expenseDetailsStore.isNewEntry" type="accent" :loading="isDeleting" :items="actions" :button-label="$t('global.actions.label')" @select="handleAction"></CDropdown>
+            <AsyncButton v-if="expenseDetailsStore.isNewEntry" :disabled="!expenseDetailsStore.watchers?.entry.isChanged" :loading="isSaving" type="primary" @click="save">
                 {{ $t("global.actions.create") }}
             </AsyncButton>
-            <AsyncButton v-else :loading="isSaving" :disabled="!serviceDetailsStore.watchers?.entry.isChanged" type="primary" @click="save">
+            <AsyncButton v-else :loading="isSaving" :disabled="!expenseDetailsStore.watchers?.entry.isChanged" type="primary" @click="save">
                 {{ $t("global.actions.saveChanges") }}
             </AsyncButton>
         </template>
@@ -20,10 +20,10 @@
     <CConfirmModal
         v-model="isServiceDeleteModalOpened"
         v-model:loading="isDeleting"
-        :confirm-title="$t('global.deleteEntryTitle', { type: $t('services.entryName') })"
+        :confirm-title="$t('global.deleteEntryTitle', { type: $t('expenses.entryName') })"
         :confirm-body-message="
             $t('global.deleteEntryBodyMessage', {
-                type: $t('services.entryName'),
+                type: $t('expenses.entryName'),
             })
         "
         @confirm-callback="deleteService"
@@ -38,17 +38,17 @@ import AsyncButton from "@/components/AsyncButton.vue"
 import { useI18n } from "vue-i18n"
 import { api } from "@/logic/api"
 import { getRootRoutePath } from "@/logic/detailPage"
-import { useServiceDetailsStore } from "@/modules/services/detailStore"
+import { useExpenseDetailsStore } from "@/modules/expenses/detailStore"
 
 const isDeleting = ref(false)
 const isSaving = ref(false)
 const isServiceDeleteModalOpened = ref(false)
-const serviceDetailsStore = useServiceDetailsStore()
+const expenseDetailsStore = useExpenseDetailsStore()
 const router = useRouter()
 const route = useRoute()
 const { t } = useI18n()
 
-serviceDetailsStore.addWatcher("entry")
+expenseDetailsStore.addWatcher("entry")
 
 const props = defineProps<{
     reloadList?: () => any
@@ -58,9 +58,9 @@ watch(
     () => route.fullPath,
     async () => {
         if (route.params.id) {
-            serviceDetailsStore.entryId = parseInt(route.params.id as string)
-            await serviceDetailsStore.loadData()
-            serviceDetailsStore.watchers?.entry.resetStore()
+            expenseDetailsStore.entryId = parseInt(route.params.id as string)
+            await expenseDetailsStore.loadData()
+            expenseDetailsStore.watchers?.entry.resetStore()
         }
     },
     {
@@ -69,17 +69,17 @@ watch(
 )
 
 const save = () => {
-    serviceDetailsStore.errors = {}
+    expenseDetailsStore.errors = {}
     isSaving.value = true
-    let url = `/services/create`
-    console.log(serviceDetailsStore.isNewEntry)
-    if (!serviceDetailsStore.isNewEntry) {
-        url = `/services/${serviceDetailsStore.entryId}`
+    let url = `/expenses/create`
+    console.log(expenseDetailsStore.isNewEntry)
+    if (!expenseDetailsStore.isNewEntry) {
+        url = `/expenses/${expenseDetailsStore.entryId}`
     }
-    api.send(url, serviceDetailsStore.isNewEntry ? "POST" : "PATCH", {}, serviceDetailsStore.entry)
+    api.send(url, expenseDetailsStore.isNewEntry ? "POST" : "PATCH", {}, expenseDetailsStore.entry)
         .then((response: any) => {
             router.replace({
-                name: "services/general",
+                name: "expenses/general",
                 params: { id: response.id },
             })
             isSaving.value = false
@@ -90,7 +90,7 @@ const save = () => {
         .catch((error: any) => {
             isSaving.value = false
             if (error.errors && error.status === 422) {
-                serviceDetailsStore.errors = error.errors
+                expenseDetailsStore.errors = error.errors
             }
         })
 }
@@ -104,7 +104,7 @@ const actions = computed(() => {
 })
 const deleteService = () => {
     isDeleting.value = true
-    api.delete(`/services/${serviceDetailsStore.entryId}`)
+    api.delete(`/expenses/${expenseDetailsStore.entryId}`)
         .then(() => {
             // bus.emit("flash-message", { text: data.message, type: "success" });
             // bus.emit("item-deleted", id.value);
@@ -131,6 +131,6 @@ const handleAction = async (action: string) => {
 }
 
 onUnmounted(() => {
-    serviceDetailsStore.$reset()
+    expenseDetailsStore.$reset()
 })
 </script>

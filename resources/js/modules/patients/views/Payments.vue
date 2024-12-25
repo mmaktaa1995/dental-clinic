@@ -67,9 +67,10 @@ watch(
 const formattedValue = (value: number) => {
     return formatNumber(value)
 }
-useEntryListUpdater(`/payments/${patientDetailStore.entryId}/patients`, patientPaymentsStore, async () => {
-    patientPaymentsStore.totalPayments = patientPaymentsStore.entries!.reduce((sum, payment) => sum + +payment.amount, 0)
-    patientPaymentsStore.totalRemainingPayments = patientPaymentsStore.entries!.reduce((sum, payment) => sum + +payment.remaining_amount, 0)
+
+useEntryListUpdater(`/payments/${patientDetailStore.entryId}/patients`, patientPaymentsStore, async (response) => {
+    patientPaymentsStore.totalPayments = response.total_payments
+    patientPaymentsStore.totalRemainingPayments = response.total_remaining_payments
     patientDetailStore.subPages.payments.title = t("payments.title") + ` (${patientPaymentsStore.pagination.total})`
 })
 </script>

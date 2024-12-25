@@ -1,7 +1,15 @@
 <template>
     <c-container>
         <PaymentsTable :columns="columns" :store="paymentsStore" :row-clicked="rowClicked">
-            <template #header>{{ $t("payments.title") }}</template>
+            <template #header>
+                <div>
+                    <div class="font-semibold text-lg">{{ $t("payments.title") }}</div>
+                    <div class="mt-2">
+                        <label class="block text-sm font-medium text-gray-700 text-right">{{ $t("payments.totalAmount") }}</label>
+                        <label class="block text-2xl font-medium text-teal-600 text-right">{{ formattedValue(paymentsStore.totalPayments) }}</label>
+                    </div>
+                </div></template
+            >
             <template #filters>
                 <div class="grid grid-cols-2 gap-4 w-full">
                     <CTextField v-model="paymentsStore.query" class="w-100" :label="$t('patients.name')" name="name"></CTextField>
@@ -53,8 +61,12 @@ const rowClicked = (row: any) => {
     router.push({ name: "patients/payments", params: { id: row.patient_id } })
 }
 
-useEntryListUpdater(`/payments`, paymentsStore, async () => {
-    paymentsStore.totalPayments = paymentsStore.entries!.reduce((sum, payment) => sum + +payment.amount, 0)
-    paymentsStore.totalRemainingPayments = paymentsStore.entries!.reduce((sum, payment) => sum + +payment.remaining_amount, 0)
+const formattedValue = (value: number) => {
+    return formatNumber(value)
+}
+
+useEntryListUpdater(`/payments`, paymentsStore, async (response) => {
+    paymentsStore.totalPayments = response.total_payments
+    paymentsStore.totalRemainingPayments = response.total_remaining_payments
 })
 </script>

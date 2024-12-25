@@ -3,6 +3,7 @@
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\DebitsController;
 use App\Http\Controllers\ExpensesController;
 use App\Http\Controllers\PatientsController;
 use App\Http\Controllers\PatientsFilesController;
@@ -55,8 +56,8 @@ Route::middleware('auth:api')->group(function () {
         Route::post('patients/{patient}/files', [PatientsController::class, 'files'])->name('patients.files');
         Route::delete('patients/{patient}/files/{file}', [PatientsController::class, 'deleteFile'])->name('patients.delete-file');
 
-        Route::post('debits/', [PatientsController::class, 'debits'])->name('debits');
-        Route::post('debits/{patient?}/patients', [PatientsController::class, 'debits'])->name('patients.debits');
+        Route::post('debits/', [DebitsController::class, 'debits'])->name('debits');
+        Route::post('debits/{patient?}/patients', [DebitsController::class, 'debits'])->name('patients.debits');
 
 
         Route::post('services', [ServicesController::class, 'list']);
@@ -64,6 +65,12 @@ Route::middleware('auth:api')->group(function () {
         Route::post('services/create', [ServicesController::class, 'store']);
         Route::patch('services/{service}', [ServicesController::class, 'update']);
         Route::delete('services/{service}', [ServicesController::class, 'destroy']);
+
+        Route::post('expenses', [ExpensesController::class, 'list']);
+        Route::get('expenses/{expense}', [ExpensesController::class, 'show']);
+        Route::post('expenses/create', [ExpensesController::class, 'store']);
+        Route::patch('expenses/{expense}', [ExpensesController::class, 'update']);
+        Route::delete('expenses/{expense}', [ExpensesController::class, 'destroy']);
 
     });
     // Old Routes
@@ -76,8 +83,6 @@ Route::middleware('auth:api')->group(function () {
 
     Route::resource('visits', VisitsController::class)->except(['create', 'edit']);
     Route::resource('patients.visits', VisitsController::class)->except(['create', 'edit']);
-//    Route::resource('payments', VisitsController::class)->except(['create', 'edit']);
-    Route::resource('expenses', ExpensesController::class)->except(['create', 'edit']);
 
 
     Route::resource('appointments', AppointmentController::class)->except(['create', 'edit']);

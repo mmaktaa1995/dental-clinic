@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from "vue-router"
 import { getPatientsRoutes } from "@/modules/patients/routes.js"
 import { getPaymentsRoutes } from "@/modules/payments/routes.js"
 import { getServicesRoutes } from "@/modules/services/routes.js"
+import { getExpensesRoutes } from "@/modules/expenses/routes.js"
+import { getDebitsRoutes } from "@/modules/debits/routes.js"
 
 const redirectIfNotAuth = (to, from, next) => {
     if (localStorage.getItem("user")) next("/")
@@ -108,46 +110,7 @@ const routes = [
         ],
     },
 
-    {
-        path: "/expenses",
-        name: "expenses-index",
-        beforeEnter: checkAuth,
-        component: () => import("./modules/expenses/index.vue"),
-        meta: {
-            resource: "expenses",
-            createTitle: () => "النفقات",
-        },
-        children: [
-            {
-                path: ":id/delete",
-                name: "expenses-delete",
-                component: () => import("./modules/expenses/delete.vue"),
-                meta: {
-                    resource: "expenses",
-                    createTitle: () => "حذف نفقة",
-                },
-            },
-            {
-                path: "create",
-                name: "expenses-create",
-                component: () => import("./modules/expenses/create.vue"),
-                meta: {
-                    resource: "expenses",
-                    createTitle: () => "إضافة نفقة",
-                },
-            },
-            {
-                path: ":id/edit",
-                name: "expenses-edit",
-                component: () => import("./modules/expenses/edit.vue"),
-                meta: {
-                    resource: "expenses",
-                    createTitle: () => "تعديل نفقة",
-                },
-            },
-        ],
-    },
-
+    ...getExpensesRoutes(),
     ...getServicesRoutes(),
     ...getPaymentsRoutes(),
     {
@@ -193,16 +156,7 @@ const routes = [
             createTitle: () => "الإحصائيات",
         },
     },
-    {
-        path: "/debits",
-        name: "debits-index",
-        beforeEnter: checkAuth,
-        component: () => import("./modules/debits/index.vue"),
-        meta: {
-            resource: "patients/debits",
-            createTitle: () => " المبالغ المتبقية",
-        },
-    },
+    ...getDebitsRoutes(),
     {
         path: "/appointments",
         name: "appointments-index",

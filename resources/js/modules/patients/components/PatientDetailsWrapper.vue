@@ -12,7 +12,7 @@
             </div>
         </template>
         <template #actionButtons>
-            <CDropdown v-if="!patientDetailsStore.isNewEntry" :loading="isDeleting" :items="actions" :button-label="'الاإجرا،ات'" @select="handleAction"></CDropdown>
+            <CDropdown v-if="!patientDetailsStore.isNewEntry" :loading="isDeleting" :items="actions" :button-label="$t('global.actions.label')" @select="handleAction"></CDropdown>
             <AsyncButton v-if="patientDetailsStore.isNewEntry" :disabled="!patientDetailsStore.watchers?.entry.isChanged" :loading="isSaving" type="primary" @click="save">
                 {{ $t("global.actions.create") }}
             </AsyncButton>
@@ -20,9 +20,6 @@
                 {{ $t("global.actions.saveChanges") }}
             </AsyncButton>
         </template>
-        <!--            <template v-if="patientDetailsStore.entry.isBinned" #sidebarContent>-->
-        <!--                <KAlert>{{ $t("appointments.appointmentDetailsPage.alerts.isBinned") }}</KAlert>-->
-        <!--            </template>-->
     </CDetailPage>
     <CConfirmModal
         v-model="isPatientDeleteModalOpened"

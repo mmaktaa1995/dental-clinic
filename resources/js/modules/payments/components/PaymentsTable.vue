@@ -10,7 +10,6 @@
 </template>
 
 <script setup lang="ts">
-import { usePatientPaymentsStore } from "@/modules/patients/paymentsStore"
 import DataTable, { DataTableColumn } from "@/components/Table/DataTable.vue"
 import DateTime from "@/components/Table/components/DateTime.vue"
 import { useI18n } from "vue-i18n"
@@ -19,7 +18,6 @@ import PaymentStatus from "@/modules/payments/components/table/PaymentStatus.vue
 import { formatNumber } from "@/logic/helpers"
 import { EntryListStore } from "@/store/factories/entryListStore"
 
-const patientPaymentsStore = usePatientPaymentsStore()
 const { t } = useI18n()
 const props = defineProps<{
     store: EntryListStore

@@ -24,6 +24,7 @@ class ExpenseResource extends JsonResource
             'date' => $this->date,
             'description' => $this->description,
             'name' => $this->name,
+            'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
         ];
     }
 }

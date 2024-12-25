@@ -27,8 +27,7 @@ const formattedValue = (value: number) => {
     return formatNumber(value)
 }
 
-useEntryListUpdater(`/debits/${patientDetailsStore.entryId}/patients`, patientDebitsStore, async () => {
-    patientDebitsStore.totalPayments = patientDebitsStore.entries!.reduce((sum, payment) => sum + +payment.amount, 0)
-    patientDebitsStore.totalRemainingPayments = patientDebitsStore.entries!.reduce((sum, payment) => sum + +payment.remaining_amount, 0)
+useEntryListUpdater(`/debits/${patientDetailsStore.entryId}/patients`, patientDebitsStore, async (response) => {
+    patientDebitsStore.totalRemainingPayments = response.totalDebits
 })
 </script>

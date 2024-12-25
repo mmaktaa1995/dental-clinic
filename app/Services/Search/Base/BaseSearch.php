@@ -46,7 +46,7 @@ abstract class BaseSearch
         return $query;
     }
 
-    abstract public function getBaseQuery(): EloquentBuilder|QueryBuilder;
+    abstract protected function getBaseQuery(): EloquentBuilder|QueryBuilder;
 
     public function applyUserIdFilter(EloquentBuilder|QueryBuilder $query): EloquentBuilder|QueryBuilder
     {

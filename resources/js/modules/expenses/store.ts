@@ -1,19 +1,11 @@
 import { acceptHMRUpdate } from "pinia"
 import { defineEntryListStore } from "@/store/factories/entryListStore"
-import { api } from "@/logic/api"
+import { ExpenseEntry } from "@/modules/expenses/detailStore"
 
-export type PaymentEntry = {
-    notes: string
-    amount: number
-    remaining_amount: number
-    date: string
-    isEdit: boolean
-    isPayDebtOpened: boolean
-}
-export const usePatientDebitsStore = defineEntryListStore("patient-debits-store", {
+export const useExpensesStore = defineEntryListStore("expenses-store", {
     state: () => {
         return {
-            entries: null as null | PaymentEntry[],
+            entries: null as null | ExpenseEntry[],
             isLoading: true,
             pagination: {
                 page: 1,
@@ -28,14 +20,12 @@ export const usePatientDebitsStore = defineEntryListStore("patient-debits-store"
             query: "",
             from_date: "",
             to_date: "",
-            deleted: 0,
-            totalRemainingPayments: 0,
             dataLoadedCallbacks: [],
         }
     },
     getters: {
         configWatcher(): any[] {
-            return [this.pagination.page, this.pagination.per_page, this.query, this.from_date, this.to_date, this.order.by, this.order.desc, this.deleted]
+            return [this.pagination.page, this.pagination.per_page, this.query, this.from_date, this.to_date, this.order.by, this.order.desc]
         },
         entryListRequestParams(): Record<string, any> {
             return {
@@ -45,7 +35,6 @@ export const usePatientDebitsStore = defineEntryListStore("patient-debits-store"
                 order: this.order,
                 from_date: this.from_date,
                 to_date: this.to_date,
-                deleted: this.deleted,
             }
         },
     },
@@ -53,5 +42,5 @@ export const usePatientDebitsStore = defineEntryListStore("patient-debits-store"
 
 if (import.meta.hot) {
     // @ts-ignore
-    import.meta.hot.accept(acceptHMRUpdate(usePatientDebitsStore, import.meta.hot))
+    import.meta.hot.accept(acceptHMRUpdate(useExpensesStore, import.meta.hot))
 }

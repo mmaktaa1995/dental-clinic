@@ -1,15 +1,17 @@
 <template>
     <c-container>
-        <CDataTable :columns="columns" :store="servicesStore" @row-clicked="rowClicked">
+        <CDataTable :columns="columns" :store="expensesStore" @row-clicked="rowClicked">
             <template #header>
                 <div class="flex justify-between items-center">
-                    <div class="font-semibold text-lg">{{ $t("services.title") }}</div>
-                    <CButton type="primary" :to="{ name: `services/general`, params: { id: -1 } }"> {{ $t("global.actions.create") }}</CButton>
+                    <div class="font-semibold text-lg">{{ $t("expenses.title") }}</div>
+                    <CButton type="primary" :to="{ name: `expenses/general`, params: { id: -1 } }"> {{ $t("global.actions.create") }}</CButton>
                 </div>
             </template>
             <template #filters>
                 <div class="grid grid-cols-2 gap-4 w-full">
-                    <CTextField v-model="servicesStore.query" class="w-100" :label="$t('services.name')" name="name"></CTextField>
+                    <CTextField v-model="expensesStore.query" class="w-100" :label="$t('expenses.name')" name="name"></CTextField>
+                    <CDatePicker v-model="expensesStore.from_date" :label="$t('global.fromDate')" name="from_date"></CDatePicker>
+                    <CDatePicker v-model="expensesStore.to_date" :label="$t('global.toDate')" name="to_date"></CDatePicker>
                 </div>
             </template>
         </CDataTable>
@@ -24,17 +26,17 @@ import { formatNumber } from "@/logic/helpers.js"
 import { useRouter } from "vue-router"
 import DateTime from "@/components/Table/components/DateTime.vue"
 import { DataTableColumn } from "@/components/Table/DataTable.vue"
-import { useServicesStore } from "@/modules/services/store"
 import CDetailPageOutlet from "@/components/CDetailPage/CDetailPageOutlet.vue"
+import { useExpensesStore } from "@/modules/expenses/store"
 
-const servicesStore = useServicesStore()
+const expensesStore = useExpensesStore()
 const router = useRouter()
 const { t } = useI18n()
 
 const columns: DataTableColumn[] = [
     { field: "name", headerName: t("services.name") },
     {
-        field: "price",
+        field: "amount",
         headerName: t("services.price"),
         valueFormatter: (value: any) => {
             return formatNumber(value)
@@ -49,8 +51,8 @@ const columns: DataTableColumn[] = [
 
 const rowClicked = (row: any) => {
     console.log(row)
-    router.push({ name: "services/general", params: { id: row.id } })
+    router.push({ name: "expenses/general", params: { id: row.id } })
 }
 
-const { reload } = useEntryListUpdater(`/services`, servicesStore)
+const { reload } = useEntryListUpdater(`/expenses`, expensesStore)
 </script>

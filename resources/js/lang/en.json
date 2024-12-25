@@ -34,6 +34,15 @@
         "findOtherThings": "Find other things",
         "pageNotFound": "Page Not Found"
     },
+    "expenses": {
+        "amount": "Amount",
+        "date": "Date",
+        "description": "Description",
+        "entryName": "Service",
+        "expenseInfo": "Expense Info",
+        "name": "Name",
+        "title": "Expenses"
+    },
     "filePond": {
         "cancelLabel": "",
         "corruptFileDetected": "Please make sure that the file does not come from inside a zip archive and that it is not corrupted.",
@@ -59,6 +68,7 @@
             "cancel": "Cancel",
             "create": "Create",
             "delete": "Delete",
+            "label": "Actions",
             "saveChanges": "Save changes"
         },
         "date": "Date",
@@ -87,7 +97,7 @@
         "gender": "Gender",
         "mobile": "Mobile Number",
         "moduleName": "Patients",
-        "name": "Name",
+        "name": "Patient Name",
         "patientContactInfo": "Contact Information",
         "patientContactInfoDescription": "Contact information to be able to reach the patient in case something urgent has happened or to ask questions or to discuss the next appointments.",
         "patientInfo": "Patient Information",

@@ -92,7 +92,6 @@ class PatientsController extends Controller
     {
         DB::transaction(function () use ($request, $patient) {
             $files = $request->get('files', []);
-//            $patient->files()->delete();
             $patient->files()->createMany($files);
         });
         return response()->json(['message' => __('app.success')]);
@@ -122,20 +121,6 @@ class PatientsController extends Controller
             Schema::enableForeignKeyConstraints();
         });
         return response()->json(['message' => __('app.success')]);
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @param Request $request
-     *
-     * @return JsonResponse
-     */
-    public function debits(DebitsSearchRequest $request, ?Patient $patient): JsonResponse
-    {
-        $debitsSearch = new DebitsSearch($request->merge(['patient_id' => $patient?->id]));
-
-        return response()->json(BaseCollection::make($debitsSearch->getEntries(), DebitsResource::class));
     }
 
     /**

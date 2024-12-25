@@ -34,6 +34,15 @@
         "findOtherThings": "ابحث عن أشياء أخرى",
         "pageNotFound": "صفحة غير موجودة"
     },
+    "expenses": {
+        "amount": "المبلغ",
+        "date": "التاريخ",
+        "description": "الوصف",
+        "entryName": "النفقة",
+        "expenseInfo": "معلومات عن النفقة",
+        "name": "الاسم",
+        "title": "النفقات"
+    },
     "filePond": {
         "cancelLabel": "اضغط هنا للإلغاء",
         "corruptFileDetected": "يرجى التأكد من أن الملف لا يأتي من داخل أرشيف مضغوط وأنه غير تالف.",
@@ -59,6 +68,7 @@
             "cancel": "إلغاء",
             "create": "إنشاء جديد",
             "delete": "حذف",
+            "label": "الاإجرا،ات",
             "saveChanges": "حفظ التغييرات"
         },
         "date": "التاريخ",
@@ -87,7 +97,7 @@
         "gender": "الجنس",
         "mobile": "رقم الموبايل",
         "moduleName": "المرضى",
-        "name": "الاسم",
+        "name": " اسم المريض",
         "patientContactInfo": "معلومات الاتصال",
         "patientContactInfoDescription": "معلومات الاتصال لتتمكن من الوصول إلى المريض في حالة حدوث أمر طارئ أو لطرح الأسئلة أو لمناقشة المواعيد التالية.",
         "patientInfo": "معلومات المريض",

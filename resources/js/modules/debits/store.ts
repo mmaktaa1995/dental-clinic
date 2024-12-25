@@ -10,7 +10,7 @@ export type PaymentEntry = {
     isEdit: boolean
     isPayDebtOpened: boolean
 }
-export const usePatientDebitsStore = defineEntryListStore("patient-debits-store", {
+export const useDebitsStore = defineEntryListStore("debits-store", {
     state: () => {
         return {
             entries: null as null | PaymentEntry[],
@@ -53,5 +53,5 @@ export const usePatientDebitsStore = defineEntryListStore("patient-debits-store"
 
 if (import.meta.hot) {
     // @ts-ignore
-    import.meta.hot.accept(acceptHMRUpdate(usePatientDebitsStore, import.meta.hot))
+    import.meta.hot.accept(acceptHMRUpdate(useDebitsStore, import.meta.hot))
 }
