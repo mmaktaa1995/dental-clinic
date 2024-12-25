@@ -223,12 +223,14 @@ namespace App\Models{
  * @property string|null $file
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $file_name
  * @property string|null $type
  * @method static \Illuminate\Database\Eloquent\Builder|PatientFile newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PatientFile newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PatientFile query()
  * @method static \Illuminate\Database\Eloquent\Builder|PatientFile whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PatientFile whereFile($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientFile whereFileName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PatientFile whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PatientFile wherePatientId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PatientFile whereType($value)

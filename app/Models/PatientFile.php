@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Eng.MohammEd
- * Date: 8/10/2017
- * Time: 12:09 PM
- */
 
 namespace App\Models;
 
@@ -13,6 +7,15 @@ namespace App\Models;
  */
 class PatientFile extends \Eloquent
 {
-    protected $fillable = ['file', 'patient_id', 'type'];
+    protected $fillable = ['file', 'patient_id', 'type', 'file_name'];
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::deleting(function (PatientFile $file) {
+            $filePath = \Str::replace('/storage/', '', $file->file);
+            \Storage::disk('public')->delete($filePath);
+        });
+    }
 
 }

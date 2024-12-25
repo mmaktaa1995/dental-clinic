@@ -1,6 +1,7 @@
 import { defineStore } from "pinia"
 import axios from "axios"
 import { useRouter } from "vue-router"
+import { api } from "@/logic/api"
 
 export type User = {
     id: number
@@ -20,21 +21,21 @@ export const useAccountStore = defineStore("account-store", {
     }),
     actions: {
         async getUser() {
-            const { data } = await axios.get("/api/user")
-            this.user = data
+            const response = await api.get("/user")
+            this.user = response
             this.isLoggedIn = true
         },
         async getLastFileNumber() {
-            const { data } = await axios.get("/api/patients/lastFileNumber")
-            this.lastFileNumber = data.last_file_number
+            const response = await api.get("/patients/lastFileNumber")
+            this.lastFileNumber = response.last_file_number
         },
         async logout() {
             if (!this.isLoggedIn) {
                 return
             }
-            const logoutUrl = `/api/logout${this.user.admin ? "-admin" : ""}`
+            const logoutUrl = `/logout${this.user.admin ? "-admin" : ""}`
             const router = useRouter()
-            await axios.post(logoutUrl).then(({ data }) => {
+            await api.post(logoutUrl).then(({ data }) => {
                 localStorage.clear()
                 router.replace({ name: "login" }).then(() => {
                     this.user = {} as User

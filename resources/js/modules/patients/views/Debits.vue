@@ -17,11 +17,11 @@
 import { useEntryListUpdater } from "@/composables/entryListUpdater"
 import PaymentsTable from "@/modules/payments/components/PaymentsTable.vue"
 import { formatNumber } from "@/logic/helpers"
-import { usePatientDetailStore } from "@/modules/patients/detailStore"
+import { usePatientDetailsStore } from "@/modules/patients/detailStore"
 import { usePatientDebitsStore } from "@/modules/patients/debitsStore"
 
 const patientDebitsStore = usePatientDebitsStore()
-const patientDetailsStore = usePatientDetailStore()
+const patientDetailsStore = usePatientDetailsStore()
 
 const formattedValue = (value: number) => {
     return formatNumber(value)

@@ -9,7 +9,7 @@ use App\Http\Resources\PaymentResource;
 use App\Models\Patient;
 use App\Models\Payment;
 use App\Models\Visit;
-use App\Services\Search\PaymentsSearch;
+use App\Services\Search\PaymentSearch;
 use DB;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -19,7 +19,7 @@ class PaymentsController extends Controller
 {
     public function list(?Patient $patient, PaymentSearchRequest $request): JsonResponse
     {
-        $patientPaymentsSearch = new PaymentsSearch($request->merge(['patient_id' => $patient?->id]));
+        $patientPaymentsSearch = new PaymentSearch($request->merge(['patient_id' => $patient?->id]));
 
         return response()->json(BaseCollection::make($patientPaymentsSearch->getEntries(), PaymentResource::class));
     }

@@ -1,4 +1,4 @@
-import { checkAuth } from "../../router.js"
+import { checkAuth } from "@/router.js"
 
 export const getPatientsRoutes = () => {
     return [
@@ -16,7 +16,7 @@ export const getPatientsRoutes = () => {
                 {
                     path: "",
                     name: `patients/outlet`,
-                    component: () => import("./components/PatientDetailWrapper.vue"),
+                    component: () => import("./components/PatientDetailsWrapper.vue"),
                     meta: {
                         isDetailPageOutlet: true,
                     },

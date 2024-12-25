@@ -2,21 +2,17 @@ import { defineDetailPageStore, DetailPageStateTree } from "@/store/factories/de
 import { getI18n } from "@/logic/i18n"
 import axios from "axios"
 import { useAccountStore } from "@/modules/auth/accountStore"
+import { api } from "@/logic/api"
 
 type LoadDataOptions = {
     silently?: boolean
 }
 
-type UserEntry = {
-    id: number
-    displayName: string
-}
-
 export type PatientEntry = {
     id: number
     name: string
-    age: number
-    gender: number
+    age: number | null
+    gender: number | null
     file_number: number
     phone: string
     mobile: string
@@ -29,9 +25,10 @@ export type PatientEntry = {
 
 type PatientDetailStoreState = DetailPageStateTree & {
     entry: PatientEntry
+    filesToSave: any[]
 }
 
-export const usePatientDetailStore = defineDetailPageStore("patient-details", {
+export const usePatientDetailsStore = defineDetailPageStore("patient-details", {
     state: (): PatientDetailStoreState => {
         // @ts-ignore
         const { t } = getI18n()
@@ -72,18 +69,18 @@ export const usePatientDetailStore = defineDetailPageStore("patient-details", {
                 },
             },
             watchers: {},
+            filesToSave: [],
         }
     },
     actions: {
         async loadData(options: LoadDataOptions = {}) {
-            console.log(this.isNewEntry)
             if (this.isNewEntry) {
                 const accountStore = useAccountStore()
                 this.entry = {
                     id: -1,
                     name: "",
-                    age: 0,
-                    gender: 0,
+                    age: null,
+                    gender: null,
                     file_number: accountStore.lastFileNumber,
                     phone: "",
                     mobile: "",
@@ -96,8 +93,8 @@ export const usePatientDetailStore = defineDetailPageStore("patient-details", {
                 this.isLoading = true
             }
 
-            await axios.get(`/api/patients/${this.entryId}`).then(({ data }: { data: PatientEntry }) => {
-                this.entry = data
+            await api.get(`/patients/${this.entryId}`).then((response: PatientEntry) => {
+                this.entry = response
             })
             this.errors = {}
 

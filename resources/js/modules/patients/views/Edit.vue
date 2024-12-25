@@ -18,17 +18,17 @@
             <p class="text-sm text-gray-500">{{ $t("patients.patientContactInfoDescription") }}</p>
         </div>
         <div class="grid grid-cols-2 gap-6">
-            <CTextField v-model="patientDetailsStore.entry.phone" label="رقم الهاتف" type="tel" :errors="patientDetailsStore.errors" name="phone"></CTextField>
-            <CTextField v-model="patientDetailsStore.entry.mobile" label="رقم الموبايل" type="tel" :errors="patientDetailsStore.errors" name="mobile"></CTextField>
+            <CTextField v-model="patientDetailsStore.entry.phone" :label="$t('patients.phone')" type="tel" :errors="patientDetailsStore.errors" name="phone"></CTextField>
+            <CTextField v-model="patientDetailsStore.entry.mobile" :label="$t('patients.mobile')" type="tel" :errors="patientDetailsStore.errors" name="mobile"></CTextField>
         </div>
     </c-container>
 </template>
 
 <script setup>
-import { usePatientDetailStore } from "@/modules/patients/detailStore.ts"
+import { usePatientDetailsStore } from "@/modules/patients/detailStore.ts"
 import { useI18n } from "vue-i18n"
 
-const patientDetailsStore = usePatientDetailStore()
+const patientDetailsStore = usePatientDetailsStore()
 const { t } = useI18n()
 
 const genders = [

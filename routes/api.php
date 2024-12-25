@@ -4,9 +4,9 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ExpensesController;
-use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\PatientsController;
 use App\Http\Controllers\PatientsFilesController;
+use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\UploadFilesController;
@@ -30,31 +30,42 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:api')->group(function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
+    Route::prefix('v1')->group(function () {
+        Route::get('/user', function (Request $request) {
+            return $request->user();
+        });
+        // New Routes
+        Route::get('patients/lastFileNumber', [PatientsController::class, 'lastFileNumber'])->name('patients.last_file_number');
+        Route::get('patients/list', [PatientsController::class, 'apiList'])->name('patients.api-list');
+
+        Route::post('payments', [PaymentsController::class, 'list']);
+        Route::post('payments/{payment?}', [PaymentsController::class, 'show']);
+        Route::post('payments/{patient?}/patients', [PaymentsController::class, 'list']);
+        Route::post('payments/{patient?}/patients/create', [PaymentsController::class, 'store']);
+        Route::get('payments/{patient?}/patients/print', [PaymentsController::class, 'print'])->name('patients-payments.print');
+        Route::patch('payments/{patient?}/patients/{payment}', [PaymentsController::class, 'update']);
+
+
+        Route::post('patients', [PatientsController::class, 'list']);
+        Route::post('patients/create', [PatientsController::class, 'store']);
+        Route::get('patients/{patient}', [PatientsController::class, 'show']);
+        Route::patch('patients/{patient}', [PatientsController::class, 'update']);
+        Route::delete('patients/{patient}', [PatientsController::class, 'destroy']);
+        Route::patch('patients/{patient}/files', [PatientsController::class, 'syncFiles'])->name('patients.sync-files');
+        Route::post('patients/{patient}/files', [PatientsController::class, 'files'])->name('patients.files');
+        Route::delete('patients/{patient}/files/{file}', [PatientsController::class, 'deleteFile'])->name('patients.delete-file');
+
+        Route::post('debits/', [PatientsController::class, 'debits'])->name('debits');
+        Route::post('debits/{patient?}/patients', [PatientsController::class, 'debits'])->name('patients.debits');
+
+
+        Route::post('services', [ServicesController::class, 'list']);
+        Route::get('services/{service}', [ServicesController::class, 'show']);
+        Route::post('services/create', [ServicesController::class, 'store']);
+        Route::patch('services/{service}', [ServicesController::class, 'update']);
+        Route::delete('services/{service}', [ServicesController::class, 'destroy']);
+
     });
-    // New Routes
-    Route::get('patients/lastFileNumber', [PatientsController::class, 'lastFileNumber'])->name('patients.last_file_number');
-    Route::get('patients/list', [PatientsController::class, 'apiList'])->name('patients.api-list');
-
-    Route::post('payments', [PaymentsController::class, 'list']);
-    Route::post('payments/{payment?}', [PaymentsController::class, 'show']);
-    Route::post('payments/{patient?}/patients', [PaymentsController::class, 'list']);
-    Route::post('payments/{patient?}/patients/create', [PaymentsController::class, 'store']);
-    Route::get('payments/{patient?}/patients/print', [PaymentsController::class, 'print'])->name('patients-payments.print');
-    Route::patch('payments/{patient?}/patients/{payment}', [PaymentsController::class, 'update']);
-
-
-    Route::post('patients', [PatientsController::class, 'list']);
-    Route::post('patients/create', [PatientsController::class, 'store']);
-    Route::get('patients/{patient}', [PatientsController::class, 'show']);
-    Route::patch('patients/{patient}', [PatientsController::class, 'update']);
-    Route::delete('patients/{patient}', [PatientsController::class, 'destroy']);
-    Route::patch('patients/{patient}/files', [PatientsController::class, 'updateImages'])->name('patients.update_images');
-
-    Route::post('debits/', [PatientsController::class, 'debits'])->name('debits');
-    Route::post('debits/{patient?}/patients', [PatientsController::class, 'debits'])->name('patients.debits');
-
     // Old Routes
     Route::get('patients/dropdown', [PatientsController::class, 'dropdownData'])->name('patients.dropdown');
     Route::patch('patients/{patient}/images', [PatientsController::class, 'updateImages'])->name('patients.update_images');
@@ -67,7 +78,7 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('patients.visits', VisitsController::class)->except(['create', 'edit']);
 //    Route::resource('payments', VisitsController::class)->except(['create', 'edit']);
     Route::resource('expenses', ExpensesController::class)->except(['create', 'edit']);
-    Route::resource('services', ServicesController::class)->except(['create', 'edit']);
+
 
     Route::resource('appointments', AppointmentController::class)->except(['create', 'edit']);
 

@@ -98,7 +98,7 @@ import CellRenderer from "@/components/Table/CellRenderer.vue"
 import TableLoader from "@/components/Table/TableLoader.vue"
 import { ButtonType } from "@/components/CButton.vue"
 
-type CellRendererType = Component
+type CellRendererType = (rowData: any) => HTMLElement | Component
 export type DataTableColumn = {
     headerName: string
     field: string
@@ -127,8 +127,7 @@ const props = withDefaults(
         store: EntryListStore
     }>(),
     {
-        // eslint-disable-next-line
-        actions: [] as DataTableAction[],
+        actions: undefined,
         hide: false,
         selectable: false,
         showDatesFilters: false,
@@ -195,6 +194,7 @@ const hasSelectedRows = computed(() => {
 })
 
 const rowClicked = (row: any) => {
+    console.log(row)
     $emit("rowClicked", row)
 }
 

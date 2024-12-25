@@ -3,24 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DebitsSearchRequest;
+use App\Http\Requests\FileSearchRequest;
 use App\Http\Requests\PatientRequest;
 use App\Http\Requests\PatientSearchRequest;
 use App\Http\Resources\BaseCollection;
 use App\Http\Resources\DebitsResource;
+use App\Http\Resources\FileResource;
 use App\Http\Resources\PatientApiResource;
 use App\Http\Resources\PatientResource;
-use App\Http\Resources\PaymentResource;
 use App\Models\DeletedPatient;
 use App\Models\Patient;
+use App\Models\PatientFile;
 use App\Models\Payment;
 use App\Services\PatientService;
 use App\Services\Search\DebitsSearch;
+use App\Services\Search\FileSearch;
 use App\Services\Search\PatientApiListSearch;
 use App\Services\Search\PatientSearch;
+use DB;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use DB;
 use Schema;
 
 class PatientsController extends Controller
@@ -60,9 +63,9 @@ class PatientsController extends Controller
 
     public function store(PatientRequest $request): JsonResponse
     {
-        try {
-            DB::beginTransaction();
-            $patient = Patient::create($request->validated());
+        $patient = null;
+        DB::transaction(function () use ($request, &$patient) {
+            $patient = Patient::create($request->only(["name", "age", "gender", "file_number", "phone", "mobile"]));
             if ($request->filled('amount') && $request->filled('date')) {
                 $visit = $patient->visits()->create($request->validated());
                 Payment::create([
@@ -75,11 +78,7 @@ class PatientsController extends Controller
                 if ($request->filled('services'))
                     $visit->services()->sync($request->get('services'));
             }
-            DB::commit();
-        } catch (Exception $exception) {
-            DB::rollBack();
-            throw new Exception($exception->getMessage());
-        }
+        });
         return response()->json(['message' => __('app.success'), 'id' => $patient->id]);
     }
 
@@ -89,35 +88,39 @@ class PatientsController extends Controller
         return response()->json(['message' => __('app.success')]);
     }
 
-    public function updateImages(Request $request, Patient $patient)
+    public function syncFiles(Request $request, Patient $patient): JsonResponse
     {
         DB::transaction(function () use ($request, $patient) {
             $files = $request->get('files', []);
-            $filesToAdd =  [];
-            foreach ($files as $file) {
-                $filesToAdd[] = [
-                    'file' => $file['file'],
-                    'type' => $file['type'],
-                    'patient_id' => $patient->id,
-                ];
-            }
-            $patient->files()->delete();
+//            $patient->files()->delete();
             $patient->files()->createMany($files);
         });
         return response()->json(['message' => __('app.success')]);
     }
 
+    public function files(FileSearchRequest $request, Patient $patient): JsonResponse
+    {
+        $filesSearch = new FileSearch($request->merge(['patient_id' => $patient->id]));
+
+        return response()->json(BaseCollection::make($filesSearch->getEntries(), FileResource::class));
+    }
+
+    public function deleteFile(Patient $patient, PatientFile $patientFile): JsonResponse
+    {
+        DB::transaction(function () use ($patientFile, $patient) {
+            $patientFile->delete();
+        });
+
+        return response()->json(['message' => __('app.success')]);
+    }
+
     public function destroy(Patient $patient): JsonResponse
     {
-        try {
-           DB::transaction(function () use ($patient) {
-               Schema::disableForeignKeyConstraints();
-               $patient->delete();
-               Schema::enableForeignKeyConstraints();
-           });
-        } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage()], $exception->getCode());
-        }
+        DB::transaction(function () use ($patient) {
+            Schema::disableForeignKeyConstraints();
+            $patient->delete();
+            Schema::enableForeignKeyConstraints();
+        });
         return response()->json(['message' => __('app.success')]);
     }
 

@@ -1,5 +1,5 @@
 <template>
-    <c-navigation-drawer v-model="isOpen" absolute class="c-detailPage">
+    <c-navigation-drawer v-model="isOpen" class="c-detailPage">
         <div class="c-detailPage__wrapper">
             <slot name="asd"></slot>
             <CDetailHeader>

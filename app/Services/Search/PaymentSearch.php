@@ -2,14 +2,14 @@
 
 namespace App\Services\Search;
 
-use App\Http\Requests\PatientSearchRequest;
+use App\Http\Requests\PaymentSearchRequest;
 use App\Models\Payment;
 use App\Services\Search\Base\BaseSearch;
 use App\Services\Search\Base\SearchRequest;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
-class PaymentsSearch extends BaseSearch
+class PaymentSearch extends BaseSearch
 {
     public static string $dateColumnFiltered = 'date';
     protected ?int $patient_id = null;
@@ -19,7 +19,7 @@ class PaymentsSearch extends BaseSearch
         if ($request->input('patient_id')) {
             $this->patient_id = $request->input('patient_id');
         }
-        /** @var PatientSearchRequest $request */
+        /** @var PaymentSearchRequest $request */
         parent::__construct($request);
     }
 

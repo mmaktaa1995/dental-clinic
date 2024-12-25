@@ -19,6 +19,6 @@ class AppConfig extends Model
     {
         return Cache::rememberForever($key, function () use ($key) {
             return AppConfig::query()->where('key', $key)->value('value');
-        })??$default;
+        }) ?? $default;
     }
 }

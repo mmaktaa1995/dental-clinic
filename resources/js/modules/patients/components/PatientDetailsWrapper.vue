@@ -40,20 +40,21 @@
 
 <script setup lang="ts">
 import { useRoute, useRouter } from "vue-router"
-import { computed, ref, watch } from "vue"
-import { usePatientDetailStore } from "@/modules/patients/detailStore"
-import axios from "axios"
+import { computed, onUnmounted, ref, watch } from "vue"
+import { usePatientDetailsStore } from "@/modules/patients/detailStore"
 import AsyncButton from "@/components/AsyncButton.vue"
 import { useI18n } from "vue-i18n"
+import { api } from "@/logic/api"
+import { getRootRoutePath } from "@/logic/detailPage"
 
-// const accountStore = useAccountStore()
 const isDeleting = ref(false)
 const isSaving = ref(false)
 const isPatientDeleteModalOpened = ref(false)
-const patientDetailsStore = usePatientDetailStore()
+const patientDetailsStore = usePatientDetailsStore()
 const router = useRouter()
 const route = useRoute()
 const { t } = useI18n()
+
 patientDetailsStore.addWatcher("entry")
 
 const props = defineProps<{
@@ -77,28 +78,27 @@ watch(
 const save = () => {
     patientDetailsStore.errors = {}
     isSaving.value = true
-    let url = `/api/patients/`
+    let url = `/patients/create`
     if (!patientDetailsStore.isNewEntry) {
-        url += patientDetailsStore.entryId
+        url = `/patients/${patientDetailsStore.entryId}`
     }
-    axios[patientDetailsStore.isNewEntry ? "post" : "patch"](url, patientDetailsStore.entry)
-        .then(({ data }) => {
-            console.log(data)
+    api.send(url, patientDetailsStore.isNewEntry ? "POST" : "PATCH", {}, patientDetailsStore.entry)
+        .then((response: any) => {
+            console.log(response)
             router.replace({
                 name: "patients/general",
-                params: { id: data.id },
+                params: { id: response.id },
             })
+            isSaving.value = false
             if (props?.reloadList) {
                 props?.reloadList()
             }
         })
-        .catch((error) => {
-            if (error.response && error.response.status === 422) {
-                patientDetailsStore.errors = error.response.data.errors
-            }
-        })
-        .finally(() => {
+        .catch((error: any) => {
             isSaving.value = false
+            if (error.errors && error.status === 422) {
+                patientDetailsStore.errors = error.errors
+            }
         })
 }
 
@@ -111,51 +111,22 @@ const actions = computed(() => {
 })
 const deletePatient = () => {
     isDeleting.value = true
-    axios
-        .delete(`/api/patients/${patientDetailsStore.entryId}`)
+    api.delete(`/patients/${patientDetailsStore.entryId}`)
         .then(() => {
             // bus.emit("flash-message", { text: data.message, type: "success" });
             // bus.emit("item-deleted", id.value);
             isDeleting.value = false
-            router.back()
+            router.push(getRootRoutePath(route))
             if (props?.reloadList) {
                 props?.reloadList()
             }
         })
         .catch(() => {
+            isDeleting.value = false
             // bus.emit("flash-message", { text: response.data.message, type: "error" });
         })
 }
-// const deleteAppointment = async () => {
-//     if (isDeleting.value || patientDetailsStore.entry.isBinned) {
-//         return
-//     }
-//     isDeleting.value = true
-//
-//     try {
-//         await api.send(`/appointments/${patientDetailsStore.entryId}`, "DELETE", undefined)
-//     } catch (e) {
-//         isDeleting.value = false
-//         if (typeof e === "string") snackbarsStore.error(e)
-//         isAppointmentDeleteModalOpen.value = false
-//         return
-//     }
-//
-//     isDeleting.value = false
-//     isAppointmentDeleteModalOpen.value = false
-//     snackbarsStore.success(t("appointments.appointmentDeleting.deletedSuccessfully"))
-//     if (customDeleteCallback) {
-//         customDeleteCallback()
-//     } else {
-//         props.reloadList?.()
-//         close()
-//     }
-// }
-//
-// const close = () => {
-//     router.push(getRootRoutePath(route))
-// }
-//
+
 const handleAction = async (action: string) => {
     switch (action) {
         case "delete": {
@@ -163,26 +134,9 @@ const handleAction = async (action: string) => {
             break
         }
     }
-    console.log(action)
 }
-//     switch (action) {
-//         case "delete": {
-//             isAppointmentDeleteModalOpen.value = true
-//             break
-//         }
-//         case "duplicate": {
-//             isActionRunning.value = true
-//             try {
-//                 const response = await api.post(`/appointments/${patientDetailsStore.entryId}/duplicate`)
-//                 isActionRunning.value = false
-//                 await router.push({ name: `appointments/appointment-general`, params: { appointmentId: response.id } })
-//                 snackbarsStore.success(t("appointments.appointmentDetailsPage.duplicatedSuccessFully"))
-//             } catch (e) {
-//                 isActionRunning.value = false
-//                 snackbarsStore.error(t("global.dataSaveFailure"))
-//             }
-//             break
-//         }
-//     }
-// }
+
+onUnmounted(() => {
+    patientDetailsStore.$reset()
+})
 </script>

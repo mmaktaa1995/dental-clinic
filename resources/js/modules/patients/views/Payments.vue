@@ -1,7 +1,7 @@
 <template>
     <c-container>
         <div class="w-full text-left">
-            <CButton sm type="accent" @click="patientPaymentsStore.print(patientDetailsStore.entryId)"> طباعة </CButton>
+            <CButton sm type="accent" @click="patientPaymentsStore.print(patientDetailStore.entryId)"> طباعة </CButton>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-4 gap-6">
             <div class="">
@@ -13,7 +13,7 @@
                 <label class="block text-2xl font-medium text-pink-600 text-right">{{ formattedValue(patientPaymentsStore.totalRemainingPayments) }}</label>
             </div>
         </div>
-
+        <hr class="my-4" />
         <div class="sm:block mt-4">
             <nav class="flex gap-2">
                 <a
@@ -40,15 +40,17 @@
 </template>
 
 <script setup lang="ts">
-import { usePatientDetailStore } from "@/modules/patients/detailStore"
+import { usePatientDetailsStore } from "@/modules/patients/detailStore"
 import { usePatientPaymentsStore } from "@/modules/patients/paymentsStore"
 import { useEntryListUpdater } from "@/composables/entryListUpdater"
 import { ref, watch } from "vue"
 import PaymentsTable from "@/modules/payments/components/PaymentsTable.vue"
 import { formatNumber } from "@/logic/helpers"
+import { useI18n } from "vue-i18n"
 
-const patientDetailsStore = usePatientDetailStore()
+const patientDetailStore = usePatientDetailsStore()
 const patientPaymentsStore = usePatientPaymentsStore()
+const { t } = useI18n()
 
 const currentTab = ref("PAYMENTS")
 watch(
@@ -65,8 +67,9 @@ watch(
 const formattedValue = (value: number) => {
     return formatNumber(value)
 }
-useEntryListUpdater(`/payments/${patientDetailsStore.entryId}/patients`, patientPaymentsStore, async () => {
+useEntryListUpdater(`/payments/${patientDetailStore.entryId}/patients`, patientPaymentsStore, async () => {
     patientPaymentsStore.totalPayments = patientPaymentsStore.entries!.reduce((sum, payment) => sum + +payment.amount, 0)
     patientPaymentsStore.totalRemainingPayments = patientPaymentsStore.entries!.reduce((sum, payment) => sum + +payment.remaining_amount, 0)
+    patientDetailStore.subPages.payments.title = t("payments.title") + ` (${patientPaymentsStore.pagination.total})`
 })
 </script>

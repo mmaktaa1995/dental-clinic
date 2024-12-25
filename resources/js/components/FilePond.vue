@@ -4,12 +4,22 @@
         name="files"
         :disabled="disabled"
         :max-file-size="props.maxFileSize"
-        label-idle="اسحب وافلت الملفات هنا..."
-        label-tap-to-cancel="اضغط هنا للإلغاء"
-        label-tap-to-retry="اضغط هنا للإعادة"
-        label-tap-to-undo="اضغط هنا للتراجع"
-        label-file-processing="جاري رفع الملفات"
-        label-file-processing-complete="تم رفع الملفات"
+        :label-idle="$t('filePond.idle')"
+        :label-tap-to-cancel="$t('filePond.cancelLabel')"
+        :label-tap-to-retry="$t('filePond.retryLabel')"
+        :label-tap-to-undo="$t('filePond.undoLabel')"
+        :label-invalid-field="$t('filePond.invalidFile')"
+        :label-file-load-error="$t('filePond.fileLoadError')"
+        :label-file-loading="$t('filePond.loading')"
+        label-file-processing=""
+        :label-file-processing-aborted="$t('filePond.uploadCancelled')"
+        label-file-processing-complete="100%"
+        :label-file-processing-error="$t('filePond.uploadFailed')"
+        :label-file-processing-revert-error="$t('filePond.uploadCancelledError')"
+        :label-file-remove-error="$t('filePond.deleteFile')"
+        :label-file-size-not-available="$t('filePond.fileInformationUnavailable')"
+        :label-file-type-not-allowed="$t('filePond.fileTypeUnsupported')"
+        :label-file-waiting-for-size="$t('filePond.waitForFileInformation')"
         :allow-multiple="true"
         :accepted-file-types="acceptedFileTypes"
         :server="serverConfig"
@@ -34,9 +44,9 @@ import { api } from "@/logic/api"
 
 // Initialize FilePond component with plugins
 const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginFilePoster)
-// const pond = ref()
 const myFiles = defineModel<any[]>({ required: true })
-// Props
+const loading = defineModel<boolean>("loading")
+
 const props = withDefaults(
     defineProps<{
         folder?: string
@@ -95,18 +105,8 @@ const serverConfig = computed(() => ({
     },
 }))
 
-// Methods
-const emitFiles = () => {
-    // console.log(myFiles.value)
-    // $emits(
-    //     "updateFiles",
-    //     myFiles.value.map((file) => ({ image: file.source })),
-    // )
-}
-
 const fileAdded = (_: FilePondErrorDescription, file: FilePondFile) => {
-    console.log(file)
-    // After a file was added, we decide if we want to upload it to our servers or upload it to bunny.net
+    loading.value = true
     $emits("fileAdded", file)
 }
 
@@ -120,15 +120,8 @@ const fileUploaded = () => {
     filesUploaded?.data?.forEach((uploadedFile) => {
         $emits("fileUploaded", uploadedFile, file)
     })
+    loading.value = false
 }
-
-// watch(
-//     () => props.files,
-//     (newFiles) => {
-//         myFiles.value = newFiles
-//     },
-//     { immediate: true },
-// )
 </script>
 
 <style scoped></style>

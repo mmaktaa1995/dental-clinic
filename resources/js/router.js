@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router"
 import { getPatientsRoutes } from "@/modules/patients/routes.js"
 import { getPaymentsRoutes } from "@/modules/payments/routes.js"
+import { getServicesRoutes } from "@/modules/services/routes.js"
 
 const redirectIfNotAuth = (to, from, next) => {
     if (localStorage.getItem("user")) next("/")
@@ -147,45 +148,7 @@ const routes = [
         ],
     },
 
-    {
-        path: "/services",
-        name: "services-index",
-        beforeEnter: checkAuth,
-        component: () => import("./modules/services/index.vue"),
-        meta: {
-            resource: "services",
-            createTitle: () => "الخدمات",
-        },
-        children: [
-            {
-                path: ":id/delete",
-                name: "services-delete",
-                component: () => import("./modules/services/delete.vue"),
-                meta: {
-                    resource: "services",
-                    createTitle: () => "حذف خدمة",
-                },
-            },
-            {
-                path: "create",
-                name: "services-create",
-                component: () => import("./modules/services/create.vue"),
-                meta: {
-                    resource: "services",
-                    createTitle: () => "إضافة خدمة",
-                },
-            },
-            {
-                path: ":id/edit",
-                name: "services-edit",
-                component: () => import("./modules/services/edit.vue"),
-                meta: {
-                    resource: "services",
-                    createTitle: () => "تعديل خدمة",
-                },
-            },
-        ],
-    },
+    ...getServicesRoutes(),
     ...getPaymentsRoutes(),
     {
         path: "/patients-files",

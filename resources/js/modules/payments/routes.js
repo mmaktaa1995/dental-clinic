@@ -1,4 +1,4 @@
-import { checkAuth } from "../../router.js"
+import { checkAuth } from "@/router.js"
 
 export const getPaymentsRoutes = () => {
     return [

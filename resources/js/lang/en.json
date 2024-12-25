@@ -34,6 +34,26 @@
         "findOtherThings": "Find other things",
         "pageNotFound": "Page Not Found"
     },
+    "filePond": {
+        "cancelLabel": "",
+        "corruptFileDetected": "Please make sure that the file does not come from inside a zip archive and that it is not corrupted.",
+        "deleteFile": "An occurred during deletion",
+        "dragAndDropOr": "Drag & drop or",
+        "file": "File",
+        "fileInformationUnavailable": "File information not available",
+        "fileLoadError": "An error occurred during loading",
+        "fileTypeUnsupported": "This file type is not supported",
+        "idle": "",
+        "invalidFile": "Invalid file selected",
+        "loading": "Loading",
+        "retryLabel": "",
+        "selectFile": "Select file",
+        "undoLabel": "",
+        "uploadCancelled": "Upload cancelled",
+        "uploadCancelledError": "An error occurred during cancellation",
+        "uploadFailed": "An error occurred during upload",
+        "waitForFileInformation": "Wait for file information"
+    },
     "global": {
         "actions": {
             "cancel": "Cancel",
@@ -65,15 +85,16 @@
         "fileNumber": "File Number",
         "files": "Files",
         "gender": "Gender",
-        "mobile": "Mobile",
+        "mobile": "Mobile Number",
         "moduleName": "Patients",
         "name": "Name",
-        "relatedPatientFiles": "Patient Document Manager",
-        "relatedPatientFilesDescription": "Manage and access files related to patient records efficiently.",
         "patientContactInfo": "Contact Information",
         "patientContactInfoDescription": "Contact information to be able to reach the patient in case something urgent has happened or to ask questions or to discuss the next appointments.",
         "patientInfo": "Patient Information",
-        "patientInfoDescription": "Personal details about the patient."
+        "patientInfoDescription": "Personal details about the patient.",
+        "phone": "Phone Number",
+        "relatedPatientFiles": "Patient Document Manager",
+        "relatedPatientFilesDescription": "Manage and access files related to patient records efficiently."
     },
     "payments": {
         "action": "Action",
@@ -91,6 +112,14 @@
         "title": "Payments",
         "totalAmount": "Total Amount",
         "totalRemainingAmount": "Total Remaining Amount"
+    },
+    "services": {
+        "entryName": "Service",
+        "name": "Name",
+        "price": "Price",
+        "serviceInfo": "Service Info",
+        "serviceInfoDescription": "Service Info Description",
+        "title": "Services"
     },
     "sideBar": {
         "menu": {

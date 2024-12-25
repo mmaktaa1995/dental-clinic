@@ -7,9 +7,17 @@ namespace App\Models;
  */
 class BaseModel extends \Eloquent
 {
-    public static function create($attributes = [])
+
+    protected static function boot()
     {
-        $attributes['user_id'] = auth()->id();
-        return parent::create($attributes);
+        parent::boot();
+
+        // Attach the "creating" event
+        static::creating(function ($model) {
+            // Generate a slug from the title
+            if (empty($model->user_id)) {
+                $model->user_id = auth()->id();
+            }
+        });
     }
 }

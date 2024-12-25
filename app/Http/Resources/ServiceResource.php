@@ -24,7 +24,7 @@ class ServiceResource extends JsonResource
             'name' => $this->name,
             'price' => $this->price,
             'original_price' => $this->original_price,
-            'created_at' => Carbon::parse(strtotime($this->created_at))->format('Y-m-d'),
+            'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
         ];
     }
 }

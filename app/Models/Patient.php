@@ -9,7 +9,6 @@
 namespace App\Models;
 
 use App\Traits\SearchQuery;
-use Eloquent;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -36,14 +35,17 @@ class Patient extends BaseModel
                 $patient->payments->each(function (Payment $payment) {
                     $payment->delete();
                 });
-//            foreach ($item->images()->get() as $image) {
-//                $imageName = Str::replace('/storage/', '', $image->image);
-//                $image->delete();
-//                \Storage::disk('public')->delete($imageName);
-//            }
+                foreach ($patient->files()->get() as $file) {
+                    $file->delete();
+                }
                 DeletedPatient::insert($patient->withoutRelations()->toArray());
             });
         });
+    }
+
+    public function files()
+    {
+        return $this->hasMany(PatientFile::class);
     }
 
     public function visits()
@@ -54,11 +56,6 @@ class Patient extends BaseModel
     public function payments()
     {
         return $this->hasMany(Payment::class);
-    }
-
-    public function files()
-    {
-        return $this->hasMany(PatientFile::class);
     }
 
     public function lastVisit()

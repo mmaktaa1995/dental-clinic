@@ -61,7 +61,6 @@ const itemSelected = (actionId: string | number) => {
 }
 const handleClickOutside = (event: MouseEvent) => {
     if (dropdown.value && !dropdown.value.contains(event.target as Node)) {
-        console.log("here")
         isOpen.value = false
     }
 }

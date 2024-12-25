@@ -20,6 +20,7 @@ class FileResource extends JsonResource
         return [
             'id' => $this->id,
             'file' => $this->file,
+            'file_name' => $this->file_name,
             'type' => $this->type,
             'created_at' => $this->created_at->format("Y-m-d H:i:s"),
         ];

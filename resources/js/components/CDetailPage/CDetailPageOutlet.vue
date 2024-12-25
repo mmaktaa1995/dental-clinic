@@ -13,3 +13,17 @@ defineProps<{
 }>()
 const route = useRoute()
 </script>
+
+<style scoped>
+.drawer-slide-in-enter-active,
+.drawer-slide-in-leave-active {
+    transform: translateX(0) !important;
+}
+
+.drawer-slide-in-enter-from,
+.drawer-slide-in-leave-to {
+    .v-navigation-drawer {
+        transform: translateX(100%) !important;
+    }
+}
+</style>

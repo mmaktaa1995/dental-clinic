@@ -39,6 +39,5 @@ export function getI18n() {
     if (!i18n) {
         console.error("i18n was not setup yet")
     }
-    console.log(i18n)
     return i18n!
 }

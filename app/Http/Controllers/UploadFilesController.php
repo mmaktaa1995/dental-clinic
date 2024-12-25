@@ -69,13 +69,13 @@ class UploadFilesController extends Controller
 
         return [
             'file' => "/storage/$path",
+            'file_name'=> $fileName,
             'type' => $file->getClientMimeType()
         ];
     }
 
     public function destroy(Request $request, $folder, $imageName): JsonResponse
     {
-        dd($request->all());
         try {
             // Check if the file exists
             $filePath = "images/$folder/$imageName";

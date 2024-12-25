@@ -34,6 +34,26 @@
         "findOtherThings": "ابحث عن أشياء أخرى",
         "pageNotFound": "صفحة غير موجودة"
     },
+    "filePond": {
+        "cancelLabel": "اضغط هنا للإلغاء",
+        "corruptFileDetected": "يرجى التأكد من أن الملف لا يأتي من داخل أرشيف مضغوط وأنه غير تالف.",
+        "deleteFile": "حدث أثناء الحذف",
+        "dragAndDropOr": "اسحب أوافلت الملفات",
+        "file": "الملف",
+        "fileInformationUnavailable": "معلومات الملف غير متوفرة",
+        "fileLoadError": "حدث خطأ أثناء التحميل",
+        "fileTypeUnsupported": "نوع الملف غير مدعوم",
+        "idle": "اسحب وافلت الملفات هنا...",
+        "invalidFile": "تم تحديد ملف غير صالح",
+        "loading": "جارٍ التحميل",
+        "retryLabel": "اضغط هنا للإعادة",
+        "selectFile": "تم تحديد الملف",
+        "undoLabel": "اضغط هنا للتراجع",
+        "uploadCancelled": "تم إلغاء التحميل",
+        "uploadCancelledError": "حدث خطأ أثناء الإلغاء",
+        "uploadFailed": "حدث خطأ أثناء التحميل",
+        "waitForFileInformation": "انتظار معلومات الملف"
+    },
     "global": {
         "actions": {
             "cancel": "إلغاء",
@@ -68,12 +88,13 @@
         "mobile": "رقم الموبايل",
         "moduleName": "المرضى",
         "name": "الاسم",
-        "relatedPatientFiles": "إدارة ملفات المريض",
-        "relatedPatientFilesDescription": "إدارة الملفات المتعلقة بسجلات المريض والوصول إليها بكفاءة.",
         "patientContactInfo": "معلومات الاتصال",
         "patientContactInfoDescription": "معلومات الاتصال لتتمكن من الوصول إلى المريض في حالة حدوث أمر طارئ أو لطرح الأسئلة أو لمناقشة المواعيد التالية.",
         "patientInfo": "معلومات المريض",
-        "patientInfoDescription": "البيانات الشخصية للمريض."
+        "patientInfoDescription": "البيانات الشخصية للمريض.",
+        "phone": "رقم الهاتف",
+        "relatedPatientFiles": "إدارة ملفات المريض",
+        "relatedPatientFilesDescription": "إدارة الملفات المتعلقة بسجلات المريض والوصول إليها بكفاءة."
     },
     "payments": {
         "action": "الإجراء الذي تم",
@@ -91,6 +112,14 @@
         "title": "الدفعات",
         "totalAmount": "إجمالي المبلغ المدفوع",
         "totalRemainingAmount": "إجمالي المبلغ المتبقي"
+    },
+    "services": {
+        "entryName": "الخدمة",
+        "name": "الاسم",
+        "price": "السعر",
+        "serviceInfo": "معلومات عن الخدمة",
+        "serviceInfoDescription": "هنا يمكنك التحكم ببيانات الخدمة.",
+        "title": "الخدمات"
     },
     "sideBar": {
         "menu": {

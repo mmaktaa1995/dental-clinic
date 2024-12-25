@@ -2,7 +2,7 @@
     <template v-if="column.cellRenderer">
         <td class="td" :class="getTextClass">
             <component :is="column.cellRenderer" v-if="isComponent" :value="getValue" :entry :column></component>
-            <!--            <div v-if="isFunction" v-html="column.cellRenderer(entry)"></div>-->
+            <div v-if="isFunction" v-html="column.cellRenderer(entry)"></div>
         </td>
     </template>
     <template v-else>

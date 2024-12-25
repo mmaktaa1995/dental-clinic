@@ -19,7 +19,7 @@ export const api = {
             this.isUnloading = true
         })
     },
-    send(url: string, method: "POST" | "GET" | "DELETE" | "PUT", params?: Record<string, any>, body?: Record<string, any> | FormData, abortController: AbortController | null = null): Promise<any> {
+    send(url: string, method: "POST" | "GET" | "DELETE" | "PUT" | "PATCH", params?: Record<string, any>, body?: Record<string, any> | FormData, abortController: AbortController | null = null): Promise<any> {
         const headers = {
             ...this.getDefaultHeaders(),
             // ...this.getAppIdHeader(),
@@ -52,12 +52,6 @@ export const api = {
                                     this.router.replace({
                                         name: "login",
                                     })
-                                })
-                            }
-                        } else if (response.headers.get("x-privacy-note-confirmation-needed") === "1") {
-                            if (accountStore.isLoggedIn) {
-                                this.router.replace({
-                                    name: "privacy-note",
                                 })
                             }
                         } else {
@@ -105,6 +99,9 @@ export const api = {
     post(url: string, body?: Record<string, any> | FormData, abortController: AbortController | null = null) {
         return this.send(url, "POST", undefined, body, abortController)
     },
+    patch(url: string, body?: Record<string, any> | FormData, abortController: AbortController | null = null) {
+        return this.send(url, "PATCH", undefined, body, abortController)
+    },
     delete(url: string, body?: Record<string, any>) {
         return this.send(url, "DELETE", undefined, body)
     },
@@ -113,6 +110,9 @@ export const api = {
             return response.json().then((res) => {
                 if (res.error) {
                     return res.error
+                }
+                if (res.errors) {
+                    return { errors: res.errors, status: response.status }
                 }
                 if (res.message) {
                     if (this.isBinnedException(res.message)) {
@@ -151,8 +151,8 @@ export const api = {
                 return false
             }
             this.lastConnectionErrorShown = currentDate
-            const snackbarsStore = useSnackbarsStore()
-            snackbarsStore.error("Es ist ein Verbindungsfehler aufgetreten. Bitte versuchen Sie es später erneut.")
+            // const snackbarsStore = useSnackbarsStore()
+            // snackbarsStore.error("Es ist ein Verbindungsfehler aufgetreten. Bitte versuchen Sie es später erneut.")
         }
         return true
     },
@@ -171,8 +171,7 @@ export const api = {
         if (typeof domain === "undefined") {
             domain = ""
         }
-        console.log(domain, path)
-        return domain + "/api" + path.trimStart("/") + parsedParams
+        return domain + "/api/v1" + path.trimStart("/") + parsedParams
     },
     getDefaultHeaders(): Record<string, string> {
         // const appConfigStore = useAppConfigStore()
