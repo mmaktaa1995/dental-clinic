@@ -1,10 +1,10 @@
 <template>
-    <c-container>
+    <div>
         <CDataTable :columns="columns" :store="expensesStore" @row-clicked="rowClicked">
             <template #header>
                 <div class="flex justify-between items-center">
                     <div class="font-semibold text-lg">{{ $t("expenses.title") }}</div>
-                    <CButton type="primary" :to="{ name: `expenses/general`, params: { id: -1 } }"> {{ $t("global.actions.create") }}</CButton>
+                    <CButton sm type="primary" :to="{ name: `expenses/general`, params: { id: -1 } }"> {{ $t("global.actions.create") }}</CButton>
                 </div>
             </template>
             <template #filters>
@@ -16,7 +16,7 @@
             </template>
         </CDataTable>
         <CDetailPageOutlet :reload-list="reload" />
-    </c-container>
+    </div>
 </template>
 
 <script setup lang="ts">

@@ -1,16 +1,19 @@
 <template>
-    <c-container>
-        <div class="grid grid-cols-1 sm:grid-cols-4 gap-6 max-w-7xl mx-auto">
-            <div class="">
-                <label class="block text-sm font-medium text-gray-700 text-right">{{ $t("payments.totalRemainingAmount") }}</label>
-                <label class="block text-2xl font-medium text-pink-600 text-right">{{ formattedValue(debitsStore.totalRemainingPayments) }}</label>
-            </div>
-        </div>
-        <hr class="my-4" />
+    <div>
         <div>
-            <PaymentsTable :store="debitsStore" :columns="columns" />
+            <PaymentsTable :store="debitsStore" :columns="columns">
+                <template #header>
+                    <div>
+                        <div class="font-semibold text-lg">{{ $t("payments.debits") }}</div>
+                        <div class="mt-2">
+                            <label class="block text-sm font-medium text-gray-700 text-right">{{ $t("payments.totalRemainingAmount") }}</label>
+                            <label class="block text-2xl font-medium text-pink-600 text-right">{{ formattedValue(debitsStore.totalRemainingPayments) }}</label>
+                        </div>
+                    </div>
+                </template>
+            </PaymentsTable>
         </div>
-    </c-container>
+    </div>
 </template>
 
 <script setup lang="ts">

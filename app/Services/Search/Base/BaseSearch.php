@@ -88,7 +88,7 @@ abstract class BaseSearch
         return $query->paginate($this->perPage);
     }
 
-    protected function applySelectColumns($query, $columns = ['*']): QueryBuilder|EloquentBuilder
+    protected function applySelectColumns(EloquentBuilder|QueryBuilder $query, $columns = ['*']): QueryBuilder|EloquentBuilder
     {
         return $query->select($columns);
     }

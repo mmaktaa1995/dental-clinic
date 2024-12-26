@@ -33,7 +33,7 @@ const classes = computed(() => {
     let baseStyle = "min-w-[60px] w-full rounded-md border duration-150 transition-colors shadow-sm px-4 py-2 font-medium sm:h-10 sm:w-auto sm:text-sm"
 
     if (props.sm) {
-        baseStyle = baseStyle.replace("sm:h-10", "sm:h-8").replace("px-4", "px-2").replace("py-2", "py-1").replace("text-base", "").replace("sm:text-sm", "text-xs")
+        baseStyle = baseStyle.replace("sm:h-10", "").replace("px-4", "px-2").replace("py-2", "py-1").replace("text-base", "").replace("sm:text-sm", "text-xs")
     }
     const styles: Record<string, string> = {
         primary: "bg-cyan-700 text-white hover:bg-cyan-800",

@@ -28,12 +28,12 @@ class FileSearch extends BaseSearch
         return PatientFile::when($this->patient_id, function ($query) {
             $query->where('patient_id', $this->patient_id);
         })
-            ->leftJoin('patients', 'patients.id', 'patient_files.patient_id');
+            ->leftJoin('patients', 'patients.id', 'patient_files.patient_id')
+            ->select("patient_files.*");
     }
 
     public function applyUserIdFilter(EloquentBuilder|QueryBuilder $query): EloquentBuilder|QueryBuilder
     {
         return $query->where('patients.user_id', auth()->id());
     }
-
 }

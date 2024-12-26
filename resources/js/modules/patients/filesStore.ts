@@ -20,6 +20,8 @@ export const usePatientFilesStore = defineEntryListStore("patient-files-store", 
             query: "",
             from_date: "",
             to_date: "",
+            isDeletingFileModalOpened: false,
+            fileToDelete: null,
             dataLoadedCallbacks: [],
         }
     },

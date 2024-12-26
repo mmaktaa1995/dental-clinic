@@ -1,5 +1,5 @@
 <template>
-    <div v-if="isOpen" class="left-0 inset-y-0">
+    <div v-if="isOpen" class="left-0 ltr:right-0 ltr:left-auto inset-y-0">
         <!-- Overlay (only visible when drawer is open) -->
         <div class="fixed inset-0 bg-gray-700 bg-opacity-60 transition-opacity" :class="{ hidden: !isOpen }" @click="toggleDrawer"></div>
 

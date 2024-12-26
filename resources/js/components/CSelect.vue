@@ -16,7 +16,7 @@
             v-model="modelValue"
             :name="name"
             :disabled="disabled"
-            class="py-3 px-4 pe-5 block w-full border border-gray-200 outline-none rounded-md text-sm disabled:opacity-50 disabled:pointer-events-none text-right ltr:text-left focus:border-teal-500 focus:ring-teal-500 bg-transparent disabled:cursor-not-allowed"
+            class="c-select appearance-none py-3 px-4 pe-5 block w-full border border-gray-200 outline-none rounded-md text-sm disabled:opacity-50 disabled:pointer-events-none text-right ltr:text-left focus:border-teal-500 focus:ring-teal-500 bg-transparent disabled:cursor-not-allowed"
             @focus="(isFocused = true)"
             @blur="(isFocused = false)"
             @change="$emit('change')"
@@ -62,3 +62,15 @@ defineEmits(["change"])
 const isFocused = ref(false)
 const attrs = useAttrs()
 </script>
+
+<style scoped>
+.c-select {
+    background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"%3E%3Cpath stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"%3E%3C/path%3E%3C/svg%3E');
+    background-repeat: no-repeat;
+    background-position: left 0.5rem center;
+    background-size: 1rem 1rem;
+}
+[dir="ltr"] .c-select {
+    background-position: right 0.5rem center;
+}
+</style>

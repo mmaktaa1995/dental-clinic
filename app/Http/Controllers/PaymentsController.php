@@ -20,8 +20,14 @@ class PaymentsController extends Controller
     public function list(?Patient $patient, PaymentSearchRequest $request): JsonResponse
     {
         $patientPaymentsSearch = new PaymentSearch($request->merge(['patient_id' => $patient?->id]));
-        $totalPayments = $patientPaymentsSearch->getQuery()->sum('amount');
-        $totalRemainingPayments = $patientPaymentsSearch->getQuery()->sum('remaining_amount');
+        $totalPayments = Payment::when($patient->exists, function ($query) use ($patient) {
+            $query->where('patient_id', $patient->id);
+        })->where('user_id', auth()->id())
+            ->sum('amount');
+        $totalRemainingPayments = Payment::when($patient->exists, function ($query) use ($patient) {
+            $query->where('patient_id', $patient->id);
+        })->where('user_id', auth()->id())
+            ->sum('remaining_amount');
 
         return response()->json(BaseCollection::make($patientPaymentsSearch->getEntries(), PaymentResource::class, 'entries', [
             'total_payments' => $totalPayments,

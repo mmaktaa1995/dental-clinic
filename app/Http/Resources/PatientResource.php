@@ -28,6 +28,8 @@ class PatientResource extends JsonResource
             'file_number' => $this->file_number,
             'image' => $this->image,
             'files' => FileResource::collection($this->whenLoaded('files')),
+            'symptoms' => SymptomResource::collection($this->whenLoaded('symptoms')),
+            'diagnosis' => DiagnoseResource::collection($this->whenLoaded('diagnosis')),
             'created_at' => $this->created_at->format("Y-m-d H:i:s"),
         ];
     }

@@ -90,6 +90,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int|null $user_id
+ * @property int|null $gender
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Payment> $payments
  * @property-read int|null $payments_count
  * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient newModelQuery()
@@ -98,6 +99,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient whereAge($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient whereFileNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient whereGender($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient whereImage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient whereMobile($value)
@@ -184,6 +186,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int|null $user_id
  * @property int $gender
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PatientRecord> $diagnosis
+ * @property-read int|null $diagnosis_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PatientFile> $files
  * @property-read int|null $files_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Visit> $lastVisit
@@ -192,6 +196,10 @@ namespace App\Models{
  * @property-read int|null $medications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Payment> $payments
  * @property-read int|null $payments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PatientRecord> $records
+ * @property-read int|null $records_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PatientRecord> $symptoms
+ * @property-read int|null $symptoms_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Visit> $visits
  * @property-read int|null $visits_count
  * @method static \Illuminate\Database\Eloquent\Builder|Patient newModelQuery()
@@ -249,7 +257,7 @@ namespace App\Models{
  * @property int $patient_id
  * @property string|null $symptoms
  * @property string|null $diagnosis
- * @property string $record_date
+ * @property int $record_date
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Patient $patient

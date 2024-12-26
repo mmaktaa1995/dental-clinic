@@ -2,22 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\DebitsSearchRequest;
-use App\Http\Requests\FileSearchRequest;
 use App\Http\Requests\PatientRequest;
 use App\Http\Requests\PatientSearchRequest;
 use App\Http\Resources\BaseCollection;
-use App\Http\Resources\DebitsResource;
-use App\Http\Resources\FileResource;
 use App\Http\Resources\PatientApiResource;
 use App\Http\Resources\PatientResource;
 use App\Models\DeletedPatient;
 use App\Models\Patient;
-use App\Models\PatientFile;
 use App\Models\Payment;
 use App\Services\PatientService;
-use App\Services\Search\DebitsSearch;
-use App\Services\Search\FileSearch;
 use App\Services\Search\PatientApiListSearch;
 use App\Services\Search\PatientSearch;
 use DB;
@@ -57,7 +50,7 @@ class PatientsController extends Controller
 
     public function show(Patient $patient): JsonResponse
     {
-        $patient->load('files');
+        $patient->load(['files', 'symptoms', 'diagnosis']);
         return response()->json(PatientResource::make($patient));
     }
 
@@ -85,31 +78,6 @@ class PatientsController extends Controller
     public function update(PatientRequest $request, Patient $patient): JsonResponse
     {
         $patient->update($request->validated());
-        return response()->json(['message' => __('app.success')]);
-    }
-
-    public function syncFiles(Request $request, Patient $patient): JsonResponse
-    {
-        DB::transaction(function () use ($request, $patient) {
-            $files = $request->get('files', []);
-            $patient->files()->createMany($files);
-        });
-        return response()->json(['message' => __('app.success')]);
-    }
-
-    public function files(FileSearchRequest $request, Patient $patient): JsonResponse
-    {
-        $filesSearch = new FileSearch($request->merge(['patient_id' => $patient->id]));
-
-        return response()->json(BaseCollection::make($filesSearch->getEntries(), FileResource::class));
-    }
-
-    public function deleteFile(Patient $patient, PatientFile $patientFile): JsonResponse
-    {
-        DB::transaction(function () use ($patientFile, $patient) {
-            $patientFile->delete();
-        });
-
         return response()->json(['message' => __('app.success')]);
     }
 

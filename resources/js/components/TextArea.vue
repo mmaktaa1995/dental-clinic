@@ -15,17 +15,18 @@
         >
             {{ label }}
         </label>
-        <input
+        <textarea
             v-bind="attrs"
             :id="name"
             v-model="modelValue"
-            :type="type"
             autocomplete="off"
+            :rows="rows"
             :disabled="disabled"
             class="block border border-gray-300 text-gray-600 outline-none focus:border-teal-500 focus:ring-teal-500 px-2 py-3 rounded-md sm:text-sm w-full text-right ltr:text-left disabled:cursor-not-allowed"
             @focus="(isFocused = true)"
             @blur="(isFocused = false)"
-        />
+        >
+        </textarea>
         <small v-if="errors && errors[name]" class="text-pink-600 text-xs text-right block">
             {{ errors[name][0] }}
         </small>
@@ -40,16 +41,16 @@ const modelValue = defineModel<string | number | null>({ required: true })
 
 withDefaults(
     defineProps<{
-        type?: "text" | "date" | "number" | "tel" | "password" | "time"
         name: string
         label?: string
+        rows?: string
         disabled?: boolean
         labelFloated?: boolean
         errors?: Record<string, any>
     }>(),
     {
         label: "",
-        type: "text",
+        rows: "5",
         disabled: false,
         labelFloated: false,
         errors: Object.assign({}),

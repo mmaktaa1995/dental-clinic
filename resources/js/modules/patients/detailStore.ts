@@ -17,6 +17,8 @@ export type PatientEntry = {
     phone: string
     mobile: string
     files: { id: number; file: string; type: string }[]
+    symptoms: { id: number; symptoms: string; record_date: string }[]
+    diagnosis: { id: number; diagnosis: string; record_date: string }[]
     // created_at?: string
     // updated_at?: string
     // createdBy?: UserEntry
@@ -85,6 +87,8 @@ export const usePatientDetailsStore = defineDetailPageStore("patient-details", {
                     phone: "",
                     mobile: "",
                     files: [],
+                    symptoms: [],
+                    diagnosis: [],
                 }
                 return
             }

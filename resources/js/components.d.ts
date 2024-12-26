@@ -56,6 +56,9 @@ import TimePicker from "@/components/TimePicker.vue"
 import DatePicker from "@/components/DatePicker.vue"
 import Checkbox from "@/components/Checkbox.vue"
 import Autocomplete from "@/components/Autocomplete.vue"
+import Accordion from "@/components/Accordion.vue"
+import Icon from "@/components/Icon.vue"
+import TextArea from "@/components/TextArea.vue"
 
 declare module "pinia" {
     import { Router } from "vue-router"
@@ -67,6 +70,9 @@ declare module "pinia" {
 
 declare module "@vue/runtime-core" {
     export interface GlobalComponents {
+        CTextArea: typeof TextArea
+        CIcon: typeof Icon
+        CAccordion: typeof Accordion
         CAutocomplete: typeof Autocomplete
         CCheckbox: typeof Checkbox
         CDatePicker: typeof DatePicker

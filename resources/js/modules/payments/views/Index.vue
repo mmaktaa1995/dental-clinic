@@ -1,5 +1,5 @@
 <template>
-    <c-container>
+    <div>
         <PaymentsTable :columns="columns" :store="paymentsStore" :row-clicked="rowClicked">
             <template #header>
                 <div>
@@ -18,7 +18,7 @@
                 </div>
             </template>
         </PaymentsTable>
-    </c-container>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -45,14 +45,14 @@ const columns: DataTableColumn[] = [
             return formatNumber(value)
         },
     },
-    {
-        field: "remaining_amount",
-        headerName: t("payments.remainingAmount"),
-        textClass: "!text-pink-600",
-        valueFormatter: (value: any) => {
-            return formatNumber(value)
-        },
-    },
+    // {
+    //     field: "remaining_amount",
+    //     headerName: t("payments.remainingAmount"),
+    //     textClass: "!text-pink-600",
+    //     valueFormatter: (value: any) => {
+    //         return formatNumber(value)
+    //     },
+    // },
     { field: "status", headerName: t("payments.status"), cellRenderer: PaymentStatus },
     { field: "created_at", headerName: t("payments.date"), cellRenderer: DateTime },
 ]

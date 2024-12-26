@@ -5,6 +5,7 @@
             <CNavbar></CNavbar>
             <router-view></router-view>
         </div>
+        <div class="modal-teleport"></div>
     </template>
 </template>
 <script setup lang="ts">

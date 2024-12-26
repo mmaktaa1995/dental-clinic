@@ -4,8 +4,8 @@
             <slot name="asd"></slot>
             <CDetailHeader>
                 <template #left>
-                    <CButton type="link" prepend-icon="far fa-chevron-left" @click="(isOpen = false)">
-                        <CIconChevronRight size="6" class="inline-flex" />
+                    <CButton type="link" @click="(isOpen = false)">
+                        <CIconChevronRight size="6" class="inline-flex ltr:rotate-180" />
                         {{ $t("cDetailPage.backToOverview") }}
                     </CButton>
                 </template>

@@ -57,8 +57,14 @@ import DatePicker from "@/components/DatePicker.vue"
 import TimePicker from "@/components/TimePicker.vue"
 import Checkbox from "@/components/Checkbox.vue"
 import Autocomplete from "@/components/Autocomplete.vue"
+import Accordion from "@/components/Accordion.vue"
+import Icon from "@/components/Icon.vue"
+import TextArea from "@/components/TextArea.vue"
 
 export const loadComponents = (app: App<Element>) => {
+    app.component("CTextArea", TextArea)
+    app.component("CIcon", Icon)
+    app.component("CAccordion", Accordion)
     app.component("CAutocomplete", Autocomplete)
     app.component("CCheckbox", Checkbox)
     app.component("CDatePicker", DatePicker)

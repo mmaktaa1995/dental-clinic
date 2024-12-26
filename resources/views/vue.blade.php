@@ -21,13 +21,6 @@
 <!-- Vue App-->
 <div id="vapor-ui" class="antialiased min-h-screen flex overflow-hidden bg-gray-100" v-cloak>
 </div>
-<script>
-    var app;
-    var user = @json(Auth::guard('api')->user());
-    var LAST_FILE_NUMBER = +@json($lastFileNumber);
-    var exchangeRate = +@json($exchangeRate);
-</script>
-{{--<script src="{{ mix('app.js') }}"></script>--}}
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 </body>
 </html>

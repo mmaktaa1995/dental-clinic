@@ -90,7 +90,12 @@
     },
     "patients": {
         "age": "العمر",
+        "clinicalHistory": "التاريخ الطبي",
+        "clinicalHistoryDescription": "كل المعلومات عن صحة المريض",
         "createdAt": "تاريخ الإنشاء",
+        "diagnose": "التشخيص",
+        "diagnosis": "التشخيصات السابقة",
+        "diagnosisDescription": "تشخيص حالة المريض وما يحتاج إليه من معالجة.",
         "entryName": "المريض",
         "fileNumber": "رقم الملف",
         "files": "الملفات",
@@ -103,8 +108,10 @@
         "patientInfo": "معلومات المريض",
         "patientInfoDescription": "البيانات الشخصية للمريض.",
         "phone": "رقم الهاتف",
+        "record_date": "تاريخ السجل",
         "relatedPatientFiles": "إدارة ملفات المريض",
-        "relatedPatientFilesDescription": "إدارة الملفات المتعلقة بسجلات المريض والوصول إليها بكفاءة."
+        "relatedPatientFilesDescription": "إدارة الملفات المتعلقة بسجلات المريض والوصول إليها بكفاءة.",
+        "symptom": "العارض الطبي"
     },
     "payments": {
         "action": "الإجراء الذي تم",

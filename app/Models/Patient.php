@@ -10,6 +10,7 @@ namespace App\Models;
 
 use App\Traits\SearchQuery;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @mixin IdeHelperPatient
@@ -68,5 +69,20 @@ class Patient extends BaseModel
         return $this->belongsToMany(Medication::class, 'patient_medications')
             ->withPivot('dosage', 'frequency', 'start_date', 'end_date')
             ->withTimestamps();
+    }
+
+    public function records(): HasMany
+    {
+        return $this->hasMany(PatientRecord::class);
+    }
+
+    public function symptoms(): HasMany
+    {
+        return $this->hasMany(PatientRecord::class)->whereNotNull('symptoms');
+    }
+
+    public function diagnosis(): HasMany
+    {
+        return $this->hasMany(PatientRecord::class)->whereNotNull('diagnosis');
     }
 }

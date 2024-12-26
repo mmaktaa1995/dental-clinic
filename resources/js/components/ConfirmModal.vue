@@ -29,8 +29,6 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from "vue-router"
-
 const opened = defineModel<boolean>({ required: true })
 const loading = defineModel<boolean>("loading", { required: true })
 
@@ -41,10 +39,8 @@ defineProps<{
 
 const $emits = defineEmits(["confirmCallback"])
 
-const router = useRouter()
 const back = () => {
     opened.value = false
-    router.back()
 }
 const confirm = () => {
     $emits("confirmCallback")

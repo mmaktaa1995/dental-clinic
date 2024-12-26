@@ -1,20 +1,20 @@
 <template>
     <!-- eslint-disable vue/no-mutating-props -->
-    <div class="flex-1 relative pb-8 z-0 overflow-y-auto">
+    <div class="flex-1 relative z-0 overflow-y-auto">
         <div v-if="$slots['header'] || $slots['filters']" class="flex-1 relative pb-8 z-0 overflow-y-auto">
             <div class="bg-white shadow">
-                <div class="lg:max-w-7xl lg:mx-auto divide-y divide-dashed divide-gray-200">
-                    <div class="py-3">
+                <div class="lg:max-w-7xl lg:mx-auto" :class="{ 'divide-y divide-dashed divide-gray-200': $slots['header'] && $slots['filters'] }">
+                    <div v-if="$slots['header']" class="py-3">
                         <slot name="header"></slot>
                     </div>
-                    <div class="py-4 md:flex md:items-center md:flex-wrap md:justify-between">
+                    <div v-if="$slots['filters']" class="py-4 md:flex md:items-center md:flex-wrap md:justify-between">
                         <slot name="filters"></slot>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="max-w-7xl mx-auto pb-32 mb-32">
+        <div class="max-w-7xl mx-auto">
             <div class="flex flex-col mt-2">
                 <div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
                     <table class="datatable bg-white min-w-full divide-y divide-gray-200">
@@ -60,8 +60,8 @@
                                     </td>
                                 </tr>
                             </template>
-                            <template v-if="store.entries?.length">
-                                <template v-for="entry in store.entries" :key="entry.id">
+                            <template v-if="entries?.length">
+                                <template v-for="entry in entries" :key="entry.id">
                                     <tr class="tr" :class="{ clickable: rowClickable }" @click="rowClicked(entry)">
                                         <td v-if="selectable" class="td">
                                             <CCheckbox v-model="selectedRows[entry.id]"></CCheckbox>
@@ -80,9 +80,9 @@
                                 </tr>
                             </template>
                         </tbody>
-                        <TableLoader v-else :row-count="5" :column-count="columns.length"></TableLoader>
+                        <TableLoader v-else :column-count="columns.length"></TableLoader>
                     </table>
-                    <Pagination :store="store"></Pagination>
+                    <Pagination v-if="!disablePagination" :store="store"></Pagination>
                 </div>
             </div>
         </div>
@@ -98,7 +98,7 @@ import CellRenderer from "@/components/Table/CellRenderer.vue"
 import TableLoader from "@/components/Table/TableLoader.vue"
 import { ButtonType } from "@/components/CButton.vue"
 
-type CellRendererType = (rowData: any) => HTMLElement | Component
+type CellRendererType = Component
 export type DataTableColumn = {
     headerName: string
     field: string
@@ -123,13 +123,17 @@ const props = withDefaults(
         hide?: boolean
         rowClickable?: boolean
         selectable?: boolean
+        disablePagination?: boolean
         showDatesFilters?: boolean
         store: EntryListStore
+        dataKey?: string
     }>(),
     {
         actions: undefined,
         hide: false,
+        dataKey: "entries",
         selectable: false,
+        disablePagination: false,
         showDatesFilters: false,
         rowClickable: true,
     },
@@ -153,15 +157,26 @@ onBeforeUnmount(() => {
     props.store.$reset()
 })
 
+function getNestedValue(obj: Record<any, any>, keyPath: string, defaultValue = undefined) {
+    return keyPath.split(".").reduce((current, key) => {
+        return current && key in current ? current[key] : defaultValue
+    }, obj)
+}
+
+const entries = computed<any[]>(() => {
+    const value: any = getNestedValue(props.store, props.dataKey, undefined)
+    return value ?? []
+})
+
 watch(
     () => selectAllRows.value,
     (selectAllRows) => {
         if (selectAllRows === true) {
-            props.store.entries?.forEach((entry) => {
+            entries.value.forEach((entry) => {
                 selectedRows[entry.id] = true
             })
         } else if (selectAllRows === false) {
-            props.store.entries?.forEach((entry) => {
+            entries.value.forEach((entry) => {
                 selectedRows[entry.id] = false
             })
         }
@@ -194,7 +209,6 @@ const hasSelectedRows = computed(() => {
 })
 
 const rowClicked = (row: any) => {
-    console.log(row)
     $emit("rowClicked", row)
 }
 

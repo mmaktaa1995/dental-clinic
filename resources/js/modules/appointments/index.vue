@@ -1,7 +1,7 @@
 <template>
     <div class="px-16 py-8 w-full">
         <div>
-            <CFullCalendar ref="fullCalendar" :events="events" @handle-date-select="handleDateSelect" @handle-event-click="handleEventClick" @handle-events="handleEvents">
+            <CFullCalendar ref="fullCalendar" :loaded="loaded" :events="events" @handle-date-select="handleDateSelect" @handle-event-click="handleEventClick" @handle-events="handleEvents">
                 <template #eventContent="arg">
                     <b>{{ arg.timeText }}</b>
                     <i>{{ arg.event.title }}</i>
@@ -22,10 +22,12 @@ const events = ref([])
 const currentEvents = ref([])
 const year = ref("")
 const month = ref("")
+const loaded = ref(false)
 const router = useRouter()
 
 const getData = async (monthParam, yearParam) => {
     if (year.value !== yearParam || month.value !== monthParam) {
+        loaded.value = false
         year.value = yearParam
         month.value = monthParam
 
@@ -39,6 +41,8 @@ const getData = async (monthParam, yearParam) => {
             start: formatISO(parseISO(appointment.start), { representation: "time" }),
             end: formatISO(parseISO(appointment.end), { representation: "time" }),
         }))
+        loaded.value = true
+        console.log(events.value, data)
     }
 }
 
@@ -59,7 +63,9 @@ const handleEvents = (eventsData) => {
 }
 
 onMounted(() => {
-    getData(month.value, year.value)
+    const today = new Date()
+    console.log(today)
+    getData(today.getMonth() + 1, today.getFullYear()).then()
     // window.bus.$on("appointment-changed", () => {
     // })
 })

@@ -90,7 +90,12 @@
     },
     "patients": {
         "age": "Age",
+        "clinicalHistory": "Clinical History",
+        "clinicalHistoryDescription": "All information about a patient's health",
         "createdAt": "Created At",
+        "diagnose": "Diagnose",
+        "diagnosis": "Diagnosis",
+        "diagnosisDescription": "Diagnosing the patient's condition and the treatment he needs.",
         "entryName": "Patient",
         "fileNumber": "File Number",
         "files": "Files",
@@ -103,8 +108,10 @@
         "patientInfo": "Patient Information",
         "patientInfoDescription": "Personal details about the patient.",
         "phone": "Phone Number",
+        "record_date": "Record Date",
         "relatedPatientFiles": "Patient Document Manager",
-        "relatedPatientFilesDescription": "Manage and access files related to patient records efficiently."
+        "relatedPatientFilesDescription": "Manage and access files related to patient records efficiently.",
+        "symptom": "Symptom"
     },
     "payments": {
         "action": "Action",

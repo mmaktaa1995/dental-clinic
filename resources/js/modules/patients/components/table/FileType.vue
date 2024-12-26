@@ -1,6 +1,6 @@
 <template>
     <div class="flex items-center">
-        <div :class="['flex justify-center items-center w-10 h-10 rounded-full bg-opacity-15', backgroundColor]">
+        <div :class="['flex justify-center items-center w-9 h-9 rounded-full bg-opacity-15', backgroundColor]">
             <i :class="iconClass" class="text-xl"></i>
         </div>
     </div>
