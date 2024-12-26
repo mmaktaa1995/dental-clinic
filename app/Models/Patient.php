@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Eng.MohammEd
@@ -21,7 +22,7 @@ class Patient extends BaseModel
 
     public static $relationsWithForSearch = ['images'];
     public static $searchableFields = ['name', 'file_number', 'mobile', 'phone'];
-//    protected $dateFormat = 'Y-m-d H:i:s';
+    //    protected $dateFormat = 'Y-m-d H:i:s';
     protected $fillable = ['name', 'age', 'phone', 'mobile', 'file_number', 'image', 'gender', 'user_id'];
 
     public static function boot()
@@ -44,17 +45,17 @@ class Patient extends BaseModel
         });
     }
 
-    public function files()
+    public function files(): HasMany
     {
         return $this->hasMany(PatientFile::class);
     }
 
-    public function visits()
+    public function visits(): HasMany
     {
         return $this->hasMany(Visit::class);
     }
 
-    public function payments()
+    public function payments(): HasMany
     {
         return $this->hasMany(Payment::class);
     }

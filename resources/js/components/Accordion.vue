@@ -18,7 +18,7 @@
             <template v-else>
                 <slot name="title" :is-expanded="isExpanded"></slot>
             </template>
-            <c-icon v-if="!hideCollapsing" size="6" class="mr-3 s-accordion__chevron text-gray-900"> fas {{ isExpanded ? "fa-chevron-down" : "fa-chevron-down fa-rotate-180" }} </c-icon>
+            <c-icon v-if="!hideCollapsing" class="mr-3 s-accordion__chevron text-gray-900"> fas {{ isExpanded ? "fa-chevron-down" : "fa-chevron-down fa-rotate-180" }} </c-icon>
         </div>
         <div v-if="isExpanded" class="s-accordion__content">
             <slot></slot>

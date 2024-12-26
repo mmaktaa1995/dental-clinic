@@ -2,6 +2,7 @@
 
 namespace App\Services\Search;
 
+use App\Http\Requests\DebitsSearchRequest;
 use App\Http\Requests\PatientSearchRequest;
 use App\Models\Payment;
 use App\Services\Search\Base\BaseSearch;
@@ -9,7 +10,7 @@ use App\Services\Search\Base\SearchRequest;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
-class DebitsSearch extends BaseSearch
+class DebitSearch extends BaseSearch
 {
     public static string $dateColumnFiltered = 'date';
     protected ?int $patient_id = null;
@@ -19,7 +20,7 @@ class DebitsSearch extends BaseSearch
         if ($request->input('patient_id')) {
             $this->patient_id = $request->input('patient_id');
         }
-        /** @var PatientSearchRequest $request */
+        /** @var DebitsSearchRequest $request */
         parent::__construct($request);
     }
 
@@ -46,10 +47,5 @@ class DebitsSearch extends BaseSearch
     public function applyUserIdFilter(EloquentBuilder|QueryBuilder $query): EloquentBuilder|QueryBuilder
     {
         return $query->where('payments.user_id', auth()->id());
-    }
-
-    protected function applySelectColumns($query, $columns = ['*']): QueryBuilder|EloquentBuilder
-    {
-        return $query->select("payments.*");
     }
 }

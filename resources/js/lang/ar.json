@@ -14,7 +14,12 @@
         "usernamePlaceholder": "Username"
     },
     "cDetailPage": {
-        "backToOverview": "رجوع إلى الخلف"
+        "backToOverview": "رجوع إلى الخلف",
+        "unsavedChangesWarnings": {
+            "discardChanges": "تجاهل التغييرات",
+            "discardUnsavedChanges": "هل تريد تجاهل التغييرات غير المحفوظة؟",
+            "title": "التغييرات غير المحفوظة"
+        }
     },
     "debits": {
         "actionTaken": "الإجراء الذي تم",
@@ -65,10 +70,12 @@
     },
     "global": {
         "actions": {
+            "add": "إضافة",
             "cancel": "إلغاء",
             "create": "إنشاء جديد",
             "delete": "حذف",
-            "label": "الاإجرا،ات",
+            "label": "الاإجراءات",
+            "print": "طباعة",
             "saveChanges": "حفظ التغييرات"
         },
         "date": "التاريخ",
@@ -80,6 +87,7 @@
             "male": "ذكر"
         },
         "general": "عام",
+        "noEntries": "لا يوجد سجلات مدخلة بعد...",
         "noEntriesFound": "لم يتم العثور على أي محتوى يتوافق مع معايير البحث المحددة. يمكنك تعديل المرشحات أعلاه لرؤية النتائج.",
         "pagination": {
             "entriesPerPage": "الإدخالات لكل صفحة:",
@@ -89,6 +97,7 @@
         "toDate": "إلى تاريخ"
     },
     "patients": {
+        "addRecord": "إضافة سجل",
         "age": "العمر",
         "clinicalHistory": "التاريخ الطبي",
         "clinicalHistoryDescription": "كل المعلومات عن صحة المريض",

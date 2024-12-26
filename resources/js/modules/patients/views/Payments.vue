@@ -1,7 +1,7 @@
 <template>
     <c-container>
         <div class="w-full text-left">
-            <CButton sm type="accent" @click="patientPaymentsStore.print(patientDetailStore.entryId)"> طباعة </CButton>
+            <CButton sm type="accent" @click="patientPaymentsStore.print(patientDetailStore.entryId)"> {{ $t("global.actions.print") }} </CButton>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-4 gap-6">
             <div class="">

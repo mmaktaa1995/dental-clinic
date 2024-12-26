@@ -1,6 +1,6 @@
 <template>
     <!-- eslint-disable vue/no-mutating-props -->
-    <div class="flex-1 relative z-0 overflow-y-auto">
+    <div class="flex-1 relative z-0 overflow-y-auto p-[1px]">
         <div v-if="$slots['header'] || $slots['filters']" class="flex-1 relative pb-8 z-0 overflow-y-auto">
             <div class="bg-white shadow">
                 <div class="lg:max-w-7xl lg:mx-auto" :class="{ 'divide-y divide-dashed divide-gray-200': $slots['header'] && $slots['filters'] }">
@@ -108,6 +108,8 @@ export type DataTableColumn = {
     valueFormatter?: (value: any, entry: any) => any
     sortable?: boolean
     cellRenderer?: CellRendererType
+    cellClass?: string
+    cellClassCondition?: (rowData: any) => boolean
 }
 
 export type DataTableAction = {

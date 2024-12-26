@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DebitsController;
 use App\Http\Controllers\ExpensesController;
 use App\Http\Controllers\PatientFilesController;
+use App\Http\Controllers\PatientRecordsController;
 use App\Http\Controllers\PatientsController;
 use App\Http\Controllers\PatientsFilesController;
 use App\Http\Controllers\PaymentsController;
@@ -53,6 +54,12 @@ Route::middleware('auth:api')->group(function () {
         Route::get('patients/{patient}', [PatientsController::class, 'show']);
         Route::patch('patients/{patient}', [PatientsController::class, 'update']);
         Route::delete('patients/{patient}', [PatientsController::class, 'destroy']);
+
+        Route::post('patients/{patient}/records', [PatientRecordsController::class, 'list']);
+        Route::post('patients/{patient}/records/create', [PatientRecordsController::class, 'store']);
+        Route::patch('patients/{patient}/records/{patientRecord}', [PatientRecordsController::class, 'update']);
+        Route::delete('patients/{patient}/records/{patientRecord}', [PatientRecordsController::class, 'destroy']);
+
 
         Route::patch('patients/{patient}/files', [PatientFilesController::class, 'syncFiles'])->name('patients.sync-files');
         Route::post('patients/{patient}/files', [PatientFilesController::class, 'files'])->name('patients.files');

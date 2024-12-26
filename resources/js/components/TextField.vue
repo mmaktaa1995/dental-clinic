@@ -40,7 +40,7 @@ const modelValue = defineModel<string | number | null>({ required: true })
 
 withDefaults(
     defineProps<{
-        type?: "text" | "date" | "number" | "tel" | "password" | "time"
+        type?: "text" | "date" | "number" | "tel" | "password" | "time" | "datetime-local"
         name: string
         label?: string
         disabled?: boolean

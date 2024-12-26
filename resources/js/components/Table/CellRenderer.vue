@@ -1,12 +1,12 @@
 <template>
     <template v-if="column.cellRenderer">
-        <td class="td" :class="getTextClass">
+        <td class="td" :class="[getTextClass, getCellClass]">
             <component :is="column.cellRenderer" v-if="isComponent" :value="getValue" :entry :column></component>
         </td>
     </template>
     <template v-else>
-        <td v-if="column.isHtml" class="td" :class="getTextClass" v-html="getValue"></td>
-        <td v-else class="td" :class="getTextClass">
+        <td v-if="column.isHtml" class="td" :class="[getTextClass, getCellClass]" v-html="getValue"></td>
+        <td v-else class="td" :class="[getTextClass, getCellClass]">
             {{ getValue }}
         </td>
     </template>
@@ -21,7 +21,7 @@ const props = defineProps<{
     entry: any
 }>()
 
-const { textClass, textClassCondition } = reactive(props.column)
+const { textClass, textClassCondition, cellClass, cellClassCondition } = reactive(props.column)
 
 const setTextClass = computed(() => {
     if (typeof textClassCondition === "undefined") {
@@ -30,18 +30,36 @@ const setTextClass = computed(() => {
     return textClassCondition(props.entry)
 })
 
+const setCellClass = computed(() => {
+    if (typeof cellClassCondition === "undefined") {
+        return !!cellClass
+    }
+    return cellClassCondition(props.entry)
+})
+
 const isComponent = computed(() => {
     return props.column.cellRenderer && typeof props.column.cellRenderer !== "function"
-})
-const isFunction = computed(() => {
-    return props.column.cellRenderer && typeof props.column.cellRenderer === "function"
 })
 
 const getTextClass = computed(() => {
     if (!props.column.textClass) {
-        return {}
+        return ""
     }
-    return { [props.column.textClass!]: setTextClass.value }
+    if (setTextClass.value) {
+        return props.column.textClass
+    }
+    return ""
+})
+
+const getCellClass = computed(() => {
+    if (!props.column.cellClass) {
+        return ""
+    }
+    console.log(cellClassCondition, props.column.cellClass, setCellClass.value)
+    if (setCellClass.value) {
+        return props.column.cellClass
+    }
+    return ""
 })
 
 function getNestedValue(obj: Record<any, any>, keyPath: string, defaultValue = undefined) {

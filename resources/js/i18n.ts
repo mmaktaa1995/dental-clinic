@@ -1,5 +1,5 @@
 import { App } from "vue"
-import { createI18n, Translation } from "vue-i18n"
+import { createI18n, Translation, VueI18n } from "vue-i18n"
 import { getSelectedLanguage } from "@/logic/i18n"
 // @ts-ignore
 import ar from "./lang/ar.json"
@@ -43,6 +43,7 @@ export const setupI18n = (app: App<Element>) => {
     }
     const i18n = createI18n({
         legacy: false,
+        globalInjection: true,
         locale: getSelectedLanguage().value,
         fallbackLocale: "ar",
         warnHtmlMessage: false,

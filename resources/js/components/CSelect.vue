@@ -16,7 +16,7 @@
             v-model="modelValue"
             :name="name"
             :disabled="disabled"
-            class="c-select appearance-none py-3 px-4 pe-5 block w-full border border-gray-200 outline-none rounded-md text-sm disabled:opacity-50 disabled:pointer-events-none text-right ltr:text-left focus:border-teal-500 focus:ring-teal-500 bg-transparent disabled:cursor-not-allowed"
+            class="c-select appearance-none py-3 px-4 pe-8 block w-full border border-gray-200 outline-none rounded-md text-sm disabled:opacity-50 disabled:pointer-events-none text-right ltr:text-left focus:border-teal-500 focus:ring-teal-500 bg-transparent disabled:cursor-not-allowed"
             @focus="(isFocused = true)"
             @blur="(isFocused = false)"
             @change="$emit('change')"

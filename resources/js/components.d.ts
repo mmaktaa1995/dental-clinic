@@ -59,6 +59,7 @@ import Autocomplete from "@/components/Autocomplete.vue"
 import Accordion from "@/components/Accordion.vue"
 import Icon from "@/components/Icon.vue"
 import TextArea from "@/components/TextArea.vue"
+import DateTimePicker from "@/components/DateTimePicker.vue"
 
 declare module "pinia" {
     import { Router } from "vue-router"
@@ -75,6 +76,7 @@ declare module "@vue/runtime-core" {
         CAccordion: typeof Accordion
         CAutocomplete: typeof Autocomplete
         CCheckbox: typeof Checkbox
+        CDateTimePicker: typeof DateTimePicker
         CDatePicker: typeof DatePicker
         CTimePicker: typeof TimePicker
         CDataTable: typeof DataTable
@@ -135,6 +137,9 @@ declare module "@vue/runtime-core" {
     }
 
     export interface ComponentCustomProperties {
+        $t: (typeof import("vue-i18n"))["t"]
+        $d: (typeof import("vue-i18n"))["d"] // Optional: for date formatting
+        $n: (typeof import("vue-i18n"))["n"] // Optional: for number formatting
         $filters: {
             percentage(value: number, decimals?: number): string
         }

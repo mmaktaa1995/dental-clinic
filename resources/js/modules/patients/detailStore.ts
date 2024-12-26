@@ -27,6 +27,16 @@ export type PatientEntry = {
 
 type PatientDetailStoreState = DetailPageStateTree & {
     entry: PatientEntry
+    symptom: {
+        id?: number
+        symptom: string
+        record_date: string
+    }
+    diagnose: {
+        id?: number
+        diagnose: string
+        record_date: string
+    }
     filesToSave: any[]
 }
 
@@ -71,6 +81,14 @@ export const usePatientDetailsStore = defineDetailPageStore("patient-details", {
                 },
             },
             watchers: {},
+            symptom: {
+                symptom: "",
+                record_date: "",
+            },
+            diagnose: {
+                diagnose: "",
+                record_date: "",
+            },
             filesToSave: [],
         }
     },

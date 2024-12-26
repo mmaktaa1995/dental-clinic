@@ -14,7 +14,12 @@
         "usernamePlaceholder": "Username"
     },
     "cDetailPage": {
-        "backToOverview": "Back"
+        "backToOverview": "Back",
+        "unsavedChangesWarnings": {
+            "discardChanges": "Discard changes",
+            "discardUnsavedChanges": "Do you want to discard unsaved changes?",
+            "title": "Unsaved Changes"
+        }
     },
     "debits": {
         "actionTaken": "Action Taken",
@@ -65,10 +70,12 @@
     },
     "global": {
         "actions": {
+            "add": "Add",
             "cancel": "Cancel",
             "create": "Create",
             "delete": "Delete",
             "label": "Actions",
+            "print": "print",
             "saveChanges": "Save changes"
         },
         "date": "Date",
@@ -80,6 +87,7 @@
             "male": "Male"
         },
         "general": "General",
+        "noEntries": "There are no records entered yet...",
         "noEntriesFound": "No content found with the specified search criteria. You can adjust the filters above to see results.",
         "pagination": {
             "entriesPerPage": "Entries Per Page:",
@@ -89,6 +97,7 @@
         "toDate": "To"
     },
     "patients": {
+        "addRecord": "addRecord",
         "age": "Age",
         "clinicalHistory": "Clinical History",
         "clinicalHistoryDescription": "All information about a patient's health",

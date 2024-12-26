@@ -1,5 +1,5 @@
 <template>
-    <span :class="[sizeClass, iconClass]"> </span>
+    <span :class="[size ? sizeClass : '', iconClass]"> </span>
 </template>
 
 <script setup lang="ts">
@@ -9,7 +9,7 @@ import { computed, useSlots } from "vue"
 const slots = useSlots()
 
 const { size } = defineProps<{
-    size: number | string
+    size?: number | string
 }>()
 const sizeClass = useSizeClass(size)
 

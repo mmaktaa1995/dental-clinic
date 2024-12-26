@@ -60,6 +60,7 @@ import Autocomplete from "@/components/Autocomplete.vue"
 import Accordion from "@/components/Accordion.vue"
 import Icon from "@/components/Icon.vue"
 import TextArea from "@/components/TextArea.vue"
+import DateTimePicker from "@/components/DateTimePicker.vue"
 
 export const loadComponents = (app: App<Element>) => {
     app.component("CTextArea", TextArea)
@@ -67,6 +68,7 @@ export const loadComponents = (app: App<Element>) => {
     app.component("CAccordion", Accordion)
     app.component("CAutocomplete", Autocomplete)
     app.component("CCheckbox", Checkbox)
+    app.component("CDateTimePicker", DateTimePicker)
     app.component("CDatePicker", DatePicker)
     app.component("CTimePicker", TimePicker)
     app.component("CDataTable", DataTable)

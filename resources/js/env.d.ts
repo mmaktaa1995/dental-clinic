@@ -7,14 +7,6 @@ declare module "*.vue" {
     export default component
 }
 
-interface ImportMetaEnv {
-    readonly VITE_BACKEND_URL: string
-    readonly VITE_OLD_BACKEND_ROOT: string
-    readonly VITE_INTERCOM_APP_ID: string
-    readonly VITE_HUBSPOT_CHAT_WIDGET: string
-    readonly VITE_HUBSPOT_TRACKING: string
-}
-
 interface ImportMeta {
     readonly env: ImportMetaEnv
 }

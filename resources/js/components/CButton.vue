@@ -1,8 +1,8 @@
 <template>
-    <button v-if="!to" v-bind="attrs" type="button" class="relative" :class="{ [classes]: classes }" :disabled="disabled">
+    <button v-if="!to" type="button" class="relative" :class="{ [buttonClasses]: buttonClasses }" :disabled="disabled" v-bind="attrs">
         <slot></slot>
     </button>
-    <router-link v-else :to="to" class="relative" :class="{ [classes]: classes }">
+    <router-link v-else :to="to" class="relative" :class="{ [buttonClasses]: buttonClasses }">
         <slot></slot>
     </router-link>
 </template>
@@ -10,7 +10,7 @@
 <script setup lang="ts">
 import { computed, useAttrs } from "vue"
 import { RouteLocationRaw } from "vue-router"
-export type ButtonType = "primary" | "accent" | "info" | "warning" | "error" | "default" | "link"
+export type ButtonType = "primary" | "accent" | "info" | "warning" | "error" | "default" | "link" | "dark"
 // Props
 const props = withDefaults(
     defineProps<{
@@ -29,7 +29,8 @@ const props = withDefaults(
 
 // Access $attrs and $listeners
 const attrs = useAttrs()
-const classes = computed(() => {
+
+const buttonClasses = computed(() => {
     let baseStyle = "min-w-[60px] w-full rounded-md border duration-150 transition-colors shadow-sm px-4 py-2 font-medium sm:h-10 sm:w-auto sm:text-sm"
 
     if (props.sm) {
@@ -37,6 +38,7 @@ const classes = computed(() => {
     }
     const styles: Record<string, string> = {
         primary: "bg-cyan-700 text-white hover:bg-cyan-800",
+        dark: "bg-gray-700 text-white hover:bg-gray-600",
         accent: "bg-pink-600 text-white hover:bg-pink-700",
         info: "bg-blue-400 text-white hover:bg-blue-500",
         warning: "bg-yellow-500 text-white hover:bg-yellow-600",

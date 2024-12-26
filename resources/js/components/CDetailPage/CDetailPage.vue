@@ -33,7 +33,7 @@
             </div>
         </div>
     </c-navigation-drawer>
-    <!--        <UnsavedChangesModal v-model="isUnsavedChangesWarningOpen" :close-unsaved-changes-warning="closeUnsavedChangesWarning" :discard-changes="discardChanges" />-->
+    <UnsavedChangesModal v-model="isUnsavedChangesWarningOpen" :close-unsaved-changes-warning="closeUnsavedChangesWarning" :discard-changes="discardChanges" />
 </template>
 
 <script lang="ts" setup>
@@ -45,6 +45,8 @@ import { DetailPageStore } from "@/store/factories/detailPageStore"
 import { useMagicKeys, whenever } from "@vueuse/core"
 import CDetailHeader from "@/components/CDetailPage/CDetailHeader.vue"
 import CDetailLoading from "@/components/CDetailPage/CDetailLoading.vue"
+import UnsavedChangesModal from "@/components/CDetailPage/UnsavedChangesModal.vue"
+import { useUnsavedChangesWarning } from "@/composables/unsavedChangesWarning"
 
 const props = withDefaults(
     defineProps<{
@@ -60,7 +62,7 @@ const route = useRoute()
 const router = useRouter()
 const store = toRef(props, "store")
 
-// const { isUnsavedChangesWarningOpen, closeUnsavedChangesWarning, discardChanges, handleUnload } = useUnsavedChangesWarning(store.value)
+const { isUnsavedChangesWarningOpen, closeUnsavedChangesWarning, discardChanges, handleUnload } = useUnsavedChangesWarning(store.value)
 
 const isOpen = computed({
     get() {
@@ -82,7 +84,7 @@ onUnmounted(() => {
 })
 
 function tearDown() {
-    // window.removeEventListener("beforeunload", handleUnload)
+    window.removeEventListener("beforeunload", handleUnload)
     document.documentElement.style.overflow = "unset"
 }
 
@@ -94,7 +96,7 @@ watch(
             if (props.store.entryId && props.loadDataImmediately) {
                 props.store.loadData()
             }
-            // window.addEventListener("beforeunload", handleUnload)
+            window.addEventListener("beforeunload", handleUnload)
             document.documentElement.style.overflow = "hidden"
         } else {
             tearDown()

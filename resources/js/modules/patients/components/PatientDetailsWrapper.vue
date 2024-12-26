@@ -12,7 +12,7 @@
             </div>
         </template>
         <template #actionButtons>
-            <CDropdown v-if="!patientDetailsStore.isNewEntry" :loading="isDeleting" :items="actions" :button-label="$t('global.actions.label')" @select="handleAction"></CDropdown>
+            <CDropdown v-if="!patientDetailsStore.isNewEntry" type="accent" :loading="isDeleting" :items="actions" :button-label="$t('global.actions.label')" @select="handleAction"></CDropdown>
             <AsyncButton v-if="patientDetailsStore.isNewEntry" :disabled="!patientDetailsStore.watchers?.entry.isChanged" :loading="isSaving" type="primary" @click="save">
                 {{ $t("global.actions.create") }}
             </AsyncButton>

@@ -1,6 +1,6 @@
 import { computed } from "vue"
 
-export function useSizeClass(size: string | number) {
+export function useSizeClass(size: string | number | undefined) {
     const sizeClass = computed(() => {
         const classes: Record<string | number, string> = {
             2: "h-2 w-2",
@@ -13,7 +13,7 @@ export function useSizeClass(size: string | number) {
             16: "h-16 w-16",
             20: "h-20 w-20",
         }
-        return classes[size] || "h-8 w-8" // Default to "h-8 w-8"
+        return (size && classes[size]) || "h-8 w-8" // Default to "h-8 w-8"
     })
 
     return sizeClass.value
