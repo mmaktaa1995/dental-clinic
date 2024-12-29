@@ -1,6 +1,7 @@
 <template>
     <c-container>
         <div class="w-full text-left">
+            <CButton sm type="primary" class="ml-2 ltr:ml-0 ltr:mr-2" @click="openAddPayment"> {{ $t("payments.addPayment") }} </CButton>
             <CButton sm type="accent" @click="patientPaymentsStore.print(patientDetailStore.entryId)"> {{ $t("global.actions.print") }} </CButton>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-4 gap-6">
@@ -36,6 +37,9 @@
         <div>
             <PaymentsTable :store="patientPaymentsStore" />
         </div>
+        <teleport to=".modal-teleport">
+            <AddPayment v-model="paymentDetailsStore.isAddPaymentModalOpened" :reload="reload" :patient="paymentDetailsStore.patient" :payment="paymentDetailsStore.payment"></AddPayment>
+        </teleport>
     </c-container>
 </template>
 
@@ -47,8 +51,11 @@ import { ref, watch } from "vue"
 import PaymentsTable from "@/modules/payments/components/PaymentsTable.vue"
 import { formatNumber } from "@/logic/helpers"
 import { useI18n } from "vue-i18n"
+import AddPayment from "@/modules/payments/components/AddPayment.vue"
+import { usePaymentDetailsStore } from "@/modules/payments/detailStore"
 
 const patientDetailStore = usePatientDetailsStore()
+const paymentDetailsStore = usePaymentDetailsStore()
 const patientPaymentsStore = usePatientPaymentsStore()
 const { t } = useI18n()
 
@@ -68,9 +75,14 @@ const formattedValue = (value: number) => {
     return formatNumber(value)
 }
 
-useEntryListUpdater(`/payments/${patientDetailStore.entryId}/patients`, patientPaymentsStore, async (response) => {
+const { reload } = useEntryListUpdater(`/payments/${patientDetailStore.entryId}/patients`, patientPaymentsStore, async (response) => {
     patientPaymentsStore.totalPayments = response.total_payments
     patientPaymentsStore.totalRemainingPayments = response.total_remaining_payments
     patientDetailStore.subPages.payments.title = t("payments.title") + ` (${patientPaymentsStore.pagination.total})`
 })
+
+const openAddPayment = () => {
+    paymentDetailsStore.patient = patientDetailStore.entry
+    paymentDetailsStore.isAddPaymentModalOpened = true
+}
 </script>

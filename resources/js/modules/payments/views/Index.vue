@@ -3,13 +3,16 @@
         <PaymentsTable :columns="columns" :store="paymentsStore" :row-clicked="rowClicked">
             <template #header>
                 <div>
-                    <div class="font-semibold text-lg">{{ $t("payments.title") }}</div>
+                    <div class="flex items-center justify-between">
+                        <div class="font-semibold text-lg">{{ $t("payments.title") }}</div>
+                        <CButton type="primary" sm @click="(paymentDetailsStore.isAddPaymentModalOpened = true)">{{ $t("global.actions.create") }}</CButton>
+                    </div>
                     <div class="mt-2">
                         <label class="block text-sm font-medium text-gray-700 text-right">{{ $t("payments.totalAmount") }}</label>
                         <label class="block text-2xl font-medium text-teal-600 text-right">{{ formattedValue(paymentsStore.totalPayments) }}</label>
                     </div>
-                </div></template
-            >
+                </div>
+            </template>
             <template #filters>
                 <div class="grid grid-cols-2 gap-4 w-full">
                     <CTextField v-model="paymentsStore.query" class="w-100" :label="$t('patients.name')" name="name"></CTextField>
@@ -18,6 +21,7 @@
                 </div>
             </template>
         </PaymentsTable>
+        <AddPayment v-model="paymentDetailsStore.isAddPaymentModalOpened" :is-edit="paymentDetailsStore.isEdit" :reload="reload" :payment="paymentDetailsStore.payment" :patient="paymentDetailsStore.patient"></AddPayment>
     </div>
 </template>
 
@@ -30,9 +34,15 @@ import { useRouter } from "vue-router"
 import PaymentStatus from "@/modules/payments/components/table/PaymentStatus.vue"
 import DateTime from "@/components/Table/components/DateTime.vue"
 import { DataTableColumn } from "@/components/Table/DataTable.vue"
-import { usePaymentsStore } from "@/modules/payments/store"
+import { PaymentEntry, usePaymentsStore } from "@/modules/payments/store"
+import AddPayment from "@/modules/payments/components/AddPayment.vue"
+import CDate from "@/components/Table/components/CDate.vue"
+import { usePaymentDetailsStore } from "@/modules/payments/detailStore"
+import AddDebt from "@/modules/payments/components/table/AddDebt.vue"
+import { nextTick } from "vue"
 
 const paymentsStore = usePaymentsStore()
+const paymentDetailsStore = usePaymentDetailsStore()
 const router = useRouter()
 const { t } = useI18n()
 
@@ -54,18 +64,25 @@ const columns: DataTableColumn[] = [
     //     },
     // },
     { field: "status", headerName: t("payments.status"), cellRenderer: PaymentStatus },
-    { field: "created_at", headerName: t("payments.date"), cellRenderer: DateTime },
+    { field: "date", headerName: t("payments.paymentDate"), cellRenderer: CDate },
+    { field: "created_at", headerName: t("patients.createdAt"), cellRenderer: DateTime },
+    { field: "action", headerName: "", cellRenderer: AddDebt },
 ]
 
-const rowClicked = (row: any) => {
-    router.push({ name: "patients/payments", params: { id: row.patient_id } })
+const rowClicked = (row: PaymentEntry) => {
+    paymentDetailsStore.patient = row.patient
+    paymentDetailsStore.payment = row
+    paymentDetailsStore.isEdit = true
+    nextTick().then(() => {
+        paymentDetailsStore.isAddPaymentModalOpened = true
+    })
 }
 
 const formattedValue = (value: number) => {
     return formatNumber(value)
 }
 
-useEntryListUpdater(`/payments`, paymentsStore, async (response) => {
+const { reload } = useEntryListUpdater(`/payments`, paymentsStore, async (response) => {
     paymentsStore.totalPayments = response.total_payments
     paymentsStore.totalRemainingPayments = response.total_remaining_payments
 })

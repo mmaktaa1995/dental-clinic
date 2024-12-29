@@ -37,7 +37,7 @@
 import { ref, useAttrs } from "vue"
 
 // Props
-const modelValue = defineModel<string | number | null>({ required: true })
+const modelValue = defineModel<string | number | null | undefined>({ required: true })
 
 withDefaults(
     defineProps<{

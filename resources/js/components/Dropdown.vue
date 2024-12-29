@@ -52,7 +52,6 @@ const isOpen = ref(false)
 
 const toggleDropdown = () => {
     isOpen.value = !isOpen.value
-    console.log(isOpen.value)
 }
 
 const itemSelected = (actionId: string | number) => {

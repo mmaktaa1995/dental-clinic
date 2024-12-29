@@ -17,6 +17,8 @@ import { computed } from "vue"
 import PaymentStatus from "@/modules/payments/components/table/PaymentStatus.vue"
 import { formatNumber } from "@/logic/helpers"
 import { EntryListStore } from "@/store/factories/entryListStore"
+import CDate from "@/components/Table/components/CDate.vue"
+import AddDebt from "@/modules/payments/components/table/AddDebt.vue"
 
 const { t } = useI18n()
 const props = defineProps<{
@@ -44,7 +46,9 @@ const computedColumns = computed(() => {
             },
         },
         { field: "status", headerName: t("payments.status"), cellRenderer: PaymentStatus },
-        { field: "created_at", headerName: t("payments.date"), cellRenderer: DateTime },
+        { field: "date", headerName: t("payments.paymentDate"), cellRenderer: CDate },
+        { field: "created_at", headerName: t("patients.createdAt"), cellRenderer: DateTime },
+        { field: "", headerName: "", cellRenderer: AddDebt },
     ]
     return props.columns ? props.columns : columns
 })

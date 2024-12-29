@@ -18,12 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Patient extends BaseModel
 {
-    use SearchQuery;
-
-    public static $relationsWithForSearch = ['images'];
-    public static $searchableFields = ['name', 'file_number', 'mobile', 'phone'];
-    //    protected $dateFormat = 'Y-m-d H:i:s';
-    protected $fillable = ['name', 'age', 'phone', 'mobile', 'file_number', 'image', 'gender', 'user_id'];
+    protected $fillable = ['name', 'age', 'phone', 'mobile', 'file_number', 'image', 'gender', 'user_id', 'total_amount'];
 
     public static function boot()
     {

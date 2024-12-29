@@ -13,10 +13,10 @@
         </template>
         <template #actionButtons>
             <CDropdown v-if="!patientDetailsStore.isNewEntry" type="accent" :loading="isDeleting" :items="actions" :button-label="$t('global.actions.label')" @select="handleAction"></CDropdown>
-            <AsyncButton v-if="patientDetailsStore.isNewEntry" :disabled="!patientDetailsStore.watchers?.entry.isChanged" :loading="isSaving" type="primary" @click="save">
+            <AsyncButton v-if="patientDetailsStore.isNewEntry" :disabled="!patientDetailsStore.watchers?.entry?.isChanged" :loading="isSaving" type="primary" @click="save">
                 {{ $t("global.actions.create") }}
             </AsyncButton>
-            <AsyncButton v-else :loading="isSaving" :disabled="!patientDetailsStore.watchers?.entry.isChanged" type="primary" @click="save">
+            <AsyncButton v-else :loading="isSaving" :disabled="!patientDetailsStore.watchers?.entry?.isChanged" type="primary" @click="save">
                 {{ $t("global.actions.saveChanges") }}
             </AsyncButton>
         </template>
@@ -43,11 +43,19 @@ import AsyncButton from "@/components/AsyncButton.vue"
 import { useI18n } from "vue-i18n"
 import { api } from "@/logic/api"
 import { getRootRoutePath } from "@/logic/detailPage"
+import { usePatientDiagnosisStore } from "@/modules/patients/patientDiagnosisStore"
+import { usePatientSymptomsStore } from "@/modules/patients/patientSymptomsStore"
+import { useToastStore } from "@/modules/account/toastStore"
+import { useSettingsStore } from "@/modules/account/settingsStore"
 
 const isDeleting = ref(false)
 const isSaving = ref(false)
 const isPatientDeleteModalOpened = ref(false)
 const patientDetailsStore = usePatientDetailsStore()
+const patientDiagnosisStore = usePatientDiagnosisStore()
+const patientSymptomsStore = usePatientSymptomsStore()
+const toastStore = useToastStore()
+const settingsStore = useSettingsStore()
 const router = useRouter()
 const route = useRoute()
 const { t } = useI18n()
@@ -76,19 +84,32 @@ const save = () => {
     patientDetailsStore.errors = {}
     isSaving.value = true
     let url = `/patients/create`
+    const isNew = patientDetailsStore.isNewEntry
     if (!patientDetailsStore.isNewEntry) {
         url = `/patients/${patientDetailsStore.entryId}`
     }
     api.send(url, patientDetailsStore.isNewEntry ? "POST" : "PATCH", {}, patientDetailsStore.entry)
         .then((response: any) => {
             console.log(response)
+            if (!isNew) {
+                patientDetailsStore.entry = response.patient
+            }
+            patientDiagnosisStore.entries = response.patient.diagnosis
+            patientSymptomsStore.entries = response.patient.symptoms
             router.replace({
                 name: "patients/general",
-                params: { id: response.id },
+                params: { id: response.patient.id },
             })
+            const message = patientDetailsStore.isNewEntry ? "patients.patientCreatedSuccessfully" : "patients.patientUpdatedSuccessfully"
+            toastStore.success(t(message))
+
+            patientDetailsStore.watchers?.entry?.resetStore()
             isSaving.value = false
             if (props?.reloadList) {
                 props?.reloadList()
+            }
+            if (isNew) {
+                settingsStore.getLastFileNumber()
             }
         })
         .catch((error: any) => {
@@ -110,17 +131,17 @@ const deletePatient = () => {
     isDeleting.value = true
     api.delete(`/patients/${patientDetailsStore.entryId}`)
         .then(() => {
-            // bus.emit("flash-message", { text: data.message, type: "success" });
-            // bus.emit("item-deleted", id.value);
             isDeleting.value = false
-            router.push(getRootRoutePath(route))
+            router.push(getRootRoutePath(route)).then(() => {
+                toastStore.success(t("patients.patientDeletedSuccessfully"))
+            })
             if (props?.reloadList) {
                 props?.reloadList()
             }
+            settingsStore.getLastFileNumber()
         })
         .catch(() => {
             isDeleting.value = false
-            // bus.emit("flash-message", { text: response.data.message, type: "error" });
         })
 }
 

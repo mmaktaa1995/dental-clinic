@@ -1,8 +1,7 @@
 import { defineDetailPageStore, DetailPageStateTree } from "@/store/factories/detailPageStore"
 import { getI18n } from "@/logic/i18n"
-import axios from "axios"
-import { useAccountStore } from "@/modules/auth/accountStore"
 import { api } from "@/logic/api"
+import { useSettingsStore } from "@/modules/account/settingsStore"
 
 type LoadDataOptions = {
     silently?: boolean
@@ -10,12 +9,12 @@ type LoadDataOptions = {
 
 export type PatientEntry = {
     id: number
-    name: string
+    name: string | null
     age: number | null
     gender: number | null
     file_number: number
-    phone: string
-    mobile: string
+    phone: string | null
+    mobile: string | null
     files: { id: number; file: string; type: string }[]
     symptoms: { id: number; symptoms: string; record_date: string }[]
     diagnosis: { id: number; diagnosis: string; record_date: string }[]
@@ -95,15 +94,15 @@ export const usePatientDetailsStore = defineDetailPageStore("patient-details", {
     actions: {
         async loadData(options: LoadDataOptions = {}) {
             if (this.isNewEntry) {
-                const accountStore = useAccountStore()
+                const settingsStore = useSettingsStore()
                 this.entry = {
                     id: -1,
-                    name: "",
+                    name: null,
                     age: null,
                     gender: null,
-                    file_number: accountStore.lastFileNumber,
-                    phone: "",
-                    mobile: "",
+                    file_number: settingsStore.lastFileNumber,
+                    phone: null,
+                    mobile: null,
                     files: [],
                     symptoms: [],
                     diagnosis: [],

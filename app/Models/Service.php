@@ -11,18 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Service extends BaseModel
 {
-    use SearchQuery;
-
-    public static $searchableFields = ['name', 'price'];
-    public static $dateColumnFiltered = 'created_at';
     protected $fillable = ['name', 'price', 'user_id'];
-    protected $appends = ['original_price'];
-
-    public function getOriginalPriceAttribute()
-    {
-        $exchangeRate = AppConfig::getByKey('usd_exchange');
-        return $this->price * $exchangeRate;
-    }
 
     public function payment(): BelongsToMany
     {

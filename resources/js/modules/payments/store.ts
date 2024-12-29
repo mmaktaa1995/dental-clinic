@@ -3,9 +3,12 @@ import { defineEntryListStore } from "@/store/factories/entryListStore"
 import { api } from "@/logic/api"
 
 export type PaymentEntry = {
+    id: number
     notes: string
     amount: number
     remaining_amount: number
+    patient_id: number
+    patient: Record<string, any>
     date: string
     isEdit: boolean
     isPayDebtOpened: boolean
@@ -31,6 +34,8 @@ export const usePaymentsStore = defineEntryListStore("payments-store", {
             deleted: 0,
             totalPayments: 0,
             totalRemainingPayments: 0,
+            patient: undefined,
+            payment: undefined,
             dataLoadedCallbacks: [],
         }
     },

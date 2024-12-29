@@ -10,12 +10,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Visit extends BaseModel
 {
-    use SearchQuery, SoftDeletes;
+    use SoftDeletes;
 
-    public static $relationsWithForSearch = ['patient', 'payment'];
-    public static $searchInRelations = ['patient:name'];
-    public static $searchableFields = ['date', 'notes'];
-    public static $dateColumnFiltered = 'date';
     protected $fillable = ['patient_id', 'date', 'notes', 'user_id']; //@todo revert amount when migration
     protected $appends = ['amount'];//@todo comment amount when migration
 

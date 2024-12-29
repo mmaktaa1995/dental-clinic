@@ -1,5 +1,5 @@
 <template>
-    <CButton :to :type :disabled="disabled" :class="{ 'cursor-not-allowed ': loading }">
+    <CButton :to :type :disabled="disabled" :class="{ 'cursor-not-allowed pointer-events-none': loading }">
         <span v-if="loading" class="absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%)">
             <c-loader color="white" width="32"></c-loader>
         </span>

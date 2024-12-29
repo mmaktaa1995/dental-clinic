@@ -16,6 +16,7 @@ use App\Http\Controllers\UploadFilesController;
 use App\Http\Controllers\VisitsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware('auth:api')->group(function () {
     Route::prefix('v1')->group(function () {
+        Route::get('currencies/exchange-rate', [HomeController::class, 'getUsdExchangeRate']);
+
         Route::get('/user', function (Request $request) {
             return $request->user();
         });
@@ -42,11 +45,10 @@ Route::middleware('auth:api')->group(function () {
         Route::get('patients/list', [PatientsController::class, 'apiList'])->name('patients.api-list');
 
         Route::post('payments', [PaymentsController::class, 'list']);
-        Route::post('payments/{payment?}', [PaymentsController::class, 'show']);
+        Route::post('payments/create', [PaymentsController::class, 'store']);
+        Route::patch('payments/{payment}', [PaymentsController::class, 'update']);
         Route::post('payments/{patient?}/patients', [PaymentsController::class, 'list']);
-        Route::post('payments/{patient?}/patients/create', [PaymentsController::class, 'store']);
         Route::get('payments/{patient?}/patients/print', [PaymentsController::class, 'print'])->name('patients-payments.print');
-        Route::patch('payments/{patient?}/patients/{payment}', [PaymentsController::class, 'update']);
 
 
         Route::post('patients', [PatientsController::class, 'list']);
@@ -81,10 +83,12 @@ Route::middleware('auth:api')->group(function () {
         Route::patch('expenses/{expense}', [ExpensesController::class, 'update']);
         Route::delete('expenses/{expense}', [ExpensesController::class, 'destroy']);
 
+        Route::get('statistics', StatisticsController::class)->name('statistics');
+
+        Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
     });
     // Old Routes
-    Route::get('patients/dropdown', [PatientsController::class, 'dropdownData'])->name('patients.dropdown');
-    Route::patch('patients/{patient}/images', [PatientsController::class, 'updateImages'])->name('patients.update_images');
     Route::patch('patients/{patient}/restore', [PatientsController::class, 'restore'])->name('patients.restore');
     Route::resource('patients-files', PatientsFilesController::class)->parameters(['patients-files' => 'payment'])->except(['create', 'edit']);
     Route::post('patients-files/{payment}/restore', [PatientsFilesController::class, 'restore'])->withTrashed()->name('payments.restore');
@@ -96,9 +100,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::resource('appointments', AppointmentController::class)->except(['create', 'edit']);
 
-    Route::get('statistics', StatisticsController::class)->name('statistics');
 
-    Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 });
 
 Route::post('upload', [UploadFilesController::class, 'store'])->name('upload.save');

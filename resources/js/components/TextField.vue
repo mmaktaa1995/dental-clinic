@@ -23,22 +23,23 @@
             autocomplete="off"
             :disabled="disabled"
             class="block border border-gray-300 text-gray-600 outline-none focus:border-teal-500 focus:ring-teal-500 px-2 py-3 rounded-md sm:text-sm w-full text-right ltr:text-left disabled:cursor-not-allowed"
+            :class="{ 'border-pink-600': hasError }"
             @focus="(isFocused = true)"
             @blur="(isFocused = false)"
         />
-        <small v-if="errors && errors[name]" class="text-pink-600 text-xs text-right block">
+        <small v-if="hasError" class="text-pink-600 text-xs text-right block">
             {{ errors[name][0] }}
         </small>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref, useAttrs } from "vue"
+import { computed, ref, useAttrs } from "vue"
 
 // Props
-const modelValue = defineModel<string | number | null>({ required: true })
+const modelValue = defineModel<string | number | null | undefined>({ required: true })
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         type?: "text" | "date" | "number" | "tel" | "password" | "time" | "datetime-local"
         name: string
@@ -59,4 +60,8 @@ withDefaults(
 // State for managing focus
 const isFocused = ref(false)
 const attrs = useAttrs()
+
+const hasError = computed(() => {
+    return props.errors && props.errors[props.name]
+})
 </script>

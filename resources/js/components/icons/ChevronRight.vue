@@ -11,5 +11,4 @@ const { size } = defineProps<{
     size: number | string
 }>()
 const sizeClass = useSizeClass(size)
-console.log(sizeClass)
 </script>

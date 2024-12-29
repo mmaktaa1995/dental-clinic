@@ -58,7 +58,7 @@ class PatientsController extends Controller
     {
         $patient = null;
         DB::transaction(function () use ($request, &$patient) {
-            $patient = Patient::create($request->only(["name", "age", "gender", "file_number", "phone", "mobile"]));
+            $patient = Patient::create($request->only(["name", "age", "gender", "file_number", "phone", "mobile", "total_amount"]));
             if ($request->filled('amount') && $request->filled('date')) {
                 $visit = $patient->visits()->create($request->validated());
                 Payment::create([
@@ -71,14 +71,50 @@ class PatientsController extends Controller
                 if ($request->filled('services'))
                     $visit->services()->sync($request->get('services'));
             }
+
+            if ($symptoms = $request->get('symptoms', [])){
+                $patient->load('records');
+                $symptomsToAdd = collect($symptoms)->filter(fn($symptom) => $symptom['id'] < 0);
+                $patient->records()->createMany($symptomsToAdd->toArray());
+            }
+            if ($diagnosis = $request->get('diagnosis', [])){
+                $patient->load('records');
+                $diagnosisToAdd = collect($diagnosis)->filter(fn($diagnose) => $diagnose['id'] < 0);
+                $patient->records()->createMany($diagnosisToAdd->toArray());
+            }
         });
-        return response()->json(['message' => __('app.success'), 'id' => $patient->id]);
+        return response()->json(['message' => __('app.success'), 'patient' => ['id' => $patient->id]]);
     }
 
     public function update(PatientRequest $request, Patient $patient): JsonResponse
     {
         $patient->update($request->validated());
-        return response()->json(['message' => __('app.success')]);
+        if ($symptoms = $request->get('symptoms', [])){
+            $patient->load('records');
+            $symptomsToAdd = collect($symptoms)->filter(fn($symptom) => $symptom['id'] < 0);
+            $symptomsToEdit = collect($symptoms)->filter(fn($symptom) => $symptom['id'] > 0);
+            $patient->records()->createMany($symptomsToAdd->toArray());
+            $symptomsToEdit->each(function ($symptom) use ($patient) {
+                $record = $patient->records->where('id', $symptom['id'])->first();
+                if ($record){
+                    $record->update(['symptoms' => $symptom['symptoms'], 'record_date' => $symptom['record_date']]);
+                }
+            });
+        }
+        if ($diagnosis = $request->get('diagnosis', [])){
+            $patient->load('records');
+            $diagnosisToAdd = collect($diagnosis)->filter(fn($diagnose) => $diagnose['id'] < 0);
+            $diagnosisToEdit = collect($diagnosis)->filter(fn($diagnose) => $diagnose['id'] > 0);
+            $patient->records()->createMany($diagnosisToAdd->toArray());
+            $diagnosisToEdit->each(function ($diagnose) use ($patient) {
+                $record = $patient->records->where('id', $diagnose['id'])->first();
+                if ($record){
+                    $record->update(['diagnosis' => $diagnose['diagnosis'], 'record_date' => $diagnose['record_date']]);
+                }
+            });
+        }
+        $patient->load(['files', 'symptoms', 'diagnosis']);
+        return response()->json(['message' => __('app.success'), 'patient' => PatientResource::make($patient)]);
     }
 
     public function destroy(Patient $patient): JsonResponse

@@ -1,5 +1,5 @@
 <template>
-    <CDialog v-model="isUnsavedChangesWarningOpen" type="warning" show-icon>
+    <CDialog v-model="isUnsavedChangesWarningOpen" type="warning">
         <template #header>
             {{ $t("cDetailPage.unsavedChangesWarnings.title") }}
         </template>

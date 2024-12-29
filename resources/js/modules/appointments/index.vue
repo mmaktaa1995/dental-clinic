@@ -15,7 +15,6 @@
 <script setup>
 import { ref, onMounted } from "vue"
 import axios from "axios"
-import { formatISO, parseISO } from "date-fns"
 import { useRouter } from "vue-router"
 
 const events = ref([])
@@ -37,9 +36,9 @@ const getData = async (monthParam, yearParam) => {
             title: appointment.patient.name,
             description: appointment.notes,
             className: appointment.className,
-            date: formatISO(parseISO(appointment.date), { representation: "date" }),
-            start: formatISO(parseISO(appointment.start), { representation: "time" }),
-            end: formatISO(parseISO(appointment.end), { representation: "time" }),
+            date: appointment.date,
+            start: appointment.start,
+            end: appointment.end,
         }))
         loaded.value = true
         console.log(events.value, data)

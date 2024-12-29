@@ -3,9 +3,7 @@
 namespace App\Services\Search;
 
 use App\Http\Requests\PatientRecordsSearchRequest;
-use App\Http\Requests\PatientSearchRequest;
 use App\Models\PatientRecord;
-use App\Models\Payment;
 use App\Services\Search\Base\BaseSearch;
 use App\Services\Search\Base\SearchRequest;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
@@ -28,9 +26,18 @@ class PatientRecordSearch extends BaseSearch
     public function getBaseQuery(): EloquentBuilder|QueryBuilder
     {
         return PatientRecord::when($this->patient_id, function ($query) {
-                $query->where('patient_id', $this->patient_id);
-            })
+            $query->where('patient_id', $this->patient_id);
+        })
             ->leftJoin('patients', 'patients.id', 'patient_records.patient_id')
+            ->when($this->request->get('type'), function ($query) {
+                if ($this->request->get('type') === 'symptoms') {
+                    $query->whereNotNull('symptoms');
+                }
+                if ($this->request->get('type') === 'diagnosis') {
+                    $query->whereNotNull('diagnosis');
+                }
+
+            })
             ->select('patient_records.*');
     }
 

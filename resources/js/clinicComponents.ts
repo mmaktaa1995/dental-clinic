@@ -61,8 +61,12 @@ import Accordion from "@/components/Accordion.vue"
 import Icon from "@/components/Icon.vue"
 import TextArea from "@/components/TextArea.vue"
 import DateTimePicker from "@/components/DateTimePicker.vue"
+import PureDialog from "@/components/PureDialog.vue"
+import FilePreview from "@/components/FilePreview.vue"
 
 export const loadComponents = (app: App<Element>) => {
+    app.component("CFilePreview", FilePreview)
+    app.component("CPureDialog", PureDialog)
     app.component("CTextArea", TextArea)
     app.component("CIcon", Icon)
     app.component("CAccordion", Accordion)

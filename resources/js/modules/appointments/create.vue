@@ -13,10 +13,7 @@
                     <div class="grid grid-cols-2 gap-6">
                         <div>
                             <label for="patient_id" class="block text-sm font-medium text-gray-700 text-right">المريض</label>
-                            <select id="patient_id" v-model="form.patient_id" autocomplete="off" class="block border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 px-2 py-2 rounded-md shadow-sm sm:text-sm w-full">
-                                <option value="">اختر مريض</option>
-                                <option v-for="(name, id) in patients" :key="id" :value="id">{{ name }}</option>
-                            </select>
+                            <CAutocomplete v-model="form.patient_id" label="المريض" name="patient_id" :fetch-items="fetchPatientsData"></CAutocomplete>
                             <small v-if="errors.patient_id" class="text-pink-600 text-xs text-right block">{{ errors.patient_id[0] }}</small>
                         </div>
 
@@ -61,10 +58,12 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, reactive } from "vue"
 import axios from "axios"
 import { format } from "date-fns"
+import { api } from "@/logic/api"
+import { parseDate } from "@/logic/helpers"
 
 const opened = ref(false)
 const submitted = ref(false)
@@ -76,6 +75,10 @@ const form = reactive({
     patient_id: "",
 })
 const patients = ref([])
+
+const fetchPatientsData = async (page: number, searchQuery: string) => {
+    return await api.get(`/patients/list?per_page=20&page=${page}&query=${searchQuery}`)
+}
 
 const back = () => {
     opened.value = false
@@ -117,17 +120,18 @@ onMounted(() => {
     setTimeout(() => {
         opened.value = true
         const queryDate = new URLSearchParams(window.location.search).get("date")
+        if (!queryDate) {
+            resetForm()
+            return
+        }
 
         // Convert UTC date to Asia/Damascus timezone
-        const zonedDate = queryDate
+        const zonedDate = parseDate(queryDate)
 
         // Format the date and time using date-fns
         form.date = format(zonedDate, "yyyy-MM-dd")
         form.time = format(zonedDate, "HH:mm")
         resetForm()
-        axios.get("/api/patients/dropdown").then(({ data }) => {
-            patients.value = data
-        })
     }, 50)
 })
 </script>

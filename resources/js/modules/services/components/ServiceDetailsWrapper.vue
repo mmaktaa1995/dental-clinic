@@ -9,10 +9,10 @@
         </template>
         <template #actionButtons>
             <CDropdown v-if="!serviceDetailsStore.isNewEntry" type="accent" :loading="isDeleting" :items="actions" :button-label="$t('global.actions.label')" @select="handleAction"></CDropdown>
-            <AsyncButton v-if="serviceDetailsStore.isNewEntry" :disabled="!serviceDetailsStore.watchers?.entry.isChanged" :loading="isSaving" type="primary" @click="save">
+            <AsyncButton v-if="serviceDetailsStore.isNewEntry" :disabled="!serviceDetailsStore.watchers?.entry?.isChanged" :loading="isSaving" type="primary" @click="save">
                 {{ $t("global.actions.create") }}
             </AsyncButton>
-            <AsyncButton v-else :loading="isSaving" :disabled="!serviceDetailsStore.watchers?.entry.isChanged" type="primary" @click="save">
+            <AsyncButton v-else :loading="isSaving" :disabled="!serviceDetailsStore.watchers?.entry?.isChanged" type="primary" @click="save">
                 {{ $t("global.actions.saveChanges") }}
             </AsyncButton>
         </template>
@@ -39,11 +39,13 @@ import { useI18n } from "vue-i18n"
 import { api } from "@/logic/api"
 import { getRootRoutePath } from "@/logic/detailPage"
 import { useServiceDetailsStore } from "@/modules/services/detailStore"
+import { useToastStore } from "@/modules/account/toastStore"
 
 const isDeleting = ref(false)
 const isSaving = ref(false)
 const isServiceDeleteModalOpened = ref(false)
 const serviceDetailsStore = useServiceDetailsStore()
+const toastStore = useToastStore()
 const router = useRouter()
 const route = useRoute()
 const { t } = useI18n()
@@ -60,7 +62,7 @@ watch(
         if (route.params.id) {
             serviceDetailsStore.entryId = parseInt(route.params.id as string)
             await serviceDetailsStore.loadData()
-            serviceDetailsStore.watchers?.entry.resetStore()
+            serviceDetailsStore.watchers?.entry?.resetStore()
         }
     },
     {
@@ -72,7 +74,6 @@ const save = () => {
     serviceDetailsStore.errors = {}
     isSaving.value = true
     let url = `/services/create`
-    console.log(serviceDetailsStore.isNewEntry)
     if (!serviceDetailsStore.isNewEntry) {
         url = `/services/${serviceDetailsStore.entryId}`
     }
@@ -82,6 +83,9 @@ const save = () => {
                 name: "services/general",
                 params: { id: response.id },
             })
+            serviceDetailsStore.watchers?.entry?.resetStore()
+            const message = serviceDetailsStore.isNewEntry ? "services.serviceCreatedSuccessfully" : "services.serviceUpdatedSuccessfully"
+            toastStore.success(t(message))
             isSaving.value = false
             if (props?.reloadList) {
                 props?.reloadList()
@@ -106,17 +110,16 @@ const deleteService = () => {
     isDeleting.value = true
     api.delete(`/services/${serviceDetailsStore.entryId}`)
         .then(() => {
-            // bus.emit("flash-message", { text: data.message, type: "success" });
-            // bus.emit("item-deleted", id.value);
             isDeleting.value = false
-            router.push(getRootRoutePath(route))
+            router.push(getRootRoutePath(route)).then(() => {
+                toastStore.success(t("services.serviceDeletedSuccessfully"))
+            })
             if (props?.reloadList) {
                 props?.reloadList()
             }
         })
         .catch(() => {
             isDeleting.value = false
-            // bus.emit("flash-message", { text: response.data.message, type: "error" });
         })
 }
 

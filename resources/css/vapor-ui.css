@@ -34,3 +34,7 @@
 .datatable .tr.clickable:hover{
     @apply bg-gray-50;
 }
+
+.Toastify__toast-body {
+    font-family: 'Tajawal', sans-serif !important;
+}

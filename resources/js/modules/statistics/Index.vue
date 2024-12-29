@@ -229,6 +229,7 @@
 <script setup>
 import { computed, ref } from "vue"
 import axios from "axios"
+import { api } from "@/logic/api.js"
 
 const passwordCorrect = ref(false)
 const password = ref("")
@@ -285,8 +286,8 @@ const fetchData = async () => {
         query.push("day=" + day.value)
     }
     queryParams = query.join("&")
-    await axios
-        .get("/api/statistics?" + queryParams)
+    await api
+        .get("/statistics?" + queryParams)
         .then(({ data }) => {
             expenses.value = data.expenses
             visits.value = data.visits

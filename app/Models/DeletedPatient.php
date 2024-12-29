@@ -19,7 +19,7 @@ class DeletedPatient extends BaseModel
     public static $relationsWithForSearch = [];
     use SearchQuery;
 
-    protected $fillable = ['name', 'age', 'phone', 'mobile', 'file_number', 'image'];
+    protected $fillable = ['name', 'age', 'phone', 'mobile', 'file_number', 'image', 'total_amount', 'gender', 'user_id'];
 
 
     public function visits()

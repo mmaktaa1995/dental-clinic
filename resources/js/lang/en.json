@@ -1,162 +1,180 @@
 {
-    "auth": {
-        "admin": "Admin",
-        "email": "Email address",
-        "emailPlaceholder": "Email address",
-        "name": "Name",
-        "namePlaceholder": "Name",
-        "password": "Password",
-        "passwordPlaceholder": "Password",
-        "registerNewAccount": "Register new account",
-        "signUp": "Sign up",
-        "student": "Student",
-        "username": "Username",
-        "usernamePlaceholder": "Username"
-    },
-    "cDetailPage": {
-        "backToOverview": "Back",
-        "unsavedChangesWarnings": {
-            "discardChanges": "Discard changes",
-            "discardUnsavedChanges": "Do you want to discard unsaved changes?",
-            "title": "Unsaved Changes"
-        }
-    },
-    "debits": {
-        "actionTaken": "Action Taken",
-        "amount": "Amount",
-        "date": "Date",
-        "errorMessage": "It looks like there was an error. Please check your application logs.",
-        "name": "Name",
-        "suggestRecentDate": "Consider searching using a more recent 'Starting from' date. The CloudWatch API may have long response times while searching far into the past. These requests may timeout or lead to unexpected errors."
-    },
-    "error": {
-        "backToHomepage": "Back to Homepage",
-        "errorCode403": 403,
-        "notAuthorizedToViewPage": "You are not authorized to view this page"
-    },
-    "errors": {
-        "backToHomepage": "Back to Homepage",
-        "findOtherThings": "Find other things",
-        "pageNotFound": "Page Not Found"
-    },
-    "expenses": {
-        "amount": "Amount",
-        "date": "Date",
-        "description": "Description",
-        "entryName": "Service",
-        "expenseInfo": "Expense Info",
-        "name": "Name",
-        "title": "Expenses"
-    },
-    "filePond": {
-        "cancelLabel": "",
-        "corruptFileDetected": "Please make sure that the file does not come from inside a zip archive and that it is not corrupted.",
-        "deleteFile": "An occurred during deletion",
-        "dragAndDropOr": "Drag & drop or",
-        "file": "File",
-        "fileInformationUnavailable": "File information not available",
-        "fileLoadError": "An error occurred during loading",
-        "fileTypeUnsupported": "This file type is not supported",
-        "idle": "",
-        "invalidFile": "Invalid file selected",
-        "loading": "Loading",
-        "retryLabel": "",
-        "selectFile": "Select file",
-        "undoLabel": "",
-        "uploadCancelled": "Upload cancelled",
-        "uploadCancelledError": "An error occurred during cancellation",
-        "uploadFailed": "An error occurred during upload",
-        "waitForFileInformation": "Wait for file information"
-    },
-    "global": {
-        "actions": {
-            "add": "Add",
-            "cancel": "Cancel",
-            "create": "Create",
-            "delete": "Delete",
-            "label": "Actions",
-            "print": "print",
-            "saveChanges": "Save changes"
-        },
-        "date": "Date",
-        "deleteEntryBodyMessage": "Are you sure you want to delete this {type}?",
-        "deleteEntryTitle": "Delete {type}",
-        "fromDate": "From",
-        "genders": {
-            "female": "Female",
-            "male": "Male"
-        },
-        "general": "General",
-        "noEntries": "There are no records entered yet...",
-        "noEntriesFound": "No content found with the specified search criteria. You can adjust the filters above to see results.",
-        "pagination": {
-            "entriesPerPage": "Entries Per Page:",
-            "of": "Of",
-            "page": "Page:"
-        },
-        "toDate": "To"
-    },
-    "patients": {
-        "addRecord": "addRecord",
-        "age": "Age",
-        "clinicalHistory": "Clinical History",
-        "clinicalHistoryDescription": "All information about a patient's health",
-        "createdAt": "Created At",
-        "diagnose": "Diagnose",
-        "diagnosis": "Diagnosis",
-        "diagnosisDescription": "Diagnosing the patient's condition and the treatment he needs.",
-        "entryName": "Patient",
-        "fileNumber": "File Number",
-        "files": "Files",
-        "gender": "Gender",
-        "mobile": "Mobile Number",
-        "moduleName": "Patients",
-        "name": "Patient Name",
-        "patientContactInfo": "Contact Information",
-        "patientContactInfoDescription": "Contact information to be able to reach the patient in case something urgent has happened or to ask questions or to discuss the next appointments.",
-        "patientInfo": "Patient Information",
-        "patientInfoDescription": "Personal details about the patient.",
-        "phone": "Phone Number",
-        "record_date": "Record Date",
-        "relatedPatientFiles": "Patient Document Manager",
-        "relatedPatientFilesDescription": "Manage and access files related to patient records efficiently.",
-        "symptom": "Symptom"
-    },
-    "payments": {
-        "action": "Action",
-        "amount": "Amount",
-        "date": "Date",
-        "debits": "Debits",
-        "deletedPayments": "Deleted Payments",
-        "remainingAmount": "Remaining Amount",
-        "status": "Status",
-        "statuses": {
-            "failed": "Failed",
-            "refunded": "Refunded",
-            "success": "Success"
-        },
-        "title": "Payments",
-        "totalAmount": "Total Amount",
-        "totalRemainingAmount": "Total Remaining Amount"
-    },
-    "services": {
-        "entryName": "Service",
-        "name": "Name",
-        "price": "Price",
-        "serviceInfo": "Service Info",
-        "serviceInfoDescription": "Service Info Description",
-        "title": "Services"
-    },
-    "sideBar": {
-        "menu": {
-            "appointments": "Appointments",
-            "debits": "Debits",
-            "expenses": "Expenses",
-            "patients": "Patients",
-            "patientsFiles": "Patients Files",
-            "payments": "Payments",
-            "services": "Services",
-            "statistics": "Statistics"
-        }
+  "auth": {
+    "admin": "Admin",
+    "email": "Email address",
+    "emailPlaceholder": "Email address",
+    "name": "Name",
+    "namePlaceholder": "Name",
+    "password": "Password",
+    "passwordPlaceholder": "Password",
+    "registerNewAccount": "Register new account",
+    "signUp": "Sign up",
+    "student": "Student",
+    "username": "Username",
+    "usernamePlaceholder": "Username"
+  },
+  "cDetailPage": {
+    "backToOverview": "Back",
+    "unsavedChangesWarnings": {
+      "discardChanges": "Discard changes",
+      "discardUnsavedChanges": "Do you want to discard unsaved changes?",
+      "title": "Unsaved Changes"
     }
+  },
+  "debits": {
+    "actionTaken": "Action Taken",
+    "amount": "Amount",
+    "date": "Date",
+    "errorMessage": "It looks like there was an error. Please check your application logs.",
+    "name": "Name",
+    "suggestRecentDate": "Consider searching using a more recent 'Starting from' date. The CloudWatch API may have long response times while searching far into the past. These requests may timeout or lead to unexpected errors."
+  },
+  "error": {
+    "backToHomepage": "Back to Homepage",
+    "errorCode403": 403,
+    "notAuthorizedToViewPage": "You are not authorized to view this page"
+  },
+  "errors": {
+    "backToHomepage": "Back to Homepage",
+    "findOtherThings": "Find other things",
+    "pageNotFound": "Page Not Found"
+  },
+  "expenses": {
+    "amount": "Amount",
+    "date": "Date",
+    "description": "Description",
+    "entryName": "Service",
+    "expenseCreatedSuccessfully": "Expense created successfully!",
+    "expenseDeletedSuccessfully": "Expense deleted successfully!",
+    "expenseInfo": "Expense Info",
+    "expenseUpdatedSuccessfully": "Expense updated successfully!",
+    "name": "Name",
+    "title": "Expenses"
+  },
+  "filePond": {
+    "cancelLabel": "",
+    "corruptFileDetected": "Please make sure that the file does not come from inside a zip archive and that it is not corrupted.",
+    "deleteFile": "An occurred during deletion",
+    "dragAndDropOr": "Drag & drop or",
+    "file": "File",
+    "fileInformationUnavailable": "File information not available",
+    "fileLoadError": "An error occurred during loading",
+    "fileTypeUnsupported": "This file type is not supported",
+    "idle": "",
+    "invalidFile": "Invalid file selected",
+    "loading": "Loading",
+    "retryLabel": "",
+    "selectFile": "Select file",
+    "undoLabel": "",
+    "uploadCancelled": "Upload cancelled",
+    "uploadCancelledError": "An error occurred during cancellation",
+    "uploadFailed": "An error occurred during upload",
+    "waitForFileInformation": "Wait for file information"
+  },
+  "global": {
+    "actions": {
+      "add": "Add",
+      "cancel": "Cancel",
+      "create": "Create",
+      "delete": "Delete",
+      "label": "Actions",
+      "print": "print",
+      "saveChanges": "Save changes"
+    },
+    "connectionError": "A connection error occurred. Please try again later.",
+    "currencies": {
+      "SYP": "SYP",
+      "USD": "USD"
+    },
+    "date": "Date",
+    "deleteEntryBodyMessage": "Are you sure you want to delete this {type}?",
+    "deleteEntryTitle": "Delete {type}",
+    "fromDate": "From",
+    "genders": {
+      "female": "Female",
+      "male": "Male"
+    },
+    "general": "General",
+    "noEntries": "There are no records entered yet...",
+    "noEntriesFound": "No content found with the specified search criteria. You can adjust the filters above to see results.",
+    "pagination": {
+      "entriesPerPage": "Entries Per Page:",
+      "of": "Of",
+      "page": "Page:"
+    },
+    "serverError": "An unknown error occurred. Please try again later.",
+    "toDate": "To"
+  },
+  "patients": {
+    "addRecord": "addRecord",
+    "age": "Age",
+    "clinicalHistory": "Clinical History",
+    "clinicalHistoryDescription": "All information about a patient's health",
+    "createdAt": "Created At",
+    "diagnose": "Diagnose",
+    "diagnosis": "Diagnosis",
+    "diagnosisDescription": "Diagnosing the patient's condition and the treatment he needs.",
+    "entryName": "Patient",
+    "fileNumber": "File Number",
+    "files": "Files",
+    "gender": "Gender",
+    "mobile": "Mobile Number",
+    "moduleName": "Patients",
+    "name": "Patient Name",
+    "patientContactInfo": "Contact Information",
+    "patientContactInfoDescription": "Contact information to be able to reach the patient in case something urgent has happened or to ask questions or to discuss the next appointments.",
+    "patientCreatedSuccessfully": "Patient created successfully!",
+    "patientDeletedSuccessfully": "Patient deleted successfully!",
+    "patientInfo": "Patient Information",
+    "patientInfoDescription": "Personal details about the patient.",
+    "patientUpdatedSuccessfully": "Patient updated successfully!",
+    "phone": "Phone Number",
+    "record_date": "Record Date",
+    "relatedPatientFiles": "Patient Document Manager",
+    "relatedPatientFilesDescription": "Manage and access files related to patient records efficiently.",
+    "selectGender": "Select Gender",
+    "symptom": "Symptom"
+  },
+  "payments": {
+    "action": "Action",
+    "addPayment": "Add Payment",
+    "amount": "Amount",
+    "date": "Date",
+    "debits": "Debits",
+    "deletedPayments": "Deleted Payments",
+    "paymentDate": "Payment Date",
+    "remainingAmount": "Remaining Amount",
+    "status": "Status",
+    "statuses": {
+      "failed": "Failed",
+      "refunded": "Refunded",
+      "success": "Success"
+    },
+    "title": "Payments",
+    "totalAmount": "Total Amount",
+    "totalRemainingAmount": "Total Remaining Amount"
+  },
+  "services": {
+    "entryName": "Service",
+    "name": "Name",
+    "price": "Price",
+    "serviceCreatedSuccessfully": "Service created successfully!",
+    "serviceDeletedSuccessfully": "Service deleted successfully!",
+    "serviceInfo": "Service Info",
+    "serviceInfoDescription": "Service Info Description",
+    "serviceUpdatedSuccessfully": "Service updated successfully!",
+    "title": "Services"
+  },
+  "sideBar": {
+    "menu": {
+      "appointments": "Appointments",
+      "debits": "Debits",
+      "expenses": "Expenses",
+      "patients": "Patients",
+      "patientsFiles": "Patients Files",
+      "payments": "Payments",
+      "services": "Services",
+      "statistics": "Statistics"
+    }
+  }
 }

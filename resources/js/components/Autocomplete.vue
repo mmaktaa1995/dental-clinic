@@ -1,8 +1,8 @@
 <template>
-    <div class="relative w-full">
+    <div ref="autocomplete" class="relative w-full">
         <!-- Input field -->
         <div class="relative">
-            <CTextField v-model="searchQuery" name="ser" label="Search" @input="onSearch" @focus="(showDropdown = true)" />
+            <CTextField v-model="searchQuery" :name :label :errors @input="onSearch" @focus="(showDropdown = true)" />
             <span class="absolute left-3 ltr:right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500" @click="toggleDropdown">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 9l6 6 6-6" />
@@ -11,10 +11,10 @@
         </div>
 
         <!-- Dropdown -->
-        <div v-if="showDropdown" class="absolute z-10 mt-2 w-full bg-white border border-gray-300 rounded shadow-lg max-h-60 overflow-y-auto" @scroll="onScroll">
+        <div v-if="showDropdown" class="absolute z-50 mt-2 w-full bg-white border border-gray-300 rounded shadow-lg max-h-60 overflow-y-auto" @scroll="onScroll">
             <!-- Items -->
             <ul>
-                <li v-for="item in items" :key="item.id" class="px-4 py-2 cursor-pointer hover:bg-teal-100" @click="selectItem(item)">
+                <li v-for="item in items" :key="item.id" class="px-4 py-2 cursor-pointer hover:bg-gray-300 hover:bg-opacity-25 text-right ltr:text-left text-gray-800" @click="selectItem(item)">
                     {{ item.name }}
                 </li>
             </ul>
@@ -25,15 +25,30 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted } from "vue"
+import { ref, watch, onMounted, onBeforeUnmount, nextTick } from "vue"
 
+const selectedItem = defineModel({ required: true })
 const props = defineProps({
     fetchItems: {
         type: Function,
         required: true,
     },
+    label: {
+        type: String,
+        required: true,
+    },
+    name: {
+        type: String,
+        required: true,
+    },
+    errors: {
+        type: Object,
+        required: false,
+        default: () => {},
+    },
 })
 
+const autocomplete = ref<HTMLElement | null>(null)
 const searchQuery = ref("")
 const items = ref([])
 const showDropdown = ref(false)
@@ -48,11 +63,12 @@ const loadItems = async (reset = false) => {
 
     try {
         const response = await props.fetchItems(page.value, searchQuery.value)
+        console.log(response)
         if (reset) items.value = []
-        if (response.data.length > 0) {
-            items.value.push(...response.data)
+        if (response.entries.length > 0) {
+            items.value.push(...(response.entries as []))
         }
-        hasMore.value = response.data.length > 0
+        hasMore.value = response.entries.length > 0
         page.value += 1
     } catch (error) {
         console.error("Error fetching items:", error)
@@ -78,8 +94,12 @@ const onSearch = () => {
 
 // Handle item selection
 const selectItem = (item: any) => {
-    console.log("Selected item:", item)
     showDropdown.value = false
+    selectedItem.value = item.id
+    nextTick().then(() => {
+        searchQuery.value = item.name
+    })
+    console.log(item, searchQuery.value)
 }
 
 // Toggle dropdown visibility
@@ -93,6 +113,20 @@ onMounted(() => {
 
 watch(showDropdown, (value) => {
     if (!value) searchQuery.value = "" // Clear search when closing
+})
+
+const handleClickOutside = (event: MouseEvent) => {
+    if (autocomplete.value && !autocomplete.value.contains(event.target as Node)) {
+        showDropdown.value = false
+    }
+}
+
+onMounted(() => {
+    document.addEventListener("click", handleClickOutside)
+})
+
+onBeforeUnmount(() => {
+    document.removeEventListener("click", handleClickOutside)
 })
 </script>
 

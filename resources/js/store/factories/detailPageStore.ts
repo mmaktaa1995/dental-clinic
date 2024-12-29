@@ -112,7 +112,7 @@ export function defineDetailPageStore<Id extends string, S extends DetailPageSta
 
             watch(
                 // @ts-ignore
-                () => this.watchers && this.watchers[attribute].isChanged,
+                () => this.watchers && this.watchers[attribute]?.isChanged,
                 (value) => {
                     if (value) {
                         this.markAsDirty()

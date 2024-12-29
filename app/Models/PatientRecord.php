@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @mixin IdeHelperPatientRecord
  */
-class PatientRecord extends BaseModel
+class PatientRecord extends Model
 {
     protected $fillable = ['patient_id', 'symptoms', 'diagnosis', 'record_date'];
     protected $casts = [

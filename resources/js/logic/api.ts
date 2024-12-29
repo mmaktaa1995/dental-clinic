@@ -1,10 +1,9 @@
-// import { useSnackbarsStore } from "@/store/snackbars"
 import { Router } from "vue-router"
 
 import { deepUnref } from "@/logic/deepUnref"
-// import { useAccountStore } from "@/modules/account/store"
-import { getI18n } from "@/logic/i18n"
 import { useAccountStore } from "@/modules/auth/accountStore"
+import { useToastStore } from "@/modules/account/toastStore"
+import { getI18n } from "@/logic/i18n"
 
 export const REQUEST_ABORTED = "aborted"
 
@@ -108,6 +107,10 @@ export const api = {
     getErrorMessage(response: Response) {
         try {
             return response.json().then((res) => {
+                const toastStore = useToastStore()
+                // @ts-ignore
+                const { t } = getI18n()
+                toastStore.error(t("global.serverError"))
                 if (res.error) {
                     return res.error
                 }
@@ -115,18 +118,17 @@ export const api = {
                     return { errors: res.errors, status: response.status }
                 }
                 if (res.message) {
-                    if (this.isBinnedException(res.message)) {
-                        const snackbarsStore = useSnackbarsStore()
-                        // @ts-ignore
-                        const { t } = getI18n()
-                        snackbarsStore.error(t(res.message?.error))
-                    }
                     return res.message
                 }
-                return "Keine Antwort vom Server erhalten. Bitte versuchen Sie es später erneut."
+                return "No response received from the server. Please try again later."
             })
         } catch (e) {
-            return Promise.resolve("Ein unbekannter Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.")
+            const toastStore = useToastStore()
+            // @ts-ignore
+            const { t } = getI18n()
+            toastStore.error(t("global.serverError"))
+            // @ts-ignore
+            return Promise.resolve(t("global.serverError"))
         }
     },
     getFilenameFromHeaders(headers: Response["headers"]) {
@@ -151,8 +153,10 @@ export const api = {
                 return false
             }
             this.lastConnectionErrorShown = currentDate
-            // const snackbarsStore = useSnackbarsStore()
-            // snackbarsStore.error("Es ist ein Verbindungsfehler aufgetreten. Bitte versuchen Sie es später erneut.")
+            const toastStore = useToastStore()
+            // @ts-ignore
+            const { t } = getI18n()
+            toastStore.error(t("global.connectionError"))
         }
         return true
     },
@@ -171,7 +175,7 @@ export const api = {
         if (typeof domain === "undefined") {
             domain = ""
         }
-        return domain + "/api/v1" + path.trimStart("/") + parsedParams
+        return domain + "/api/v1/" + path.replace("/", "") + parsedParams
     },
     getDefaultHeaders(): Record<string, string> {
         // const appConfigStore = useAppConfigStore()
@@ -191,26 +195,14 @@ export const api = {
         const token = document.head.querySelector('meta[name="csrf-token"]')
         const access_token = localStorage.getItem("access_token")
 
-        const headers = {}
+        const headers: Record<any, any> = {}
         if (token) {
-            headers["X-CSRF-TOKEN"] = token.content
+            headers["X-CSRF-TOKEN"] = token.getAttribute("content")
         }
 
         if (access_token) {
             headers["Authorization"] = "Bearer " + access_token
         }
         return headers
-    },
-    // getAppIdHeader(): Record<string, string> {
-    //     const appConfigStore = useAppConfigStore()
-    //     if (!appConfigStore.appId) {
-    //         return {}
-    //     }
-    //     return {
-    //         "X-APP-ID": appConfigStore.appId.toString(),
-    //     }
-    // },
-    isBinnedException(response: { message: string; exception: string }): boolean {
-        return response.exception === "BinnedEntryException"
     },
 }

@@ -24,15 +24,22 @@ class PatientRequest extends FormRequest
     public function rules()
     {
         return [
-            'file_number' => [$this->segment(3) ? 'sometimes' : 'required', 'unique:patients,file_number,' . $this->segment(3)],
+            'file_number' => [$this->segment(4) ? 'sometimes' : 'required', 'unique:patients,file_number,' . $this->segment(4)],
             'name' => ['required', 'string', 'max:255'],
             'date' => ['nullable', 'date'],
             'notes' => ['nullable', 'string'],
             'amount' => ['nullable', 'numeric'],
+            'total_amount' => ['nullable', 'numeric'],
             'age' => ['nullable', 'numeric', 'gt:0'],
             'gender' => ['required', 'numeric', 'in:1,2'],
             'phone' => ['nullable', 'numeric'],
             'mobile' => ['nullable', 'numeric'],
+            'symptoms' => ['nullable', 'array'],
+            'symptoms.*.record_date' => ['required', 'date'],
+            'symptoms.*.symptoms' => ['required', 'string'],
+            'diagnosis' => ['nullable', 'array'],
+            'diagnosis.*.record_date' => ['required', 'date'],
+            'diagnosis.*.diagnosis' => ['required', 'string'],
         ];
     }
 }

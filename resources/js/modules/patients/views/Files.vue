@@ -4,8 +4,8 @@
             <h3 class="text-base font-semibold text-gray-700">{{ $t("patients.relatedPatientFiles") }}</h3>
             <p class="text-sm text-gray-500">{{ $t("patients.relatedPatientFilesDescription") }}</p>
         </div>
-        <c-file-pond-component v-model="files" :accepted-file-types="['image/jpeg', 'image/png', 'application/pdf']" folder="patients" type="files" @file-uploaded="fileUploaded" />
-        <CDataTable :store="patientFilesStore" :columns="columns"></CDataTable>
+        <c-file-pond-component v-model="files" :accepted-file-types="undefined" folder="patients" type="files" @file-uploaded="fileUploaded" />
+        <CDataTable :store="patientFilesStore" :columns="columns" @row-clicked="rowClicked"></CDataTable>
         <teleport to=".modal-teleport">
             <CConfirmModal
                 v-model="patientFilesStore.isDeletingFileModalOpened"
@@ -19,6 +19,8 @@
                 @confirm-callback="deleteFile"
             >
             </CConfirmModal>
+
+            <CFilePreview v-model="isFilePreviewOpened" :file-url="selectedFile?.file" :mime-type="selectedFile?.type"></CFilePreview>
         </teleport>
     </c-container>
 </template>
@@ -27,7 +29,7 @@
 import { ref } from "vue"
 import { usePatientDetailsStore } from "@/modules/patients/detailStore"
 import { useEntryListUpdater } from "@/composables/entryListUpdater"
-import { usePatientFilesStore } from "@/modules/patients/filesStore"
+import { FileEntry, usePatientFilesStore } from "@/modules/patients/filesStore"
 import { useI18n } from "vue-i18n"
 import FileType from "@/modules/patients/components/table/FileType.vue"
 import { api } from "@/logic/api"
@@ -36,6 +38,8 @@ import DeleteFile from "@/modules/patients/components/table/DeleteFile.vue"
 const files = ref<any[]>([])
 const isSaving = ref(false)
 const isDeleting = ref(false)
+const isFilePreviewOpened = ref(false)
+const selectedFile = ref<FileEntry | null>(null)
 const patientDetailsStore = usePatientDetailsStore()
 const patientFilesStore = usePatientFilesStore()
 
@@ -75,16 +79,14 @@ const update = async () => {
     await api
         .patch(`/patients/${patientDetailsStore.entryId}/files`, { files: filesToUpload })
         .then(() => {
+            isSaving.value = false
             // bus.$emit("flash-message", { text: data.message, type: "success" })
             files.value = files.value.filter((file) => {
                 return !filesToUpload.find((uploadedFile) => uploadedFile.file === file.file)
             })
             reload()
         })
-        .catch((error) => {
-            // bus.$emit("flash-message", { text: error.response.message, type: "danger" })
-        })
-        .finally(() => {
+        .catch(() => {
             isSaving.value = false
         })
 }
@@ -105,6 +107,11 @@ const deleteFile = () => {
         .catch(() => {
             isDeleting.value = false
         })
+}
+
+const rowClicked = (rowData: any) => {
+    selectedFile.value = rowData
+    isFilePreviewOpened.value = true
 }
 </script>
 

@@ -21,7 +21,7 @@ withDefaults(
 )
 
 // Define model
-const modelValue = defineModel<string | null>({ required: true })
+const modelValue = defineModel<string | null | undefined>({ required: true })
 
 // Emit events
 defineEmits(["change"])

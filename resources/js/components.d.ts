@@ -60,6 +60,8 @@ import Accordion from "@/components/Accordion.vue"
 import Icon from "@/components/Icon.vue"
 import TextArea from "@/components/TextArea.vue"
 import DateTimePicker from "@/components/DateTimePicker.vue"
+import PureDialog from "@/components/PureDialog.vue"
+import FilePreview from "@/components/FilePreview.vue"
 
 declare module "pinia" {
     import { Router } from "vue-router"
@@ -71,6 +73,8 @@ declare module "pinia" {
 
 declare module "@vue/runtime-core" {
     export interface GlobalComponents {
+        CFilePreview: typeof FilePreview
+        CPureDialog: typeof PureDialog
         CTextArea: typeof TextArea
         CIcon: typeof Icon
         CAccordion: typeof Accordion

@@ -1,7 +1,6 @@
 <template>
     <div v-if="dateParts" class="flex flex-col justify-center h-full text-gray-500">
         <div class="font-medium text-sm">{{ dateParts.day }}</div>
-        <div v-if="dateParts.time" class="text-sm">{{ dateParts.time }}</div>
     </div>
 </template>
 <script setup lang="ts">
@@ -22,7 +21,6 @@ const dateParts = computed(() => {
     const date = parseISO(props.value)
     return {
         day: format(date, "dd.MM.yyyy"),
-        time: format(date, "HH:mm"),
     }
 })
 </script>

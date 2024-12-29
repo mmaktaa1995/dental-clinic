@@ -5,7 +5,7 @@
                 <CTextField v-model="patientDetailsStore.entry.file_number" :disabled="true" :label="$t('patients.fileNumber')" :errors="patientDetailsStore.errors" name="file_number"></CTextField>
                 <CTextField v-model="patientDetailsStore.entry.name" :label="$t('patients.name')" :errors="patientDetailsStore.errors" name="name"></CTextField>
                 <CTextField v-model="patientDetailsStore.entry.age" :label="$t('patients.age')" type="number" :errors="patientDetailsStore.errors" name="age"></CTextField>
-                <CSelect v-model="patientDetailsStore.entry.gender" :options="genders" :label="$t('patients.gender')" :errors="patientDetailsStore.errors" name="gender"></CSelect>
+                <CSelect v-model="patientDetailsStore.entry.gender" :options="genders" :label="$t('patients.gender')" :hint="$t('patients.selectGender')" :errors="patientDetailsStore.errors" name="gender"></CSelect>
             </div>
         </CAccordion>
 
@@ -84,8 +84,8 @@ const patientDiagnosisStore = usePatientDiagnosisStore()
 const patientSymptomsStore = usePatientSymptomsStore()
 const { t } = useI18n()
 
-useEntryListUpdater(`/patients/${patientDetailsStore.entryId}/records`, patientDiagnosisStore)
-useEntryListUpdater(`/patients/${patientDetailsStore.entryId}/records`, patientSymptomsStore)
+useEntryListUpdater(`/patients/${patientDetailsStore.entryId}/records?type=diagnosis`, patientDiagnosisStore)
+useEntryListUpdater(`/patients/${patientDetailsStore.entryId}/records?type=symptoms`, patientSymptomsStore)
 
 const genders = [
     {
@@ -99,13 +99,37 @@ const genders = [
 ]
 
 const symptomsColumns = [
-    { field: "symptoms", headerName: t("patients.symptom"), sortable: false, cellClass: "bg-pink-50 animate-blink", cellClassCondition: (rowData: any) => rowData.id < 0 },
-    { field: "record_date", headerName: t("patients.record_date"), cellRenderer: DateTime, cellClass: "bg-pink-50 animate-blink", cellClassCondition: (rowData: any) => rowData.id < 0 },
+    {
+        field: "symptoms",
+        headerName: t("patients.symptom"),
+        sortable: false,
+        cellClass: "bg-pink-50 animate-blink",
+        cellClassCondition: (rowData: any) => rowData.id < 0,
+    },
+    {
+        field: "record_date",
+        headerName: t("patients.record_date"),
+        cellRenderer: DateTime,
+        cellClass: "bg-pink-50 animate-blink",
+        cellClassCondition: (rowData: any) => rowData.id < 0,
+    },
 ]
 
 const diagnosisColumns = [
-    { field: "diagnosis", headerName: t("patients.diagnose"), sortable: false, cellClass: "bg-pink-50 animate-blink", cellClassCondition: (rowData: any) => rowData.id < 0 },
-    { field: "record_date", headerName: t("patients.record_date"), cellRenderer: DateTime, cellClass: "bg-pink-50 animate-blink", cellClassCondition: (rowData: any) => rowData.id < 0 },
+    {
+        field: "diagnosis",
+        headerName: t("patients.diagnose"),
+        sortable: false,
+        cellClass: "bg-pink-50 animate-blink",
+        cellClassCondition: (rowData: any) => rowData.id < 0,
+    },
+    {
+        field: "record_date",
+        headerName: t("patients.record_date"),
+        cellRenderer: DateTime,
+        cellClass: "bg-pink-50 animate-blink",
+        cellClassCondition: (rowData: any) => rowData.id < 0,
+    },
 ]
 
 const openAddSymptomsForm = (event) => {
@@ -119,11 +143,13 @@ const openAddDiagnosisForm = (event) => {
 }
 
 const addSymptom = () => {
-    patientSymptomsStore.entries?.push({
+    const newSymptom = {
         id: -1 * new Date().valueOf(),
         symptoms: patientDetailsStore.symptom.symptom,
         record_date: patientDetailsStore.symptom.record_date,
-    })
+    }
+    patientSymptomsStore.entries?.push(newSymptom)
+    patientDetailsStore.entry?.symptoms.push(newSymptom)
     patientDetailsStore.symptom = {
         symptom: "",
         record_date: "",
@@ -131,11 +157,13 @@ const addSymptom = () => {
 }
 
 const addDiagnose = () => {
-    patientDiagnosisStore.entries?.push({
+    const newDiagnose = {
         id: -1 * new Date().valueOf(),
         diagnosis: patientDetailsStore.diagnose.diagnose,
         record_date: patientDetailsStore.diagnose.record_date,
-    })
+    }
+    patientDiagnosisStore.entries?.push(newDiagnose)
+    patientDetailsStore.entry?.diagnosis.push(newDiagnose)
     patientDetailsStore.diagnose = {
         diagnose: "",
         record_date: "",

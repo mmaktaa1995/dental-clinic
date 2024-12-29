@@ -91,6 +91,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int|null $user_id
  * @property int|null $gender
+ * @property int|null $total_amount
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Payment> $payments
  * @property-read int|null $payments_count
  * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient newModelQuery()
@@ -105,6 +106,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient whereMobile($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient whereTotalAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DeletedPatient whereUserId($value)
  * @mixin \Eloquent
@@ -186,6 +188,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int|null $user_id
  * @property int $gender
+ * @property int|null $total_amount
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PatientRecord> $diagnosis
  * @property-read int|null $diagnosis_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PatientFile> $files
@@ -214,6 +217,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Patient whereMobile($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Patient whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Patient wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Patient whereTotalAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Patient whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Patient whereUserId($value)
  * @mixin \Eloquent
@@ -338,7 +342,6 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int|null $user_id
- * @property-read mixed $original_price
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Payment> $payment
  * @property-read int|null $payment_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ServicePayment> $servicePayment

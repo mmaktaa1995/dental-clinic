@@ -21,7 +21,7 @@
             @blur="(isFocused = false)"
             @change="$emit('change')"
         >
-            <option v-if="hint" selected disabled value="">{{ hint }}</option>
+            <option v-if="hint" selected value="">{{ hint }}</option>
             <option v-for="option in options" :key="option.id" :value="option.id">
                 {{ option.label }}
             </option>

@@ -46,10 +46,11 @@
                         إلغاء
                     </button>
                     <c-async-button
-                        type="submit"
+                        type="primary"
                         :disabled="isPast"
                         :loading="submitted"
                         class="w-full inline-flex justify-center rounded-md border border-transparent transition duration-75 transition-all shadow-sm px-4 py-2 bg-cyan-700 text-base font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:ml-3 sm:w-auto sm:text-sm"
+                        @click="update"
                     >
                         حفظ
                     </c-async-button>
@@ -67,7 +68,7 @@
 
 <script setup>
 import { ref, onMounted } from "vue"
-import { formatISO, parseISO } from "date-fns"
+import { format, formatISO, parseISO } from "date-fns"
 import axios from "axios"
 import { useRoute } from "vue-router"
 
@@ -97,8 +98,8 @@ const update = async () => {
     submitted.value = true
     try {
         const { data } = await axios.patch(`/api/appointments/${id.value}`, form.value)
-        bus.$emit("flash-message", { text: data.message, type: "success" })
-        bus.$emit("appointment-changed", "true")
+        // bus.$emit("flash-message", { text: data.message, type: "success" })
+        // bus.$emit("appointment-changed", "true")
         back()
     } catch (error) {
         if (error.response?.status === 422) {
@@ -121,8 +122,9 @@ onMounted(async () => {
     form.value = {
         ...appointment,
         date: formatISO(parsedDate, { representation: "date" }),
-        time: formatISO(parsedDate, { representation: "time" }).split("T")[1],
+        time: format(parsedDate, "hh:mm"),
     }
+    console.log(form.value)
 
     setTimeout(() => {
         opened.value = true
