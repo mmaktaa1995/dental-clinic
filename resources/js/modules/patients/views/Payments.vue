@@ -7,11 +7,11 @@
         <div class="grid grid-cols-1 sm:grid-cols-4 gap-6">
             <div class="">
                 <label class="block text-sm font-medium text-gray-700 text-right">{{ $t("payments.totalAmount") }}</label>
-                <label class="block text-2xl font-medium text-teal-600 text-right">{{ formattedValue(patientPaymentsStore.totalPayments) }}</label>
+                <label class="block text-2xl font-medium text-sky-600 text-right">{{ formattedValue(patientPaymentsStore.totalPayments) }}</label>
             </div>
             <div class="">
                 <label class="block text-sm font-medium text-gray-700 text-right">{{ $t("payments.totalRemainingAmount") }}</label>
-                <label class="block text-2xl font-medium text-pink-600 text-right">{{ formattedValue(patientPaymentsStore.totalRemainingPayments) }}</label>
+                <label class="block text-2xl font-medium text-rose-600 text-right">{{ formattedValue(patientPaymentsStore.totalRemainingPayments) }}</label>
             </div>
         </div>
         <hr class="my-4" />
@@ -19,14 +19,14 @@
             <nav class="flex gap-2">
                 <a
                     href="#"
-                    :class="'px-3 py-2 font-medium text-sm leading-5 rounded-md transition text-gray-500 hover:bg-pink-200 hover:text-pink-600 focus:outline-none focus:text-pink-600 focus:bg-pink-200 ' + (currentTab === 'PAYMENTS' ? 'text-pink-700 bg-pink-200' : '')"
+                    :class="'px-3 py-2 font-medium text-sm leading-5 rounded-md transition text-gray-500 hover:bg-pink-200 hover:text-rose-600 focus:outline-none focus:text-rose-600 focus:bg-pink-200 ' + (currentTab === 'PAYMENTS' ? 'text-pink-700 bg-pink-200' : '')"
                     @click.prevent="(currentTab = 'PAYMENTS')"
                 >
                     {{ $t("payments.title") }}
                 </a>
                 <a
                     href="#"
-                    :class="'ml-4 px-3 py-2 font-medium text-sm leading-5 rounded-md transition text-gray-500 hover:bg-pink-200 hover:text-pink-600 focus:outline-none focus:text-pink-600 focus:bg-pink-200 ' + (currentTab === 'DELETED_PAYMENTS' ? 'text-pink-700 bg-pink-200' : '')"
+                    :class="'ml-4 px-3 py-2 font-medium text-sm leading-5 rounded-md transition text-gray-500 hover:bg-pink-200 hover:text-rose-600 focus:outline-none focus:text-rose-600 focus:bg-pink-200 ' + (currentTab === 'DELETED_PAYMENTS' ? 'text-pink-700 bg-pink-200' : '')"
                     @click.prevent="(currentTab = 'DELETED_PAYMENTS')"
                 >
                     {{ $t("payments.deletedPayments") }}

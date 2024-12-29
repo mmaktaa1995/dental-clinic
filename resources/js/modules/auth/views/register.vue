@@ -46,7 +46,7 @@
                                     :class="`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-700 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${errors && errors.username ? 'border-red-500' : ''}`"
                                     :placeholder="$t('auth.usernamePlaceholder', 'Username')"
                                 />
-                                <small v-if="errors && errors.username" class="text-pink-600 text-xs text-right block">{{ errors.username[0] }}</small>
+                                <small v-if="errors && errors.username" class="text-rose-600 text-xs text-right block">{{ errors.username[0] }}</small>
                             </div>
                             <div>
                                 <label for="name" class="sr-only">{{ $t("auth.name", "Name") }}</label>
@@ -59,7 +59,7 @@
                                     :class="`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${errors && errors.name ? 'border-red-500' : ''}`"
                                     :placeholder="$t('auth.namePlaceholder', 'Name')"
                                 />
-                                <small v-if="errors && errors.name" class="text-pink-600 text-xs text-right block">{{ errors.name[0] }}</small>
+                                <small v-if="errors && errors.name" class="text-rose-600 text-xs text-right block">{{ errors.name[0] }}</small>
                             </div>
                             <div>
                                 <label for="email-address" class="sr-only">{{ $t("auth.email", "Email address") }}</label>
@@ -72,7 +72,7 @@
                                     :class="`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${errors && errors.email ? 'border-red-500' : ''}`"
                                     :placeholder="$t('auth.emailPlaceholder', 'Email address')"
                                 />
-                                <small v-if="errors && errors.email" class="text-pink-600 text-xs text-right block">{{ errors.email[0] }}</small>
+                                <small v-if="errors && errors.email" class="text-rose-600 text-xs text-right block">{{ errors.email[0] }}</small>
                             </div>
                             <div>
                                 <label for="password" class="sr-only">{{ $t("auth.password", "Password") }}</label>
@@ -85,7 +85,7 @@
                                     :class="`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-700 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${errors && errors.password ? 'border-red-500' : ''}`"
                                     :placeholder="$t('auth.passwordPlaceholder', 'Password')"
                                 />
-                                <small v-if="errors && errors.password" class="text-pink-600 text-xs text-right block">{{ errors.password[0] }}</small>
+                                <small v-if="errors && errors.password" class="text-rose-600 text-xs text-right block">{{ errors.password[0] }}</small>
                             </div>
                         </div>
                     </transition>

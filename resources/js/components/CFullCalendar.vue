@@ -168,6 +168,6 @@ const calendarOptions = computed(() => {
     @apply text-gray-400; /* De-emphasize past days */
 }
 .fc-day-sun {
-    @apply text-pink-600; /* Highlight Sundays */
+    @apply text-rose-600; /* Highlight Sundays */
 }
 </style>

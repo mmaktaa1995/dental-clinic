@@ -103,14 +103,14 @@ const symptomsColumns = [
         field: "symptoms",
         headerName: t("patients.symptom"),
         sortable: false,
-        cellClass: "bg-pink-50 animate-blink",
+        cellClass: "bg-rose-50 animate-blink",
         cellClassCondition: (rowData: any) => rowData.id < 0,
     },
     {
         field: "record_date",
         headerName: t("patients.record_date"),
         cellRenderer: DateTime,
-        cellClass: "bg-pink-50 animate-blink",
+        cellClass: "bg-rose-50 animate-blink",
         cellClassCondition: (rowData: any) => rowData.id < 0,
     },
 ]
@@ -120,14 +120,14 @@ const diagnosisColumns = [
         field: "diagnosis",
         headerName: t("patients.diagnose"),
         sortable: false,
-        cellClass: "bg-pink-50 animate-blink",
+        cellClass: "bg-rose-50 animate-blink",
         cellClassCondition: (rowData: any) => rowData.id < 0,
     },
     {
         field: "record_date",
         headerName: t("patients.record_date"),
         cellRenderer: DateTime,
-        cellClass: "bg-pink-50 animate-blink",
+        cellClass: "bg-rose-50 animate-blink",
         cellClassCondition: (rowData: any) => rowData.id < 0,
     },
 ]

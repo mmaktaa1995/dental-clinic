@@ -27,7 +27,7 @@
             @blur="(isFocused = false)"
         >
         </textarea>
-        <small v-if="errors && errors[name]" class="text-pink-600 text-xs text-right block">
+        <small v-if="errors && errors[name]" class="text-rose-600 text-xs text-right block">
             {{ errors[name][0] }}
         </small>
     </div>

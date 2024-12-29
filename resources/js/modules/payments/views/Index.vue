@@ -9,7 +9,7 @@
                     </div>
                     <div class="mt-2">
                         <label class="block text-sm font-medium text-gray-700 text-right">{{ $t("payments.totalAmount") }}</label>
-                        <label class="block text-2xl font-medium text-teal-600 text-right">{{ formattedValue(paymentsStore.totalPayments) }}</label>
+                        <label class="block text-2xl font-medium text-sky-600 text-right">{{ formattedValue(paymentsStore.totalPayments) }}</label>
                     </div>
                 </div>
             </template>
@@ -58,7 +58,7 @@ const columns: DataTableColumn[] = [
     // {
     //     field: "remaining_amount",
     //     headerName: t("payments.remainingAmount"),
-    //     textClass: "!text-pink-600",
+    //     textClass: "!text-rose-600",
     //     valueFormatter: (value: any) => {
     //         return formatNumber(value)
     //     },

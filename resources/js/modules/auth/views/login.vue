@@ -21,7 +21,7 @@
                                 :class="`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-700 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${errors.email ? 'border-red-500' : ''}`"
                                 placeholder="البريد الالكتروني"
                             />
-                            <small v-if="errors.email" class="text-pink-600 text-xs text-right block">{{ errors.email[0] }}</small>
+                            <small v-if="errors.email" class="text-rose-600 text-xs text-right block">{{ errors.email[0] }}</small>
                         </div>
                         <div>
                             <label for="password" class="sr-only">كلمة المرور</label>
@@ -34,7 +34,7 @@
                                 :class="`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-700 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${errors.password ? 'border-red-500' : ''}`"
                                 placeholder="كلمة المرور"
                             />
-                            <small v-if="errors.password" class="text-pink-600 text-xs text-right block">{{ errors.password[0] }}</small>
+                            <small v-if="errors.password" class="text-rose-600 text-xs text-right block">{{ errors.password[0] }}</small>
                         </div>
                     </div>
 

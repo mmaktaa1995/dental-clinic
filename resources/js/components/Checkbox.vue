@@ -40,7 +40,7 @@ const modelValue = defineModel<boolean | null | undefined>({ required: true })
 const checkbox = ref<HTMLInputElement | null>(null)
 
 const borderColor = computed(() => {
-    return "checked:bg-cyan-700 checked:border-cyan-700"
+    return "checked:bg-sky-700 checked:border-cyan-700"
 })
 
 // Watch the `indeterminate` prop and update the checkbox state
@@ -69,7 +69,7 @@ onMounted(() => {
 
 <style scoped>
 .checkbox[type="checkbox"]:indeterminate {
-    @apply bg-cyan-700 border-cyan-700;
+    @apply bg-sky-700 border-cyan-700;
     background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10h8'/%3E%3C/svg%3E");
 }
 </style>

@@ -52,7 +52,7 @@
                                     <!--                                    </div>-->
                                 </div>
                                 <template v-if="state.errors.length">
-                                    <p v-for="error in state.errors" :key="error" class="mt-2 text-sm text-pink-600">
+                                    <p v-for="error in state.errors" :key="error" class="mt-2 text-sm text-rose-600">
                                         {{ error }}
                                     </p>
                                 </template>
@@ -82,7 +82,7 @@
                                     <!--                                    </div>-->
                                 </div>
                                 <template v-if="state.errors.length">
-                                    <p v-for="error in state.errors" :key="error" class="mt-2 text-sm text-pink-600">
+                                    <p v-for="error in state.errors" :key="error" class="mt-2 text-sm text-rose-600">
                                         {{ error }}
                                     </p>
                                 </template>

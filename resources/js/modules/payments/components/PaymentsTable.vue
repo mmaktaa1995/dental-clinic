@@ -40,7 +40,7 @@ const computedColumns = computed(() => {
         {
             field: "remaining_amount",
             headerName: t("payments.remainingAmount"),
-            textClass: "!text-pink-600",
+            textClass: "!text-rose-600",
             valueFormatter: (value: any) => {
                 return formatNumber(value)
             },

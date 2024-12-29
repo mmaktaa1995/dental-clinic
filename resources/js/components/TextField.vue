@@ -27,7 +27,7 @@
             @focus="(isFocused = true)"
             @blur="(isFocused = false)"
         />
-        <small v-if="hasError" class="text-pink-600 text-xs text-right block">
+        <small v-if="hasError" class="text-rose-600 text-xs text-right block">
             {{ errors[name][0] }}
         </small>
     </div>

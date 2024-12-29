@@ -37,9 +37,9 @@ const buttonClasses = computed(() => {
         baseStyle = baseStyle.replace("sm:h-10", "").replace("px-4", "px-2").replace("py-2", "py-1").replace("text-base", "").replace("sm:text-sm", "text-xs")
     }
     const styles: Record<string, string> = {
-        primary: "bg-cyan-700 text-white hover:bg-cyan-800",
+        primary: "bg-sky-700 text-white hover:bg-sky-800",
         dark: "bg-gray-700 text-white hover:bg-gray-600",
-        accent: "bg-pink-600 text-white hover:bg-pink-700",
+        accent: "bg-rose-600 text-white hover:bg-rose-700",
         info: "bg-blue-400 text-white hover:bg-blue-500",
         warning: "bg-yellow-500 text-white hover:bg-yellow-600",
         error: "bg-red-600 text-white hover:bg-red-700",

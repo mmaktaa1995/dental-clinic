@@ -3,7 +3,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-4 gap-6">
             <div class="">
                 <label class="block text-sm font-medium text-gray-700 text-right">{{ $t("payments.totalRemainingAmount") }}</label>
-                <label class="block text-2xl font-medium text-pink-600 text-right">{{ formattedValue(patientDebitsStore.totalRemainingPayments) }}</label>
+                <label class="block text-2xl font-medium text-rose-600 text-right">{{ formattedValue(patientDebitsStore.totalRemainingPayments) }}</label>
             </div>
         </div>
         <hr class="my-4" />

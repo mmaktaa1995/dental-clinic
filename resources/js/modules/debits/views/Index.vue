@@ -7,7 +7,7 @@
                         <div class="font-semibold text-lg">{{ $t("payments.debits") }}</div>
                         <div class="mt-2">
                             <label class="block text-sm font-medium text-gray-700 text-right">{{ $t("payments.totalRemainingAmount") }}</label>
-                            <label class="block text-2xl font-medium text-pink-600 text-right">{{ formattedValue(debitsStore.totalRemainingPayments) }}</label>
+                            <label class="block text-2xl font-medium text-rose-600 text-right">{{ formattedValue(debitsStore.totalRemainingPayments) }}</label>
                         </div>
                     </div>
                 </template>
@@ -44,7 +44,7 @@ const columns = [
     {
         field: "remaining_amount",
         headerName: t("payments.remainingAmount"),
-        textClass: "!text-pink-600",
+        textClass: "!text-rose-600",
         valueFormatter: (value: any) => {
             return formatNumber(value)
         },

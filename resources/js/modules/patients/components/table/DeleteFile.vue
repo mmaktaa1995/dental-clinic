@@ -1,6 +1,6 @@
 <template>
     <div class="" @click="openDeleteFile">
-        <c-icon-delete size="5" class="hover:text-pink-600"></c-icon-delete>
+        <c-icon-delete size="5" class="hover:text-rose-600"></c-icon-delete>
     </div>
 </template>
 
