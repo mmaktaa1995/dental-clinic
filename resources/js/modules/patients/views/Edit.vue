@@ -11,8 +11,16 @@
 
         <CAccordion :title="$t('patients.patientContactInfo')" :description="$t('patients.patientContactInfoDescription')">
             <div class="grid grid-cols-2 gap-6">
-                <CTextField v-model="patientDetailsStore.entry.phone" :label="$t('patients.phone')" type="tel" :errors="patientDetailsStore.errors" name="phone"></CTextField>
                 <CTextField v-model="patientDetailsStore.entry.mobile" :label="$t('patients.mobile')" type="tel" :errors="patientDetailsStore.errors" name="mobile"></CTextField>
+                <CTextField v-model="patientDetailsStore.entry.phone" :label="$t('patients.phone')" type="tel" :errors="patientDetailsStore.errors" name="phone"></CTextField>
+            </div>
+        </CAccordion>
+
+        <CAccordion v-if="patientDetailsStore.isNewEntry" :title="$t('patients.paymentInfo')" :description="$t('patients.paymentInfoDescription')">
+            <div class="grid grid-cols-1 gap-6">
+                <CTextField v-model="patientDetailsStore.entry.amount" type="number" :label="$t('payments.amount')" :errors="patientDetailsStore.errors" name="amount"></CTextField>
+                <CDatePicker v-model="patientDetailsStore.entry.date" :label="$t('payments.paymentDate')" :errors="patientDetailsStore.errors" name="date"></CDatePicker>
+                <CTextArea v-model="patientDetailsStore.entry.notes" :label="$t('payments.action')" :errors="patientDetailsStore.errors" name="notes"></CTextArea>
             </div>
         </CAccordion>
 
@@ -84,8 +92,10 @@ const patientDiagnosisStore = usePatientDiagnosisStore()
 const patientSymptomsStore = usePatientSymptomsStore()
 const { t } = useI18n()
 
-useEntryListUpdater(`/patients/${patientDetailsStore.entryId}/records?type=diagnosis`, patientDiagnosisStore)
-useEntryListUpdater(`/patients/${patientDetailsStore.entryId}/records?type=symptoms`, patientSymptomsStore)
+if (!patientDetailsStore.isNewEntry) {
+    useEntryListUpdater(`/patients/${patientDetailsStore.entryId}/records?type=diagnosis`, patientDiagnosisStore)
+    useEntryListUpdater(`/patients/${patientDetailsStore.entryId}/records?type=symptoms`, patientSymptomsStore)
+}
 
 const genders = [
     {
@@ -154,6 +164,7 @@ const addSymptom = () => {
         symptom: "",
         record_date: "",
     }
+    isAddSymptomsOpened.value = false
 }
 
 const addDiagnose = () => {
@@ -168,5 +179,6 @@ const addDiagnose = () => {
         diagnose: "",
         record_date: "",
     }
+    isAddDiagnosisOpened.value = false
 }
 </script>

@@ -1,17 +1,30 @@
 import { App } from "vue"
-import { createI18n, Translation, VueI18n } from "vue-i18n"
+import { createI18n, Translation } from "vue-i18n"
 import { getSelectedLanguage } from "@/logic/i18n"
-// @ts-ignore
 import ar from "./lang/ar.json"
-// @ts-ignore
 import en from "./lang/en.json"
-import { ar as dateFnsAr, enGB as dateFnsEn } from "date-fns/locale"
+import de from "./lang/de.json"
+import { ar as dateFnsAr, de as dateFnsDe, enGB as dateFnsEn, fr as dateFnsFr } from "date-fns/locale"
 import { setDefaultOptions } from "date-fns"
 
 export const setupI18n = (app: App<Element>) => {
     app.component("Translation", Translation)
 
     const datetimeFormats = {
+        de: {
+            date: {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+            },
+            datetime: {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+                hour: "numeric",
+                minute: "numeric",
+            },
+        },
         ar: {
             date: {
                 year: "numeric",
@@ -51,13 +64,26 @@ export const setupI18n = (app: App<Element>) => {
         messages: {
             ar,
             en,
+            de,
         },
-        // @ts-expect-error seems to be a bug in the ts definition
         datetimeFormats,
     })
     app.use(i18n)
 
+    let dateFnsLocale = dateFnsEn
+    switch (getSelectedLanguage().value) {
+        case "de":
+            dateFnsLocale = dateFnsDe
+            break
+        case "en":
+            dateFnsLocale = dateFnsEn
+            break
+        case "ar":
+            dateFnsLocale = dateFnsAr
+            break
+    }
+
     setDefaultOptions({
-        locale: getSelectedLanguage().value === "ar" ? dateFnsAr : dateFnsEn,
+        locale: dateFnsLocale,
     })
 }

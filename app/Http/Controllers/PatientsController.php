@@ -4,15 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PatientRequest;
 use App\Http\Requests\PatientSearchRequest;
+use App\Http\Requests\PatientVisitSearchRequest;
 use App\Http\Resources\BaseCollection;
 use App\Http\Resources\PatientApiResource;
 use App\Http\Resources\PatientResource;
+use App\Http\Resources\VisitResource;
 use App\Models\DeletedPatient;
 use App\Models\Patient;
 use App\Models\Payment;
 use App\Services\PatientService;
 use App\Services\Search\PatientApiListSearch;
 use App\Services\Search\PatientSearch;
+use App\Services\Search\VisitSearch;
 use DB;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -26,11 +29,6 @@ class PatientsController extends Controller
         $patientSearch = new PatientSearch($request);
 
         return response()->json(BaseCollection::make($patientSearch->getEntries(), PatientResource::class));
-    }
-
-    public function dropdownData(Request $request): JsonResponse
-    {
-        return response()->json(Patient::all()->pluck('name', 'id'));
     }
 
     public function apiList(PatientSearchRequest $request): JsonResponse
@@ -127,16 +125,9 @@ class PatientsController extends Controller
         return response()->json(['message' => __('app.success')]);
     }
 
-    /**
-     * restore the specified resource.
-     *
-     * @psalm-param DeletedPatient $patient
-     *
-     * @psalm-return  JsonResponse
-     */
     public function restore(DeletedPatient $patient): JsonResponse
     {
-        try {
+        DB::transaction(function () use ($patient) {
             if ($patient->visits()->count()) {
                 $patient->visits()->restore();
             }
@@ -145,9 +136,15 @@ class PatientsController extends Controller
             }
             Patient::insert($patient->withoutRelations()->toArray());
             $patient->delete();
-        } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage()], $exception->getCode());
-        }
+        });
+
         return response()->json(['message' => __('app.success')]);
+    }
+
+    public function visits(PatientVisitSearchRequest $request, ?Patient $patient): JsonResponse
+    {
+        $visitSearch = new VisitSearch($request->merge(['patient_id' => $patient?->id]));
+
+        return response()->json(BaseCollection::make($visitSearch->getEntries(), VisitResource::class));
     }
 }

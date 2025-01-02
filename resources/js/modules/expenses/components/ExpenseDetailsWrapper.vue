@@ -39,7 +39,7 @@ import { useI18n } from "vue-i18n"
 import { api } from "@/logic/api"
 import { getRootRoutePath } from "@/logic/detailPage"
 import { useExpenseDetailsStore } from "@/modules/expenses/detailStore"
-import { useToastStore } from "@/modules/account/toastStore"
+import { useToastStore } from "@/modules/global/toastStore"
 
 const isDeleting = ref(false)
 const isSaving = ref(false)
@@ -74,7 +74,6 @@ const save = () => {
     expenseDetailsStore.errors = {}
     isSaving.value = true
     let url = `/expenses/create`
-    console.log(expenseDetailsStore.isNewEntry)
     if (!expenseDetailsStore.isNewEntry) {
         url = `/expenses/${expenseDetailsStore.entryId}`
     }
@@ -125,7 +124,6 @@ const deleteService = () => {
 }
 
 const handleAction = async (action: string) => {
-    console.log(action)
     switch (action) {
         case "delete": {
             isServiceDeleteModalOpened.value = true

@@ -4,148 +4,39 @@ import { getPaymentsRoutes } from "@/modules/payments/routes.js"
 import { getServicesRoutes } from "@/modules/services/routes.js"
 import { getExpensesRoutes } from "@/modules/expenses/routes.js"
 import { getDebitsRoutes } from "@/modules/debits/routes.js"
+import { getAuthRoutes } from "@/modules/auth/routes.js"
 
-const redirectIfNotAuth = (to, from, next) => {
-    if (localStorage.getItem("user")) next("/")
-    else next()
+export const redirectIfNotAuth = (to, from, next) => {
+    const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
+
+    if (user) {
+        next("/")
+    } else {
+        next()
+    }
 }
 
 export const checkAuth = (to, from, next) => {
     const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
     if (user) {
-        if (user.admin) next()
-        else next("/unauthorized")
-    } else next("/login")
+        if (user.admin) {
+            next()
+        } else {
+            next("/unauthorized")
+        }
+    } else {
+        next("/login")
+    }
 }
-const checkStudent = (to, from, next) => {
-    const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
-    if (user) {
-        if (!user.admin) next()
-        else next("/unauthorized")
-    } else next("/login")
-}
-const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
+
 const routes = [
-    { path: "/", redirect: "/patients" },
-    {
-        path: "/login",
-        name: "login",
-        beforeEnter: redirectIfNotAuth,
-        component: () => import("./modules/auth/views/login.vue"),
-        meta: {
-            createTitle: () => "Login",
-        },
-    },
-    {
-        path: "/register",
-        name: "register",
-        beforeEnter: redirectIfNotAuth,
-        component: () => import("./modules/auth/views/register.vue"),
-        meta: {
-            createTitle: () => "Register",
-        },
-    },
+    { path: "/", name: "home", redirect: "/patients" },
+
+    ...getAuthRoutes(),
     ...getPatientsRoutes(),
-
-    {
-        path: "/deleted-patients",
-        name: "deleted-patients-index",
-        beforeEnter: checkAuth,
-        component: () => import("./modules/deleted-patients/index.vue"),
-        meta: {
-            resource: "patients",
-            queryParams: { deleted: 1 },
-            createTitle: () => "المرضى المحذوفين",
-        },
-        children: [
-            {
-                path: ":id/restore",
-                name: "deleted-patients-restore",
-                component: () => import("./modules/deleted-patients/restore.vue"),
-                meta: {
-                    resource: "patients",
-                    createTitle: () => "استعادة مريض",
-                },
-            },
-        ],
-    },
-
-    {
-        path: "/visits",
-        name: "visits-index",
-        beforeEnter: checkAuth,
-        component: () => import("./modules/visits/index.vue"),
-        meta: {
-            resource: "visits",
-            createTitle: () => "الزيارات",
-        },
-        children: [
-            {
-                path: ":id/delete",
-                name: "visits-delete",
-                component: () => import("./modules/visits/delete.vue"),
-                meta: {
-                    resource: "visits",
-                    createTitle: () => "حذف الزيارة",
-                },
-            },
-            {
-                path: "create",
-                name: "visits-create",
-                component: () => import("./modules/visits/create.vue"),
-                meta: {
-                    resource: "visits",
-                    createTitle: () => "إنشاء زيارة",
-                },
-            },
-            {
-                path: ":id/edit",
-                name: "visits-edit",
-                component: () => import("./modules/visits/edit.vue"),
-                meta: {
-                    resource: "visits",
-                    createTitle: () => "تعديل زيارة",
-                },
-            },
-        ],
-    },
-
     ...getExpensesRoutes(),
     ...getServicesRoutes(),
     ...getPaymentsRoutes(),
-    {
-        path: "/patients-files",
-        name: "patients-files-index",
-        beforeEnter: checkAuth,
-        component: () => import("./modules/patients-files/index.vue"),
-        meta: {
-            resource: "patients-files",
-            createTitle: () => "الإضبارات",
-        },
-        children: [
-            {
-                path: ":id/show",
-                name: "patients-files-show",
-                component: () => import("./modules/patients-files/show.vue"),
-                meta: {
-                    resource: "patients-files",
-                    createTitle: () => "إضبارة مريض",
-                },
-                children: [
-                    {
-                        path: "delete",
-                        name: "patients-files-delete",
-                        component: () => import("./modules/patients-files/delete.vue"),
-                        meta: {
-                            resource: "patients-files",
-                            createTitle: () => "حذف إضبارة مريض",
-                        },
-                    },
-                ],
-            },
-        ],
-    },
-
     {
         path: "/statistics",
         name: "statistics",
@@ -200,14 +91,15 @@ const routes = [
         path: "/unauthorized",
         component: () => import("./modules/403.vue"),
         meta: {
-            createTitle: () => "Login",
+            createTitle: () => "403",
         },
     },
+    { path: "/:pathMatch(.*)*", redirect: "/404" },
     {
         path: "/404",
         component: () => import("./modules/404.vue"),
         meta: {
-            createTitle: () => "Login",
+            createTitle: () => "404",
         },
     },
 ]

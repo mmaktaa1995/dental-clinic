@@ -3,15 +3,15 @@
         <div class="container flex flex-col md:flex-row items-center justify-center px-5 text-gray-700">
             <div class="max-w-md">
                 <div class="text-5xl font-dark font-bold">404</div>
-                <p class="text-2xl md:text-3xl font-light leading-normal">{{ $t("errors.pageNotFound", "Page Not Found") }}</p>
-                <p class="mb-8">{{ $t("errors.findOtherThings", "Find other things") }}</p>
+                <p class="text-2xl md:text-3xl font-light leading-normal">{{ $t("errors.pageNotFound") }}</p>
+                <p class="mb-8">{{ $t("errors.findOtherThings") }}</p>
 
-                <router-link tag="button" :to="{ name: 'home' }" class="px-4 inline py-2 text-sm font-medium leading-5 shadow text-white transition-colors duration-150 border border-transparent rounded-lg focus:outline-none focus:shadow-outline-blue bg-blue-600 active:bg-blue-600 hover:bg-blue-700">
+                <router-link :to="{ name: 'home' }" class="px-4 inline py-2 text-sm font-medium leading-5 shadow text-white transition-colors duration-150 border border-transparent rounded-lg focus:outline-none focus:shadow-outline-blue bg-sky-600 active:bg-sky-600 hover:bg-sky-700">
                     {{ $t("errors.backToHomepage", "Back to Homepage") }}
                 </router-link>
             </div>
             <div class="max-w-lg">
-                <img src="" alt="" />
+                <img src="/images/long-logo.png" alt="Logo" />
             </div>
         </div>
     </div>

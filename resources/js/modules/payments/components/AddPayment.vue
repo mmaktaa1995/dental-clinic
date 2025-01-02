@@ -3,7 +3,7 @@
 
     <CDialog v-model="isAddPaymentOpen" type="warning">
         <template #header>
-            {{ $t("cDetailPage.unsavedChangesWarnings.title") }}
+            {{ $t(title) }}
         </template>
         <template #body>
             <div class="min-h-[40vh]">
@@ -31,23 +31,39 @@
 import { PatientEntry } from "@/modules/patients/detailStore"
 import { api } from "@/logic/api"
 import { PaymentEntry } from "@/modules/payments/store"
-import { ref, watch } from "vue"
+import { computed, ref, watch } from "vue"
 import AsyncButton from "@/components/AsyncButton.vue"
 import { usePaymentDetailsStore } from "@/modules/payments/detailStore"
 import { format } from "date-fns"
 
 const isAddPaymentOpen = defineModel<boolean>({ required: true })
 
-const props = defineProps<{
-    patient?: PatientEntry
-    payment?: PaymentEntry
-    isEdit?: boolean
-    reload?: () => void
-}>()
+const props = withDefaults(
+    defineProps<{
+        isEdit?: boolean
+        patient?: PatientEntry
+        payment?: PaymentEntry
+        reload?: () => void
+    }>(),
+    {
+        patient: undefined,
+        payment: undefined,
+        reload: undefined,
+    },
+)
 
 const paymentDetailsStore = usePaymentDetailsStore()
 
 const isCreating = ref(false)
+const title = computed(() => {
+    if (props.isEdit) {
+        return "payments.editPayment"
+    }
+    if (props.payment && !props.isEdit) {
+        return "payments.addDebtPayment"
+    }
+    return "payments.addPayment"
+})
 
 const fetchPatientsData = async (page: number, searchQuery: string) => {
     return await api.get(`/patients/list?per_page=20&page=${page}&query=${searchQuery}`)
@@ -86,7 +102,6 @@ const createPayment = async () => {
         isCreating.value = false
         if (error.errors && error.status === 422) {
             paymentDetailsStore.errors = error.errors
-            console.log(errors)
         }
     }
 }
@@ -98,7 +113,6 @@ watch(isAddPaymentOpen, () => {
         if (props.patient) {
             paymentDetailsStore.entry.patient_id = props.patient.id
         }
-        console.log(props.isEdit)
         if (!props.isEdit) {
             paymentDetailsStore.entry.date = format(new Date(), "yyyy-MM-dd")
             paymentDetailsStore.entry.amount = null
@@ -107,9 +121,8 @@ watch(isAddPaymentOpen, () => {
         } else {
             paymentDetailsStore.entry.date = props.payment?.date
             paymentDetailsStore.entry.amount = props.payment?.amount
-            paymentDetailsStore.entry.notes = props.payment?.notes
+            paymentDetailsStore.entry.notes = props.payment?.visit?.notes
             paymentDetailsStore.entry.remaining_amount = props.payment?.remaining_amount
-            console.log(paymentDetailsStore.entry)
         }
     }
 })

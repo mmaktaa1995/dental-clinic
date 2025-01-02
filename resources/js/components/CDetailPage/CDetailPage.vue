@@ -114,19 +114,8 @@ whenever(keys.escape, () => {
 })
 </script>
 
-<style lang="scss" scoped>
-$topMargin: 4px;
-$color-grey1: #fbfbfe;
-$color-grey2: #e5e8eb;
-$color-grey3: #a1a9b0;
-$color-grey4: #7a7e8a;
-$color-orange: #fea400;
-$color-pink: #f95779;
-$color-red: #b71c1c;
-$color-tu1: #4ecede;
-$color-tu2: #18b7ce;
-
-:global(.c-detailPage) {
+<style lang="scss">
+.c-detailPage {
     position: fixed !important;
     min-height: calc(100vh - #{64px}) !important;
     border-top-right-radius: 10px;
@@ -134,6 +123,10 @@ $color-tu2: #18b7ce;
     min-width: 660px;
     max-width: 1200px;
     width: 80vw !important;
+    box-shadow:
+        0 8px 10px -5px var(--v-shadow-key-umbra-opacity, rgba(0, 0, 0, 0.2)),
+        0 16px 24px 2px var(--v-shadow-key-penumbra-opacity, rgba(0, 0, 0, 0.14)),
+        0 6px 30px 5px var(--v-shadow-key-ambient-opacity, rgba(0, 0, 0, 0.12));
 }
 
 .c-detailPage__wrapper {
@@ -155,16 +148,20 @@ $color-tu2: #18b7ce;
     display: flex;
     flex-direction: column;
     gap: 1px;
+    padding-right: 1px;
+    background: #e5e8eb;
+}
+
+[dir="rtl"] .c-detailPage__sidebar {
     padding-left: 1px;
-    background: $color-grey2;
 }
 
 .c-detailPage__sidebarHeader {
-    background: $color-grey1;
+    background: #fbfbfe;
 }
 
 .c-detailPage__sidebarContent {
-    background: $color-grey1;
+    background: #fbfbfe;
     flex: 1;
 }
 
@@ -174,4 +171,16 @@ $color-tu2: #18b7ce;
     padding-bottom: 40px;
     flex: 1;
 }
+
+//.drawer-slide-in-enter-active,
+//.drawer-slide-in-leave-active {
+//    transform: translateX(0) !important;
+//}
+//
+//.drawer-slide-in-enter-from,
+//.drawer-slide-in-leave-to {
+//    .v-navigation-drawer {
+//        transform: translateX(100%) !important;
+//    }
+//}
 </style>

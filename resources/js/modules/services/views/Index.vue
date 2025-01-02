@@ -26,7 +26,7 @@ import DateTime from "@/components/Table/components/DateTime.vue"
 import { DataTableColumn } from "@/components/Table/DataTable.vue"
 import { useServicesStore } from "@/modules/services/store"
 import CDetailPageOutlet from "@/components/CDetailPage/CDetailPageOutlet.vue"
-import { useSettingsStore } from "@/modules/account/settingsStore"
+import { useSettingsStore } from "@/modules/global/settingsStore"
 
 const servicesStore = useServicesStore()
 const settingsStore = useSettingsStore()
@@ -57,7 +57,6 @@ const columns: DataTableColumn[] = [
 ]
 
 const rowClicked = (row: any) => {
-    console.log(row)
     router.push({ name: "services/general", params: { id: row.id } })
 }
 

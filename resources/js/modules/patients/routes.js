@@ -57,25 +57,16 @@ export const getPatientsRoutes = () => {
                                 module: "patients",
                             },
                         },
+                        {
+                            path: `:id/visits`,
+                            name: `patients/visits`,
+                            component: () => import("@/modules/patients/views/Visits.vue"),
+                            meta: {
+                                isDetailPage: true,
+                                module: "patients",
+                            },
+                        },
                     ],
-                },
-                {
-                    path: ":id/visits",
-                    name: "patients-visits",
-                    component: () => import("./views/visits.vue"),
-                    meta: {
-                        resource: "patients/:id/visits",
-                        createTitle: () => "زيارات المريض",
-                    },
-                },
-                {
-                    path: ":id/files",
-                    name: "patients-files",
-                    component: () => import("./views/Files.vue"),
-                    meta: {
-                        resource: "patients",
-                        createTitle: () => "ملفات المريض",
-                    },
                 },
             ],
         },

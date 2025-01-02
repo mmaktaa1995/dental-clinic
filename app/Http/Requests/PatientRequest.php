@@ -26,14 +26,17 @@ class PatientRequest extends FormRequest
         return [
             'file_number' => [$this->segment(4) ? 'sometimes' : 'required', 'unique:patients,file_number,' . $this->segment(4)],
             'name' => ['required', 'string', 'max:255'],
+            'age' => ['nullable', 'numeric', 'gt:0'],
+            'gender' => ['nullable', 'numeric', 'in:1,2'],
+            'phone' => ['nullable', 'numeric'],
+            'mobile' => ['nullable', 'numeric'],
+            // Payment details
             'date' => ['nullable', 'date'],
             'notes' => ['nullable', 'string'],
             'amount' => ['nullable', 'numeric'],
             'total_amount' => ['nullable', 'numeric'],
-            'age' => ['nullable', 'numeric', 'gt:0'],
-            'gender' => ['required', 'numeric', 'in:1,2'],
-            'phone' => ['nullable', 'numeric'],
-            'mobile' => ['nullable', 'numeric'],
+
+            // Patient records
             'symptoms' => ['nullable', 'array'],
             'symptoms.*.record_date' => ['required', 'date'],
             'symptoms.*.symptoms' => ['required', 'string'],

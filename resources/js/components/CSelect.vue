@@ -1,27 +1,28 @@
 <template>
-    <div v-bind="attrs" class="relative w-full">
+    <div class="relative w-full">
         <label
             v-if="label"
             :for="`select-${name}`"
-            class="absolute z-10 right-3 ltr:left-3 text-sm transition-all duration-150 text-gray-600 pointer-events-none"
+            class="absolute z-10 right-3 ltr:left-3 ltr:right-auto text-sm transition-all duration-150 text-gray-600 pointer-events-none"
             :class="{
-                'top-[-10px] text-xs bg-white px-1.5 font-medium': isFocused || modelValue,
-                'top-[12px] ': !isFocused && !modelValue,
+                'top-[-10px] text-xs bg-white px-1.5 font-medium': isFocused || modelValue || hint,
+                'top-[12px] ': !isFocused && !modelValue && !hint,
             }"
         >
             {{ label }}
         </label>
         <select
+            v-bind="attrs"
             :id="`select-${name}`"
             v-model="modelValue"
             :name="name"
             :disabled="disabled"
-            class="c-select appearance-none py-3 px-4 pe-8 block w-full border border-gray-200 outline-none rounded-md text-sm disabled:opacity-50 disabled:pointer-events-none text-right ltr:text-left focus:border-teal-500 focus:ring-teal-500 bg-transparent disabled:cursor-not-allowed"
+            class="c-select appearance-none bg-white py-3 px-4 pe-8 block w-full border border-gray-200 outline-none rounded-md text-sm disabled:opacity-50 disabled:pointer-events-none text-right ltr:text-left focus:border-teal-500 focus:ring-teal-500 bg-transparent disabled:cursor-not-allowed"
             @focus="(isFocused = true)"
             @blur="(isFocused = false)"
             @change="$emit('change')"
         >
-            <option v-if="hint" selected value="">{{ hint }}</option>
+            <option v-if="hint" selected>{{ hint }}</option>
             <option v-for="option in options" :key="option.id" :value="option.id">
                 {{ option.label }}
             </option>

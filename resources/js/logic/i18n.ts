@@ -4,30 +4,31 @@ import { ref } from "vue"
 
 export const availableLanguages = {
     ar: "Arabic",
-    en: "English (beta)",
+    en: "English",
+    de: "German",
 }
+
 type KLI18n = ReturnType<typeof useI18n<any, keyof typeof availableLanguages>>
 let i18n: KLI18n | null = null
 
-const defaultLanguage = "ar"
+const defaultLanguage = localStorage.getItem("language") || "ar"
 const current = ref("ar")
-const selectedLanguage = useLocalStorage<keyof typeof availableLanguages>("selectedLanguage", defaultLanguage, {
+const selectedLanguage = useLocalStorage<keyof typeof availableLanguages>("language", defaultLanguage, {
     listenToStorageChanges: false,
 })
 
-export async function setSelectedLanguage(language: keyof typeof availableLanguages): Promise<void> {
+export async function setSelectedLanguage(language: keyof typeof availableLanguages = defaultLanguage): Promise<void> {
     selectedLanguage.value = language
-    // const accountStore = useAccountStore()
-    // if (accountStore.isLoggedIn) {
-    //     await api.post("/account/set-language", {
-    //         language,
-    //     })
-    //     window.location.reload()
-    // }
+    window.location.reload()
 }
 
 export function getSelectedLanguage() {
     return selectedLanguage
+}
+
+export function setHtmlLangAttributes(language: keyof typeof availableLanguages = defaultLanguage) {
+    document.querySelector("html")?.setAttribute("lang", language)
+    document.querySelector("html")?.setAttribute("dir", language === "ar" ? "rtl" : "ltr")
 }
 
 export function setI18n(newI18n: KLI18n) {

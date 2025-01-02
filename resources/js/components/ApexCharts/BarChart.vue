@@ -1,15 +1,20 @@
 <template>
     <div id="chart" class="relative" :style="{ height: height + 'px' }">
-        <apexchart v-if="loaded" type="bar" :options="chartOptions" :series="[{ name: label, data: chartData }]"></apexchart>
+        <apexchart v-if="loaded" type="bar" :options="chartOptions" :series="single ? [{ name: label, data: chartData }] : series"></apexchart>
     </div>
 </template>
 
 <script>
+import VueApexCharts from "vue3-apexcharts"
+
 export default {
+    components: {
+        apexchart: VueApexCharts,
+    },
     /**
      * The component's props.
      */
-    props: ["label", "data", "labels", "series", "color", "height", "formatTooltipTitle", "suggestedMax"],
+    props: ["label", "data", "labels", "series", "color", "height", "formatTooltipTitle", "suggestedMax", "single"],
     data() {
         return {
             loaded: false,
@@ -125,7 +130,6 @@ export default {
         }
         this.colors = Object.values(colors).map((_) => _.backgroundColor)
         this.chartOptions.colors = [color.backgroundColor, ...this.colors]
-        console.log(this.colors)
         setTimeout(() => (this.loaded = true))
     },
     methods: {

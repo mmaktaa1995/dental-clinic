@@ -45,6 +45,7 @@
 import { ref, onMounted } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import axios from "axios"
+import { api } from "@/logic/api"
 
 const route = useRoute()
 const router = useRouter()
@@ -69,8 +70,7 @@ const back = () => {
 
 const deleteItem = () => {
     submitted.value = true
-    axios
-        .delete(`/api/appointments/${id.value}`)
+    api.delete(`/appointments/${id.value}`)
         .then(({ data }) => {
             bus.$emit("flash-message", { text: data.message, type: "success" })
             bus.$emit("appointment-changed", id.value)

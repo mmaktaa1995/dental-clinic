@@ -16,6 +16,7 @@
 import { ref, onMounted } from "vue"
 import axios from "axios"
 import { useRouter } from "vue-router"
+import { api } from "@/logic/api"
 
 const events = ref([])
 const currentEvents = ref([])
@@ -30,7 +31,7 @@ const getData = async (monthParam, yearParam) => {
         year.value = yearParam
         month.value = monthParam
 
-        const { data } = await axios.get(`/api/appointments?year=${yearParam}&month=${monthParam}`)
+        const { data } = await api.get(`/appointments?year=${yearParam}&month=${monthParam}`)
         events.value = data.map((appointment) => ({
             id: appointment.id,
             title: appointment.patient.name,
@@ -41,7 +42,6 @@ const getData = async (monthParam, yearParam) => {
             end: appointment.end,
         }))
         loaded.value = true
-        console.log(events.value, data)
     }
 }
 
@@ -63,7 +63,6 @@ const handleEvents = (eventsData) => {
 
 onMounted(() => {
     const today = new Date()
-    console.log(today)
     getData(today.getMonth() + 1, today.getFullYear()).then()
     // window.bus.$on("appointment-changed", () => {
     // })

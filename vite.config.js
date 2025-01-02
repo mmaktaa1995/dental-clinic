@@ -34,5 +34,8 @@ export default defineConfig(({ mode }) => {
             host: "clinic.test",
             port: 3001,
         },
+        build: {
+            sourcemap: true,
+        },
     }
 })

@@ -15,7 +15,7 @@
 <script setup>
 import { useServiceDetailsStore } from "@/modules/services/detailStore"
 import { computed } from "vue"
-import { useSettingsStore } from "@/modules/account/settingsStore"
+import { useSettingsStore } from "@/modules/global/settingsStore"
 
 const serviceDetailsStore = useServiceDetailsStore()
 const settingsStore = useSettingsStore()

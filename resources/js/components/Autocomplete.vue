@@ -63,7 +63,6 @@ const loadItems = async (reset = false) => {
 
     try {
         const response = await props.fetchItems(page.value, searchQuery.value)
-        console.log(response)
         if (reset) items.value = []
         if (response.entries.length > 0) {
             items.value.push(...(response.entries as []))
@@ -99,7 +98,6 @@ const selectItem = (item: any) => {
     nextTick().then(() => {
         searchQuery.value = item.name
     })
-    console.log(item, searchQuery.value)
 }
 
 // Toggle dropdown visibility

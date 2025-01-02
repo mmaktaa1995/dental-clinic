@@ -61,6 +61,8 @@
 import { ref } from "vue"
 import axios from "axios"
 import { useRouter } from "vue-router"
+import { useAccountStore } from "@/modules/auth/accountStore"
+import { api } from "@/logic/api"
 
 // State variables
 const email = ref("")
@@ -69,13 +71,14 @@ const errors = ref({})
 
 // Router instance
 const router = useRouter()
+const accountStore = useAccountStore()
 
 // Login method
 const login = async () => {
     const data = { email: email.value, password: password.value }
 
     try {
-        const response = await axios.post("/api/login", data)
+        const response = await api.post("/login", data)
 
         // Save user and token in localStorage
         localStorage.setItem("user", JSON.stringify(response.data.data.user))

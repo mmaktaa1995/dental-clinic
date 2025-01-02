@@ -71,6 +71,7 @@ import { ref, onMounted } from "vue"
 import { format, formatISO, parseISO } from "date-fns"
 import axios from "axios"
 import { useRoute } from "vue-router"
+import { api } from "@/logic/api"
 
 const id = ref(null)
 const opened = ref(false)
@@ -97,7 +98,7 @@ const update = async () => {
     errors.value = {}
     submitted.value = true
     try {
-        const { data } = await axios.patch(`/api/appointments/${id.value}`, form.value)
+        const { data } = await api.patch(`/appointments/${id.value}`, form.value)
         // bus.$emit("flash-message", { text: data.message, type: "success" })
         // bus.$emit("appointment-changed", "true")
         back()

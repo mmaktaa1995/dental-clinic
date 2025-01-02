@@ -17,6 +17,10 @@ class HomeController extends Controller
 
     public function getUsdExchangeRate()
     {
+        if (\Cache::has('exchangeRates')){
+            return response()->json(\Cache::get('exchangeRates'));
+        }
+
         $response = \Http::get('https://sp-today.com/en');
         if (!$response->successful()) {
             return response()->json(['error' => 'Failed to fetch the page content.'], 500);
@@ -38,6 +42,10 @@ class HomeController extends Controller
 
             $exchangeRates[\Str::slug($currencyName->text(), '_')] = $node->filter('div.line-data span.value')->first()->text();
             return $node;
+        });
+
+        \Cache::remember('exchangeRates', now()->addDay(), function () use ($exchangeRates) {
+            return $exchangeRates->toArray();
         });
 
         return response()->json($exchangeRates);

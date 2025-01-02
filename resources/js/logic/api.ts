@@ -2,7 +2,7 @@ import { Router } from "vue-router"
 
 import { deepUnref } from "@/logic/deepUnref"
 import { useAccountStore } from "@/modules/auth/accountStore"
-import { useToastStore } from "@/modules/account/toastStore"
+import { useToastStore } from "@/modules/global/toastStore"
 import { getI18n } from "@/logic/i18n"
 
 export const REQUEST_ABORTED = "aborted"

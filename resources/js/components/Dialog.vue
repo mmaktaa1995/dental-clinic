@@ -3,8 +3,8 @@
         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <div :class="`fixed inset-0 bg-gray-500 transition-opacity duration-200 ${opened ? 'bg-opacity-75' : 'bg-opacity-0'}`" aria-hidden="true" @click="back"></div>
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-            <div :class="`inline-block w-full align-bottom bg-white rounded-lg text-right overflow-hidden transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full duration-200 shadow  ${opened ? 'scale-100' : 'scale-0'}`">
-                <h3 id="modal-title" class="text-lg bg-gray-100 px-6 py-4 leading-6 font-medium text-gray-700">
+            <div :class="`inline-block w-full align-bottom bg-white rounded-lg text-right ltr:text-left overflow-hidden transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full duration-200 shadow  ${opened ? 'scale-100' : 'scale-0'}`">
+                <h3 id="modal-title" class="text-lg bg-gray-100 px-6 py-4 leading-6 font-medium text-gray-700 border-b">
                     <slot name="header"></slot>
                 </h3>
                 <div class="bg-white px-6 pt-6 pb-6 sm:pb-6 shadow-sm">
@@ -17,7 +17,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row gap-2">
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row gap-2 justify-start ltr:justify-end border-t">
                     <template v-if="$slots['actions']">
                         <slot name="actions"></slot>
                     </template>

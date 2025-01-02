@@ -50,7 +50,6 @@ const columns: DataTableColumn[] = [
 ]
 
 const rowClicked = (row: any) => {
-    console.log(row)
     router.push({ name: "expenses/general", params: { id: row.id } })
 }
 

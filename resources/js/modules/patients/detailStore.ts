@@ -1,7 +1,7 @@
 import { defineDetailPageStore, DetailPageStateTree } from "@/store/factories/detailPageStore"
 import { getI18n } from "@/logic/i18n"
 import { api } from "@/logic/api"
-import { useSettingsStore } from "@/modules/account/settingsStore"
+import { useSettingsStore } from "@/modules/global/settingsStore"
 
 type LoadDataOptions = {
     silently?: boolean
@@ -63,6 +63,7 @@ export const usePatientDetailsStore = defineDetailPageStore("patient-details", {
                     buildSubPath() {
                         return `/${this.entryId}/files`
                     },
+                    visible: (store) => !store.isNewEntry,
                 },
                 payments: {
                     title: t("payments.title"),
@@ -70,6 +71,7 @@ export const usePatientDetailsStore = defineDetailPageStore("patient-details", {
                     buildSubPath() {
                         return `/${this.entryId}/payments`
                     },
+                    visible: (store) => !store.isNewEntry,
                 },
                 debits: {
                     title: t("payments.debits"),
@@ -77,6 +79,15 @@ export const usePatientDetailsStore = defineDetailPageStore("patient-details", {
                     buildSubPath() {
                         return `/${this.entryId}/debits`
                     },
+                    visible: (store) => !store.isNewEntry,
+                },
+                visits: {
+                    title: t("patients.visits"),
+                    isDirty: false,
+                    buildSubPath() {
+                        return `/${this.entryId}/visits`
+                    },
+                    visible: (store) => !store.isNewEntry,
                 },
             },
             watchers: {},

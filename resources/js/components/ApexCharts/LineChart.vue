@@ -107,6 +107,7 @@ export default {
             blue: "#36A2EB",
             pink: "#e36dde",
             yellow: "#FFCD56",
+            cyan: "#00A8E1",
             default: "#D6BDFA",
         }
         let color = colors[this.color]

@@ -22,7 +22,7 @@ export const usePatientPaymentsStore = defineEntryListStore("patient-payments-st
                 per_page: 10,
             },
             order: {
-                by: "created_at",
+                by: "date",
                 desc: true,
             },
             query: "",

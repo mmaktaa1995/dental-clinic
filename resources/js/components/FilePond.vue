@@ -36,7 +36,6 @@
 import { ref, computed } from "vue"
 import vueFilePond from "vue-filepond"
 import "filepond/dist/filepond.min.css"
-import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css"
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type"
 import FilePondPluginFilePoster from "filepond-plugin-file-poster"
 import { FilePondErrorDescription, FilePondFile } from "filepond"
@@ -79,7 +78,7 @@ const defaultHeaders = api.getDefaultHeaders()
 delete defaultHeaders["Content-Type"]
 const serverConfig = computed(() => ({
     process: {
-        url: `/api/upload`,
+        url: `/api/v1/upload`,
         headers: (file: File) => {
             if (file.size <= 0 && pond.value) {
                 pond.value.removeFile(file)
@@ -94,12 +93,12 @@ const serverConfig = computed(() => ({
         withCredentials: true,
     },
     revert: {
-        url: `/api/upload/${props.folder}/${props.type}`,
+        url: `/api/v1/upload/${props.folder}/${props.type}`,
         headers: defaultHeaders,
         withCredentials: true,
     },
     remove: {
-        url: `/api/upload/${props.folder}/${props.type}`,
+        url: `/api/v1/upload/${props.folder}/${props.type}`,
         headers: defaultHeaders,
         withCredentials: true,
     },

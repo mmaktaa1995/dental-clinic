@@ -1,38 +1,40 @@
 <template>
-    <CDetailPage :store="patientDetailsStore" :load-data-immediately="false">
-        <template #sidebarHeader>
-            <div v-if="patientDetailsStore.entry.id" class="c-detailsWrapper__sidebarHeader flex items-center">
-                <img src="/images/user.png" class="h-9 w-9 ml-3 ltr:mr-3 ltr:ml-0" :alt="patientDetailsStore.entry.name" />
-                <div class="d-flex flex-column">
-                    <div class="text-base font-semibold text-gray-700">
-                        {{ patientDetailsStore.entry.name }}
+    <div>
+        <CDetailPage :store="patientDetailsStore" :load-data-immediately="false">
+            <template #sidebarHeader>
+                <div v-if="patientDetailsStore.entry.id" class="c-detailsWrapper__sidebarHeader flex items-center">
+                    <img src="/images/user.png" class="h-9 w-9 ml-3 ltr:mr-3 ltr:ml-0" :alt="patientDetailsStore.entry.name" />
+                    <div class="d-flex flex-column">
+                        <div class="text-base font-semibold text-gray-700">
+                            {{ patientDetailsStore.entry.name }}
+                        </div>
+                        <div v-if="!patientDetailsStore.isNewEntry" class="text-base font-normal text-cyan-700">#{{ patientDetailsStore.entry.file_number }}</div>
                     </div>
-                    <div v-if="!patientDetailsStore.isNewEntry" class="text-base font-normal text-cyan-700">#{{ patientDetailsStore.entry.file_number }}</div>
                 </div>
-            </div>
-        </template>
-        <template #actionButtons>
-            <CDropdown v-if="!patientDetailsStore.isNewEntry" type="accent" :loading="isDeleting" :items="actions" :button-label="$t('global.actions.label')" @select="handleAction"></CDropdown>
-            <AsyncButton v-if="patientDetailsStore.isNewEntry" :disabled="!patientDetailsStore.watchers?.entry?.isChanged" :loading="isSaving" type="primary" @click="save">
-                {{ $t("global.actions.create") }}
-            </AsyncButton>
-            <AsyncButton v-else :loading="isSaving" :disabled="!patientDetailsStore.watchers?.entry?.isChanged" type="primary" @click="save">
-                {{ $t("global.actions.saveChanges") }}
-            </AsyncButton>
-        </template>
-    </CDetailPage>
-    <CConfirmModal
-        v-model="isPatientDeleteModalOpened"
-        v-model:loading="isDeleting"
-        :confirm-title="$t('global.deleteEntryTitle', { type: $t('patients.entryName') })"
-        :confirm-body-message="
-            $t('global.deleteEntryBodyMessage', {
-                type: $t('patients.entryName'),
-            })
-        "
-        @confirm-callback="deletePatient"
-    >
-    </CConfirmModal>
+            </template>
+            <template #actionButtons>
+                <CDropdown v-if="!patientDetailsStore.isNewEntry" type="accent" :loading="isDeleting" :items="actions" :button-label="$t('global.actions.label')" @select="handleAction"></CDropdown>
+                <AsyncButton v-if="patientDetailsStore.isNewEntry" :disabled="!patientDetailsStore.watchers?.entry?.isChanged" :loading="isSaving" type="primary" @click="save">
+                    {{ $t("global.actions.create") }}
+                </AsyncButton>
+                <AsyncButton v-else :loading="isSaving" :disabled="!patientDetailsStore.watchers?.entry?.isChanged" type="primary" @click="save">
+                    {{ $t("global.actions.saveChanges") }}
+                </AsyncButton>
+            </template>
+        </CDetailPage>
+        <CConfirmModal
+            v-model="isPatientDeleteModalOpened"
+            v-model:loading="isDeleting"
+            :confirm-title="$t('global.deleteEntryTitle', { type: $t('patients.entryName') })"
+            :confirm-body-message="
+                $t('global.deleteEntryBodyMessage', {
+                    type: $t('patients.entryName'),
+                })
+            "
+            @confirm-callback="deletePatient"
+        >
+        </CConfirmModal>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -45,8 +47,8 @@ import { api } from "@/logic/api"
 import { getRootRoutePath } from "@/logic/detailPage"
 import { usePatientDiagnosisStore } from "@/modules/patients/patientDiagnosisStore"
 import { usePatientSymptomsStore } from "@/modules/patients/patientSymptomsStore"
-import { useToastStore } from "@/modules/account/toastStore"
-import { useSettingsStore } from "@/modules/account/settingsStore"
+import { useToastStore } from "@/modules/global/toastStore"
+import { useSettingsStore } from "@/modules/global/settingsStore"
 
 const isDeleting = ref(false)
 const isSaving = ref(false)
@@ -90,7 +92,6 @@ const save = () => {
     }
     api.send(url, patientDetailsStore.isNewEntry ? "POST" : "PATCH", {}, patientDetailsStore.entry)
         .then((response: any) => {
-            console.log(response)
             if (!isNew) {
                 patientDetailsStore.entry = response.patient
             }

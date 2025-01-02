@@ -1,8 +1,8 @@
 <template>
     <router-view v-slot="{ Component }">
-        <Transition name="drawer-slide-in">
+        <transition name="fade">
             <component :is="Component" v-if="route.meta.isDetailPage" :reload-list="reloadList" />
-        </Transition>
+        </transition>
     </router-view>
 </template>
 <script setup lang="ts">
@@ -13,17 +13,3 @@ defineProps<{
 }>()
 const route = useRoute()
 </script>
-
-<style scoped>
-.drawer-slide-in-enter-active,
-.drawer-slide-in-leave-active {
-    transform: translateX(0) !important;
-}
-
-.drawer-slide-in-enter-from,
-.drawer-slide-in-leave-to {
-    .v-navigation-drawer {
-        transform: translateX(100%) !important;
-    }
-}
-</style>

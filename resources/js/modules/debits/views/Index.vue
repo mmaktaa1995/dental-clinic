@@ -5,10 +5,10 @@
                 <template #header>
                     <div>
                         <div class="font-semibold text-lg">{{ $t("payments.debits") }}</div>
-                        <div class="mt-2">
-                            <label class="block text-sm font-medium text-gray-700 text-right">{{ $t("payments.totalRemainingAmount") }}</label>
-                            <label class="block text-2xl font-medium text-rose-600 text-right">{{ formattedValue(debitsStore.totalRemainingPayments) }}</label>
-                        </div>
+                        <!--                        <div class="mt-2">-->
+                        <!--                            <label class="block text-sm font-medium text-gray-700 text-right ltr:text-left">{{ $t("payments.totalRemainingAmount") }}</label>-->
+                        <!--                            <label class="block text-2xl font-medium text-rose-600 text-right ltr:text-left">{{ formattedValue(debitsStore.totalRemainingPayments) }}</label>-->
+                        <!--                        </div>-->
                     </div>
                 </template>
             </PaymentsTable>

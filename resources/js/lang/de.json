@@ -1,0 +1,204 @@
+{
+    "auth": {
+        "admin": "Administrator",
+        "email": "E-Mail-Adresse",
+        "emailPlaceholder": "E-Mail-Adresse",
+        "name": "Name",
+        "namePlaceholder": "Name",
+        "password": "Passwort",
+        "passwordPlaceholder": "Passwort",
+        "registerNewAccount": "Neues Konto registrieren",
+        "signUp": "Registrieren",
+        "student": "Student",
+        "username": "Benutzername",
+        "usernamePlaceholder": "Benutzername"
+    },
+    "cDetailPage": {
+        "backToOverview": "Zurück zur Übersicht",
+        "unsavedChangesWarnings": {
+            "discardChanges": "Änderungen verwerfen",
+            "discardUnsavedChanges": "Möchten Sie ungespeicherte Änderungen verwerfen?",
+            "title": "Ungespeicherte Änderungen"
+        }
+    },
+    "debits": {
+        "actionTaken": "Ergriffene Maßnahme",
+        "amount": "Betrag",
+        "date": "Datum",
+        "errorMessage": "Es scheint ein Fehler aufgetreten zu sein. Bitte überprüfen Sie die Anwendungsprotokolle.",
+        "name": "Name",
+        "suggestRecentDate": "Erwägen Sie die Verwendung eines aktuelleren 'Ab-Datum'. Die CloudWatch-API kann lange Antwortzeiten haben, wenn weit in die Vergangenheit gesucht wird. Diese Anfragen können zu Zeitüberschreitungen oder unerwarteten Fehlern führen."
+    },
+    "error": {
+        "backToHomepage": "Zurück zur Startseite",
+        "errorCode403": 403,
+        "notAuthorizedToViewPage": "Sie sind nicht berechtigt, diese Seite zu sehen"
+    },
+    "errors": {
+        "backToHomepage": "Zurück zur Startseite",
+        "findOtherThings": "Andere Inhalte suchen",
+        "pageNotFound": "Seite nicht gefunden"
+    },
+    "expenses": {
+        "amount": "Betrag",
+        "date": "Datum",
+        "description": "Beschreibung",
+        "entryName": "Dienstleistung",
+        "expenseCreatedSuccessfully": "Ausgabe erfolgreich erstellt!",
+        "expenseDeletedSuccessfully": "Ausgabe erfolgreich gelöscht!",
+        "expenseInfo": "Ausgabeninformation",
+        "expenseUpdatedSuccessfully": "Ausgabe erfolgreich aktualisiert!",
+        "name": "Name",
+        "title": "Ausgaben"
+    },
+    "filePond": {
+        "cancelLabel": "Klicken Sie hier, um abzubrechen",
+        "corruptFileDetected": "Bitte stellen Sie sicher, dass die Datei nicht aus einem Zip-Archiv stammt und nicht beschädigt ist.",
+        "deleteFile": "Fehler beim Löschen aufgetreten",
+        "dragAndDropOr": "Ziehen und ablegen oder",
+        "file": "Datei",
+        "fileInformationUnavailable": "Dateiinformationen nicht verfügbar",
+        "fileLoadError": "Fehler beim Laden aufgetreten",
+        "fileTypeUnsupported": "Dieser Dateityp wird nicht unterstützt",
+        "idle": "Drag and drop files here...",
+        "invalidFile": "Ungültige Datei ausgewählt",
+        "loading": "Laden",
+        "retryLabel": "Klicken Sie hier, um es erneut abzuspielen",
+        "selectFile": "Datei auswählen",
+        "undoLabel": "Klicken Sie hier, um den Vorgang rückgängig zu machen",
+        "uploadCancelled": "Hochladen abgebrochen",
+        "uploadCancelledError": "Fehler beim Abbruch aufgetreten",
+        "uploadFailed": "Fehler beim Hochladen aufgetreten",
+        "waitForFileInformation": "Warten auf Dateiinformationen"
+    },
+    "global": {
+        "actions": {
+            "add": "Hinzufügen",
+            "cancel": "Abbrechen",
+            "create": "Erstellen",
+            "delete": "Löschen",
+            "label": "Aktionen",
+            "print": "Drucken",
+            "saveChanges": "Änderungen speichern"
+        },
+        "connectionError": "Es ist ein Verbindungsfehler aufgetreten. Bitte versuchen Sie es später erneut.",
+        "currencies": {
+            "SYP": "SYP",
+            "USD": "USD"
+        },
+        "date": "Datum",
+        "deleteEntryBodyMessage": "Möchten Sie dieses {type} wirklich löschen?",
+        "deleteEntryTitle": "{type} löschen",
+        "financial": "Finanzen",
+        "fromDate": "Von",
+        "genders": {
+            "female": "Weiblich",
+            "male": "Männlich"
+        },
+        "general": "Allgemein",
+        "hello": "Hallo",
+        "languages": {
+            "ar": "Arabisch",
+            "de": "Deutsch",
+            "en": "Englisch"
+        },
+        "logout": "Abmelden",
+        "noEntries": "Es wurden noch keine Einträge gemacht...",
+        "noEntriesFound": "Keine Inhalte mit den angegebenen Suchkriterien gefunden. Sie können die obenstehenden Filter anpassen, um Ergebnisse anzuzeigen.",
+        "pagination": {
+            "entriesPerPage": "Einträge pro Seite:",
+            "of": "Von",
+            "page": "Seite:"
+        },
+        "serverError": "Ein unbekannter Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.",
+        "toDate": "Bis"
+    },
+    "patients": {
+        "addRecord": "Eintrag hinzufügen",
+        "age": "Alter",
+        "clinicalHistory": "Krankengeschichte",
+        "clinicalHistoryDescription": "Alle Informationen über die Gesundheit eines Patienten",
+        "createdAt": "Erstellt am",
+        "diagnose": "Diagnose",
+        "diagnosis": "Diagnose",
+        "diagnosisDescription": "Die Erkrankung des Patienten und die erforderliche Behandlung diagnostizieren.",
+        "entryName": "Patient",
+        "fileNumber": "Aktennummer",
+        "files": "Dateien",
+        "gender": "Geschlecht",
+        "mobile": "Mobilnummer",
+        "moduleName": "Patienten",
+        "name": "Patientenname",
+        "patientContactInfo": "Kontaktinformationen",
+        "patientContactInfoDescription": "Kontaktinformationen, um den Patienten bei Bedarf zu erreichen.",
+        "patientCreatedSuccessfully": "Patient erfolgreich erstellt!",
+        "patientDeletedSuccessfully": "Patient erfolgreich gelöscht!",
+        "patientInfo": "Patienteninformationen",
+        "patientInfoDescription": "Persönliche Details des Patienten.",
+        "patientUpdatedSuccessfully": "Patient erfolgreich aktualisiert!",
+        "paymentInfo": "Zahlungsinformationen",
+        "paymentInfoDescription": "Anzahlung des Patienten hinzufügen",
+        "phone": "Telefonnummer",
+        "record_date": "Aufnahmedatum",
+        "relatedPatientFiles": "Patienten-Dokumentenmanager",
+        "relatedPatientFilesDescription": "Effiziente Verwaltung und Zugriff auf patientenbezogene Dateien.",
+        "selectGender": "Geschlecht auswählen",
+        "symptom": "Symptom",
+        "visits": "Besuche"
+    },
+    "payments": {
+        "action": "Aktion",
+        "addDebtPayment": "Zahlung auf Schuld hinzufügen",
+        "addPayment": "Zahlung hinzufügen",
+        "amount": "Betrag",
+        "date": "Datum",
+        "debits": "Schulden",
+        "deletePayment": "Zahlung löschen",
+        "deletePaymentConfirmation": "Möchten Sie diese Zahlung wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+        "deletedPayments": "Gelöschte Zahlungen",
+        "editPayment": "Zahlung bearbeiten",
+        "paymentDate": "Zahlungsdatum",
+        "remainingAmount": "Verbleibender Betrag",
+        "status": "Status",
+        "statuses": {
+            "failed": "Fehlgeschlagen",
+            "refunded": "Erstattet",
+            "success": "Erfolgreich"
+        },
+        "title": "Zahlungen",
+        "totalAmount": "Gesamtbetrag",
+        "totalRemainingAmount": "Verbleibender Gesamtbetrag"
+    },
+    "services": {
+        "entryName": "Dienstleistung",
+        "name": "Name",
+        "price": "Preis",
+        "serviceCreatedSuccessfully": "Dienstleistung erfolgreich erstellt!",
+        "serviceDeletedSuccessfully": "Dienstleistung erfolgreich gelöscht!",
+        "serviceInfo": "Dienstleistungsinformationen",
+        "serviceInfoDescription": "Beschreibung der Dienstleistungsinformationen",
+        "serviceUpdatedSuccessfully": "Dienstleistung erfolgreich aktualisiert!",
+        "title": "Dienstleistungen"
+    },
+    "sideBar": {
+        "menu": {
+            "appointments": "Termine",
+            "debits": "Schulden",
+            "expenses": "Ausgaben",
+            "patients": "Patienten",
+            "patientsFiles": "Patientendateien",
+            "payments": "Zahlungen",
+            "services": "Dienstleistungen",
+            "statistics": "Statistiken"
+        }
+    },
+    "statistics": {
+        "netGrossProfit": "Netto-Bruttogewinn",
+        "selectDay": "Tag auswählen",
+        "selectMonth": "Monat auswählen",
+        "selectYear": "Jahr auswählen",
+        "totalExpenses": "Gesamtausgaben",
+        "totalIncome": "Gesamteinnahmen",
+        "totalPatients": "Gesamtanzahl der Patienten"
+    }
+}

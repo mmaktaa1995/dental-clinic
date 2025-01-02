@@ -52,7 +52,7 @@ body {
     font-family: 'Tajawal', sans-serif !important;
 }
 
-[id^=filepond--drop-label], .filepond--file-status {
+[dir='rtl'] [id^=filepond--drop-label], .filepond--file-status {
     direction: rtl;
     font-family: 'Tajawal', sans-serif !important;
 }

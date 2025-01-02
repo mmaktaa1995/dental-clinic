@@ -60,7 +60,6 @@
 
 <script setup lang="ts">
 import { ref, onMounted, reactive } from "vue"
-import axios from "axios"
 import { format } from "date-fns"
 import { api } from "@/logic/api"
 import { parseDate } from "@/logic/helpers"
@@ -94,7 +93,7 @@ const create = async () => {
     const data = { ...form, date: `${form.date} ${form.time}` }
 
     try {
-        const { data: response } = await axios.post("/api/appointments", data)
+        const { data: response } = await api.post("/appointments", data)
         bus.$emit("flash-message", { text: response.message, type: "success" })
         bus.$emit("appointment-changed", true)
         back()

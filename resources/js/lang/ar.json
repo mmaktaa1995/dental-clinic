@@ -1,180 +1,204 @@
 {
-  "auth": {
-    "admin": "Admin",
-    "email": "Email address",
-    "emailPlaceholder": "Email address",
-    "name": "Name",
-    "namePlaceholder": "Name",
-    "password": "Password",
-    "passwordPlaceholder": "Password",
-    "registerNewAccount": "Register new account",
-    "signUp": "Sign up",
-    "student": "Student",
-    "username": "Username",
-    "usernamePlaceholder": "Username"
-  },
-  "cDetailPage": {
-    "backToOverview": "رجوع إلى الخلف",
-    "unsavedChangesWarnings": {
-      "discardChanges": "تجاهل التغييرات",
-      "discardUnsavedChanges": "هل تريد تجاهل التغييرات غير المحفوظة؟",
-      "title": "التغييرات غير المحفوظة"
+    "auth": {
+        "admin": "Admin",
+        "email": "Email address",
+        "emailPlaceholder": "Email address",
+        "name": "Name",
+        "namePlaceholder": "Name",
+        "password": "كلمة المرور",
+        "passwordPlaceholder": "Password",
+        "registerNewAccount": "Register new account",
+        "signUp": "Sign up",
+        "student": "Student",
+        "username": "Username",
+        "usernamePlaceholder": "Username"
+    },
+    "cDetailPage": {
+        "backToOverview": "رجوع إلى الخلف",
+        "unsavedChangesWarnings": {
+            "discardChanges": "تجاهل التغييرات",
+            "discardUnsavedChanges": "هل تريد تجاهل التغييرات غير المحفوظة؟",
+            "title": "التغييرات غير المحفوظة"
+        }
+    },
+    "debits": {
+        "actionTaken": "الإجراء الذي تم",
+        "amount": "المبلغ",
+        "date": "التاريخ",
+        "errorMessage": "يبدو أن هناك خطأ. يرجى التحقق من سجلات التطبيق.",
+        "name": "الاسم",
+        "suggestRecentDate": "اعتبر البحث باستخدام تاريخ \"بداية من\" أكثر حداثة. قد يكون لواجهة برمجة التطبيقات CloudWatch أوقات استجابة طويلة أثناء البحث في الماضي. قد تنتهي هذه الطلبات بمهلة أو تؤدي إلى أخطاء غير متوقعة."
+    },
+    "error": {
+        "backToHomepage": "العودة إلى الصفحة الرئيسية",
+        "errorCode403": 403,
+        "notAuthorizedToViewPage": "لا يُسمح لك بمشاهدة هذه الصفحة"
+    },
+    "errors": {
+        "backToHomepage": "العودة إلى الصفحة الرئيسية",
+        "findOtherThings": "ابحث عن أشياء أخرى",
+        "pageNotFound": "صفحة غير موجودة"
+    },
+    "expenses": {
+        "amount": "المبلغ",
+        "date": "التاريخ",
+        "description": "الوصف",
+        "entryName": "النفقة",
+        "expenseCreatedSuccessfully": "تم إنشاء النفقات بنجاح!",
+        "expenseDeletedSuccessfully": "تم حذف النفقات بنجاح!",
+        "expenseInfo": "معلومات عن النفقة",
+        "expenseUpdatedSuccessfully": "تم تحديث النفقات بنجاح!",
+        "name": "الاسم",
+        "title": "النفقات"
+    },
+    "filePond": {
+        "cancelLabel": "اضغط هنا للإلغاء",
+        "corruptFileDetected": "يرجى التأكد من أن الملف لا يأتي من داخل أرشيف مضغوط وأنه غير تالف.",
+        "deleteFile": "حدث أثناء الحذف",
+        "dragAndDropOr": "اسحب أوافلت الملفات",
+        "file": "الملف",
+        "fileInformationUnavailable": "معلومات الملف غير متوفرة",
+        "fileLoadError": "حدث خطأ أثناء التحميل",
+        "fileTypeUnsupported": "نوع الملف غير مدعوم",
+        "idle": "اسحب وافلت الملفات هنا...",
+        "invalidFile": "تم تحديد ملف غير صالح",
+        "loading": "جارٍ التحميل",
+        "retryLabel": "اضغط هنا للإعادة",
+        "selectFile": "تم تحديد الملف",
+        "undoLabel": "اضغط هنا للتراجع",
+        "uploadCancelled": "تم إلغاء التحميل",
+        "uploadCancelledError": "حدث خطأ أثناء الإلغاء",
+        "uploadFailed": "حدث خطأ أثناء التحميل",
+        "waitForFileInformation": "انتظار معلومات الملف"
+    },
+    "global": {
+        "actions": {
+            "add": "إضافة",
+            "cancel": "إلغاء",
+            "create": "إنشاء جديد",
+            "delete": "حذف",
+            "label": "الاإجراءات",
+            "print": "طباعة",
+            "saveChanges": "حفظ التغييرات"
+        },
+        "connectionError": "لقد حدث خطأ في الاتصال. يرجى المحاولة مرة أخرى في وقت لاحق.",
+        "currencies": {
+            "SYP": "ل.س",
+            "USD": "دولار أمريكي"
+        },
+        "date": "التاريخ",
+        "deleteEntryBodyMessage": "هل أنت متأكد من حذف هذا {type}؟",
+        "deleteEntryTitle": "حذف {type}",
+        "financial": "الشؤون المالية",
+        "fromDate": "من تاريخ",
+        "genders": {
+            "female": "أنثى",
+            "male": "ذكر"
+        },
+        "general": "عام",
+        "hello": "مرحبا",
+        "languages": {
+            "ar": "العربية",
+            "de": "الألمانية",
+            "en": "الإنجليزية"
+        },
+        "logout": "تسجيل خروج",
+        "noEntries": "لا يوجد سجلات مدخلة بعد...",
+        "noEntriesFound": "لم يتم العثور على أي محتوى يتوافق مع معايير البحث المحددة. يمكنك تعديل المرشحات أعلاه لرؤية النتائج.",
+        "pagination": {
+            "entriesPerPage": "الإدخالات لكل صفحة:",
+            "of": "من",
+            "page": "الصفحة:"
+        },
+        "serverError": "لقد حدث خطأ غير معروف. يرجى المحاولة مرة أخرى في وقت لاحق.",
+        "toDate": "إلى تاريخ"
+    },
+    "patients": {
+        "addRecord": "إضافة سجل",
+        "age": "العمر",
+        "clinicalHistory": "التاريخ الطبي",
+        "clinicalHistoryDescription": "كل المعلومات عن صحة المريض",
+        "createdAt": "تاريخ الإنشاء",
+        "diagnose": "التشخيص",
+        "diagnosis": "التشخيصات السابقة",
+        "diagnosisDescription": "تشخيص حالة المريض وما يحتاج إليه من معالجة.",
+        "entryName": "المريض",
+        "fileNumber": "رقم الملف",
+        "files": "الملفات",
+        "gender": "الجنس",
+        "mobile": "رقم الموبايل",
+        "moduleName": "المرضى",
+        "name": " اسم المريض",
+        "patientContactInfo": "معلومات الاتصال",
+        "patientContactInfoDescription": "معلومات الاتصال لتتمكن من الوصول إلى المريض في حالة حدوث أمر طارئ أو لطرح الأسئلة أو لمناقشة المواعيد التالية.",
+        "patientCreatedSuccessfully": "تم إنشاء المريض بنجاح!",
+        "patientDeletedSuccessfully": "تم حذف المريض بنجاح!",
+        "patientInfo": "معلومات المريض",
+        "patientInfoDescription": "البيانات الشخصية للمريض.",
+        "patientUpdatedSuccessfully": "تم تحديث المريض بنجاح!",
+        "paymentInfo": "معلومات إضافة دفعة",
+        "paymentInfoDescription": "إضافة دفعة أولى للمريض",
+        "phone": "رقم الهاتف",
+        "record_date": "تاريخ السجل",
+        "relatedPatientFiles": "إدارة ملفات المريض",
+        "relatedPatientFilesDescription": "إدارة الملفات المتعلقة بسجلات المريض والوصول إليها بكفاءة.",
+        "selectGender": "اختر جنس",
+        "symptom": "العارض الطبي",
+        "visits": "الزيارات"
+    },
+    "payments": {
+        "action": "الإجراء الذي تم",
+        "addDebtPayment": "إضافة الدفع إلى الدين",
+        "addPayment": "إضافة دفعة",
+        "amount": "المبلغ المدفوع",
+        "date": "التاريخ",
+        "debits": "المبالغ المتبقية",
+        "deletePayment": "حذف دفعة",
+        "deletePaymentConfirmation": "هل أنت متأكد من رغبتك في حذف هذه الدفعة؟ لن تتمكن من استعادتها بعد الآن.",
+        "deletedPayments": "الدفعات المحذوفة",
+        "editPayment": "تعديل دفعة",
+        "paymentDate": "تاريخ الدفع",
+        "remainingAmount": "المبلغ المتبقي",
+        "status": "الحالة",
+        "statuses": {
+            "failed": "فشل",
+            "refunded": "تم استرداد المبلغ",
+            "success": "نجاح"
+        },
+        "title": "الدفعات",
+        "totalAmount": "إجمالي المبلغ المدفوع",
+        "totalRemainingAmount": "إجمالي المبلغ المتبقي"
+    },
+    "services": {
+        "entryName": "الخدمة",
+        "name": "الاسم",
+        "price": "السعر",
+        "serviceCreatedSuccessfully": "Service created successfully!",
+        "serviceDeletedSuccessfully": "تم حذف الخدمة بنجاح!",
+        "serviceInfo": "معلومات عن الخدمة",
+        "serviceInfoDescription": "هنا يمكنك التحكم ببيانات الخدمة.",
+        "serviceUpdatedSuccessfully": "تم تحديث الخدمة بنجاح!",
+        "title": "الخدمات"
+    },
+    "sideBar": {
+        "menu": {
+            "appointments": "المواعيد",
+            "debits": "المبالغ المتبقية",
+            "expenses": "النفقات",
+            "patients": "المرضى",
+            "patientsFiles": "الإضبارات",
+            "payments": "الدفعات",
+            "services": "الخدمات",
+            "statistics": "الإحصائيات"
+        }
+    },
+    "statistics": {
+        "netGrossProfit": "صافي الربح الإجمالي",
+        "selectDay": "اختر يوم",
+        "selectMonth": "اختر الشهر",
+        "selectYear": "اختر السنة",
+        "totalExpenses": "إجمالي النفقات",
+        "totalIncome": "إجمالي الدخل",
+        "totalPatients": "العدد الإجمالي للمرضى"
     }
-  },
-  "debits": {
-    "actionTaken": "الإجراء الذي تم",
-    "amount": "المبلغ",
-    "date": "التاريخ",
-    "errorMessage": "يبدو أن هناك خطأ. يرجى التحقق من سجلات التطبيق.",
-    "name": "الاسم",
-    "suggestRecentDate": "اعتبر البحث باستخدام تاريخ \"بداية من\" أكثر حداثة. قد يكون لواجهة برمجة التطبيقات CloudWatch أوقات استجابة طويلة أثناء البحث في الماضي. قد تنتهي هذه الطلبات بمهلة أو تؤدي إلى أخطاء غير متوقعة."
-  },
-  "error": {
-    "backToHomepage": "العودة إلى الصفحة الرئيسية",
-    "errorCode403": 403,
-    "notAuthorizedToViewPage": "لا يُسمح لك بمشاهدة هذه الصفحة"
-  },
-  "errors": {
-    "backToHomepage": "العودة إلى الصفحة الرئيسية",
-    "findOtherThings": "ابحث عن أشياء أخرى",
-    "pageNotFound": "صفحة غير موجودة"
-  },
-  "expenses": {
-    "amount": "المبلغ",
-    "date": "التاريخ",
-    "description": "الوصف",
-    "entryName": "النفقة",
-    "expenseCreatedSuccessfully": "تم إنشاء النفقات بنجاح!",
-    "expenseDeletedSuccessfully": "تم حذف النفقات بنجاح!",
-    "expenseInfo": "معلومات عن النفقة",
-    "expenseUpdatedSuccessfully": "تم تحديث النفقات بنجاح!",
-    "name": "الاسم",
-    "title": "النفقات"
-  },
-  "filePond": {
-    "cancelLabel": "اضغط هنا للإلغاء",
-    "corruptFileDetected": "يرجى التأكد من أن الملف لا يأتي من داخل أرشيف مضغوط وأنه غير تالف.",
-    "deleteFile": "حدث أثناء الحذف",
-    "dragAndDropOr": "اسحب أوافلت الملفات",
-    "file": "الملف",
-    "fileInformationUnavailable": "معلومات الملف غير متوفرة",
-    "fileLoadError": "حدث خطأ أثناء التحميل",
-    "fileTypeUnsupported": "نوع الملف غير مدعوم",
-    "idle": "اسحب وافلت الملفات هنا...",
-    "invalidFile": "تم تحديد ملف غير صالح",
-    "loading": "جارٍ التحميل",
-    "retryLabel": "اضغط هنا للإعادة",
-    "selectFile": "تم تحديد الملف",
-    "undoLabel": "اضغط هنا للتراجع",
-    "uploadCancelled": "تم إلغاء التحميل",
-    "uploadCancelledError": "حدث خطأ أثناء الإلغاء",
-    "uploadFailed": "حدث خطأ أثناء التحميل",
-    "waitForFileInformation": "انتظار معلومات الملف"
-  },
-  "global": {
-    "actions": {
-      "add": "إضافة",
-      "cancel": "إلغاء",
-      "create": "إنشاء جديد",
-      "delete": "حذف",
-      "label": "الاإجراءات",
-      "print": "طباعة",
-      "saveChanges": "حفظ التغييرات"
-    },
-    "connectionError": "لقد حدث خطأ في الاتصال. يرجى المحاولة مرة أخرى في وقت لاحق.",
-    "currencies": {
-      "SYP": "ل.س",
-      "USD": "دولار أمريكي"
-    },
-    "date": "التاريخ",
-    "deleteEntryBodyMessage": "هل أنت متأكد من حذف هذا {type}؟",
-    "deleteEntryTitle": "حذف {type}",
-    "fromDate": "من تاريخ",
-    "genders": {
-      "female": "أنثى",
-      "male": "ذكر"
-    },
-    "general": "عام",
-    "noEntries": "لا يوجد سجلات مدخلة بعد...",
-    "noEntriesFound": "لم يتم العثور على أي محتوى يتوافق مع معايير البحث المحددة. يمكنك تعديل المرشحات أعلاه لرؤية النتائج.",
-    "pagination": {
-      "entriesPerPage": "الإدخالات لكل صفحة:",
-      "of": "من",
-      "page": "الصفحة:"
-    },
-    "serverError": "لقد حدث خطأ غير معروف. يرجى المحاولة مرة أخرى في وقت لاحق.",
-    "toDate": "إلى تاريخ"
-  },
-  "patients": {
-    "addRecord": "إضافة سجل",
-    "age": "العمر",
-    "clinicalHistory": "التاريخ الطبي",
-    "clinicalHistoryDescription": "كل المعلومات عن صحة المريض",
-    "createdAt": "تاريخ الإنشاء",
-    "diagnose": "التشخيص",
-    "diagnosis": "التشخيصات السابقة",
-    "diagnosisDescription": "تشخيص حالة المريض وما يحتاج إليه من معالجة.",
-    "entryName": "المريض",
-    "fileNumber": "رقم الملف",
-    "files": "الملفات",
-    "gender": "الجنس",
-    "mobile": "رقم الموبايل",
-    "moduleName": "المرضى",
-    "name": " اسم المريض",
-    "patientContactInfo": "معلومات الاتصال",
-    "patientContactInfoDescription": "معلومات الاتصال لتتمكن من الوصول إلى المريض في حالة حدوث أمر طارئ أو لطرح الأسئلة أو لمناقشة المواعيد التالية.",
-    "patientCreatedSuccessfully": "تم إنشاء المريض بنجاح!",
-    "patientDeletedSuccessfully": "تم حذف المريض بنجاح!",
-    "patientInfo": "معلومات المريض",
-    "patientInfoDescription": "البيانات الشخصية للمريض.",
-    "patientUpdatedSuccessfully": "تم تحديث المريض بنجاح!",
-    "phone": "رقم الهاتف",
-    "record_date": "تاريخ السجل",
-    "relatedPatientFiles": "إدارة ملفات المريض",
-    "relatedPatientFilesDescription": "إدارة الملفات المتعلقة بسجلات المريض والوصول إليها بكفاءة.",
-    "selectGender": "اختر جنس",
-    "symptom": "العارض الطبي"
-  },
-  "payments": {
-    "action": "الإجراء الذي تم",
-    "addPayment": "إضافة دفعة",
-    "amount": "المبلغ المدفوع",
-    "date": "التاريخ",
-    "debits": "المبالغ المتبقية",
-    "deletedPayments": "الدفعات المحذوفة",
-    "paymentDate": "تاريخ الدفع",
-    "remainingAmount": "المبلغ المتبقي",
-    "status": "الحالة",
-    "statuses": {
-      "failed": "فشل",
-      "refunded": "تم استرداد المبلغ",
-      "success": "نجاح"
-    },
-    "title": "الدفعات",
-    "totalAmount": "إجمالي المبلغ المدفوع",
-    "totalRemainingAmount": "إجمالي المبلغ المتبقي"
-  },
-  "services": {
-    "entryName": "الخدمة",
-    "name": "الاسم",
-    "price": "السعر",
-    "serviceCreatedSuccessfully": "Service created successfully!",
-    "serviceDeletedSuccessfully": "تم حذف الخدمة بنجاح!",
-    "serviceInfo": "معلومات عن الخدمة",
-    "serviceInfoDescription": "هنا يمكنك التحكم ببيانات الخدمة.",
-    "serviceUpdatedSuccessfully": "تم تحديث الخدمة بنجاح!",
-    "title": "الخدمات"
-  },
-  "sideBar": {
-    "menu": {
-      "appointments": "المواعيد",
-      "debits": "المبالغ المتبقية",
-      "expenses": "النفقات",
-      "patients": "المرضى",
-      "patientsFiles": "الإضبارات",
-      "payments": "الدفعات",
-      "services": "الخدمات",
-      "statistics": "الإحصائيات"
-    }
-  }
 }

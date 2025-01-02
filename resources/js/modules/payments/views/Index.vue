@@ -7,10 +7,10 @@
                         <div class="font-semibold text-lg">{{ $t("payments.title") }}</div>
                         <CButton type="primary" sm @click="(paymentDetailsStore.isAddPaymentModalOpened = true)">{{ $t("global.actions.create") }}</CButton>
                     </div>
-                    <div class="mt-2">
-                        <label class="block text-sm font-medium text-gray-700 text-right">{{ $t("payments.totalAmount") }}</label>
-                        <label class="block text-2xl font-medium text-sky-600 text-right">{{ formattedValue(paymentsStore.totalPayments) }}</label>
-                    </div>
+                    <!--                    <div class="mt-2">-->
+                    <!--                        <label class="block text-sm font-medium text-gray-700 text-right ltr:text-left">{{ $t("payments.totalAmount") }}</label>-->
+                    <!--                        <label class="block text-2xl font-medium text-green-600 text-right ltr:text-left">{{ formattedValue(paymentsStore.totalPayments) }}</label>-->
+                    <!--                    </div>-->
                 </div>
             </template>
             <template #filters>
@@ -22,6 +22,7 @@
             </template>
         </PaymentsTable>
         <AddPayment v-model="paymentDetailsStore.isAddPaymentModalOpened" :is-edit="paymentDetailsStore.isEdit" :reload="reload" :payment="paymentDetailsStore.payment" :patient="paymentDetailsStore.patient"></AddPayment>
+        <CConfirmModal v-model="paymentDetailsStore.isDeletePaymentModalOpened" :confirm-title="$t('payments.deletePayment')" :confirm-body-message="$t('payments.deletePaymentConfirmation')" :loading="isDeleting" @confirm-callback="deletePayment"></CConfirmModal>
     </div>
 </template>
 
@@ -30,7 +31,6 @@ import { useEntryListUpdater } from "@/composables/entryListUpdater"
 import { useI18n } from "vue-i18n"
 import PaymentsTable from "@/modules/payments/components/PaymentsTable.vue"
 import { formatNumber } from "@/logic/helpers.js"
-import { useRouter } from "vue-router"
 import PaymentStatus from "@/modules/payments/components/table/PaymentStatus.vue"
 import DateTime from "@/components/Table/components/DateTime.vue"
 import { DataTableColumn } from "@/components/Table/DataTable.vue"
@@ -38,12 +38,13 @@ import { PaymentEntry, usePaymentsStore } from "@/modules/payments/store"
 import AddPayment from "@/modules/payments/components/AddPayment.vue"
 import CDate from "@/components/Table/components/CDate.vue"
 import { usePaymentDetailsStore } from "@/modules/payments/detailStore"
-import AddDebt from "@/modules/payments/components/table/AddDebt.vue"
-import { nextTick } from "vue"
+import { nextTick, ref } from "vue"
+import { api } from "@/logic/api"
+import PaymentActions from "@/modules/payments/components/table/PaymentActions.vue"
 
 const paymentsStore = usePaymentsStore()
 const paymentDetailsStore = usePaymentDetailsStore()
-const router = useRouter()
+const isDeleting = ref(false)
 const { t } = useI18n()
 
 const columns: DataTableColumn[] = [
@@ -66,7 +67,7 @@ const columns: DataTableColumn[] = [
     { field: "status", headerName: t("payments.status"), cellRenderer: PaymentStatus },
     { field: "date", headerName: t("payments.paymentDate"), cellRenderer: CDate },
     { field: "created_at", headerName: t("patients.createdAt"), cellRenderer: DateTime },
-    { field: "action", headerName: "", cellRenderer: AddDebt },
+    { field: "action", headerName: "", cellRenderer: PaymentActions },
 ]
 
 const rowClicked = (row: PaymentEntry) => {
@@ -80,6 +81,22 @@ const rowClicked = (row: PaymentEntry) => {
 
 const formattedValue = (value: number) => {
     return formatNumber(value)
+}
+
+const deletePayment = () => {
+    if (isDeleting.value) {
+        return
+    }
+    isDeleting.value = true
+    api.delete(`/payments/${paymentDetailsStore.entryId}`)
+        .then(() => {
+            reload()
+            paymentDetailsStore.isDeletePaymentModalOpened = false
+            paymentDetailsStore.entryId = null
+        })
+        .finally(() => {
+            isDeleting.value = false
+        })
 }
 
 const { reload } = useEntryListUpdater(`/payments`, paymentsStore, async (response) => {

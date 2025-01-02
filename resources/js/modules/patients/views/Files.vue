@@ -34,6 +34,7 @@ import { useI18n } from "vue-i18n"
 import FileType from "@/modules/patients/components/table/FileType.vue"
 import { api } from "@/logic/api"
 import DeleteFile from "@/modules/patients/components/table/DeleteFile.vue"
+import DateTime from "@/components/Table/components/DateTime.vue"
 
 const files = ref<any[]>([])
 const isSaving = ref(false)
@@ -61,7 +62,7 @@ const { t } = useI18n()
 const columns = [
     { field: "type", headerName: "", cellRenderer: FileType },
     { field: "file_name", headerName: t("filePond.file") },
-    { field: "created_at", headerName: t("patients.createdAt") },
+    { field: "created_at", headerName: t("patients.createdAt"), cellRenderer: DateTime },
     {
         field: "action",
         headerName: "",

@@ -55,7 +55,6 @@ const getCellClass = computed(() => {
     if (!props.column.cellClass) {
         return ""
     }
-    console.log(cellClassCondition, props.column.cellClass, setCellClass.value)
     if (setCellClass.value) {
         return props.column.cellClass
     }
