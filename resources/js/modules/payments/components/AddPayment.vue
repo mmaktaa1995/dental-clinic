@@ -9,7 +9,7 @@
             <div class="min-h-[40vh]">
                 <div class="grid grid-cols-1 w-full gap-4">
                     <CTextField v-if="patient" v-model="patient.name" disabled :label="$t('patients.name')" name="name"></CTextField>
-                    <CAutocomplete v-else v-model="paymentDetailsStore.entry.patient_id" :fetch-items="fetchPatientsData" :errors="paymentDetailsStore.errors" :label="$t('patients.name')" name="patient_id"></CAutocomplete>
+                    <CAutocomplete v-else v-model="paymentDetailsStore.entry.patient_id" v-model:object="paymentDetailsStore.entry.patient" :fetch-items="fetchPatientsData" :errors="paymentDetailsStore.errors" :label="$t('patients.name')" name="patient_id"></CAutocomplete>
                     <CDatePicker v-model="paymentDetailsStore.entry.date" :label="$t('payments.date')" :errors="paymentDetailsStore.errors" name="date"></CDatePicker>
                     <CTextArea v-model="paymentDetailsStore.entry.notes" :label="$t('payments.action')" :errors="paymentDetailsStore.errors" name="notes"></CTextArea>
                     <hr class="my-4" />
@@ -19,10 +19,10 @@
             </div>
         </template>
         <template #actions>
+            <CButton @click="close">{{ $t("global.actions.cancel") }}</CButton>
             <AsyncButton :loading="isCreating" type="primary" @click="createPayment">
                 {{ $t("global.actions.add") }}
             </AsyncButton>
-            <CButton @click="close">{{ $t("global.actions.cancel") }}</CButton>
         </template>
     </CDialog>
 </template>

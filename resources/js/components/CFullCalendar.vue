@@ -1,32 +1,50 @@
 <template>
-    <FullCalendar v-if="loaded" :key="key" ref="fullCalendar" class="app-calendar" :options="calendarOptions">
+    <FullCalendar ref="fullCalendar" class="app-calendar" :options="calendarOptions">
         <template #eventContent="arg">
             <b>{{ arg.timeText }}</b>
-            <i>{{ arg.event.title }}</i>
+            <span class="mr-2 ltr:mr-0 ltr:ml-2">{{ arg.event.title }}</span>
         </template>
     </FullCalendar>
 </template>
 <script setup lang="ts">
 import FullCalendar from "@fullcalendar/vue3"
 import arLocale from "@fullcalendar/core/locales/ar"
+import enLocale from "@fullcalendar/core/locales/en-gb"
+import deLocale from "@fullcalendar/core/locales/de"
 import dayGridPlugin from "@fullcalendar/daygrid"
 import timeGridPlugin from "@fullcalendar/timegrid"
 import interactionPlugin from "@fullcalendar/interaction"
 import { computed, ref } from "vue"
+import { getSelectedLanguage } from "@/logic/i18n"
 
 const props = defineProps<{
     events: []
+    fetchEvents: (event) => any
     loaded: boolean
 }>()
 
-const key = new Date().valueOf()
-
-const $emits = defineEmits(["handleDateSelect", "handleEventClick", "handleEvents"])
+const $emits = defineEmits(["handleDateSelect", "handleEventClick", "handleEvents", "handleDatesSet"])
 
 const fullCalendar = ref(null)
+
+const locale = computed(() => {
+    // arLocale.monthNames = ["كانون الثاني", "شباط", "آذار", "نيسان", "أيار", "حزيران", "تموز", "آب", "أيلول", "تشرين الأول", "تشرين الثاني", "كانون الأول"]
+    let locale = arLocale
+
+    switch (getSelectedLanguage().value) {
+        case "de":
+            locale = deLocale
+            break
+        case "en":
+            locale = enLocale
+            break
+    }
+    return locale
+})
+
 const calendarOptions = computed(() => {
     return {
-        locale: arLocale,
+        locale: locale.value,
         plugins: [
             dayGridPlugin,
             timeGridPlugin,
@@ -38,12 +56,16 @@ const calendarOptions = computed(() => {
             right: "dayGridMonth,timeGridWeek,timeGridDay",
         },
         initialView: "dayGridMonth",
-        initialEvents: [], // alternatively, use the `events` setting to fetch from a feed
         editable: true,
         selectable: true,
         selectMirror: true,
         dayMaxEvents: true,
         weekends: true,
+        eventTimeFormat: {
+            hour: "2-digit",
+            minute: "2-digit",
+            meridiem: false,
+        },
         select: (event) => {
             $emits("handleDateSelect", event)
         },
@@ -53,121 +75,42 @@ const calendarOptions = computed(() => {
         eventsSet: (event) => {
             $emits("handleEvents", event)
         },
-        /* you can update a remote database when these fire:
-         eventAdd:
-         eventChange:
-         eventRemove:
-         */
         events: props.events,
-        // datesSet: (event) => {
-        //     const midDate = new Date((event.start.getTime() + event.end.getTime()) / 2)
-        //     const month = `0${midDate.getMonth() + 1}`
-        //     this.getData(+month, midDate.getFullYear())
-        // },
+        datesSet: (event) => {
+            props.fetchEvents(event)
+        },
     }
 })
 </script>
 
-<!--<style>-->
-<!--/* General calendar container styling */-->
-<!--.calendar-container {-->
-<!--    background-color: #f9fafb;-->
-<!--    padding: 1rem;-->
-<!--    border-radius: 8px;-->
-<!--    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);-->
-<!--}-->
-
-<!--/* Modern header styles */-->
-<!--.fc-toolbar {-->
-<!--    display: flex;-->
-<!--    justify-content: space-between;-->
-<!--    align-items: center;-->
-<!--    padding: 0.5rem;-->
-<!--    background-color: #ffffff;-->
-<!--    border-bottom: 1px solid #e5e7eb;-->
-<!--    border-radius: 8px 8px 0 0;-->
-<!--}-->
-
-<!--.fc-toolbar-title {-->
-<!--    font-size: 1.25rem;-->
-<!--    font-weight: 600;-->
-<!--    color: #374151;-->
-<!--}-->
-
-<!--.fc-button {-->
-<!--    background-color: #2563eb;-->
-<!--    color: white;-->
-<!--    border: none;-->
-<!--    border-radius: 4px;-->
-<!--    padding: 0.5rem 1rem;-->
-<!--    font-size: 0.875rem;-->
-<!--    cursor: pointer;-->
-<!--    transition: background-color 0.2s;-->
-<!--}-->
-
-<!--.fc-button:hover {-->
-<!--    background-color: #1d4ed8;-->
-<!--}-->
-
-<!--.fc-button:focus {-->
-<!--    outline: 2px solid #2563eb;-->
-<!--}-->
-
-<!--/* Day grid styling */-->
-<!--.fc-daygrid-day {-->
-<!--    border: 1px solid #e5e7eb;-->
-<!--    padding: 0.5rem;-->
-<!--    background-color: #ffffff;-->
-<!--}-->
-
-<!--.fc-daygrid-day:hover {-->
-<!--    background-color: #f3f4f6;-->
-<!--}-->
-
-<!--/* Event styling */-->
-<!--.fc-event {-->
-<!--    background-color: #2563eb;-->
-<!--    color: white;-->
-<!--    border: none;-->
-<!--    padding: 0.25rem 0.5rem;-->
-<!--    border-radius: 4px;-->
-<!--    font-size: 0.75rem;-->
-<!--}-->
-
-<!--.fc-event:hover {-->
-<!--    background-color: #1d4ed8;-->
-<!--}-->
-
-<!--/* Today's date styling */-->
-<!--.fc-day-today {-->
-<!--    background-color: #e0f2fe;-->
-<!--    border: 1px solid #38bdf8;-->
-<!--}-->
-<!--</style>-->
-<style scoped>
+<style>
 /* Base Tailwind colors and spacing are already used, scoped CSS tweaks for specific FullCalendar classes */
-.fc-toolbar-title {
-    @apply text-lg font-semibold text-gray-700; /* Improve title appearance */
-}
-.fc-button {
-    @apply bg-indigo-600 text-white rounded-md py-1 px-3 text-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2; /* Add hover and focus states */
-}
 .fc-button-disabled {
     @apply bg-gray-300 text-gray-500 cursor-not-allowed;
 }
 .fc-day-today {
-    @apply bg-blue-50 border border-blue-500; /* Highlight current day */
+    @apply !bg-blue-100; /* Highlight current day */
 }
 .fc-event {
-    @apply bg-indigo-500 text-white rounded-lg px-2 py-1 text-sm font-medium shadow-md hover:bg-indigo-600; /* Modern event design */
+    @apply bg-sky-500 text-white rounded-lg px-2 py-1 text-sm font-medium shadow-md hover:bg-sky-600; /* Modern event design */
+}
+.fc-day-past .fc-event {
+    @apply bg-rose-500  hover:bg-rose-600; /* Modern event design */
+}
+.fc-day-future .fc-event {
+    @apply bg-teal-500  hover:bg-teal-600; /* Modern event design */
+}
+.fc-daygrid-day {
+    @apply cursor-pointer;
 }
 .fc-daygrid-day:hover {
-    @apply bg-gray-100; /* Add hover effect on day cells */
+    @apply !bg-blue-50; /* Add hover effect on day cells */
 }
 .fc-day-past {
     @apply text-gray-400; /* De-emphasize past days */
 }
-.fc-day-sun {
-    @apply text-rose-600; /* Highlight Sundays */
+
+.fc-day-fri {
+    @apply text-rose-600 pointer-events-none; /* Highlight Friday */
 }
 </style>

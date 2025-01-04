@@ -187,7 +187,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int|null $user_id
- * @property int $gender
+ * @property int|null $gender
  * @property int|null $total_amount
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PatientRecord> $diagnosis
  * @property-read int|null $diagnosis_count
@@ -378,6 +378,31 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Tooth
+ *
+ * @property int $id
+ * @property string $name
+ * @property string|null $image
+ * @property int|null $number
+ * @property array|null $extra
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PatientRecord> $patientRecords
+ * @property-read int|null $patient_records_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Tooth newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Tooth newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Tooth query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Tooth whereExtra($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tooth whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tooth whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tooth whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tooth whereNumber($value)
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperTooth {}
+}
+
+namespace App\Models{
+/**
  * App\Models\User
  *
  * @property int $id
@@ -418,13 +443,13 @@ namespace App\Models{
  *
  * @property int $id
  * @property int $patient_id
- * @property string|null $date
+ * @property string $date
  * @property string|null $notes
  * @property \Illuminate\Support\Carbon $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property int|null $user_id
- * @property-read mixed $amount
+ * @property-read int|null $amount
  * @property-read \App\Models\Patient $patient
  * @property-read \App\Models\Payment|null $payment
  * @method static \Illuminate\Database\Eloquent\Builder|Visit newModelQuery()

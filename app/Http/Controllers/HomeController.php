@@ -4,10 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\AppConfig;
 use App\Services\PatientService;
-use Symfony\Component\DomCrawler\Crawler;
+use App\Services\SettingsService;
 
 class HomeController extends Controller
 {
+
+    public function __construct()
+    {
+    }
+
     public function __invoke(PatientService $patientService)
     {
         $lastFileNumber = $patientService->getLastFileNumber();
@@ -17,37 +22,6 @@ class HomeController extends Controller
 
     public function getUsdExchangeRate()
     {
-        if (\Cache::has('exchangeRates')){
-            return response()->json(\Cache::get('exchangeRates'));
-        }
-
-        $response = \Http::get('https://sp-today.com/en');
-        if (!$response->successful()) {
-            return response()->json(['error' => 'Failed to fetch the page content.'], 500);
-        }
-
-        $html = $response->body();
-
-        $crawler = new Crawler($html);
-
-        $rates = $crawler->filter('div.rate-data')->first();
-        // Extract the anchors with link `/currency/`
-        $anchorRates = $rates->filter('a[href*="/currency/"]');
-        $exchangeRates = collect();
-        $anchorRates->each(function (Crawler $node) use (&$exchangeRates) {
-            $currencyName = $node->filter('span.name')->first();
-            if (!$currencyName) {
-                return;
-            }
-
-            $exchangeRates[\Str::slug($currencyName->text(), '_')] = $node->filter('div.line-data span.value')->first()->text();
-            return $node;
-        });
-
-        \Cache::remember('exchangeRates', now()->addDay(), function () use ($exchangeRates) {
-            return $exchangeRates->toArray();
-        });
-
-        return response()->json($exchangeRates);
+        return app(SettingsService::class)->getUsdExchangeRate();
     }
 }

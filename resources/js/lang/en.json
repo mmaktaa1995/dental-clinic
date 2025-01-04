@@ -1,4 +1,13 @@
 {
+    "appointments": {
+        "addAppointment": "Add Appointment",
+        "appointment": "Appointment",
+        "appointmentDate": "Appointment Date",
+        "appointmentTime": "Appointment Time",
+        "editAppointment": "Edit Appointment",
+        "notes": "Notes",
+        "patient": "Patient"
+    },
     "auth": {
         "admin": "Admin",
         "email": "Email address",
@@ -75,6 +84,7 @@
         "actions": {
             "add": "Add",
             "cancel": "Cancel",
+            "confirm": "Confirm",
             "create": "Create",
             "delete": "Delete",
             "label": "Actions",
@@ -96,6 +106,11 @@
             "male": "Male"
         },
         "general": "General",
+        "greetings": {
+            "afternoon": "Good Afternoon",
+            "evening": "Good Evening",
+            "morning": "Good Morning"
+        },
         "hello": "Hello",
         "languages": {
             "ar": "Arabic",

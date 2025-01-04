@@ -37,7 +37,7 @@ const columns: DataTableColumn[] = [
     { field: "name", headerName: t("services.name") },
     {
         field: "amount",
-        headerName: t("services.price"),
+        headerName: t("payments.amount"),
         valueFormatter: (value: any) => {
             return formatNumber(value)
         },

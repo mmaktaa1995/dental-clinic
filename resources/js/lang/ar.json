@@ -1,4 +1,13 @@
 {
+    "appointments": {
+        "addAppointment": "إضافة موعد",
+        "appointment": "الموعد",
+        "appointmentDate": "تاريخ الزيارة",
+        "appointmentTime": "وقت الزيارة",
+        "editAppointment": "تعديل موعد",
+        "notes": "الملاحظات",
+        "patient": "المريض"
+    },
     "auth": {
         "admin": "Admin",
         "email": "Email address",
@@ -75,6 +84,7 @@
         "actions": {
             "add": "إضافة",
             "cancel": "إلغاء",
+            "confirm": "تأكيد",
             "create": "إنشاء جديد",
             "delete": "حذف",
             "label": "الاإجراءات",
@@ -96,6 +106,11 @@
             "male": "ذكر"
         },
         "general": "عام",
+        "greetings": {
+            "afternoon": "مساء الخير",
+            "evening": "مساء الخير",
+            "morning": "صباح الخير"
+        },
         "hello": "مرحبا",
         "languages": {
             "ar": "العربية",

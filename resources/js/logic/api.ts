@@ -110,7 +110,9 @@ export const api = {
                 const toastStore = useToastStore()
                 // @ts-ignore
                 const { t } = getI18n()
-                toastStore.error(t("global.serverError"))
+                if (!res.message) {
+                    toastStore.error(t("global.serverError"))
+                }
                 if (res.error) {
                     return res.error
                 }
@@ -118,6 +120,7 @@ export const api = {
                     return { errors: res.errors, status: response.status }
                 }
                 if (res.message) {
+                    toastStore.error(res.message)
                     return res.message
                 }
                 return "No response received from the server. Please try again later."

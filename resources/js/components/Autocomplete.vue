@@ -2,8 +2,8 @@
     <div ref="autocomplete" class="relative w-full">
         <!-- Input field -->
         <div class="relative">
-            <CTextField v-model="searchQuery" :name :label :errors @input="onSearch" @focus="(showDropdown = true)" />
-            <span class="absolute left-3 ltr:right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500" @click="toggleDropdown">
+            <CTextField v-model="searchValue" :name :label :errors @input="onSearch" @focus="(showDropdown = true)" />
+            <span class="absolute left-3 ltr:right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500" :class="{ '!top-[24px]': hasError }" @click="toggleDropdown">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 9l6 6 6-6" />
                 </svg>
@@ -25,9 +25,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted, onBeforeUnmount, nextTick } from "vue"
+import { ref, watch, onMounted, onBeforeUnmount, nextTick, computed } from "vue"
 
-const selectedItem = defineModel({ required: true })
+const selectedItem = defineModel<any>({ required: true })
+const selectedItemObject = defineModel<any | undefined>("object", { required: false })
+
 const props = defineProps({
     fetchItems: {
         type: Function,
@@ -50,6 +52,7 @@ const props = defineProps({
 
 const autocomplete = ref<HTMLElement | null>(null)
 const searchQuery = ref("")
+const displayValue = ref("") // For showing selected value
 const items = ref([])
 const showDropdown = ref(false)
 const loading = ref(false)
@@ -76,6 +79,16 @@ const loadItems = async (reset = false) => {
     }
 }
 
+const searchValue = computed({
+    get() {
+        return showDropdown.value ? searchQuery.value : displayValue.value
+    },
+    set(value: string) {
+        console.log(value)
+        searchQuery.value = value
+    },
+})
+
 // Handle scrolling
 const onScroll = (event: Event) => {
     const element = event.target as HTMLElement
@@ -95,18 +108,28 @@ const onSearch = () => {
 const selectItem = (item: any) => {
     showDropdown.value = false
     selectedItem.value = item.id
+    selectedItemObject.value = item
+    displayValue.value = item.name // Set the display value
     nextTick().then(() => {
-        searchQuery.value = item.name
+        searchQuery.value = "" // Clear the search query
     })
 }
 
-// Toggle dropdown visibility
 const toggleDropdown = () => {
     showDropdown.value = !showDropdown.value
 }
 
 onMounted(() => {
     loadItems()
+    if (selectedItemObject.value) {
+        displayValue.value = selectedItemObject.value.name // Set the initial display value
+    }
+})
+
+watch(selectedItemObject, () => {
+    if (selectedItemObject.value) {
+        displayValue.value = selectedItemObject.value.name // Update display value on selection
+    }
 })
 
 watch(showDropdown, (value) => {
@@ -118,6 +141,10 @@ const handleClickOutside = (event: MouseEvent) => {
         showDropdown.value = false
     }
 }
+
+const hasError = computed(() => {
+    return props.errors && props.errors[props.name]
+})
 
 onMounted(() => {
     document.addEventListener("click", handleClickOutside)

@@ -1,4 +1,13 @@
 {
+    "appointments": {
+        "addAppointment": "Termin hinzufügen",
+        "appointment": "der Termin",
+        "appointmentDate": "Datum des Termins",
+        "appointmentTime": "Termin Zeit",
+        "editAppointment": "Termin bearbeiten",
+        "notes": "Notizen",
+        "patient": "Patient"
+    },
     "auth": {
         "admin": "Administrator",
         "email": "E-Mail-Adresse",
@@ -75,6 +84,7 @@
         "actions": {
             "add": "Hinzufügen",
             "cancel": "Abbrechen",
+            "confirm": "Bestätigen",
             "create": "Erstellen",
             "delete": "Löschen",
             "label": "Aktionen",
@@ -96,6 +106,11 @@
             "male": "Männlich"
         },
         "general": "Allgemein",
+        "greetings": {
+            "afternoon": "Guten Tag",
+            "evening": "Guten Abend",
+            "morning": "Guten Morgen"
+        },
         "hello": "Hallo",
         "languages": {
             "ar": "Arabisch",

@@ -11,30 +11,24 @@ use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
 {
-    /**
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function index(Request $request): JsonResponse
     {
         $appointments = Appointment::with('patient')
-            ->whereYear('date', $request->get('year', date('Y')))
-            ->whereMonth('date', $request->get('month', date('m')))
+            ->where('user_id', auth()->id())
+            ->whereDate('date', ">=",$request->get('startDate', now()))
+            ->whereDate('date', "<=",$request->get('endDate', now()))
             ->get();
+
         return response()->json(AppointmentResource::collection($appointments));
     }
 
-    /**
-     * @param \App\Http\Requests\AppointmentRequest $request
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function store(AppointmentRequest $request): JsonResponse
     {
         $appointments = Appointment::whereDate('date', '>=', now())->get()->groupBy(function ($item) {
             return Carbon::parse($item->date)->format('Y-m-d H:i');
         });
 
-        $date = date('Y-m-d H:i', strtotime($request->get('date')));
+        $date = $request->date('date')->format('Y-m-d H:i');
         if (in_array($date, $appointments->keys()->toArray())) {
             return response()->json(['message' => 'الرجاء إدخال موعد أخر لا يتضارب مع المواعيد الأخرى وشكراً.'], 422);
         }
@@ -43,19 +37,16 @@ class AppointmentController extends Controller
         return response()->json(['message' => "تم إضافة الموعد بنجاح."], 201);
     }
 
-    /**
-     * @param \App\Http\Requests\AppointmentRequest $request
-     * @param \App\Models\Appointment $appointment
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function update(AppointmentRequest $request, Appointment $appointment): JsonResponse
     {
-        $appointments = Appointment::whereDate('date', '>=', now())->where('id', '!=', $appointment->id)->get()->groupBy(function ($item) {
-            return Carbon::parse($item->date)->format('Y-m-d H:i');
-        });
+        $appointments = Appointment::whereDate('date', '>=', now())
+            ->where('id', '!=', $appointment->id)
+            ->get()
+            ->groupBy(function ($item) {
+                return Carbon::parse($item->date)->format('Y-m-d H:i');
+            });
 
-        $date = date('Y-m-d H:i', strtotime($request->get('date')));
+        $date = $request->date('date')->format('Y-m-d H:i');
         if (in_array($date, $appointments->keys()->toArray())) {
             return response()->json(['message' => 'الرجاء إدخال موعد أخر لا يتضارب مع المواعيد الأخرى وشكراً.'], 422);
         }
@@ -64,11 +55,6 @@ class AppointmentController extends Controller
         return response()->json(['message' => "تم إضافة الموعد بنجاح."], 201);
     }
 
-    /**
-     * @param \App\Models\Appointment $appointment
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function destroy(Appointment $appointment)
     {
         try {
@@ -79,13 +65,9 @@ class AppointmentController extends Controller
         return response()->json(['message' => __('app.success')]);
     }
 
-    /**
-     * @param \App\Models\Appointment $appointment
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function show(Appointment $appointment)
     {
+        $appointment->load('patient');
         return response()->json(AppointmentResource::make($appointment));
     }
 }

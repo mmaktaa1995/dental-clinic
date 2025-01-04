@@ -5,6 +5,7 @@ import { getServicesRoutes } from "@/modules/services/routes.js"
 import { getExpensesRoutes } from "@/modules/expenses/routes.js"
 import { getDebitsRoutes } from "@/modules/debits/routes.js"
 import { getAuthRoutes } from "@/modules/auth/routes.js"
+import { getAppointmentsRoutes } from "@/modules/appointments/routes.js"
 
 export const redirectIfNotAuth = (to, from, next) => {
     const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
@@ -48,45 +49,7 @@ const routes = [
         },
     },
     ...getDebitsRoutes(),
-    {
-        path: "/appointments",
-        name: "appointments-index",
-        beforeEnter: checkAuth,
-        component: () => import("./modules/appointments/index.vue"),
-        meta: {
-            resource: "appointments",
-            createTitle: () => "المواعيد",
-        },
-        children: [
-            {
-                path: "create",
-                name: "appointments-create",
-                component: () => import("./modules/appointments/create.vue"),
-                meta: {
-                    resource: "appointments",
-                    createTitle: () => "إضافة موعد",
-                },
-            },
-            {
-                path: ":id/delete",
-                name: "appointments-delete",
-                component: () => import("./modules/appointments/delete.vue"),
-                meta: {
-                    resource: "appointments",
-                    createTitle: () => "حذف موعد",
-                },
-            },
-            {
-                path: ":id/edit",
-                name: "appointments-edit",
-                component: () => import("./modules/appointments/edit.vue"),
-                meta: {
-                    resource: "appointments",
-                    createTitle: () => "تعديل موعد",
-                },
-            },
-        ],
-    },
+    ...getAppointmentsRoutes(),
     {
         path: "/unauthorized",
         component: () => import("./modules/403.vue"),
