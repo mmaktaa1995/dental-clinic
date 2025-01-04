@@ -72,14 +72,17 @@ const calendarOptions = computed(() => {
         eventClick: (event) => {
             $emits("handleEventClick", event)
         },
-        eventsSet: (event) => {
-            $emits("handleEvents", event)
-        },
         events: props.events,
         datesSet: (event) => {
             props.fetchEvents(event)
         },
     }
+})
+
+defineExpose({
+    getApi() {
+        return fullCalendar.value.getApi()
+    },
 })
 </script>
 

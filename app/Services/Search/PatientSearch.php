@@ -22,7 +22,6 @@ class PatientSearch extends BaseSearch
     public function getBaseQuery(): EloquentBuilder|QueryBuilder
     {
         return Patient::query()
-            ->when('user_id', auth()->id())
             ->when($this->fileNumber, fn($query) => $query->where('file_number', 'like', '%' . $this->fileNumber . '%'))
             ->when($this->query, fn($query) => $query->where('name', 'like', '%' . $this->query . '%'))
             ->when($this->request->get('deleted'), fn($query) => $query->onlyTrashed());

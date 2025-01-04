@@ -31,5 +31,7 @@ return [
     'delete' => 'Delete',
     'hi' => 'Hi',
     'Name' => 'Name',
-
+    'appointments_conflict' => 'Please enter another appointment that does not conflict with other appointments. Thank you.',
+    'appointment_created_successfully' => 'The appointment has been added successfully.',
+    'appointment_updated_successfully' => 'The appointment has been modified successfully.',
 ];

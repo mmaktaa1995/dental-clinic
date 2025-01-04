@@ -1,7 +1,7 @@
 <template>
     <div class="px-16 py-8 w-full">
         <div>
-            <CFullCalendar ref="fullCalendar" :fetch-events="fetchEvents" :loaded="!appointmentsStore.isLoading" :events="events" @handle-date-select="handleDateSelect" @handle-event-click="handleEventClick" @handle-events="handleEvents" @handle-dates-set="handleDatesSet"> </CFullCalendar>
+            <CFullCalendar :fetch-events="fetchEvents" :loaded="!appointmentsStore.isLoading" :events="appointmentsStore.entries" @handle-date-select="handleDateSelect" @handle-event-click="handleEventClick" @handle-events="handleEvents" @handle-dates-set="handleDatesSet"> </CFullCalendar>
         </div>
 
         <CConfirmModal
@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, ref } from "vue"
+import { ref } from "vue"
 import { useAppointmentsStore } from "@/modules/appointments/store"
 import { api } from "@/logic/api"
 import EditGeneral from "@/modules/appointments/views/EditGeneral.vue"

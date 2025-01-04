@@ -35,16 +35,18 @@ export const useAppointmentsStore = defineStore("appointments-store", {
 
             const response = await api.get(`/appointments?startDate=${this.startDate}&endDate=${this.endDate}`)
             this.isLoading = false
-            this.entries = response.map((appointment) => ({
-                id: appointment.id,
-                title: appointment.patient.name,
-                description: appointment.notes,
-                className: appointment.className,
-                date: appointment.date,
-                start: appointment.start,
-                end: appointment.end,
-            }))
-
+            this.entries = [
+                ...this.entries,
+                ...response.map((appointment) => ({
+                    id: appointment.id,
+                    title: appointment.patient.name,
+                    description: appointment.notes,
+                    className: appointment.className,
+                    date: appointment.date,
+                    start: appointment.start,
+                    end: appointment.end,
+                })),
+            ]
             return this.entries
         },
     },
