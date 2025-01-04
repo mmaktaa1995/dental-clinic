@@ -208,7 +208,12 @@
         }
     },
     "statistics": {
+        "incomes": "Einkommen",
         "netGrossProfit": "Netto-Bruttogewinn",
+        "netProfit": "Nettogewinn",
+        "patientsCount": "Patienten zählen",
+        "patientsRemainingAmounts": "Die restlichen Beträge gehören den Patienten",
+        "resultAccordingToFilters": "Diese Statistiken entsprechen den oben gewählten Werten",
         "selectDay": "Tag auswählen",
         "selectMonth": "Monat auswählen",
         "selectYear": "Jahr auswählen",

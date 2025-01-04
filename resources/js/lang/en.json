@@ -208,7 +208,12 @@
         }
     },
     "statistics": {
+        "incomes": "Incomes",
         "netGrossProfit": "Net gross profit",
+        "netProfit": "Net Profit",
+        "patientsCount": "Patients Count",
+        "patientsRemainingAmounts": "Patients' Remaining Amounts",
+        "resultAccordingToFilters": "These statistics are according to the values chosen above",
         "selectDay": "Select Day",
         "selectMonth": "Select Month",
         "selectYear": "Select Year",

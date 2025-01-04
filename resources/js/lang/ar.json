@@ -208,7 +208,12 @@
         }
     },
     "statistics": {
+        "incomes": "الدخل",
         "netGrossProfit": "صافي الربح الإجمالي",
+        "netProfit": "صافي الربح",
+        "patientsCount": "عدد المرضى",
+        "patientsRemainingAmounts": " المبالغ المتبقية لدى المرضى",
+        "resultAccordingToFilters": "هذه الإحصائيات تبعا للقيم المختارة أعلاه",
         "selectDay": "اختر يوم",
         "selectMonth": "اختر الشهر",
         "selectYear": "اختر السنة",

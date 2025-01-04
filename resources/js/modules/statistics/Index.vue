@@ -31,45 +31,45 @@
                         <table class="bg-white min-w-full divide-y divide-gray-200">
                             <thead>
                                 <tr class="bg-gray-50 text-gray-600 text-sm leading-normal">
-                                    <th colspan="2" class="py-2 px-3 text-right">هذه الإحصائيات تبعا للقيم المختارة أعلاه</th>
+                                    <th colspan="2" class="py-2 px-3 text-right ltr:text-left">{{ $t("statistics.resultAccordingToFilters") }}</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200">
                                 <tr>
-                                    <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 text-md leading-5 text-gray-700">
-                                        <b class="font-medium">عدد المرضى</b>
+                                    <td class="px-3 py-3 text-sm whitespace-no-wrap border-b border-gray-200 text-md leading-5 text-gray-700">
+                                        <b class="font-medium">{{ $t("statistics.patientsCount") }}</b>
                                     </td>
                                     <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 text-md leading-5 text-gray-500">
                                         {{ totalPatients }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 text-md leading-5 text-gray-700">
-                                        <b class="font-medium"> المبالغ المتبقية لدى المرضى</b>
+                                    <td class="px-3 py-3 text-sm whitespace-no-wrap border-b border-gray-200 text-md leading-5 text-gray-700">
+                                        <b class="font-medium">{{ $t("statistics.patientsRemainingAmounts") }}</b>
                                     </td>
                                     <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 text-md leading-5 text-red-500">
-                                        {{ +totalDebts }}
+                                        {{ formatNumber(+totalDebts) }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 text-md leading-5 text-gray-700">
-                                        <b class="font-medium">النفقات</b>
+                                    <td class="px-3 py-3 text-sm whitespace-no-wrap border-b border-gray-200 text-md leading-5 text-gray-700">
+                                        <b class="font-medium">{{ $t("sideBar.menu.expenses") }}</b>
                                     </td>
                                     <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 text-md leading-5 text-gray-500">
-                                        {{ expensesSum }}
+                                        {{ formatNumber(expensesSum) }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 text-md leading-5 text-gray-700">
-                                        <b class="font-medium">الواردات</b>
+                                    <td class="px-3 py-3 text-sm whitespace-no-wrap border-b border-gray-200 text-md leading-5 text-gray-700">
+                                        <b class="font-medium">{{ $t("statistics.incomes") }}</b>
                                     </td>
                                     <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 text-md leading-5 text-gray-500">
-                                        {{ incomesSum }}
+                                        {{ formatNumber(incomesSum) }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 text-md leading-5 text-gray-700">
-                                        <b class="font-medium">صافي الأرباح</b>
+                                    <td class="px-3 py-3 text-sm whitespace-no-wrap border-b border-gray-200 text-md leading-5 text-gray-700">
+                                        <b class="font-medium">{{ $t("statistics.netProfit") }}</b>
                                     </td>
                                     <td class="px-3 py-3 whitespace-no-wrap border-b border-gray-200 text-md leading-5 text-gray-500">
                                         <span
@@ -78,7 +78,7 @@
                                                 'text-red-500': Math.sign(incomesSum - expensesSum) === -1,
                                             }"
                                         >
-                                            {{ incomesSum - expensesSum }}</span
+                                            {{ formatNumber(incomesSum - expensesSum) }}</span
                                         >
                                     </td>
                                 </tr>
@@ -96,8 +96,8 @@
                                 <div class="flex-auto p-4">
                                     <div class="flex flex-wrap">
                                         <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
-                                            <h5 class="text-blueGray-400 uppercase font-bold text-xs">{{ widget.label }}</h5>
-                                            <span class="font-semibold text-xl text-blueGray-700 mt-3" :class="widget.color">{{ widget.value }}</span>
+                                            <h5 class="text-gray-400 uppercase font-bold text-xs">{{ widget.label }}</h5>
+                                            <span class="font-semibold text-xl text-gray-700 mt-3" :class="widget.color">{{ widget.value }}</span>
                                         </div>
                                         <div class="relative w-auto pl-4 flex-initial">
                                             <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full" :class="[widget.iconColor]">
@@ -114,13 +114,13 @@
 
             <div class="col-span-full grid grid-cols-1 md:grid-cols-2 gap-8 mx-8">
                 <div v-if="!loading && patients.length" class="card">
-                    <h1 class="text-lg font-semibold card-title">المرضى</h1>
+                    <h1 class="text-lg font-semibold card-title">{{ $t("sideBar.menu.patients") }}</h1>
                     <div class="card-body">
                         <c-apex-line-chart v-if="patients.length" label="مريض" :format-tooltip-title="['المرضى']" :data="patients"></c-apex-line-chart>
                     </div>
                 </div>
                 <div v-if="!loading && visits.length" class="card">
-                    <h1 class="text-lg font-semibold card-title">الزيارات</h1>
+                    <h1 class="text-lg font-semibold card-title">{{ $t("patients.visits") }}</h1>
                     <div class="card-body">
                         <c-apex-line-chart v-if="visits.length" label="زيارة" color="cyan" :format-tooltip-title="['الزيارات']" :data="visits"></c-apex-line-chart>
                     </div>
@@ -131,41 +131,40 @@
                 <!--                <c-apex-polar-chart v-if="incomes.length" label="إيراد" :format-tooltip-title="['الواردات']" :data="incomes"></c-apex-polar-chart>-->
                 <!--            </div>-->
                 <!--        </div>-->
-                <div v-if="!loading && incomes.length" class="card">
-                    <h1 class="text-lg font-semibold card-title">الواردات</h1>
+                <div v-if="!loading && incomes.length" class="card col-span-full">
+                    <h1 class="text-lg font-semibold card-title">{{ $t("statistics.incomes") }}</h1>
                     <div class="card-body">
-                        <c-apex-line-chart v-if="incomes.length" label="<b class='mr-1'>واردات</b>" color="green" :format-tooltip-title="['الواردات']" :suggested-max="suggestedMax(incomes)" :data="incomes"></c-apex-line-chart>
+                        <c-apex-line-chart v-if="incomes.length" color="green" :suggested-max="suggestedMax(incomes)" :data="incomes"></c-apex-line-chart>
                     </div>
                 </div>
-                <div v-if="!loading && expenses.length" class="card">
-                    <h1 class="text-lg font-semibold card-title">النفقات</h1>
+                <div v-if="!loading && expenses.length" class="card col-span-full">
+                    <h1 class="text-lg font-semibold card-title">{{ $t("sideBar.menu.expenses") }}</h1>
                     <div class="card-body">
-                        <c-apex-line-chart v-if="expenses.length" label="<b class='mr-1'>نفقات</b>" color="red" :format-tooltip-title="['النفقات']" :suggested-max="suggestedMax(expenses)" :data="expenses"></c-apex-line-chart>
+                        <c-apex-line-chart v-if="expenses.length" color="red" :suggested-max="suggestedMax(expenses)" :data="expenses"></c-apex-line-chart>
                     </div>
                 </div>
-                <div v-if="!loading && debts.length" class="card">
-                    <h1 class="text-lg font-semibold card-title">المبالغ المتبقية</h1>
+                <div v-if="!loading && debts.length" class="card col-span-full">
+                    <h1 class="text-lg font-semibold card-title">{{ $t("sideBar.menu.debits") }}</h1>
                     <div class="card-body">
-                        <c-apex-line-chart v-if="debts.length" label="<b class='mr-1'>ديون</b>" :format-tooltip-title="['المبالغ المتبقية']" :suggested-max="suggestedMax(debts)" color="default" :data="debts"></c-apex-line-chart>
+                        <c-apex-line-chart v-if="debts.length" :suggested-max="suggestedMax(debts)" color="default" :data="debts"></c-apex-line-chart>
                     </div>
                 </div>
                 <div v-if="!loading && incomes.length" class="card col-span-full">
-                    <h1 class="text-lg font-semibold card-title">الواردات و النفقات</h1>
+                    <h1 class="text-lg font-semibold card-title">{{ $t("statistics.incomes") }} & {{ $t("sideBar.menu.debits") }}</h1>
                     <div class="card-body">
                         <c-apex-bar-chart
-                            v-if="incomes.length"
-                            label="واردات"
-                            :colors="['blue', 'red']"
-                            :format-tooltip-title="['الواردات']"
+                            v-if="incomes.length || expenses.length"
+                            label=""
+                            :colors="['rgb(75, 192, 192)', 'rgb(255, 99, 132)']"
                             :suggested-max="suggestedMax(incomes)"
                             :data="incomes"
                             :series="[
                                 {
-                                    name: '<b class=\'mr-1\'>واردات </b>',
+                                    name: $t('statistics.incomes'),
                                     data: incomes.map((_) => _.value),
                                 },
                                 {
-                                    name: '<b class=\'mr-1\'>نفقات </b>',
+                                    name: $t('sideBar.menu.debits'),
                                     data: expenses.map((_) => _.value),
                                 },
                             ]"
@@ -244,7 +243,7 @@ const widgets = computed(() => {
             label: t("statistics.totalPatients"),
             icon: "CIconUsers",
             iconColor: "bg-red-500",
-            color: "text-blueGray-700",
+            color: "text-gray-700",
             value: totalPatientsCount.value,
         },
         {

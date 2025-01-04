@@ -26,7 +26,8 @@ import users from "@/components/icons/Users.vue"
 import Bars from "@/components/icons/Bars.vue"
 import Collection from "@/components/icons/Collection.vue"
 import AsyncButton from "@/components/AsyncButton.vue"
-import BarChart from "@/components/ApexCharts/BarChart.vue"
+import { default as ApexBarChart } from "@/components/ApexCharts/BarChart.vue"
+import BarChart from "@/components/BarChart.vue"
 import PieChart from "@/components/PieChart.vue"
 import PolarChart from "@/components/ApexCharts/PolarChart.vue"
 import LineChart from "@/components/ApexCharts/LineChart.vue"
@@ -90,7 +91,7 @@ export const loadComponents = (app: App<Element>) => {
     app.component("CBarChart", BarChart)
     app.component("CPieChart", PieChart)
     app.component("CApexPolarChart", PolarChart)
-    app.component("CApexBarChart", BarChart)
+    app.component("CApexBarChart", ApexBarChart)
     app.component("CApexLineChart", LineChart)
     app.component("CFilePondComponent", FilePond)
     app.component("CSearch", Search)

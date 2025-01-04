@@ -84,7 +84,6 @@ const searchValue = computed({
         return showDropdown.value ? searchQuery.value : displayValue.value
     },
     set(value: string) {
-        console.log(value)
         searchQuery.value = value
     },
 })

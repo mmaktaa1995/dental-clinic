@@ -76,7 +76,7 @@ export default {
                 tooltip: {
                     y: {
                         formatter: function (val) {
-                            return series ? numberFormat(val) : "  " + label + ": " + numberFormat(val)
+                            return series ? numberFormat(val) : (label ? label + ": " : "") + numberFormat(val)
                         },
                     },
                 },
@@ -88,7 +88,7 @@ export default {
      */
     computed: {
         chartLabels() {
-            return this.data.map((dataPoint) => " " + dataPoint.label)
+            return this.data.map((dataPoint) => dataPoint.label)
         },
 
         chartData() {

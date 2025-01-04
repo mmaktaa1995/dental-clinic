@@ -6,6 +6,14 @@
 
 <script>
 import VueApexCharts from "vue3-apexcharts"
+function numberFormat(value) {
+    return value
+        ? value.toLocaleString(
+              undefined, // leave undefined to use the visitor's browser locale or a string like 'en-US' to override it.
+              { minimumFractionDigits: 2 },
+          )
+        : "0"
+}
 
 export default {
     components: {
@@ -14,11 +22,10 @@ export default {
     /**
      * The component's props.
      */
-    props: ["label", "data", "labels", "series", "color", "height", "formatTooltipTitle", "suggestedMax", "single"],
+    props: ["label", "data", "labels", "series", "color", "colors", "height", "formatTooltipTitle", "suggestedMax", "single"],
     data() {
         return {
             loaded: false,
-            colors: [],
             chartOptions: {
                 // colors: [],
                 chart: {
@@ -85,7 +92,7 @@ export default {
                     labels: {
                         show: true,
                         formatter: function (val) {
-                            return " " + val
+                            return numberFormat(val)
                         },
                     },
                 },
@@ -112,8 +119,8 @@ export default {
         this.chartOptions.xaxis.categories = this.chartLabels
         const colors = {
             green: {
-                backgroundColor: "#BDFADB",
-                borderColor: "hsla(150, 75%, 65% , 0.4)",
+                backgroundColor: "rgba(244, 67, 54, 0.7)",
+                borderColor: "hsla(0, 75%, 65% , 0.4)",
             },
             red: {
                 backgroundColor: "#FF8A8A",
@@ -124,12 +131,15 @@ export default {
                 borderColor: "hsla(260, 73%, 70%, 0.4)",
             },
         }
-        let color = colors[this.color]
-        if (!color) {
-            color = colors.default
+        if (this.colors) {
+            this.chartOptions.colors = this.colors
+        } else {
+            let color = colors[this.color]
+            if (!color) {
+                color = colors.default
+            }
+            this.chartOptions.colors = [color.backgroundColor, ...Object.values(colors).map((_) => _.backgroundColor)]
         }
-        this.colors = Object.values(colors).map((_) => _.backgroundColor)
-        this.chartOptions.colors = [color.backgroundColor, ...this.colors]
         setTimeout(() => (this.loaded = true))
     },
     methods: {
