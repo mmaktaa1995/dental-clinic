@@ -3,11 +3,12 @@
 namespace App\Services;
 
 use App\Models\Tooth;
+use Illuminate\Support\Collection;
 use Symfony\Component\DomCrawler\Crawler;
 
 class SettingsService
 {
-    public function getUsdExchangeRate()
+    public function getUsdExchangeRate(): Collection
     {
         if (\Cache::has('exchangeRates')) {
             return response()->json(\Cache::get('exchangeRates'));
@@ -40,7 +41,7 @@ class SettingsService
             return $exchangeRates->toArray();
         });
 
-        return response()->json($exchangeRates);
+        return $exchangeRates;
     }
 
 
@@ -829,22 +830,6 @@ class SettingsService
             file_put_contents(public_path("/images/teeth/{$node->attr('id')}.png"), $imageContent);
         });
         dd($imagesData);
-        // Extract the anchors with link `/currency/`
-        $anchorRates = $rates->filter('a[href*="/currency/"]');
-        $exchangeRates = collect();
-        $anchorRates->each(function (Crawler $node) use (&$exchangeRates) {
-            $currencyName = $node->filter('span.name')->first();
-            if (!$currencyName) {
-                return;
-            }
-
-            $exchangeRates[\Str::slug($currencyName->text(), '_')] = $node->filter('div.line-data span.value')->first()->text();
-            return $node;
-        });
-
-        \Cache::remember('exchangeRates', now()->addDay(), function () use ($exchangeRates) {
-            return $exchangeRates->toArray();
-        });
 
         return response()->json($exchangeRates);
     }

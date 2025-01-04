@@ -22,6 +22,7 @@ class HomeController extends Controller
 
     public function getUsdExchangeRate()
     {
-        return app(SettingsService::class)->getUsdExchangeRate();
+        $exchangeRate = app(SettingsService::class)->getUsdExchangeRate();
+        return response()->json($exchangeRate);
     }
 }
