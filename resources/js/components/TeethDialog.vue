@@ -12,7 +12,7 @@
                 </div>
             </div>
             <div class="flex justify-center">
-                <Teeth v-model="selectedTeeth" v-model:treated-teeth="treatedTeeth" :treat-mode></Teeth>
+                <Teeth v-model="selectedTeeth" v-model:treated-teeth="treatedTeeth" :treat-mode :affected-teeth="affectedTeeth"></Teeth>
             </div>
         </template>
     </CDialog>
@@ -28,9 +28,11 @@ const treatedTeeth = defineModel<Record<any, any>>("treatedTeeth", { required: f
 withDefaults(
     defineProps<{
         treatMode?: boolean
+        affectedTeeth?: Record<any, any>
     }>(),
     {
         treatMode: false,
+        affectedTeeth: undefined,
     },
 )
 const $emit = defineEmits(["teethSelected"])

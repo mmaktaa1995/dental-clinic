@@ -20,10 +20,10 @@
             </div>
         </template>
         <template #actions>
-            <CButton @click="close">{{ $t("global.actions.cancel") }}</CButton>
             <AsyncButton :loading="isCreating" type="primary" @click="createPayment">
                 {{ $t("global.actions.add") }}
             </AsyncButton>
+            <CButton @click="close">{{ $t("global.actions.cancel") }}</CButton>
         </template>
     </CDialog>
     <teleport to=".modal-teleport">

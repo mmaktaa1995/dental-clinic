@@ -1,11 +1,15 @@
 import { acceptHMRUpdate } from "pinia"
 import { defineEntryListStore } from "@/store/factories/entryListStore"
-import { PatientEntry } from "@/modules/patients/detailStore"
 
+type PatientSymptomEntry = {
+    id: number
+    symptoms: null
+    record_date: string
+}
 export const usePatientSymptomsStore = defineEntryListStore("patient-symptoms-store", {
     state: () => {
         return {
-            entries: null as null | PatientEntry[],
+            entries: null as null | PatientSymptomEntry[],
             isLoading: true,
             pagination: {
                 page: 1,

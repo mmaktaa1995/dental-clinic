@@ -55,9 +55,12 @@ const treatedTeeth = defineModel<Record<any, any>>("treatedTeeth", { required: f
 const props = withDefaults(
     defineProps<{
         treatMode?: boolean
+        // To disable click events and only show red background
+        affectedTeeth?: Record<any, any>
     }>(),
     {
         treatMode: false,
+        affectedTeeth: undefined,
     },
 )
 
@@ -514,7 +517,11 @@ const teethElements = [
     },
 ]
 const newTreatedTeeth = reactive({})
+
 const clickDisabled = (index) => {
+    if (props.affectedTeeth && props.affectedTeeth[index]) {
+        return true
+    }
     return (!props.treatMode && treatedTeeth?.value[index]) || (props.treatMode && !selectedTeeth.value[index]) || (props.treatMode && treatedTeeth?.value[index] && !newTreatedTeeth[index])
 }
 const selectTooth = (index) => {
@@ -545,7 +552,7 @@ const isToothSelected = (index) => {
 const selectedTeethColor = (index) => {
     if (treatedTeeth?.value?.[index]) {
         return "url(#greenEffect)"
-    } else if (isToothSelected(index)) {
+    } else if (isToothSelected(index) || (props.affectedTeeth && props.affectedTeeth[index])) {
         return "url(#redEffect)"
     } else {
         return ""

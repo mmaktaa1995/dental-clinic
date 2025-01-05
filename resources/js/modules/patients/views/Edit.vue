@@ -70,7 +70,8 @@
                 <CDateTimePicker v-model="patientDetailsStore.diagnose.record_date" :label="$t('patients.record_date')" :errors="patientDetailsStore.errors" name="record_date"></CDateTimePicker>
                 <CTextArea v-model="patientDetailsStore.diagnose.diagnose" :label="$t('patients.diagnose')" :errors="patientDetailsStore.errors" name="diagnose"></CTextArea>
                 <p v-if="getSelectedDiagnoseTeeth">
-                    {{ $t("patients.affectedTeethNumbers") }}: <span dir="ltr">{{ getSelectedDiagnoseTeeth }}</span>
+                    {{ $t("patients.affectedTeethNumbers") }}:
+                    <span dir="ltr">{{ getSelectedDiagnoseTeeth }}</span>
                 </p>
                 <CButton sm class="max-w-60" type="info" @click="(isSelectTeethOpened = true)">{{ $t("patients.linkAffectedTeeth") }}</CButton>
                 <CButton class="flex-shrink-0" type="dark" @click="saveDiagnose">{{ patientDetailsStore.diagnose.id > 0 ? $t("patients.editRecord") : $t("patients.addRecord") }}</CButton>
@@ -79,7 +80,7 @@
         </CAccordion>
     </c-container>
     <teleport to=".modal-teleport">
-        <TeethDialog v-if="isAddDiagnosisOpened" v-model="isSelectTeethOpened" v-model:teeth="patientDetailsStore.diagnose.teeth" @teeth-selected="selectDiagnoseTeeth"></TeethDialog>
+        <TeethDialog v-if="isAddDiagnosisOpened" v-model="isSelectTeethOpened" v-model:treated-teeth="treatedTeeth" v-model:teeth="patientDetailsStore.diagnose.teeth" :affected-teeth="affectedTeeth" @teeth-selected="selectDiagnoseTeeth"></TeethDialog>
     </teleport>
 </template>
 
@@ -87,13 +88,14 @@
 import { usePatientDetailsStore } from "@/modules/patients/detailStore.ts"
 import { useI18n } from "vue-i18n"
 import DateTime from "@/components/Table/components/DateTime.vue"
-import { computed, ref } from "vue"
+import { computed, reactive, ref } from "vue"
 import { usePatientDiagnosisStore } from "@/modules/patients/patientDiagnosisStore"
 import { usePatientSymptomsStore } from "@/modules/patients/patientSymptomsStore"
 import { useEntryListUpdater } from "@/composables/entryListUpdater"
 import { api } from "@/logic/api"
 import TeethDialog from "@/components/TeethDialog.vue"
 import { useSettingsStore } from "@/modules/global/settingsStore"
+import CellTeeth from "@/modules/patients/components/table/CellTeeth.vue"
 
 const isSelectTeethOpened = ref(false)
 const isAddSymptomsOpened = ref(false)
@@ -105,12 +107,30 @@ const patientSymptomsStore = usePatientSymptomsStore()
 const { t } = useI18n()
 let diagnosisReload
 let symptomsReload
+let treatedTeeth = reactive({})
+let affectedTeeth = reactive({})
+let tempAffectedTeeth = reactive({})
+
+function preparePatientAffectedTreatedTeeth() {
+    affectedTeeth = {}
+    tempAffectedTeeth = {}
+    treatedTeeth = {}
+    patientDetailsStore.entry?.affected_teeth?.forEach((tooth) => {
+        if (!tooth.is_treated) {
+            affectedTeeth[tooth.tooth_id] = tooth.tooth_id
+            tempAffectedTeeth[tooth.tooth_id] = tooth.tooth_id
+        } else {
+            treatedTeeth[tooth.tooth_id] = tooth.tooth_id
+        }
+    })
+}
 
 if (!patientDetailsStore.isNewEntry) {
     const { reload } = useEntryListUpdater(`/patients/${patientDetailsStore.entryId}/records?type=diagnosis`, patientDiagnosisStore)
     diagnosisReload = reload
     const symptomsEntryListUpdater = useEntryListUpdater(`/patients/${patientDetailsStore.entryId}/records?type=symptoms`, patientSymptomsStore)
     symptomsReload = symptomsEntryListUpdater.reload
+    preparePatientAffectedTreatedTeeth()
 }
 
 const genders = [
@@ -150,6 +170,13 @@ const diagnosisColumns = [
         cellClassCondition: (rowData: any) => rowData.id < 0,
     },
     {
+        field: "teethIds",
+        headerName: t("patients.affectedTeethNumbers"),
+        cellRenderer: CellTeeth,
+        cellClass: "bg-rose-50 animate-blink",
+        cellClassCondition: (rowData: any) => rowData.id < 0,
+    },
+    {
         field: "record_date",
         headerName: t("patients.record_date"),
         cellRenderer: DateTime,
@@ -175,6 +202,7 @@ const openAddDiagnosisForm = (event) => {
         record_date: "",
         teeth: {},
     }
+    resetAffectedTeeth()
 }
 
 const addSymptom = () => {
@@ -214,19 +242,32 @@ const saveSymptom = () => {
     }
 }
 
+function resetAffectedTeeth() {
+    Object.values(tempAffectedTeeth).forEach((toothId) => {
+        affectedTeeth[toothId] = toothId
+    })
+}
+
 const saveDiagnose = () => {
     if (patientDetailsStore.diagnose.id > 0) {
         updateDiagnose()
     } else {
         addDiagnose()
     }
+    resetAffectedTeeth()
 }
 
 const updateDiagnose = async () => {
+    let oldTeeth = patientDiagnosisStore.entries?.find((diagnose) => patientDetailsStore.diagnose.id === diagnose.id).teethIds
+    if (Array.isArray(oldTeeth)) {
+        oldTeeth = {}
+    }
+    oldTeeth = Object.values(oldTeeth)
+    const updatedTeeth = Object.values(patientDetailsStore.diagnose.teeth)
     await api.patch(`/patients/${patientDetailsStore.entryId}/records/${patientDetailsStore.diagnose.id}`, {
         record_date: patientDetailsStore.diagnose.record_date,
         diagnosis: patientDetailsStore.diagnose.diagnose,
-        teeth: Object.values(patientDetailsStore.diagnose.teeth),
+        teeth: updatedTeeth,
     })
 
     patientDetailsStore.diagnose = {
@@ -236,6 +277,20 @@ const updateDiagnose = async () => {
     }
     isAddDiagnosisOpened.value = false
     diagnosisReload?.()
+    const deletedTeeth = (oldTeeth as []).filter((toothId) => !updatedTeeth.includes(toothId))
+    const addedTeeth = updatedTeeth.filter((toothId) => !oldTeeth.includes(toothId))
+    if (deletedTeeth.length) {
+        patientDetailsStore.entry.affected_teeth = patientDetailsStore.entry.affected_teeth.filter((tooth) => !deletedTeeth.includes(tooth.tooth_id))
+    }
+
+    addedTeeth.forEach((toothId) => {
+        patientDetailsStore.entry?.affected_teeth.push({ is_treated: 0, tooth_id: toothId })
+    })
+
+    if (addedTeeth.length || deletedTeeth.length) {
+        patientDetailsStore.watchers?.entry?.resetStore()
+    }
+    preparePatientAffectedTreatedTeeth()
 }
 
 const addDiagnose = () => {
@@ -260,13 +315,20 @@ const editDiagnose = (rowData: any) => {
     if (rowData.id < 0) {
         return
     }
-
+    const row = JSON.parse(JSON.stringify(rowData))
+    resetAffectedTeeth()
+    Object.values(row.teethIds).forEach((toothId) => {
+        const toothNumber = settingsStore.teeth.find((sTooth) => sTooth.id === toothId).number
+        if (affectedTeeth[toothNumber]) {
+            delete affectedTeeth[toothNumber]
+        }
+    })
     isAddDiagnosisOpened.value = true
     patientDetailsStore.diagnose = {
-        id: rowData.id,
-        diagnose: rowData.diagnosis,
-        record_date: rowData.record_date,
-        teeth: rowData.teethIds,
+        id: row.id,
+        diagnose: row.diagnosis,
+        record_date: row.record_date,
+        teeth: row.teethIds,
     }
 }
 
