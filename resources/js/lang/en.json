@@ -91,6 +91,7 @@
       "print": "print",
       "saveChanges": "Save changes"
     },
+    "checkHere": "Check Here",
     "connectionError": "A connection error occurred. Please try again later.",
     "currencies": {
       "SYP": "SYP",

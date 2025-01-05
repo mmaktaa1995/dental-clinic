@@ -72,6 +72,7 @@ watch(
     () => route.fullPath,
     async () => {
         if (route.params.id) {
+            patientDetailsStore.genericError = {}
             patientDetailsStore.entryId = parseInt(route.params.id as string)
             await patientDetailsStore.loadData()
             patientDetailsStore.watchers?.entry.resetStore()
@@ -83,6 +84,7 @@ watch(
 )
 
 const save = () => {
+    patientDetailsStore.genericError = {}
     patientDetailsStore.errors = {}
     isSaving.value = true
     let url = `/patients/create`
@@ -117,6 +119,14 @@ const save = () => {
             isSaving.value = false
             if (error.errors && error.status === 422) {
                 patientDetailsStore.errors = error.errors
+            }
+            if (error.id && error.file_number) {
+                patientDetailsStore.genericError = {
+                    id: error.id,
+                    message: error.message,
+                    code: "EXIST",
+                }
+                patientDetailsStore.watchers?.entry?.resetStore()
             }
         })
 }

@@ -28,10 +28,16 @@ import CDetailPageOutlet from "@/components/CDetailPage/CDetailPageOutlet.vue"
 import { useI18n } from "vue-i18n"
 import { DataTableColumn } from "@/components/Table/DataTable.vue"
 import DateTime from "@/components/Table/components/DateTime.vue"
+import { useRouteQueryParam } from "@/logic/routeQuerySync"
+import { storeToRefs } from "pinia"
 
 const patientsStore = usePatientsStore()
 const router = useRouter()
 const { t } = useI18n()
+const { file_number } = storeToRefs(patientsStore)
+
+useRouteQueryParam("file_number", undefined, "string", { targetRef: file_number })
+
 const { reload } = useEntryListUpdater("/patients", patientsStore)
 
 const columns: DataTableColumn[] = [

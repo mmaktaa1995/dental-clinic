@@ -34,4 +34,5 @@ return [
     'appointments_conflict' => 'الرجاء إدخال موعد أخر لا يتضارب مع المواعيد الأخرى وشكراً.',
     'appointment_created_successfully' => 'تم إضافة الموعد بنجاح.',
     'appointment_updated_successfully' => 'تم تعديل الموعد بنجاح.',
+    'existPatient' => 'هناك بالفعل مريض يحمل نفس الاسم ،ورقم ملفه هو #:file_number',
 ];

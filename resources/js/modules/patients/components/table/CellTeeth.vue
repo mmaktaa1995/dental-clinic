@@ -16,7 +16,7 @@ const settingsStore = useSettingsStore()
 
 const teeth = computed(() => {
     // this means the teethIds is empty, otherwise we're getting it as an object
-    if (Array.isArray(props.value)) {
+    if (!props.value || Array.isArray(props.value)) {
         return "-"
     }
 

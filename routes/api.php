@@ -51,6 +51,7 @@ Route::prefix('v1')->group(function () {
 
 
         Route::post('patients', [PatientsController::class, 'list']);
+        Route::post('patients/exist', [PatientsController::class, 'checkExisting']);
         Route::post('patients/create', [PatientsController::class, 'store']);
         Route::get('patients/{patient}', [PatientsController::class, 'show']);
         Route::patch('patients/{patient}', [PatientsController::class, 'update']);

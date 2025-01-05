@@ -1,9 +1,15 @@
 <template>
+    <div v-if="patientDetailsStore.genericError.message && patientDetailsStore.genericError.code === 'EXIST'" class="px-4 py-3 sm:p-6 bg-rose-100 bg-opacity-50 text-rose-800 border-b border-rose-800">
+        <p>
+            {{ patientDetailsStore.genericError.message }}.
+            <a :href="`/patients/${patientDetailsStore.genericError.id}/general`" class="hover:underline font-medium">{{ $t("global.checkHere") }}</a>
+        </p>
+    </div>
     <c-container>
         <CAccordion :title="$t('patients.patientInfo')" :description="$t('patients.patientInfoDescription')">
             <div class="grid grid-cols-2 gap-6">
                 <CTextField v-model="patientDetailsStore.entry.file_number" :disabled="true" :label="$t('patients.fileNumber')" :errors="patientDetailsStore.errors" name="file_number"></CTextField>
-                <CTextField v-model="patientDetailsStore.entry.name" :label="$t('patients.name')" :errors="patientDetailsStore.errors" name="name"></CTextField>
+                <CTextField v-model="patientDetailsStore.entry.name" :label="$t('patients.name')" :errors="patientDetailsStore.errors" name="name" @input="checkPatientExistance"></CTextField>
                 <CTextField v-model="patientDetailsStore.entry.age" :label="$t('patients.age')" type="number" :errors="patientDetailsStore.errors" name="age"></CTextField>
                 <CSelect v-model="patientDetailsStore.entry.gender" :options="genders" :label="$t('patients.gender')" :hint="$t('patients.selectGender')" :errors="patientDetailsStore.errors" name="gender"></CSelect>
             </div>
@@ -44,7 +50,7 @@
             <div v-if="isAddSymptomsOpened" class="grid gap-3 mb-4">
                 <CDateTimePicker v-model="patientDetailsStore.symptom.record_date" :label="$t('patients.record_date')" :errors="patientDetailsStore.errors" name="record_date"></CDateTimePicker>
                 <CTextArea v-model="patientDetailsStore.symptom.symptom" :label="$t('patients.symptom')" :errors="patientDetailsStore.errors" name="symptom"></CTextArea>
-                <CButton class="flex-shrink-0" type="dark" @click="saveSymptom">{{ patientDetailsStore.symptom.id > 0 ? $t("patients.editRecord") : $t("patients.addRecord") }}</CButton>
+                <CButton class="flex-shrink-0" type="dark" @click="saveSymptom">{{ patientDetailsStore.symptom.id && patientDetailsStore.symptom.id > 0 ? $t("patients.editRecord") : $t("patients.addRecord") }}</CButton>
             </div>
             <CDataTable v-if="!patientDetailsStore.isLoading" :store="patientSymptomsStore" :columns="symptomsColumns" @row-clicked="editSymptom"></CDataTable>
         </CAccordion>
@@ -74,7 +80,7 @@
                     <span dir="ltr">{{ getSelectedDiagnoseTeeth }}</span>
                 </p>
                 <CButton sm class="max-w-60" type="info" @click="(isSelectTeethOpened = true)">{{ $t("patients.linkAffectedTeeth") }}</CButton>
-                <CButton class="flex-shrink-0" type="dark" @click="saveDiagnose">{{ patientDetailsStore.diagnose.id > 0 ? $t("patients.editRecord") : $t("patients.addRecord") }}</CButton>
+                <CButton class="flex-shrink-0" type="dark" @click="saveDiagnose">{{ patientDetailsStore.diagnose?.id && patientDetailsStore.diagnose?.id > 0 ? $t("patients.editRecord") : $t("patients.addRecord") }}</CButton>
             </div>
             <CDataTable v-if="!patientDetailsStore.isLoading" :store="patientDiagnosisStore" :columns="diagnosisColumns" @row-clicked="editDiagnose"></CDataTable>
         </CAccordion>
@@ -85,7 +91,7 @@
 </template>
 
 <script setup lang="ts">
-import { usePatientDetailsStore } from "@/modules/patients/detailStore.ts"
+import { usePatientDetailsStore } from "@/modules/patients/detailStore"
 import { useI18n } from "vue-i18n"
 import DateTime from "@/components/Table/components/DateTime.vue"
 import { computed, reactive, ref } from "vue"
@@ -96,20 +102,22 @@ import { api } from "@/logic/api"
 import TeethDialog from "@/components/TeethDialog.vue"
 import { useSettingsStore } from "@/modules/global/settingsStore"
 import CellTeeth from "@/modules/patients/components/table/CellTeeth.vue"
+import { useToastStore } from "@/modules/global/toastStore"
 
 const isSelectTeethOpened = ref(false)
 const isAddSymptomsOpened = ref(false)
 const isAddDiagnosisOpened = ref(false)
 const settingsStore = useSettingsStore()
+const toastStore = useToastStore()
 const patientDetailsStore = usePatientDetailsStore()
 const patientDiagnosisStore = usePatientDiagnosisStore()
 const patientSymptomsStore = usePatientSymptomsStore()
 const { t } = useI18n()
-let diagnosisReload
-let symptomsReload
-let treatedTeeth = reactive({})
-let affectedTeeth = reactive({})
-let tempAffectedTeeth = reactive({})
+let diagnosisReload: any
+let symptomsReload: any
+let treatedTeeth = reactive<Record<any, any>>({})
+let affectedTeeth = reactive<Record<any, any>>({})
+let tempAffectedTeeth = reactive<Record<any, any>>({})
 
 function preparePatientAffectedTreatedTeeth() {
     affectedTeeth = {}
@@ -185,7 +193,7 @@ const diagnosisColumns = [
     },
 ]
 
-const openAddSymptomsForm = (event) => {
+const openAddSymptomsForm = (event: any) => {
     event.stopPropagation()
     isAddSymptomsOpened.value = true
     patientDetailsStore.symptom = {
@@ -194,7 +202,7 @@ const openAddSymptomsForm = (event) => {
     }
 }
 
-const openAddDiagnosisForm = (event) => {
+const openAddDiagnosisForm = (event: any) => {
     event.stopPropagation()
     isAddDiagnosisOpened.value = true
     patientDetailsStore.diagnose = {
@@ -211,7 +219,7 @@ const addSymptom = () => {
         symptoms: patientDetailsStore.symptom.symptom,
         record_date: patientDetailsStore.symptom.record_date,
     }
-    patientSymptomsStore.entries?.push(newSymptom)
+    patientSymptomsStore.entries?.push(newSymptom as any)
     patientDetailsStore.entry?.symptoms.push(newSymptom)
     patientDetailsStore.symptom = {
         symptom: "",
@@ -235,7 +243,7 @@ const updateSymptom = async () => {
 }
 
 const saveSymptom = () => {
-    if (patientDetailsStore.symptom.id > 0) {
+    if (patientDetailsStore.symptom.id && patientDetailsStore.symptom.id > 0) {
         updateSymptom()
     } else {
         addSymptom()
@@ -249,7 +257,7 @@ function resetAffectedTeeth() {
 }
 
 const saveDiagnose = () => {
-    if (patientDetailsStore.diagnose.id > 0) {
+    if (patientDetailsStore.diagnose.id && patientDetailsStore.diagnose.id > 0) {
         updateDiagnose()
     } else {
         addDiagnose()
@@ -258,7 +266,7 @@ const saveDiagnose = () => {
 }
 
 const updateDiagnose = async () => {
-    let oldTeeth = patientDiagnosisStore.entries?.find((diagnose) => patientDetailsStore.diagnose.id === diagnose.id).teethIds
+    let oldTeeth: any = patientDiagnosisStore.entries?.find((diagnose) => patientDetailsStore.diagnose.id === diagnose.id)?.teethIds
     if (Array.isArray(oldTeeth)) {
         oldTeeth = {}
     }
@@ -277,14 +285,17 @@ const updateDiagnose = async () => {
     }
     isAddDiagnosisOpened.value = false
     diagnosisReload?.()
-    const deletedTeeth = (oldTeeth as []).filter((toothId) => !updatedTeeth.includes(toothId))
+    const deletedTeeth: number[] = (oldTeeth as []).filter((toothId) => !updatedTeeth.includes(toothId))
     const addedTeeth = updatedTeeth.filter((toothId) => !oldTeeth.includes(toothId))
     if (deletedTeeth.length) {
-        patientDetailsStore.entry.affected_teeth = patientDetailsStore.entry.affected_teeth.filter((tooth) => !deletedTeeth.includes(tooth.tooth_id))
+        patientDetailsStore.entry.affected_teeth = patientDetailsStore.entry.affected_teeth.filter((tooth) => !deletedTeeth.includes(+tooth.tooth_id))
     }
 
     addedTeeth.forEach((toothId) => {
-        patientDetailsStore.entry?.affected_teeth.push({ is_treated: 0, tooth_id: toothId })
+        if (!patientDetailsStore.entry?.affected_teeth) {
+            patientDetailsStore.entry.affected_teeth = []
+        }
+        patientDetailsStore.entry?.affected_teeth.push({ is_treated: 0, tooth_id: toothId } as any)
     })
 
     if (addedTeeth.length || deletedTeeth.length) {
@@ -301,7 +312,7 @@ const addDiagnose = () => {
         teeth: Object.values(patientDetailsStore.diagnose.teeth),
         teeth_ids: Object.values(patientDetailsStore.diagnose.teeth),
     }
-    patientDiagnosisStore.entries?.push(newDiagnose)
+    patientDiagnosisStore.entries?.push(newDiagnose as any)
     patientDetailsStore.entry?.diagnosis.push(newDiagnose)
     patientDetailsStore.diagnose = {
         diagnose: "",
@@ -318,8 +329,8 @@ const editDiagnose = (rowData: any) => {
     const row = JSON.parse(JSON.stringify(rowData))
     resetAffectedTeeth()
     Object.values(row.teethIds).forEach((toothId) => {
-        const toothNumber = settingsStore.teeth.find((sTooth) => sTooth.id === toothId).number
-        if (affectedTeeth[toothNumber]) {
+        const toothNumber = settingsStore.teeth.find((sTooth) => sTooth.id === toothId)?.number
+        if (toothNumber && affectedTeeth[toothNumber]) {
             delete affectedTeeth[toothNumber]
         }
     })
@@ -347,6 +358,24 @@ const editSymptom = (rowData: any) => {
 
 const selectDiagnoseTeeth = () => {
     isSelectTeethOpened.value = false
+}
+
+const checkPatientExistance = async () => {
+    patientDetailsStore.genericError = {}
+    if (!patientDetailsStore.entry.name || !patientDetailsStore.isNewEntry) {
+        patientDetailsStore.genericError = {}
+        return
+    }
+    const response = await api.post("/patients/exist", { query: patientDetailsStore.entry.name })
+    if (response.id && response.file_number) {
+        toastStore.error(response.message)
+        patientDetailsStore.genericError = {
+            id: response.id,
+            message: response.message,
+            code: "EXIST",
+        }
+        patientDetailsStore.watchers?.entry?.resetStore()
+    }
 }
 
 const getSelectedDiagnoseTeeth = computed(() => {

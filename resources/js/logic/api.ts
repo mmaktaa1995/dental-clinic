@@ -121,7 +121,6 @@ export const api = {
                 }
                 if (res.message) {
                     toastStore.error(res.message)
-                    return res.message
                 }
                 return "No response received from the server. Please try again later."
             })
@@ -181,15 +180,11 @@ export const api = {
         return domain + "/api/v1/" + path.replace("/", "") + parsedParams
     },
     getDefaultHeaders(): Record<string, string> {
-        // const appConfigStore = useAppConfigStore()
-        const language = "ar"
-        // if (appConfigStore.settings.defaultLanguage) {
-        //     language = appConfigStore.settings.defaultLanguage
-        // }
+        const { locale } = getI18n()
         const headers = {
             Accept: "application/json",
             "Content-Type": "application/json",
-            "X-LANGUAGE": language,
+            "X-LANGUAGE": locale.value,
             ...this.getAuthHeaders(),
         }
         return headers

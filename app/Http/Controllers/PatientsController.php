@@ -18,6 +18,8 @@ use App\Services\Search\PatientSearch;
 use App\Services\Search\VisitSearch;
 use DB;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Js;
 use Schema;
 
 class PatientsController extends Controller
@@ -50,8 +52,21 @@ class PatientsController extends Controller
         return response()->json(PatientResource::make($patient));
     }
 
+    public function checkExisting(Request $request): JsonResponse
+    {
+        $existingPatient = Patient::where('user_id', auth()->id())->where('name', $request->get('query'))->first();
+        if ($existingPatient) {
+            return response()->json(['message' => trans('app.existPatient', ['file_number' => $existingPatient->file_number]), 'file_number' => $existingPatient->file_number, 'id' => $existingPatient->id]);
+        }
+        return response()->json([]);
+    }
+
     public function store(PatientRequest $request): JsonResponse
     {
+        $existingPatient = Patient::where('user_id', auth()->id())->where('name', $request->get('query'))->first();
+        if ($existingPatient) {
+            return response()->json(['message' => trans('app.existPatient', ['file_number' => $existingPatient->file_number]), 'file_number' => $existingPatient->file_number, 'id' => $existingPatient->id], 500);
+        }
         $patient = null;
         DB::transaction(function () use ($request, &$patient) {
             $patient = Patient::create($request->only(["name", "age", "gender", "file_number", "phone", "mobile", "total_amount"]));

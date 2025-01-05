@@ -22,6 +22,9 @@ export type PatientEntry = {
     gender: number | null
     file_number: number
     phone: string | null
+    amount?: number | null
+    date?: string | null
+    notes?: string | null
     mobile: string | null
     files: { id: number; file: string; type: string }[]
     symptoms: { id: number; symptoms: string; record_date: string }[]
@@ -47,6 +50,7 @@ type PatientDetailStoreState = DetailPageStateTree & {
         teeth: Record<any, any>
     }
     filesToSave: any[]
+    genericError: Record<any, any>
 }
 
 export const usePatientDetailsStore = defineDetailPageStore("patient-details", {
@@ -108,8 +112,10 @@ export const usePatientDetailsStore = defineDetailPageStore("patient-details", {
             diagnose: {
                 diagnose: "",
                 record_date: "",
+                teeth: {},
             },
             filesToSave: [],
+            genericError: {},
         }
     },
     actions: {
@@ -118,12 +124,16 @@ export const usePatientDetailsStore = defineDetailPageStore("patient-details", {
                 const settingsStore = useSettingsStore()
                 this.entry = {
                     id: -1,
+                    affected_teeth: [],
                     name: null,
                     age: null,
                     gender: null,
                     file_number: settingsStore.lastFileNumber,
                     phone: null,
                     mobile: null,
+                    amount: null,
+                    date: null,
+                    notes: null,
                     files: [],
                     symptoms: [],
                     diagnosis: [],
