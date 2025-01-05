@@ -13,7 +13,7 @@ export const usePatientDiagnosisStore = defineEntryListStore("patient-diagnosis-
     state: () => {
         return {
             entries: null as null | PatientDiagnoseEntry[],
-            isLoading: true,
+            isLoading: false,
             pagination: {
                 page: 1,
                 last_page: 1,

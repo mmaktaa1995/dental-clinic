@@ -10,7 +10,7 @@ export const usePatientSymptomsStore = defineEntryListStore("patient-symptoms-st
     state: () => {
         return {
             entries: null as null | PatientSymptomEntry[],
-            isLoading: true,
+            isLoading: false,
             pagination: {
                 page: 1,
                 last_page: 1,

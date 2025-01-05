@@ -1,5 +1,5 @@
 <template>
-    <svg id="hove" :key="key" width="400" height="600" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" viewBox="0 50 400 600">
+    <svg id="hove" :key="key" dir="rtl" width="400" height="600" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" viewBox="0 50 400 600">
         <defs>
             <filter id="redEffect">
                 <feColorMatrix
