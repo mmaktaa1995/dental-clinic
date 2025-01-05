@@ -57,24 +57,20 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from "vue"
-import axios from "axios"
 import { useRouter } from "vue-router"
 import { useAccountStore } from "@/modules/auth/accountStore"
-import { api } from "@/logic/api"
+import { useSettingsStore } from "@/modules/global/settingsStore"
 
-console.log("here")
-// State variables
 const email = ref("")
 const password = ref("")
 const errors = ref({})
 
-// Router instance
 const router = useRouter()
 const accountStore = useAccountStore()
+const settingsStore = useSettingsStore()
 
-// Login method
 const login = async () => {
     const data = { email: email.value, password: password.value }
 
@@ -82,7 +78,12 @@ const login = async () => {
         await accountStore.login(data)
 
         // Navigate to the patients index page
-        router.push({ name: "patients-index" })
+        router.push({ name: "patients-index" }).then(async () => {
+            await accountStore.getUser()
+            await settingsStore.getExchangeRate()
+            await settingsStore.getLastFileNumber()
+            await settingsStore.getTeeth()
+        })
     } catch (error) {
         if (error.errors && error.status === 422) {
             errors.value = error.errors
