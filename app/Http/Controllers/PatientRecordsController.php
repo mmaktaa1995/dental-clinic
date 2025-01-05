@@ -25,18 +25,24 @@ class PatientRecordsController extends Controller
         $data = $request->validated();
         $data['patient_id'] = $patient->id;
         $patientRecord = PatientRecord::create($data);
+        if ($request->get('teeth')) {
+            $patientRecord->affectedTeeth()->sync($request->get('teeth'));
+        }
 
         return response()->json(['message' => __('app.success'), 'id' => $patientRecord->id]);
     }
 
-    public function update(PatientRecord $patientRecord, Patient $patient, PatientRecordRequest $request): JsonResponse
+    public function update(Patient $patient, PatientRecord $patientRecord, PatientRecordRequest $request): JsonResponse
     {
         $patientRecord->update($request->validated());
+        if ($request->get('teeth')) {
+            $patientRecord->affectedTeeth()->sync($request->get('teeth'));
+        }
 
         return response()->json(['message' => __('app.success')]);
     }
 
-    public function destroy(PatientRecord $patientRecord)
+    public function destroy(Patient $patient, PatientRecord $patientRecord)
     {
         \DB::transaction(function () use ($patientRecord) {
             $patientRecord->delete();

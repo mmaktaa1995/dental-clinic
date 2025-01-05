@@ -24,6 +24,7 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('patient_record_id');
             $table->unsignedBigInteger('tooth_id');
+            $table->boolean('is_treated')->default(0);
             $table->string('description')->nullable();
 
             $table->foreign('patient_record_id')->references('id')->on('patient_records')->onDelete('cascade');

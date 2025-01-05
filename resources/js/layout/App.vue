@@ -27,6 +27,7 @@ onBeforeMount(async () => {
     await accountStore.getUser()
     await settingsStore.getExchangeRate()
     await settingsStore.getLastFileNumber()
+    await settingsStore.getTeeth()
     await setHtmlLangAttributes()
     loaded.value = true
 })

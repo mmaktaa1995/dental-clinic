@@ -44,9 +44,9 @@
             <div v-if="isAddSymptomsOpened" class="grid gap-3 mb-4">
                 <CDateTimePicker v-model="patientDetailsStore.symptom.record_date" :label="$t('patients.record_date')" :errors="patientDetailsStore.errors" name="record_date"></CDateTimePicker>
                 <CTextArea v-model="patientDetailsStore.symptom.symptom" :label="$t('patients.symptom')" :errors="patientDetailsStore.errors" name="symptom"></CTextArea>
-                <CButton class="flex-shrink-0" type="dark" @click="addSymptom">{{ $t("global.actions.add") }}</CButton>
+                <CButton class="flex-shrink-0" type="dark" @click="saveSymptom">{{ patientDetailsStore.symptom.id > 0 ? $t("patients.editRecord") : $t("patients.addRecord") }}</CButton>
             </div>
-            <CDataTable v-if="!patientDetailsStore.isLoading" :store="patientSymptomsStore" :columns="symptomsColumns"></CDataTable>
+            <CDataTable v-if="!patientDetailsStore.isLoading" :store="patientSymptomsStore" :columns="symptomsColumns" @row-clicked="editSymptom"></CDataTable>
         </CAccordion>
 
         <CAccordion :expanded-by-default="false">
@@ -69,32 +69,48 @@
             <div v-if="isAddDiagnosisOpened" class="grid gap-3 mb-4">
                 <CDateTimePicker v-model="patientDetailsStore.diagnose.record_date" :label="$t('patients.record_date')" :errors="patientDetailsStore.errors" name="record_date"></CDateTimePicker>
                 <CTextArea v-model="patientDetailsStore.diagnose.diagnose" :label="$t('patients.diagnose')" :errors="patientDetailsStore.errors" name="diagnose"></CTextArea>
-                <CButton class="flex-shrink-0" type="dark" @click="addDiagnose">{{ $t("global.actions.add") }}</CButton>
+                <p v-if="getSelectedDiagnoseTeeth">
+                    {{ $t("patients.affectedTeethNumbers") }}: <span dir="ltr">{{ getSelectedDiagnoseTeeth }}</span>
+                </p>
+                <CButton sm class="max-w-60" type="info" @click="(isSelectTeethOpened = true)">{{ $t("patients.linkAffectedTeeth") }}</CButton>
+                <CButton class="flex-shrink-0" type="dark" @click="saveDiagnose">{{ patientDetailsStore.diagnose.id > 0 ? $t("patients.editRecord") : $t("patients.addRecord") }}</CButton>
             </div>
-            <CDataTable v-if="!patientDetailsStore.isLoading" :store="patientDiagnosisStore" :columns="diagnosisColumns"></CDataTable>
+            <CDataTable v-if="!patientDetailsStore.isLoading" :store="patientDiagnosisStore" :columns="diagnosisColumns" @row-clicked="editDiagnose"></CDataTable>
         </CAccordion>
     </c-container>
+    <teleport to=".modal-teleport">
+        <TeethDialog v-if="isAddDiagnosisOpened" v-model="isSelectTeethOpened" v-model:teeth="patientDetailsStore.diagnose.teeth" @teeth-selected="selectDiagnoseTeeth"></TeethDialog>
+    </teleport>
 </template>
 
 <script setup lang="ts">
 import { usePatientDetailsStore } from "@/modules/patients/detailStore.ts"
 import { useI18n } from "vue-i18n"
 import DateTime from "@/components/Table/components/DateTime.vue"
-import { ref } from "vue"
+import { computed, ref } from "vue"
 import { usePatientDiagnosisStore } from "@/modules/patients/patientDiagnosisStore"
 import { usePatientSymptomsStore } from "@/modules/patients/patientSymptomsStore"
 import { useEntryListUpdater } from "@/composables/entryListUpdater"
+import { api } from "@/logic/api"
+import TeethDialog from "@/components/TeethDialog.vue"
+import { useSettingsStore } from "@/modules/global/settingsStore"
 
+const isSelectTeethOpened = ref(false)
 const isAddSymptomsOpened = ref(false)
 const isAddDiagnosisOpened = ref(false)
+const settingsStore = useSettingsStore()
 const patientDetailsStore = usePatientDetailsStore()
 const patientDiagnosisStore = usePatientDiagnosisStore()
 const patientSymptomsStore = usePatientSymptomsStore()
 const { t } = useI18n()
+let diagnosisReload
+let symptomsReload
 
 if (!patientDetailsStore.isNewEntry) {
-    useEntryListUpdater(`/patients/${patientDetailsStore.entryId}/records?type=diagnosis`, patientDiagnosisStore)
-    useEntryListUpdater(`/patients/${patientDetailsStore.entryId}/records?type=symptoms`, patientSymptomsStore)
+    const { reload } = useEntryListUpdater(`/patients/${patientDetailsStore.entryId}/records?type=diagnosis`, patientDiagnosisStore)
+    diagnosisReload = reload
+    const symptomsEntryListUpdater = useEntryListUpdater(`/patients/${patientDetailsStore.entryId}/records?type=symptoms`, patientSymptomsStore)
+    symptomsReload = symptomsEntryListUpdater.reload
 }
 
 const genders = [
@@ -144,12 +160,21 @@ const diagnosisColumns = [
 
 const openAddSymptomsForm = (event) => {
     event.stopPropagation()
-    isAddSymptomsOpened.value = !isAddSymptomsOpened.value
+    isAddSymptomsOpened.value = true
+    patientDetailsStore.symptom = {
+        symptom: "",
+        record_date: "",
+    }
 }
 
 const openAddDiagnosisForm = (event) => {
     event.stopPropagation()
-    isAddDiagnosisOpened.value = !isAddDiagnosisOpened.value
+    isAddDiagnosisOpened.value = true
+    patientDetailsStore.diagnose = {
+        diagnose: "",
+        record_date: "",
+        teeth: {},
+    }
 }
 
 const addSymptom = () => {
@@ -167,18 +192,109 @@ const addSymptom = () => {
     isAddSymptomsOpened.value = false
 }
 
+const updateSymptom = async () => {
+    await api.patch(`/patients/${patientDetailsStore.entryId}/records/${patientDetailsStore.symptom.id}`, {
+        record_date: patientDetailsStore.symptom.record_date,
+        symptoms: patientDetailsStore.symptom.symptom,
+    })
+
+    patientDetailsStore.symptom = {
+        symptom: "",
+        record_date: "",
+    }
+    isAddSymptomsOpened.value = false
+    symptomsReload?.()
+}
+
+const saveSymptom = () => {
+    if (patientDetailsStore.symptom.id > 0) {
+        updateSymptom()
+    } else {
+        addSymptom()
+    }
+}
+
+const saveDiagnose = () => {
+    if (patientDetailsStore.diagnose.id > 0) {
+        updateDiagnose()
+    } else {
+        addDiagnose()
+    }
+}
+
+const updateDiagnose = async () => {
+    await api.patch(`/patients/${patientDetailsStore.entryId}/records/${patientDetailsStore.diagnose.id}`, {
+        record_date: patientDetailsStore.diagnose.record_date,
+        diagnosis: patientDetailsStore.diagnose.diagnose,
+        teeth: Object.values(patientDetailsStore.diagnose.teeth),
+    })
+
+    patientDetailsStore.diagnose = {
+        diagnose: "",
+        record_date: "",
+        teeth: {},
+    }
+    isAddDiagnosisOpened.value = false
+    diagnosisReload?.()
+}
+
 const addDiagnose = () => {
     const newDiagnose = {
         id: -1 * new Date().valueOf(),
         diagnosis: patientDetailsStore.diagnose.diagnose,
         record_date: patientDetailsStore.diagnose.record_date,
+        teeth: Object.values(patientDetailsStore.diagnose.teeth),
+        teeth_ids: Object.values(patientDetailsStore.diagnose.teeth),
     }
     patientDiagnosisStore.entries?.push(newDiagnose)
     patientDetailsStore.entry?.diagnosis.push(newDiagnose)
     patientDetailsStore.diagnose = {
         diagnose: "",
         record_date: "",
+        teeth: {},
     }
     isAddDiagnosisOpened.value = false
 }
+
+const editDiagnose = (rowData: any) => {
+    if (rowData.id < 0) {
+        return
+    }
+
+    isAddDiagnosisOpened.value = true
+    patientDetailsStore.diagnose = {
+        id: rowData.id,
+        diagnose: rowData.diagnosis,
+        record_date: rowData.record_date,
+        teeth: rowData.teethIds,
+    }
+}
+
+const editSymptom = (rowData: any) => {
+    if (rowData.id < 0) {
+        return
+    }
+
+    isAddSymptomsOpened.value = true
+    patientDetailsStore.symptom = {
+        id: rowData.id,
+        symptom: rowData.symptoms,
+        record_date: rowData.record_date,
+    }
+}
+
+const selectDiagnoseTeeth = () => {
+    isSelectTeethOpened.value = false
+}
+
+const getSelectedDiagnoseTeeth = computed(() => {
+    if (patientDetailsStore.diagnose.teeth) {
+        const teethNumbers = Object.values(patientDetailsStore.diagnose.teeth)
+        return settingsStore.teeth
+            .filter((tooth) => teethNumbers.includes(tooth.id))
+            .map((tooth) => `${tooth.number} - ${tooth.name}`)
+            .join(", ")
+    }
+    return ""
+})
 </script>

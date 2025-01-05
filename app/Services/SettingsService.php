@@ -833,4 +833,9 @@ class SettingsService
 
         return response()->json($exchangeRates);
     }
+
+    public function getTeeth(): Collection
+    {
+        return Tooth::all();
+    }
 }

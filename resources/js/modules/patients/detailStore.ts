@@ -7,6 +7,14 @@ type LoadDataOptions = {
     silently?: boolean
 }
 
+type PatientRecordToothEntry = {
+    id: number
+    patient_record_id: number
+    tooth_id: number
+    is_treated: number
+    description: null
+}
+
 export type PatientEntry = {
     id: number
     name: string | null
@@ -18,6 +26,7 @@ export type PatientEntry = {
     files: { id: number; file: string; type: string }[]
     symptoms: { id: number; symptoms: string; record_date: string }[]
     diagnosis: { id: number; diagnosis: string; record_date: string }[]
+    affected_teeth: PatientRecordToothEntry[]
     // created_at?: string
     // updated_at?: string
     // createdBy?: UserEntry
@@ -35,6 +44,7 @@ type PatientDetailStoreState = DetailPageStateTree & {
         id?: number
         diagnose: string
         record_date: string
+        teeth: Record<any, any>
     }
     filesToSave: any[]
 }

@@ -22,7 +22,7 @@
                         <slot name="actions"></slot>
                     </template>
                     <template v-else>
-                        <CAsyncButton :type="buttonType" :loading="loading" @click="confirm">{{ confirmLabel }}</CAsyncButton>
+                        <CAsyncButton :type="buttonType" :loading="loading" @click="confirm">{{ $t(confirmLabel) }}</CAsyncButton>
                         <CButton type="default" @click="back">
                             {{ $t("global.actions.cancel") }}
                         </CButton>
@@ -47,7 +47,7 @@ const props = withDefaults(
         showIcon?: boolean
     }>(),
     {
-        confirmLabel: "",
+        confirmLabel: "global.actions.confirm",
         type: undefined,
         showIcon: undefined,
     },

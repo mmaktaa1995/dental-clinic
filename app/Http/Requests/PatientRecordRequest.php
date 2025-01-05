@@ -27,6 +27,8 @@ class PatientRecordRequest extends FormRequest
             'record_date' => ['required' , 'date'],
             'symptoms' => ['required_without:diagnosis' , 'string'],
             'diagnosis' => ['required_without:symptoms' , 'string'],
+            'teeth' => ['nullable' , 'array'],
+            'teeth.*' => ['numeric' , 'exists:teeth,id'],
         ];
     }
 }

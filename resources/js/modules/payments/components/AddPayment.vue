@@ -15,6 +15,7 @@
                     <hr class="my-4" />
                     <CTextField v-model="paymentDetailsStore.entry.amount" :label="$t('payments.amount')" type="number" :errors="paymentDetailsStore.errors" name="amount"></CTextField>
                     <CTextField v-model="paymentDetailsStore.entry.remaining_amount" :disabled="!!payment && !isEdit" :label="$t('payments.remainingAmount')" :errors="paymentDetailsStore.errors" name="remaining_amount"></CTextField>
+                    <CButton sm class="max-w-60" type="info" @click="(isSelectTeethOpened = true)">{{ $t("patients.selectTreatedTeeth") }}</CButton>
                 </div>
             </div>
         </template>
@@ -25,16 +26,21 @@
             </AsyncButton>
         </template>
     </CDialog>
+    <teleport to=".modal-teleport">
+        <TeethDialog v-model="isSelectTeethOpened" v-model:teeth="teeth" v-model:treated-teeth="treatedTeethRef" :treat-mode="true" @teeth-selected="(isSelectTeethOpened = false)"></TeethDialog>
+    </teleport>
 </template>
 
 <script setup lang="ts">
 import { PatientEntry } from "@/modules/patients/detailStore"
 import { api } from "@/logic/api"
 import { PaymentEntry } from "@/modules/payments/store"
-import { computed, ref, watch } from "vue"
+import { computed, reactive, ref, watch } from "vue"
 import AsyncButton from "@/components/AsyncButton.vue"
 import { usePaymentDetailsStore } from "@/modules/payments/detailStore"
 import { format } from "date-fns"
+import TeethDialog from "@/components/TeethDialog.vue"
+import { useSettingsStore } from "@/modules/global/settingsStore"
 
 const isAddPaymentOpen = defineModel<boolean>({ required: true })
 
@@ -53,7 +59,9 @@ const props = withDefaults(
 )
 
 const paymentDetailsStore = usePaymentDetailsStore()
+const settingsStore = useSettingsStore()
 
+const isSelectTeethOpened = ref(false)
 const isCreating = ref(false)
 const title = computed(() => {
     if (props.isEdit) {
@@ -87,6 +95,9 @@ const createPayment = async () => {
             notes: paymentDetailsStore.entry.notes ? paymentDetailsStore.entry.notes : null,
             payment_id: props.payment?.id,
         }
+        if (props.patient?.affected_teeth?.length) {
+            body.teeth_ids = Object.values(treatedTeethRef)
+        }
         let url = "/payments/create"
         if (props.isEdit) {
             url = `/payments/${props.payment.id}`
@@ -95,6 +106,13 @@ const createPayment = async () => {
         isAddPaymentOpen.value = false
         paymentDetailsStore.isEdit = false
         isCreating.value = false
+        if (props.patient?.affected_teeth?.length) {
+            props.patient?.affected_teeth.forEach((tooth) => {
+                if (body.teeth_ids.includes(tooth.tooth_id)) {
+                    tooth.is_treated = 1
+                }
+            })
+        }
         if (props.reload) {
             props.reload()
         }
@@ -106,8 +124,31 @@ const createPayment = async () => {
     }
 }
 
+let treatedTeethRef = reactive({})
+const teeth = computed(() => {
+    if (props.patient?.affected_teeth?.length) {
+        const teeth = {}
+        props.patient?.affected_teeth?.forEach((tooth) => {
+            teeth[tooth.tooth_id] = tooth.tooth_id
+        })
+        return teeth
+    }
+    return {}
+})
+
 watch(isAddPaymentOpen, () => {
     if (isAddPaymentOpen.value) {
+        if (props.patient) {
+            if (props.patient.affected_teeth?.length) {
+                const teeth = {}
+                const treatedTeeth = [...props.patient.affected_teeth].filter((tooth) => tooth.is_treated)
+                treatedTeeth.forEach((tooth) => {
+                    const toothNumber = settingsStore.teeth.find((sTooth) => sTooth.id === tooth.tooth_id).number
+                    teeth[toothNumber] = toothNumber
+                })
+                treatedTeethRef = teeth
+            }
+        }
         isCreating.value = false
         paymentDetailsStore.errors = {}
         if (props.patient) {

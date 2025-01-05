@@ -30,6 +30,7 @@ class PatientResource extends JsonResource
             'files' => FileResource::collection($this->whenLoaded('files')),
             'symptoms' => PatientRecordResource::collection($this->whenLoaded('symptoms')),
             'diagnosis' => PatientRecordResource::collection($this->whenLoaded('diagnosis')),
+            'affected_teeth' => PatientRecordToothResource::collection($this->whenLoaded('affectedTeeth')),
             'created_at' => $this->created_at->format("Y-m-d H:i:s"),
         ];
     }

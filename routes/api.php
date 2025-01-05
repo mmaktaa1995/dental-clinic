@@ -36,6 +36,7 @@ Route::prefix('v1')->group(function () {
         Route::post('logout', [LoginController::class, 'logout'])->name('logout');
         Route::get('user', [LoginController::class, 'user']);
         Route::get('currencies/exchange-rate', [HomeController::class, 'getUsdExchangeRate']);
+        Route::get('teeth', [HomeController::class, 'teeth']);
 
         // New Routes
         Route::get('patients/lastFileNumber', [PatientsController::class, 'lastFileNumber'])->name('patients.last_file_number');

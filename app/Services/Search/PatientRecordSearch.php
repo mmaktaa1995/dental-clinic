@@ -28,6 +28,7 @@ class PatientRecordSearch extends BaseSearch
         return PatientRecord::when($this->patient_id, function ($query) {
             $query->where('patient_id', $this->patient_id);
         })
+            ->with(['affectedTeeth'])
             ->leftJoin('patients', 'patients.id', 'patient_records.patient_id')
             ->when($this->request->get('type'), function ($query) {
                 if ($this->request->get('type') === 'symptoms') {

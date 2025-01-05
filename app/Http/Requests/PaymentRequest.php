@@ -30,6 +30,8 @@ class PaymentRequest extends FormRequest
             'notes' => ['nullable', 'string'],
             'amount' => ['nullable', 'numeric'],
             'remaining_amount' => ['nullable', 'numeric'],
+            'teeth_ids' => ['nullable', 'array'],
+            'teeth_ids.*' => ['numeric' , 'exists:teeth,id'],
         ];
     }
 }

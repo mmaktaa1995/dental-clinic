@@ -1,224 +1,232 @@
 {
-    "appointments": {
-        "addAppointment": "Add Appointment",
-        "appointment": "Appointment",
-        "appointmentDate": "Appointment Date",
-        "appointmentTime": "Appointment Time",
-        "editAppointment": "Edit Appointment",
-        "notes": "Notes",
-        "patient": "Patient"
-    },
-    "auth": {
-        "admin": "Admin",
-        "email": "Email address",
-        "emailPlaceholder": "Email address",
-        "name": "Name",
-        "namePlaceholder": "Name",
-        "password": "Password",
-        "passwordPlaceholder": "Password",
-        "registerNewAccount": "Register new account",
-        "signUp": "Sign up",
-        "student": "Student",
-        "username": "Username",
-        "usernamePlaceholder": "Username"
-    },
-    "cDetailPage": {
-        "backToOverview": "Back",
-        "unsavedChangesWarnings": {
-            "discardChanges": "Discard changes",
-            "discardUnsavedChanges": "Do you want to discard unsaved changes?",
-            "title": "Unsaved Changes"
-        }
-    },
-    "debits": {
-        "actionTaken": "Action Taken",
-        "amount": "Amount",
-        "date": "Date",
-        "errorMessage": "It looks like there was an error. Please check your application logs.",
-        "name": "Name",
-        "suggestRecentDate": "Consider searching using a more recent 'Starting from' date. The CloudWatch API may have long response times while searching far into the past. These requests may timeout or lead to unexpected errors."
-    },
-    "error": {
-        "backToHomepage": "Back to Homepage",
-        "errorCode403": 403,
-        "notAuthorizedToViewPage": "You are not authorized to view this page"
-    },
-    "errors": {
-        "backToHomepage": "Back to Homepage",
-        "findOtherThings": "Find other things",
-        "pageNotFound": "Page Not Found"
-    },
-    "expenses": {
-        "amount": "Amount",
-        "date": "Date",
-        "description": "Description",
-        "entryName": "Service",
-        "expenseCreatedSuccessfully": "Expense created successfully!",
-        "expenseDeletedSuccessfully": "Expense deleted successfully!",
-        "expenseInfo": "Expense Info",
-        "expenseUpdatedSuccessfully": "Expense updated successfully!",
-        "name": "Name",
-        "title": "Expenses"
-    },
-    "filePond": {
-        "cancelLabel": "Click here to cancel",
-        "corruptFileDetected": "Please make sure that the file does not come from inside a zip archive and that it is not corrupted.",
-        "deleteFile": "An occurred during deletion",
-        "dragAndDropOr": "Drag & drop or",
-        "file": "File",
-        "fileInformationUnavailable": "File information not available",
-        "fileLoadError": "An error occurred during loading",
-        "fileTypeUnsupported": "This file type is not supported",
-        "idle": "Drag and drop files here...",
-        "invalidFile": "Invalid file selected",
-        "loading": "Loading",
-        "retryLabel": "Click here to replay",
-        "selectFile": "Select file",
-        "undoLabel": "Click here to undo",
-        "uploadCancelled": "Upload cancelled",
-        "uploadCancelledError": "An error occurred during cancellation",
-        "uploadFailed": "An error occurred during upload",
-        "waitForFileInformation": "Wait for file information"
-    },
-    "global": {
-        "actions": {
-            "add": "Add",
-            "cancel": "Cancel",
-            "confirm": "Confirm",
-            "create": "Create",
-            "delete": "Delete",
-            "label": "Actions",
-            "print": "print",
-            "saveChanges": "Save changes"
-        },
-        "connectionError": "A connection error occurred. Please try again later.",
-        "currencies": {
-            "SYP": "SYP",
-            "USD": "USD"
-        },
-        "date": "Date",
-        "deleteEntryBodyMessage": "Are you sure you want to delete this {type}?",
-        "deleteEntryTitle": "Delete {type}",
-        "financial": "Finance",
-        "fromDate": "From",
-        "genders": {
-            "female": "Female",
-            "male": "Male"
-        },
-        "general": "General",
-        "greetings": {
-            "afternoon": "Good Afternoon",
-            "evening": "Good Evening",
-            "morning": "Good Morning"
-        },
-        "hello": "Hello",
-        "languages": {
-            "ar": "Arabic",
-            "de": "German",
-            "en": "English"
-        },
-        "logout": "Logout",
-        "noEntries": "There are no records entered yet...",
-        "noEntriesFound": "No content found with the specified search criteria. You can adjust the filters above to see results.",
-        "pagination": {
-            "entriesPerPage": "Entries Per Page:",
-            "of": "Of",
-            "page": "Page:"
-        },
-        "serverError": "An unknown error occurred. Please try again later.",
-        "toDate": "To"
-    },
-    "patients": {
-        "addRecord": "addRecord",
-        "age": "Age",
-        "clinicalHistory": "Clinical History",
-        "clinicalHistoryDescription": "All information about a patient's health",
-        "createdAt": "Created At",
-        "diagnose": "Diagnose",
-        "diagnosis": "Diagnosis",
-        "diagnosisDescription": "Diagnosing the patient's condition and the treatment he needs.",
-        "entryName": "Patient",
-        "fileNumber": "File Number",
-        "files": "Files",
-        "gender": "Gender",
-        "mobile": "Mobile Number",
-        "moduleName": "Patients",
-        "name": "Patient Name",
-        "patientContactInfo": "Contact Information",
-        "patientContactInfoDescription": "Contact information to be able to reach the patient in case something urgent has happened or to ask questions or to discuss the next appointments.",
-        "patientCreatedSuccessfully": "Patient created successfully!",
-        "patientDeletedSuccessfully": "Patient deleted successfully!",
-        "patientInfo": "Patient Information",
-        "patientInfoDescription": "Personal details about the patient.",
-        "patientUpdatedSuccessfully": "Patient updated successfully!",
-        "paymentInfo": "Payment Info",
-        "paymentInfoDescription": "Add a patient down payment",
-        "phone": "Phone Number",
-        "record_date": "Record Date",
-        "relatedPatientFiles": "Patient Document Manager",
-        "relatedPatientFilesDescription": "Manage and access files related to patient records efficiently.",
-        "selectGender": "Select Gender",
-        "symptom": "Symptom",
-        "visits": "Visits"
-    },
-    "payments": {
-        "action": "Action",
-        "addDebtPayment": "Add Payment To Debt",
-        "addPayment": "Add Payment",
-        "amount": "Amount",
-        "date": "Date",
-        "debits": "Debits",
-        "deletePayment": "Delete Payment",
-        "deletePaymentConfirmation": "Are you sure you want to delete this payment? You won't be able to restore it anymore.",
-        "deletedPayments": "Deleted Payments",
-        "editPayment": "Edit Payment",
-        "paymentDate": "Payment Date",
-        "remainingAmount": "Remaining Amount",
-        "status": "Status",
-        "statuses": {
-            "failed": "Failed",
-            "refunded": "Refunded",
-            "success": "Success"
-        },
-        "title": "Payments",
-        "totalAmount": "Total Amount",
-        "totalRemainingAmount": "Total Remaining Amount"
-    },
-    "services": {
-        "entryName": "Service",
-        "name": "Name",
-        "price": "Price",
-        "serviceCreatedSuccessfully": "Service created successfully!",
-        "serviceDeletedSuccessfully": "Service deleted successfully!",
-        "serviceInfo": "Service Info",
-        "serviceInfoDescription": "Service Info Description",
-        "serviceUpdatedSuccessfully": "Service updated successfully!",
-        "title": "Services"
-    },
-    "sideBar": {
-        "menu": {
-            "appointments": "Appointments",
-            "debits": "Debits",
-            "expenses": "Expenses",
-            "patients": "Patients",
-            "patientsFiles": "Patients Files",
-            "payments": "Payments",
-            "services": "Services",
-            "statistics": "Statistics"
-        }
-    },
-    "statistics": {
-        "incomes": "Incomes",
-        "netGrossProfit": "Net gross profit",
-        "netProfit": "Net Profit",
-        "patientsCount": "Patients Count",
-        "patientsRemainingAmounts": "Patients' Remaining Amounts",
-        "resultAccordingToFilters": "These statistics are according to the values chosen above",
-        "selectDay": "Select Day",
-        "selectMonth": "Select Month",
-        "selectYear": "Select Year",
-        "totalExpenses": "Total Expenses",
-        "totalIncome": "Total Income",
-        "totalPatients": "Total Patients"
+  "appointments": {
+    "addAppointment": "Add Appointment",
+    "appointment": "Appointment",
+    "appointmentDate": "Appointment Date",
+    "appointmentTime": "Appointment Time",
+    "editAppointment": "Edit Appointment",
+    "notes": "Notes",
+    "patient": "Patient"
+  },
+  "auth": {
+    "admin": "Admin",
+    "email": "Email address",
+    "emailPlaceholder": "Email address",
+    "name": "Name",
+    "namePlaceholder": "Name",
+    "password": "Password",
+    "passwordPlaceholder": "Password",
+    "registerNewAccount": "Register new account",
+    "signUp": "Sign up",
+    "student": "Student",
+    "username": "Username",
+    "usernamePlaceholder": "Username"
+  },
+  "cDetailPage": {
+    "backToOverview": "Back",
+    "unsavedChangesWarnings": {
+      "discardChanges": "Discard changes",
+      "discardUnsavedChanges": "Do you want to discard unsaved changes?",
+      "title": "Unsaved Changes"
     }
+  },
+  "debits": {
+    "actionTaken": "Action Taken",
+    "amount": "Amount",
+    "date": "Date",
+    "errorMessage": "It looks like there was an error. Please check your application logs.",
+    "name": "Name",
+    "suggestRecentDate": "Consider searching using a more recent 'Starting from' date. The CloudWatch API may have long response times while searching far into the past. These requests may timeout or lead to unexpected errors."
+  },
+  "error": {
+    "backToHomepage": "Back to Homepage",
+    "errorCode403": 403,
+    "notAuthorizedToViewPage": "You are not authorized to view this page"
+  },
+  "errors": {
+    "backToHomepage": "Back to Homepage",
+    "findOtherThings": "Find other things",
+    "pageNotFound": "Page Not Found"
+  },
+  "expenses": {
+    "amount": "Amount",
+    "date": "Date",
+    "description": "Description",
+    "entryName": "Service",
+    "expenseCreatedSuccessfully": "Expense created successfully!",
+    "expenseDeletedSuccessfully": "Expense deleted successfully!",
+    "expenseInfo": "Expense Info",
+    "expenseUpdatedSuccessfully": "Expense updated successfully!",
+    "name": "Name",
+    "title": "Expenses"
+  },
+  "filePond": {
+    "cancelLabel": "Click here to cancel",
+    "corruptFileDetected": "Please make sure that the file does not come from inside a zip archive and that it is not corrupted.",
+    "deleteFile": "An occurred during deletion",
+    "dragAndDropOr": "Drag & drop or",
+    "file": "File",
+    "fileInformationUnavailable": "File information not available",
+    "fileLoadError": "An error occurred during loading",
+    "fileTypeUnsupported": "This file type is not supported",
+    "idle": "Drag and drop files here...",
+    "invalidFile": "Invalid file selected",
+    "loading": "Loading",
+    "retryLabel": "Click here to replay",
+    "selectFile": "Select file",
+    "undoLabel": "Click here to undo",
+    "uploadCancelled": "Upload cancelled",
+    "uploadCancelledError": "An error occurred during cancellation",
+    "uploadFailed": "An error occurred during upload",
+    "waitForFileInformation": "Wait for file information"
+  },
+  "global": {
+    "actions": {
+      "add": "Add",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "create": "Create",
+      "delete": "Delete",
+      "label": "Actions",
+      "print": "print",
+      "saveChanges": "Save changes"
+    },
+    "connectionError": "A connection error occurred. Please try again later.",
+    "currencies": {
+      "SYP": "SYP",
+      "USD": "USD"
+    },
+    "date": "Date",
+    "deleteEntryBodyMessage": "Are you sure you want to delete this {type}?",
+    "deleteEntryTitle": "Delete {type}",
+    "financial": "Finance",
+    "fromDate": "From",
+    "genders": {
+      "female": "Female",
+      "male": "Male"
+    },
+    "general": "General",
+    "greetings": {
+      "afternoon": "Good Afternoon",
+      "evening": "Good Evening",
+      "morning": "Good Morning"
+    },
+    "hello": "Hello",
+    "languages": {
+      "ar": "Arabic",
+      "de": "German",
+      "en": "English"
+    },
+    "logout": "Logout",
+    "noEntries": "There are no records entered yet...",
+    "noEntriesFound": "No content found with the specified search criteria. You can adjust the filters above to see results.",
+    "pagination": {
+      "entriesPerPage": "Entries Per Page:",
+      "of": "Of",
+      "page": "Page:"
+    },
+    "serverError": "An unknown error occurred. Please try again later.",
+    "toDate": "To"
+  },
+  "patients": {
+    "addRecord": "addRecord",
+    "affectedTeethNumbers": "Affected Teeth Numbers",
+    "affectedTooth": "Affected Tooth",
+    "age": "Age",
+    "clinicalHistory": "Clinical History",
+    "clinicalHistoryDescription": "All information about a patient's health",
+    "createdAt": "Created At",
+    "diagnose": "Diagnose",
+    "diagnosis": "Diagnosis",
+    "diagnosisDescription": "Diagnosing the patient's condition and the treatment he needs.",
+    "editRecord": "Edit Record",
+    "entryName": "Patient",
+    "fileNumber": "File Number",
+    "files": "Files",
+    "gender": "Gender",
+    "linkAffectedTeeth": "Link Affected Teeth",
+    "mobile": "Mobile Number",
+    "moduleName": "Patients",
+    "name": "Patient Name",
+    "normalTooth": "Normal Tooth",
+    "patientContactInfo": "Contact Information",
+    "patientContactInfoDescription": "Contact information to be able to reach the patient in case something urgent has happened or to ask questions or to discuss the next appointments.",
+    "patientCreatedSuccessfully": "Patient created successfully!",
+    "patientDeletedSuccessfully": "Patient deleted successfully!",
+    "patientInfo": "Patient Information",
+    "patientInfoDescription": "Personal details about the patient.",
+    "patientUpdatedSuccessfully": "Patient updated successfully!",
+    "paymentInfo": "Payment Info",
+    "paymentInfoDescription": "Add a patient down payment",
+    "phone": "Phone Number",
+    "record_date": "Record Date",
+    "relatedPatientFiles": "Patient Document Manager",
+    "relatedPatientFilesDescription": "Manage and access files related to patient records efficiently.",
+    "selectAffectedTeeth": "Select Affected Teeth",
+    "selectGender": "Select Gender",
+    "selectTreatedTeeth": "Select Treated Teeth",
+    "symptom": "Symptom",
+    "treatedTooth": "Treated Tooth",
+    "visits": "Visits"
+  },
+  "payments": {
+    "action": "Action",
+    "addDebtPayment": "Add Payment To Debt",
+    "addPayment": "Add Payment",
+    "amount": "Amount",
+    "date": "Date",
+    "debits": "Debits",
+    "deletePayment": "Delete Payment",
+    "deletePaymentConfirmation": "Are you sure you want to delete this payment? You won't be able to restore it anymore.",
+    "deletedPayments": "Deleted Payments",
+    "editPayment": "Edit Payment",
+    "paymentDate": "Payment Date",
+    "remainingAmount": "Remaining Amount",
+    "status": "Status",
+    "statuses": {
+      "failed": "Failed",
+      "refunded": "Refunded",
+      "success": "Success"
+    },
+    "title": "Payments",
+    "totalAmount": "Total Amount",
+    "totalRemainingAmount": "Total Remaining Amount"
+  },
+  "services": {
+    "entryName": "Service",
+    "name": "Name",
+    "price": "Price",
+    "serviceCreatedSuccessfully": "Service created successfully!",
+    "serviceDeletedSuccessfully": "Service deleted successfully!",
+    "serviceInfo": "Service Info",
+    "serviceInfoDescription": "Service Info Description",
+    "serviceUpdatedSuccessfully": "Service updated successfully!",
+    "title": "Services"
+  },
+  "sideBar": {
+    "menu": {
+      "appointments": "Appointments",
+      "debits": "Debits",
+      "expenses": "Expenses",
+      "patients": "Patients",
+      "patientsFiles": "Patients Files",
+      "payments": "Payments",
+      "services": "Services",
+      "statistics": "Statistics"
+    }
+  },
+  "statistics": {
+    "incomes": "Incomes",
+    "netGrossProfit": "Net gross profit",
+    "netProfit": "Net Profit",
+    "patientsCount": "Patients Count",
+    "patientsRemainingAmounts": "Patients' Remaining Amounts",
+    "resultAccordingToFilters": "These statistics are according to the values chosen above",
+    "selectDay": "Select Day",
+    "selectMonth": "Select Month",
+    "selectYear": "Select Year",
+    "totalExpenses": "Total Expenses",
+    "totalIncome": "Total Income",
+    "totalPatients": "Total Patients"
+  }
 }

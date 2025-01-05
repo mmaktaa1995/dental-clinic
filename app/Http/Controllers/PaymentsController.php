@@ -64,6 +64,10 @@ class PaymentsController extends Controller
                 }
                 $remainingAmountPayment->save();
             }
+            if ($teethIds = $request->get('teeth_ids')) {
+                $patient = Patient::query()->findOrFail($request->get('patient_id'));
+                $patient->affectedTeeth()->whereIn('tooth_id', $teethIds)->update(['is_treated' => 1]);
+            }
         });
 
         return response()->json(['message' => __('app.success')]);
@@ -75,6 +79,11 @@ class PaymentsController extends Controller
             $data = $request->only(['amount', 'date', 'remaining_amount']);
             $payment->update($data);
             $payment->visit()->update(['date' => $request->get('date'), 'notes' => $request->get('notes')]);
+
+            if ($teethIds = $request->get('teeth_ids')) {
+                $patient = Patient::query()->findOrFail($request->get('patient_id'));
+                $patient->affectedTeeth()->whereIn('tooth_id', $teethIds)->update(['is_treated' => 1]);
+            }
         });
 
         return response()->json(['message' => __('app.success')]);

@@ -43,6 +43,8 @@ class PatientRequest extends FormRequest
             'diagnosis' => ['nullable', 'array'],
             'diagnosis.*.record_date' => ['required', 'date'],
             'diagnosis.*.diagnosis' => ['required', 'string'],
+            'diagnosis.*.teeth_ids' => ['nullable', 'array'],
+            'diagnosis.*.teeth_ids.*' => ['numeric' , 'exists:teeth,id'],
         ];
     }
 }

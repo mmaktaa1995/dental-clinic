@@ -189,6 +189,8 @@ namespace App\Models{
  * @property int|null $user_id
  * @property int|null $gender
  * @property int|null $total_amount
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tooth> $affectedTeeth
+ * @property-read int|null $affected_teeth_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PatientRecord> $diagnosis
  * @property-read int|null $diagnosis_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PatientFile> $files
@@ -264,6 +266,8 @@ namespace App\Models{
  * @property int $record_date
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tooth> $affectedTeeth
+ * @property-read int|null $affected_teeth_count
  * @property-read \App\Models\Patient $patient
  * @method static \Illuminate\Database\Eloquent\Builder|PatientRecord newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PatientRecord newQuery()
@@ -279,6 +283,29 @@ namespace App\Models{
  */
 	#[\AllowDynamicProperties]
 	class IdeHelperPatientRecord {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\PatientRecordTooth
+ *
+ * @property int $id
+ * @property int $patient_record_id
+ * @property int|null $is_treated
+ * @property int $tooth_id
+ * @property string|null $description
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientRecordTooth newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientRecordTooth newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientRecordTooth query()
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientRecordTooth whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientRecordTooth whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientRecordTooth whereIsTreated($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientRecordTooth wherePatientRecordId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientRecordTooth whereToothId($value)
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperPatientRecordTooth {}
 }
 
 namespace App\Models{

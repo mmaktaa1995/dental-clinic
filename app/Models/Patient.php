@@ -12,6 +12,7 @@ namespace App\Models;
 use App\Traits\SearchQuery;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 /**
  * @mixin IdeHelperPatient
@@ -80,5 +81,10 @@ class Patient extends BaseModel
     public function diagnosis(): HasMany
     {
         return $this->hasMany(PatientRecord::class)->whereNotNull('diagnosis');
+    }
+
+    public function affectedTeeth(): HasManyThrough
+    {
+        return $this->hasManyThrough(PatientRecordTooth::class, PatientRecord::class);
     }
 }
