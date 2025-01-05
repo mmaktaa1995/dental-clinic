@@ -64,6 +64,7 @@ import { useRouter } from "vue-router"
 import { useAccountStore } from "@/modules/auth/accountStore"
 import { api } from "@/logic/api"
 
+console.log("here")
 // State variables
 const email = ref("")
 const password = ref("")
@@ -78,20 +79,13 @@ const login = async () => {
     const data = { email: email.value, password: password.value }
 
     try {
-        const response = await api.post("/login", data)
-
-        // Save user and token in localStorage
-        localStorage.setItem("user", JSON.stringify(response.data.data.user))
-        localStorage.setItem("access_token", response.data.data.access_token)
-
-        // Update axios default authorization header
-        axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.data.access_token}`
+        await accountStore.login(data)
 
         // Navigate to the patients index page
         router.push({ name: "patients-index" })
     } catch (error) {
-        if (error.response && error.response.status === 422) {
-            errors.value = error.response.data.errors
+        if (error.errors && error.status === 422) {
+            errors.value = error.errors
         }
     }
 }

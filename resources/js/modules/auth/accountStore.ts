@@ -25,18 +25,22 @@ export const useAccountStore = defineStore("account-store", {
             this.user = await api.get("/user")
             this.isLoggedIn = true
         },
+        async login(credentials: { email: string; password: string }) {
+            const response = await api.post("/login", credentials)
+            this.user = response.data.user
+            localStorage.setItem("user", JSON.stringify(response.data.user))
+            localStorage.setItem("access_token", response.data.access_token)
+            this.isLoggedIn = true
+        },
         async logout() {
             if (!this.isLoggedIn) {
                 return
             }
-            const logoutUrl = `/logout${this.user.admin ? "-admin" : ""}`
-            const router = useRouter()
+            const logoutUrl = `/logout`
             await api.post(logoutUrl).then(() => {
                 localStorage.clear()
-                router.replace({ name: "login" }).then(() => {
-                    this.user = {} as User
-                    this.isLoggedIn = false
-                })
+                this.user = {} as User
+                this.isLoggedIn = false
             })
         },
     },

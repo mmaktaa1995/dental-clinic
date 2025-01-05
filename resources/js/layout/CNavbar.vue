@@ -73,7 +73,7 @@
 
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from "vue"
-import { useRoute } from "vue-router"
+import { useRoute, useRouter } from "vue-router"
 import { useAccountStore } from "@/modules/auth/accountStore"
 import { useLayoutStore } from "@/store/layoutStore"
 import { useI18n } from "vue-i18n"
@@ -89,6 +89,7 @@ const showProfileDropdown = ref(false)
 const showLanguagesDropdown = ref(false)
 const layoutStore = useLayoutStore()
 const route = useRoute()
+const router = useRouter()
 
 const toggleDropdown = () => {
     showProfileDropdown.value = !showProfileDropdown.value
@@ -98,8 +99,9 @@ const toggleSideBar = () => {
     layoutStore.toggleSideBar()
 }
 
-const logout = () => {
-    accountStore.logout()
+const logout = async () => {
+    await accountStore.logout()
+    router.replace({ name: "login" })
 }
 
 const toggleLanguagesDropdown = () => {

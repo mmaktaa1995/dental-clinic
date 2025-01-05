@@ -1,8 +1,8 @@
 <template>
     <template v-if="loaded">
-        <CSidebar></CSidebar>
+        <CSidebar v-if="accountStore.user.id"></CSidebar>
         <div class="w-full">
-            <CNavbar></CNavbar>
+            <CNavbar v-if="accountStore.user.id"></CNavbar>
             <router-view></router-view>
         </div>
         <div class="modal-teleport"></div>
@@ -24,11 +24,15 @@ const accountStore = useAccountStore()
 const settingsStore = useSettingsStore()
 
 onBeforeMount(async () => {
-    await accountStore.getUser()
-    await settingsStore.getExchangeRate()
-    await settingsStore.getLastFileNumber()
-    await settingsStore.getTeeth()
-    await setHtmlLangAttributes()
+    try {
+        await accountStore.getUser()
+        await settingsStore.getExchangeRate()
+        await settingsStore.getLastFileNumber()
+        await settingsStore.getTeeth()
+        await setHtmlLangAttributes()
+    } catch (e) {
+        console.log(e)
+    }
     loaded.value = true
 })
 </script>
