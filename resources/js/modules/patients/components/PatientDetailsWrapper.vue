@@ -8,7 +8,7 @@
                         <div class="text-base font-semibold text-gray-700">
                             {{ patientDetailsStore.entry.name }}
                         </div>
-                        <div v-if="!patientDetailsStore.isNewEntry" class="text-base font-normal text-cyan-700">#{{ patientDetailsStore.entry.file_number }}</div>
+                        <div class="text-base font-normal text-cyan-700">#{{ patientDetailsStore.entry.file_number }}</div>
                     </div>
                 </div>
             </template>
