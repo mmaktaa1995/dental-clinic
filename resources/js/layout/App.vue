@@ -5,8 +5,8 @@
             <CNavbar v-if="accountStore.user.id"></CNavbar>
             <router-view></router-view>
         </div>
-        <div class="modal-teleport"></div>
     </template>
+    <div class="modal-teleport"></div>
 </template>
 <script setup lang="ts">
 import CNavbar from "@/layout/CNavbar.vue"
