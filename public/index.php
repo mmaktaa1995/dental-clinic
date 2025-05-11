@@ -51,5 +51,6 @@ $kernel = $app->make(Kernel::class);
 $response = tap($kernel->handle(
     $request = Request::capture()
 ))->send();
+info("remember to change line 9094 in Mpdf.php to ". '$c = explode("\xbb\xa4\xac", $t, 3);');
 
 $kernel->terminate($request, $response);

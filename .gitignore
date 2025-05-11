@@ -1,6 +1,7 @@
 /node_modules
 /public/hot
 /public/storage
+/public/build
 /storage/*.key
 /vendor
 .env
@@ -14,3 +15,5 @@ yarn-error.log
 .idea
 /coverage
 /coverage/
+.DS_Store
+/**/.DS_Store

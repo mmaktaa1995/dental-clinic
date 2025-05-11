@@ -25,10 +25,13 @@ class PaymentRequest extends FormRequest
     {
         return [
             'patient_id' => ['required', 'exists:patients,id'],
+            'payment_id' => ['nullable', 'exists:payments,id'],
             'date' => ['required', 'date'],
             'notes' => ['nullable', 'string'],
             'amount' => ['nullable', 'numeric'],
             'remaining_amount' => ['nullable', 'numeric'],
+            'teeth_ids' => ['nullable', 'array'],
+            'teeth_ids.*' => ['numeric' , 'exists:teeth,id'],
         ];
     }
 }

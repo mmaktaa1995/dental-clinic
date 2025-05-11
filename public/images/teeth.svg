@@ -1,0 +1,122 @@
+<svg width="400" height="640" id="hove" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 500 500">
+    <image height="38" width="38" id="1"
+           xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/1.1472888961.png" x="90" y="300"
+           onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="0"></image>
+    <text x="79" y="325" fill="#000">1</text>
+    <image height="38" width="38" id="2" xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/2.png"
+           x="90" y="270" onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="1"></image>
+    <text x="79" y="295" fill="#000">2</text>
+    <image height="38" width="38" id="3"
+           xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/3.1473092267.png" x="90" y="240"
+           onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="2"></image>
+    <text x="80" y="260" fill="#000">3</text>
+    <image height="38" width="38" id="4"
+           xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/4.1473092424.png" x="100" y="211"
+           onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="3"></image>
+    <text x="89" y="230" fill="#000">4</text>
+    <image height="38" width="38" id="5" xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/5.png"
+           x="110" y="186" onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="4"></image>
+    <text x="102" y="200" fill="#000">5</text>
+    <image height="38" width="38" id="6" xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/6.png"
+           x="126" y="162" onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="5"></image>
+    <text x="122" y="171" fill="#000">6</text>
+    <image height="38" width="38" id="7"
+           xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/7.1473063209.png" x="143" y="144"
+           onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="6"></image>
+    <text x="148" y="147" fill="#000">7</text>
+    <image height="38" width="38" id="8"
+           xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/8.1473065422.png" x="166" y="140"
+           onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="7"></image>
+    <text x="180" y="140" fill="#000">8</text>
+    <image height="38" width="38" id="9" xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/9.png"
+           x="198" y="140" onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="8"></image>
+    <text x="213" y="140" fill="#000">9</text>
+    <image height="38" width="38" id="10"
+           xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/10.1473065636.png" x="227" y="149"
+           onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="9"></image>
+    <text x="247" y="154" fill="#000">10</text>
+    <image height="38" width="38" id="11" xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/11.png"
+           x="242" y="168" onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="10"></image>
+    <text x="274" y="177" fill="#000">11</text>
+    <image height="38" width="38" id="12"
+           xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/12.1473065786.png" x="255" y="188"
+           onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="11"></image>
+    <text x="289" y="200" fill="#000">12</text>
+    <image height="38" width="38" id="13"
+           xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/13.1473065820.png" x="265" y="210"
+           onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="12"></image>
+    <text x="302" y="228" fill="#000">13</text>
+    <image height="38" width="38" id="14"
+           xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/14.1473082978.png" x="275" y="237"
+           onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="13"></image>
+    <text x="313" y="259" fill="#000">14</text>
+    <image height="38" width="38" id="15"
+           xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/15.1473092514.png" x="280" y="268"
+           onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="14"></image>
+    <text x="320" y="290" fill="#000">15</text>
+    <image height="38" width="38" id="16"
+           xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/16.1473092564.png" x="280" y="300"
+           onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="15"></image>
+    <text x="317" y="330" fill="#000">16</text>
+    <image height="38" width="38" id="17"
+           xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/17.1473093555.png" x="280" y="350"
+           onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="16"></image>
+    <text x="317" y="374" fill="#000">17</text>
+    <image height="38" width="38" id="18"
+           xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/18.1473093594.png" x="280" y="384"
+           onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="17"></image>
+    <text x="318" y="412" fill="#000">18</text>
+    <image height="38" width="38" id="19" xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/19.png"
+           x="277" y="417" onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="18"></image>
+    <text x="312" y="451" fill="#000">19</text>
+    <image height="38" width="38" id="20" xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/20.png"
+           x="266" y="450" onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="19"></image>
+    <text x="303" y="487" fill="#000">20</text>
+    <image height="38" width="38" id="21"
+           xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/21.1473093626.png" x="252" y="480"
+           onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="20"></image>
+    <text x="281" y="521" fill="#000">21</text>
+    <image height="38" width="38" id="22"
+           xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/22.1473093667.png" x="230" y="498"
+           onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="21"></image>
+    <text x="254" y="542" fill="#000">22</text>
+    <image height="38" width="38" id="23"
+           xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/23.1473093885.png" x="211" y="505"
+           onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="22"></image>
+    <text x="227" y="554" fill="#000">23</text>
+    <image height="38" width="38" id="24" xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/24.png"
+           x="190" y="507" onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="23"></image>
+    <text x="202" y="558" fill="#000">24</text>
+    <image height="38" width="38" id="25" xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/25.png"
+           x="170" y="507" onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="24"></image>
+    <text x="176" y="558" fill="#000">25</text>
+    <image height="38" width="38" id="26" xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/26.png"
+           x="144" y="502" onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="25"></image>
+    <text x="150" y="550" fill="#000">26</text>
+    <image height="38" width="38" id="27" xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/27.png"
+           x="124" y="490" onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="26"></image>
+    <text x="130" y="540" fill="#000">27</text>
+    <image height="38" width="38" id="28"
+           xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/28.1463141496.png" x="115" y="470"
+           onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="27"></image>
+    <text x="100" y="510" fill="#000">28</text>
+    <image height="38" width="38" id="29" xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/29.png"
+           x="100" y="445" onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="28"></image>
+    <text x="85" y="486" fill="#000">29</text>
+    <image height="38" width="38" id="30" xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/30.png"
+           x="90" y="413" onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="29"></image>
+    <text x="70" y="446" fill="#000">30</text>
+    <image height="38" width="38" id="31" xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/31.png"
+           x="90" y="380" onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="30"></image>
+    <text x="70" y="410" fill="#000">31</text>
+    <image height="38" width="38" id="32"
+           xlink:href="https://meridiantoothchart.com/tooth/admin/tooth_image/32.h1473144577.png" x="90" y="350"
+           onmouseover="hove_on(this)" onmouseout="hove_out(this)" hov_arr="33"></image>
+    <text x="70" y="370" fill="#000">32</text>
+    <text x="290" y="350" fill="#000" class="horizontal">left</text>
+    <text x="96" y="350" fill="#000" class="horizontal">right</text>
+    <text x="183" y="240" fill="#000" class="vertical">Top</text>
+    <text x="172" y="470" fill="#000" class="vertical">Bottom</text>
+    <g class="group" transform="translate(100,-50)"></g>
+</svg>

@@ -1,66 +1,43 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Eng.MohammEd
- * Date: 8/10/2017
- * Time: 12:09 PM
- */
 
 namespace App\Models;
 
 use App\Traits\SearchQuery;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App/Models/Patient
- *
- * @property int $id
- * @property string $patient_id
- * @property string $amount
- * @property string $date
- * @property string $notes
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @method static \Illuminate\Contracts\Pagination\LengthAwarePaginator getAll($params)
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\patient $patient
+ * @mixin IdeHelperVisit
  */
-class Visit extends \Eloquent
+class Visit extends BaseModel
 {
-    use SearchQuery;
+    use SoftDeletes;
 
-    public static $relationsWithForSearch = ['patient', 'payment'];
-    public static $searchInRelations = ['patient:name'];
-    public static $searchableFields = ['date', 'notes'];
-    public static $dateColumnFiltered = 'date';
-    protected $fillable = ['patient_id', 'date', 'notes']; //@todo revert amount when migration
+    protected $fillable = ['patient_id', 'date', 'notes', 'user_id']; //@todo revert amount when migration
     protected $appends = ['amount'];//@todo comment amount when migration
 
-    public function getDateAttribute($value)
+    public function getDateAttribute($value): string
     {
         return date('Y-m-d', strtotime($value));
     }
 
-    public function getAmountAttribute()
+    public function getAmountAttribute(): int|null
     {
-        return $this->payment ? $this->payment->amount : 0;
+        if (!$this->relationLoaded('payment')) {
+            logger( "`payment` relation is not loaded!");
+            return 0;
+        }
+        return $this->payment?->amount;
     }
 
-    public function patient()
+    public function patient(): BelongsTo
     {
         return $this->belongsTo(Patient::class);
     }
 
-    public function payment()
+    public function payment(): HasOne
     {
         return $this->hasOne(Payment::class);
-    }
-
-    public function services()
-    {
-        return $this->belongsToMany(Service::class, 'service_visits', 'visit_id', 'service_id')->withPivot('id');
-    }
-
-    public function serviceVisit()
-    {
-        return $this->hasMany(ServiceVisit::class, 'visit_id');
     }
 }

@@ -1,7 +1,20 @@
+
+.slide-enter-active,
+.slide-leave-active {
+    transition: all 0.2s;
+    transform: translateX(0) !important;
+}
+.slide-enter-from,
+.slide-leave-to {
+    transform: translateX(-100%);
+}
+
+
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.5s;
 }
+.fade-enter-from,
 .fade-enter,
 .fade-leave-to {
     opacity: 0;
@@ -32,4 +45,18 @@
     opacity: 0;
     transform: scaleY(0);
     transform-origin: center top;
+}
+
+
+.drawer-slide-in-enter-active,
+.drawer-slide-in-leave-active {
+    transition-property: opacity, transform;
+    transform: translateX(0) !important;
+}
+
+.drawer-slide-in-enter-from,
+.drawer-slide-in-leave-to {
+    /*.v-navigation-drawer {*/
+        transform: translateX(-100%) !important;
+    /*}*/
 }

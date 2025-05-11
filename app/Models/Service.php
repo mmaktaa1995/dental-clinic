@@ -2,17 +2,24 @@
 
 namespace App\Models;
 
-class Service extends \Eloquent
-{
-    protected $fillable = ['name', 'price'];
+use App\Traits\SearchQuery;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-    public function visit()
+/**
+ * @mixin IdeHelperService
+ */
+class Service extends BaseModel
+{
+    protected $fillable = ['name', 'price', 'user_id'];
+
+    public function payment(): BelongsToMany
     {
-        return $this->belongsToMany(Visit::class, 'service_visits', 'service_id', 'visit_id');
+        return $this->belongsToMany(Payment::class, 'service_payments', 'service_id', 'payment_id');
     }
 
-    public function serviceVisit()
+    public function servicePayment(): HasMany
     {
-        return $this->hasMany(ServiceVisit::class, 'service_id');
+        return $this->hasMany(ServicePayment::class, 'service_id');
     }
 }

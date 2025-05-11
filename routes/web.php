@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::redirect('/', '/admin');
+//Route::redirect('/', '/admin');
 
-Route::prefix('admin')->group(function () {
+Route::prefix('')->group(function () {
     Route::get('/{view?}', HomeController::class)->where('view', '(.*)')->name('admin-ui');
 });

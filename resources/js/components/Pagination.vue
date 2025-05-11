@@ -1,97 +1,94 @@
 <template>
-    <div class="">
+    <div>
         <ul v-if="pages" class="list-reset">
             <li class="inline-block bg-white hover:bg-blue-lightest border mr-1">
-                <a href="#"
-                   class="no-underline text-grey-darker block py-3 px-4"
-                   :class="{'bg-grey-lightest text-grey cursor-not-allowed': currentPage == 1}"
-                   @click.prevent="getPreviousPage">Previous</a>
+                <a href="#" class="no-underline text-grey-darker block py-3 px-4" :class="{ 'bg-grey-lightest text-grey cursor-not-allowed': currentPage === 1 }" @click.prevent="getPreviousPage">Previous</a>
             </li>
-            <li v-for="(page, index) in range"
-                :key="index"
-                class="inline-block bg-white hover:bg-blue-lightest border-t border-b border-l"
-                :class="{'border-r': index == range.length -1}"
-            >
-                <a v-if="page != '...'"
-                   href="#"
-                   class="no-underline text-grey-darker block py-3 px-4"
-                   :class="{'bg-blue-lighter' : page == currentPage}"
-                   @click.prevent="getPage(page)">
-                    {{page}}
+            <li v-for="(page, index) in range" :key="index" class="inline-block bg-white hover:bg-blue-lightest border-t border-b border-l" :class="{ 'border-r': index === range.length - 1 }">
+                <a v-if="page !== '...'" href="#" class="no-underline text-grey-darker block py-3 px-4" :class="{ 'bg-blue-lighter': page === currentPage }" @click.prevent="getPage(page)">
+                    {{ page }}
                 </a>
                 <a v-else href="#" class="no-underline text-grey-darker block py-3 px-4">
-                    {{page}}
+                    {{ page }}
                 </a>
             </li>
             <li class="inline-block bg-white hover:bg-blue-lightest border ml-1">
-                <a href="#"
-                   class="no-underline text-grey-darker block py-3 px-4"
-                   :class="{'bg-grey-lightest text-grey cursor-not-allowed': currentPage >= pages}"
-                   @click.prevent="getNextPage">Next</a>
+                <a href="#" class="no-underline text-grey-darker block py-3 px-4" :class="{ 'bg-grey-lightest text-grey cursor-not-allowed': currentPage >= pages }" @click.prevent="getNextPage">Next</a>
             </li>
         </ul>
     </div>
 </template>
 
-<script>
-export default {
-    props: {
-        pages: {
-            type: Number,
-            default: 0
-        },
-        currentPage: {
-            type: Number,
-            default: 1
-        }
+<script setup>
+import { computed, ref, watch } from "vue"
+
+// Props
+const props = defineProps({
+    pages: {
+        type: Number,
+        default: 0,
     },
-    data() {
-        return {
-            range: []
-        }
+    currentPage: {
+        type: Number,
+        default: 1,
     },
-    computed: {
-        propsToWatch() {
-            return this.pages, this.currentPage, Date.now()
-        }
+})
+
+const emit = defineEmits(["page-changed"])
+
+// Reactive state
+const range = ref([])
+
+// Computed property to watch props
+const propsToWatch = computed(() => ({
+    pages: props.pages,
+    currentPage: props.currentPage,
+    timestamp: Date.now(),
+}))
+
+// Watch for changes in props
+watch(
+    propsToWatch,
+    () => {
+        organisePageLinks()
     },
-    watch: {
-        propsToWatch: {
-            handler: 'organisePageLinks',
-            immediate: true
-        }
-    },
-    methods: {
-        organisePageLinks() {
-            this.range = []
-            for (let i = 1; i <= this.pages; i++) {
-                if (
-                    i == 1 || // first page
-                    i == this.pages || // last page
-                    i == this.currentPage || // current page
-                    i == this.currentPage - 1 || // page before current
-                    i == this.currentPage + 1 || // page after current
-                    (i <= 4 && this.currentPage < 4) || // "filler" links at start
-                    (i >= this.pages - 3 && this.currentPage > this.pages - 3) // "filler" links at end
-                ) {
-                    let index = this.range.length
-                    if (index > 0 && this.range[index - 1] < i - 1) {
-                        // if this page is not the next one insequence, add in 3 dots "..."
-                        this.range.push('...')
-                    }
-                    this.range.push(i)
-                }
+    { immediate: true },
+)
+
+// Method to organize page links
+function organisePageLinks() {
+    range.value = []
+    for (let i = 1; i <= props.pages; i++) {
+        if (
+            i === 1 || // first page
+            i === props.pages || // last page
+            i === props.currentPage || // current page
+            i === props.currentPage - 1 || // page before current
+            i === props.currentPage + 1 || // page after current
+            (i <= 4 && props.currentPage < 4) || // "filler" links at start
+            (i >= props.pages - 3 && props.currentPage > props.pages - 3) // "filler" links at end
+        ) {
+            const index = range.value.length
+            if (index > 0 && range.value[index - 1] < i - 1) {
+                // Add "..." for skipped pages
+                range.value.push("...")
             }
-        },
-        getPage(page) {
-            this.$emit('page-changed', page)
-        },
-        getPreviousPage() {
-            this.getPage(this.currentPage - 1)
-        },
-        getNextPage() {
-            this.getPage(this.currentPage + 1)
+            range.value.push(i)
         }
     }
+}
+
+// Method to get the page
+function getPage(page) {
+    emit("page-changed", page)
+}
+
+// Methods to go to previous or next page
+function getPreviousPage() {
+    getPage(props.currentPage - 1)
+}
+
+function getNextPage() {
+    getPage(props.currentPage + 1)
 }
 </script>

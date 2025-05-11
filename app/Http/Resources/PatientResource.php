@@ -24,10 +24,14 @@ class PatientResource extends JsonResource
             'age' => $this->age,
             'phone' => $this->phone,
             'mobile' => $this->mobile,
+            'gender' => $this->gender,
             'file_number' => $this->file_number,
             'image' => $this->image,
-            'images' => $this->images,
-            'created_at' => Carbon::parse(strtotime($this->created_at))->format('Y-m-d'),
+            'files' => FileResource::collection($this->whenLoaded('files')),
+            'symptoms' => PatientRecordResource::collection($this->whenLoaded('symptoms')),
+            'diagnosis' => PatientRecordResource::collection($this->whenLoaded('diagnosis')),
+            'affected_teeth' => PatientRecordToothResource::collection($this->whenLoaded('affectedTeeth')),
+            'created_at' => $this->created_at->format("Y-m-d H:i:s"),
         ];
     }
 }

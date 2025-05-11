@@ -69,6 +69,11 @@ class LoginController extends Controller
 
     }
 
+    public function user(Request $request)
+    {
+        return $request->user();
+    }
+
     protected function sendLoginResponse(Request $request, $user)
     {
         $this->clearLoginAttempts($request);

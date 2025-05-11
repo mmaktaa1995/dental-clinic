@@ -26,7 +26,6 @@ class AppointmentRequest extends FormRequest
         return [
             'notes' => ['nullable', 'string'],
             'date' => ['required', 'date', 'after:today'],
-            'time' => ['required'],
             'patient_id' => ['required', 'numeric', 'exists:patients,id'],
         ];
     }

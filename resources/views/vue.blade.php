@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="rtl">
+<html lang="ar" dir="rtl">
 <head>
     <!-- Meta Information -->
     <meta charset="utf-8"/>
@@ -14,23 +14,13 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{asset('images/favicon-16x16.png')}}">
     <!-- Style sheets -->
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet"/>
-    <link href="{{ mix('app.css') }}" rel="stylesheet" type="text/css"/>
+    @vite(['resources/css/app.css'])
+{{--    <link href="{{ mix('app.css') }}" rel="stylesheet" type="text/css"/>--}}
 </head>
 <body>
 <!-- Vue App-->
 <div id="vapor-ui" class="antialiased min-h-screen flex overflow-hidden bg-gray-100" v-cloak>
-    @include('layout.sidebar')
-    <flash-message></flash-message>
-    <div class="w-full">
-        @include('layout.nav')
-        <router-view></router-view>
-    </div>
 </div>
-<script>
-    var app;
-    var user = @json(Auth::guard('api')->user());
-    var lastFileNumber = +@json($lastFileNumber);
-</script>
-<script src="{{ mix('app.js') }}"></script>
+@vite(['resources/css/app.css', 'resources/js/app.js'])
 </body>
 </html>

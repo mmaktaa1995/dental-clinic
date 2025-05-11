@@ -25,7 +25,7 @@ class ExpenseRequest extends FormRequest
     {
         return [
             'date' => ['required', 'date'],
-            'name' => ['nullable', 'string'],
+            'name' => ['required', 'string'],
             'description' => ['nullable', 'string'],
             'amount' => ['required', 'numeric'],
         ];

@@ -3,78 +3,74 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PatientRequest;
+use App\Http\Requests\PatientSearchRequest;
+use App\Http\Requests\PatientVisitSearchRequest;
 use App\Http\Resources\BaseCollection;
+use App\Http\Resources\PatientApiResource;
 use App\Http\Resources\PatientResource;
-use App\Http\Resources\PaymentResource;
+use App\Http\Resources\VisitResource;
 use App\Models\DeletedPatient;
 use App\Models\Patient;
 use App\Models\Payment;
-use Exception;
+use App\Services\PatientService;
+use App\Services\Search\PatientApiListSearch;
+use App\Services\Search\PatientSearch;
+use App\Services\Search\VisitSearch;
+use DB;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Js;
+use Schema;
 
 class PatientsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @param Request $request
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function index(Request $request)
+    public function list(PatientSearchRequest $request)
     {
-        $params = [
-            'order_column' => $request->input('order_column', 'created_at'),
-            'order_dir' => $request->input('order_dir', 'desc'),
-            'per_page' => $request->input('per_page', 10),
-            'fromDate' => $request->input('fromDate', null),
-            'toDate' => $request->input('toDate', null),
-            'query' => $request->input('query', null),
-        ];
-        $data = Patient::getAll($params);
-        if ($request->filled('deleted')) {
-            $data = DeletedPatient::getAll($params);
-        }
-        return response()->json(BaseCollection::make($data, PatientResource::class));
+        $patientSearch = new PatientSearch($request);
+
+        return response()->json(BaseCollection::make($patientSearch->getEntries(), PatientResource::class));
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @param Request $request
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function dropdownData(Request $request): \Illuminate\Http\JsonResponse
+    public function apiList(PatientSearchRequest $request): JsonResponse
     {
-        return response()->json(Patient::all()->pluck('name', 'id'));
+        $patientSearch = new PatientApiListSearch($request);
+
+        return response()->json(BaseCollection::make($patientSearch->getEntries(), PatientApiResource::class));
+
     }
 
-    /**
-     * @param \App\Models\Patient $patient
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function show(Patient $patient): \Illuminate\Http\JsonResponse
+    public function lastFileNumber(PatientService $patientService): JsonResponse
     {
-        $patient->load('images');
+        $lastFileNumber = $patientService->getLastFileNumber();
+
+        return response()->json(['last_file_number' => $lastFileNumber]);
+    }
+
+    public function show(Patient $patient): JsonResponse
+    {
+        $patient->load(['files', 'symptoms', 'diagnosis', 'affectedTeeth']);
         return response()->json(PatientResource::make($patient));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \App\Http\Requests\PatientRequest $request
-     *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
-     */
-    public function store(PatientRequest $request): \Illuminate\Http\JsonResponse
+    public function checkExisting(Request $request): JsonResponse
     {
-        try {
-            \DB::beginTransaction();
-            $patient = Patient::create($request->validated());
-//            if ($request->filled('amount')) {
+        $existingPatient = Patient::where('user_id', auth()->id())->where('name', $request->get('query'))->first();
+        if ($existingPatient) {
+            return response()->json(['message' => trans('app.existPatient', ['file_number' => $existingPatient->file_number]), 'file_number' => $existingPatient->file_number, 'id' => $existingPatient->id]);
+        }
+        return response()->json([]);
+    }
+
+    public function store(PatientRequest $request): JsonResponse
+    {
+        $existingPatient = Patient::where('user_id', auth()->id())->where('name', $request->get('name'))->first();
+        if ($existingPatient) {
+            return response()->json(['message' => trans('app.existPatient', ['file_number' => $existingPatient->file_number]), 'file_number' => $existingPatient->file_number, 'id' => $existingPatient->id], 500);
+        }
+        $patient = null;
+        DB::transaction(function () use ($request, &$patient) {
+            $patient = Patient::create($request->only(["name", "age", "gender", "file_number", "phone", "mobile", "total_amount"]));
+            if ($request->filled('amount') && $request->filled('date')) {
                 $visit = $patient->visits()->create($request->validated());
                 Payment::create([
                     'patient_id' => $patient->id,
@@ -85,81 +81,97 @@ class PatientsController extends Controller
                 ]);
                 if ($request->filled('services'))
                     $visit->services()->sync($request->get('services'));
-//            }
-            \DB::commit();
-        } catch (\Exception $exception) {
-            \DB::rollBack();
-            throw new Exception($exception->getMessage());
-        }
-        return response()->json(['message' => __('app.success')]);
+            }
+
+            if ($symptoms = $request->get('symptoms', [])) {
+                $patient->load('records');
+                $symptomsToAdd = collect($symptoms)->filter(fn($symptom) => $symptom['id'] < 0);
+                $patient->records()->createMany($symptomsToAdd->toArray());
+            }
+            if ($diagnosis = $request->get('diagnosis', [])) {
+                $patient->load('records');
+                $diagnosisToAdd = collect($diagnosis)->filter(fn($diagnose) => $diagnose['id'] < 0);
+                $diagnosisToAdd->each(function ($diagnose) use ($patient) {
+                    $record = $patient->records()->create($diagnose);
+                    if ($diagnose['teeth_ids']) {
+                        $record->affectedTeeth()->sync($diagnose['teeth_ids']);
+                    }
+                });
+            }
+        });
+        return response()->json(['message' => __('app.success'), 'patient' => ['id' => $patient->id]]);
     }
 
+    public function visits(PatientVisitSearchRequest $request, ?Patient $patient): JsonResponse
+    {
+        $visitSearch = new VisitSearch($request->merge(['patient_id' => $patient?->id]));
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \App\Http\Requests\PatientRequest $request
-     * @param \App\Models\Patient $patient
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function update(PatientRequest $request, Patient $patient): \Illuminate\Http\JsonResponse
+        return response()->json(BaseCollection::make($visitSearch->getEntries(), VisitResource::class));
+    }
+
+    public function update(PatientRequest $request, Patient $patient): JsonResponse
     {
         $patient->update($request->validated());
-        return response()->json(['message' => __('app.success')]);
-    }
-
-    public function updateImages(Request $request, Patient $patient)
-    {
-        $images = $request->get('images', []);
-        $patient->images()->delete();
-        $patient->images()->createMany($images);
-        return response()->json(['message' => __('app.success')]);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Models\Patient $patient
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function destroy(Patient $patient)
-    {
-        try {
-            $patient->delete();
-        } catch (Exception $exception) {
-            return response()->json(['message' => $exception->getMessage()], $exception->getCode());
+        if ($symptoms = $request->get('symptoms', [])) {
+            $patient->load('records');
+            $symptomsToAdd = collect($symptoms)->filter(fn($symptom) => $symptom['id'] < 0);
+            $symptomsToEdit = collect($symptoms)->filter(fn($symptom) => $symptom['id'] > 0);
+            $patient->records()->createMany($symptomsToAdd->toArray());
+            $symptomsToEdit->each(function ($symptom) use ($patient) {
+                $record = $patient->records->where('id', $symptom['id'])->first();
+                if ($record) {
+                    $record->update(['symptoms' => $symptom['symptoms'], 'record_date' => $symptom['record_date']]);
+                }
+            });
         }
+        if ($diagnosis = $request->get('diagnosis', [])) {
+            $patient->loadMissing('records');
+            $diagnosisToAdd = collect($diagnosis)->filter(fn($diagnose) => $diagnose['id'] < 0);
+            $diagnosisToEdit = collect($diagnosis)->filter(fn($diagnose) => $diagnose['id'] > 0);
+            $diagnosisToAdd->each(function ($diagnose) use ($patient) {
+                $record = $patient->records()->create($diagnose);
+                if ($diagnose['teeth_ids']) {
+                    $record->affectedTeeth()->sync($diagnose['teeth_ids']);
+                }
+            });
+//            $diagnosisToEdit->each(function ($diagnose) use ($patient) {
+//                $record = $patient->records->where('id', $diagnose['id'])->first();
+//                if ($record) {
+//                    $record->update(['diagnosis' => $diagnose['diagnosis'], 'record_date' => $diagnose['record_date']]);
+//                    if ($diagnose['teeth_ids']) {
+//                        $record->affectedTeeth()->sync($diagnose['teeth_ids']);
+//                    }
+//                }
+//            });
+        }
+        $patient->load(['files', 'symptoms', 'diagnosis']);
+        return response()->json(['message' => __('app.success'), 'patient' => PatientResource::make($patient)]);
+    }
+
+    public function destroy(Patient $patient): JsonResponse
+    {
+        DB::transaction(function () use ($patient) {
+            $patient->payments()->delete();
+            $patient->visits()->delete();
+            $patient->records()->delete();
+            $patient->delete();
+        });
         return response()->json(['message' => __('app.success')]);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @param Request $request
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function debits(Request $request)
+    public function restore(DeletedPatient $patient): JsonResponse
     {
-        $params = [
-            'order_column' => $request->input('order_column', 'date'),
-            'order_dir' => $request->input('order_dir', 'desc'),
-            'per_page' => $request->input('per_page', 10),
-            'fromDate' => $request->input('fromDate', null),
-            'toDate' => $request->input('toDate', null),
-            'query' => $request->input('query', null),
-            'extra_filters' => [
-                'remaining_amount' => [
-                    'operation' => '>',
-                    'value' => 0
-                ]
-            ]
-        ];
+        DB::transaction(function () use ($patient) {
+            if ($patient->visits()->count()) {
+                $patient->visits()->restore();
+            }
+            if ($patient->payments()->count()) {
+                $patient->payments()->restore();
+            }
+            Patient::insert($patient->withoutRelations()->toArray());
+            $patient->delete();
+        });
 
-        Payment::$relationsWithForSearch = ['patient', 'visit'];
-        $data = Payment::getAll($params);
-        return response()->json(BaseCollection::make($data, PaymentResource::class));
+        return response()->json(['message' => __('app.success')]);
     }
 }

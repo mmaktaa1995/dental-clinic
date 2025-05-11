@@ -1,5 +1,5 @@
-import _ from 'lodash';
-import moment from 'moment-timezone';
+import _ from "lodash"
+import moment from "moment-timezone"
 
 export default {
     methods: {
@@ -9,14 +9,14 @@ export default {
         moment() {
             // moment.updateLocale('en');
 
-            return moment;
+            return moment
         },
 
         /**
          * Returns the list of the log types.
          */
         logTypes() {
-            return App.logTypes;
+            return App.logTypes
         },
 
         /**
@@ -24,4 +24,4 @@ export default {
          */
         debouncer: _.debounce((callback) => callback(), 500),
     },
-};
+}

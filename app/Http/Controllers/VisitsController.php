@@ -8,7 +8,9 @@ use App\Http\Resources\VisitResource;
 use App\Models\Patient;
 use App\Models\Payment;
 use App\Models\Visit;
+use DB;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class VisitsController extends Controller
@@ -17,8 +19,8 @@ class VisitsController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @param Patient|null $patient
+     * @return JsonResponse
      */
     public function index(Request $request, ?Patient $patient)
     {
@@ -63,20 +65,20 @@ class VisitsController extends Controller
                 ->when($params['date'] ?? false, function ($query) use ($params) {
                     $query->whereDate('date', $params['date']);
                 })
-                ->select([\DB::raw("SUM(amount) as value")])
+                ->select([DB::raw("SUM(amount) as value")])
                 ->value('value');
         }
         $data = Visit::getAll($params);
-        $data = collect(BaseCollection::make($data, VisitResource::class))->merge(['item' => $patient->exists ? $patient : null, 'totalValues' => $totalIncome]);
-        return response()->json($data);
+
+        return response()->json(BaseCollection::make($data, VisitResource::class, "entries", ['item' => $patient->exists ? $patient : null, 'totalValues' => $totalIncome]));
     }
 
     /**
-     * @param \App\Models\Visit $visit
+     * @param Visit $visit
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function show(Visit $visit): \Illuminate\Http\JsonResponse
+    public function show(Visit $visit): JsonResponse
     {
         return response()->json(VisitResource::make($visit));
     }
@@ -84,21 +86,21 @@ class VisitsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\VisitRequest $request
+     * @param VisitRequest $request
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function store(VisitRequest $request): \Illuminate\Http\JsonResponse
+    public function store(VisitRequest $request): JsonResponse
     {
         try {
-            \DB::beginTransaction();
+            DB::beginTransaction();
             $visit = Visit::create($request->validated());
             if ($request->filled('services'))
                 $visit->services()->sync($request->get('services'));
             $visit->payment()->create($request->validated());
-            \DB::commit();
-        } catch (\Exception $exception) {
-            \DB::rollBack();
+            DB::commit();
+        } catch (Exception $exception) {
+            DB::rollBack();
             throw new Exception($exception->getMessage());
         }
         return response()->json(['message' => __('app.success')]);
@@ -108,12 +110,12 @@ class VisitsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\VisitRequest $request
-     * @param \App\Models\Visit $visit
+     * @param VisitRequest $request
+     * @param Visit $visit
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function update(VisitRequest $request, Visit $visit): \Illuminate\Http\JsonResponse
+    public function update(VisitRequest $request, Visit $visit): JsonResponse
     {
         $visit->update($request->validated());
         if ($request->filled('services'))
@@ -125,11 +127,11 @@ class VisitsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\Visit $visit
+     * @param Visit $visit
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function destroy(Visit $visit): \Illuminate\Http\JsonResponse
+    public function destroy(Visit $visit): JsonResponse
     {
         try {
             $visit->delete();

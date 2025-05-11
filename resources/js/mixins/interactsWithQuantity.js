@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment from "moment"
 
 export default {
     /**
@@ -10,20 +10,20 @@ export default {
          */
         formatQuantity(quantity) {
             const replace = (num, division, unit) => {
-                return (num / division).toFixed(1).replace(/\.0$/, '') + unit;
-            };
-
-            if (quantity >= 1000000) {
-                return replace(quantity, 1000000, 'M');
-            } else if (quantity >= 1000) {
-                return replace(quantity, 1000, 'K');
-            } else if (quantity <= -1000000) {
-                return replace(quantity, -1000000, 'M');
-            } else if (quantity <= -1000) {
-                return replace(quantity, -1000, 'K');
+                return (num / division).toFixed(1).replace(/\.0$/, "") + unit
             }
 
-            return quantity;
+            if (quantity >= 1000000) {
+                return replace(quantity, 1000000, "M")
+            } else if (quantity >= 1000) {
+                return replace(quantity, 1000, "K")
+            } else if (quantity <= -1000000) {
+                return replace(quantity, -1000000, "M")
+            } else if (quantity <= -1000) {
+                return replace(quantity, -1000, "K")
+            }
+
+            return quantity
         },
     },
-};
+}

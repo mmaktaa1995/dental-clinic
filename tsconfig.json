@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "lib": ["esnext", "dom", "dom.Iterable"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "paths": {
+      "@/*": ["./resources/js/*"]
+    },
+    "resolveJsonModule": true,
+    "strict": true,
+    "target": "esnext",
+    "useDefineForClassFields": true,
+    "sourceMap": true,
+    "skipLibCheck": true,
+  },
+  "include": ["resources/js/**/*.ts", "resources/js/**/*.d.ts", "resources/js/**/*.tsx", "resources/js/**/*.vue", "resources/js/components.d.ts"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}

@@ -6,6 +6,10 @@ use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
+ * @property-read int $total_remaining_amount
+ * @property-read ?string $latest_payment_date
+ * @property-read int $latest_payment
+ * @property-read ?int $total_amount
  * @mixin \App\Models\Payment
  */
 class PaymentResource extends JsonResource
@@ -17,7 +21,7 @@ class PaymentResource extends JsonResource
      *
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'id' => $this->id,
@@ -27,11 +31,9 @@ class PaymentResource extends JsonResource
             'visit' => VisitResource::make($this->whenLoaded('visit')),
             'amount' => $this->amount ?: 0,
             'remaining_amount' => $this->remaining_amount ?: 0,
-            'total_remaining_amount' => $this->total_remaining_amount,
-            'latest_payment_date' => $this->latest_payment_date,
-            'latest_payment' => $this->latest_payment,
             'date' => $this->date,
-            'created_at' => Carbon::parse(strtotime($this->created_at))->format('Y-m-d'),
+            'status' => $this->status,
+            'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
         ];
     }
 }
