@@ -63,7 +63,7 @@ class PatientsController extends Controller
 
     public function store(PatientRequest $request): JsonResponse
     {
-        $existingPatient = Patient::where('user_id', auth()->id())->where('name', $request->get('query'))->first();
+        $existingPatient = Patient::where('user_id', auth()->id())->where('name', $request->get('name'))->first();
         if ($existingPatient) {
             return response()->json(['message' => trans('app.existPatient', ['file_number' => $existingPatient->file_number]), 'file_number' => $existingPatient->file_number, 'id' => $existingPatient->id], 500);
         }
@@ -151,9 +151,10 @@ class PatientsController extends Controller
     public function destroy(Patient $patient): JsonResponse
     {
         DB::transaction(function () use ($patient) {
-            Schema::disableForeignKeyConstraints();
+            $patient->payments()->delete();
+            $patient->visits()->delete();
+            $patient->records()->delete();
             $patient->delete();
-            Schema::enableForeignKeyConstraints();
         });
         return response()->json(['message' => __('app.success')]);
     }

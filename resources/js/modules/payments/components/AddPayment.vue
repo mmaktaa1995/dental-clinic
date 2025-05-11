@@ -21,13 +21,13 @@
         </template>
         <template #actions>
             <AsyncButton :loading="isCreating" type="primary" @click="createPayment">
-                {{ $t("global.actions.add") }}
+                {{ isEdit ? $t("global.actions.saveChanges") : $t("global.actions.add") }}
             </AsyncButton>
             <CButton @click="close">{{ $t("global.actions.cancel") }}</CButton>
         </template>
     </CDialog>
     <teleport to=".modal-teleport">
-        <TeethDialog v-model="isSelectTeethOpened" v-model:teeth="teeth" v-model:treated-teeth="treatedTeethRef" :treat-mode="true" @teeth-selected="(isSelectTeethOpened = false)"></TeethDialog>
+        <TeethDialog v-model="isSelectTeethOpened" v-model:teeth="teeth" v-model:treated-teeth="treatedTeethRef" :treat-mode="!isEdit" @teeth-selected="(isSelectTeethOpened = false)"></TeethDialog>
     </teleport>
 </template>
 
@@ -87,7 +87,7 @@ const createPayment = async () => {
     }
     isCreating.value = true
     try {
-        const body = {
+        const body: Record<any, any> = {
             patient_id: paymentDetailsStore.entry.patient_id,
             amount: paymentDetailsStore.entry.amount,
             remaining_amount: paymentDetailsStore.entry.remaining_amount,
@@ -95,11 +95,12 @@ const createPayment = async () => {
             notes: paymentDetailsStore.entry.notes ? paymentDetailsStore.entry.notes : null,
             payment_id: props.payment?.id,
         }
-        if (props.patient?.affected_teeth?.length) {
+        if (!props.isEdit && Object.values(treatedTeethRef).length) {
             body.teeth_ids = Object.values(treatedTeethRef)
         }
+        console.log(body)
         let url = "/payments/create"
-        if (props.isEdit) {
+        if (props.isEdit && props.payment) {
             url = `/payments/${props.payment.id}`
         }
         await api.send(url, props.isEdit ? "PATCH" : "POST", {}, body)
@@ -116,7 +117,7 @@ const createPayment = async () => {
         if (props.reload) {
             props.reload()
         }
-    } catch (error) {
+    } catch (error: any) {
         isCreating.value = false
         if (error.errors && error.status === 422) {
             paymentDetailsStore.errors = error.errors
@@ -127,7 +128,7 @@ const createPayment = async () => {
 let treatedTeethRef = reactive({})
 const teeth = computed(() => {
     if (props.patient?.affected_teeth?.length) {
-        const teeth = {}
+        const teeth: Record<any, any> = {}
         props.patient?.affected_teeth?.forEach((tooth) => {
             teeth[tooth.tooth_id] = tooth.tooth_id
         })
@@ -140,11 +141,13 @@ watch(isAddPaymentOpen, () => {
     if (isAddPaymentOpen.value) {
         if (props.patient) {
             if (props.patient.affected_teeth?.length) {
-                const teeth = {}
+                const teeth: Record<any, any> = {}
                 const treatedTeeth = [...props.patient.affected_teeth].filter((tooth) => tooth.is_treated)
                 treatedTeeth.forEach((tooth) => {
-                    const toothNumber = settingsStore.teeth.find((sTooth) => sTooth.id === tooth.tooth_id).number
-                    teeth[toothNumber] = toothNumber
+                    const toothNumber = settingsStore.teeth.find((sTooth) => sTooth.id === tooth.tooth_id)?.number
+                    if (toothNumber) {
+                        teeth[toothNumber] = toothNumber
+                    }
                 })
                 treatedTeethRef = teeth
             }
@@ -158,13 +161,12 @@ watch(isAddPaymentOpen, () => {
             paymentDetailsStore.entry.date = format(new Date(), "yyyy-MM-dd")
             paymentDetailsStore.entry.amount = null
             paymentDetailsStore.entry.notes = null
-            paymentDetailsStore.entry.remaining_amount = props.payment?.remaining_amount
         } else {
-            paymentDetailsStore.entry.date = props.payment?.date
-            paymentDetailsStore.entry.amount = props.payment?.amount
-            paymentDetailsStore.entry.notes = props.payment?.visit?.notes
-            paymentDetailsStore.entry.remaining_amount = props.payment?.remaining_amount
+            paymentDetailsStore.entry.date = props.payment ? props.payment.date : null
+            paymentDetailsStore.entry.amount = props.payment ? props.payment.amount : null
+            paymentDetailsStore.entry.notes = props.payment && props.payment.visit ? props.payment.visit.notes : null
         }
+        paymentDetailsStore.entry.remaining_amount = props.payment ? props.payment.remaining_amount : null
     }
 })
 </script>

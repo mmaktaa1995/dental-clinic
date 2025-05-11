@@ -1,15 +1,17 @@
 import { acceptHMRUpdate } from "pinia"
 import { defineEntryListStore } from "@/store/factories/entryListStore"
 import { api } from "@/logic/api"
+import { PatientEntry } from "@/modules/patients/detailStore"
 
 export type PaymentEntry = {
     id: number
-    notes: string
-    amount: number
-    remaining_amount: number
-    patient_id: number
-    patient: Record<string, any>
-    date: string
+    notes: string | null
+    amount: number | null
+    remaining_amount: number | null
+    patient_id: number | null
+    patient: PatientEntry
+    visit: { notes: string }
+    date: string | null
     isEdit: boolean
     isPayDebtOpened: boolean
 }

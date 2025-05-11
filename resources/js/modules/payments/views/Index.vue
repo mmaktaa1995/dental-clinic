@@ -5,7 +5,7 @@
                 <div>
                     <div class="flex items-center justify-between">
                         <div class="font-semibold text-lg">{{ $t("payments.title") }}</div>
-                        <CButton type="primary" sm @click="(paymentDetailsStore.isAddPaymentModalOpened = true)">{{ $t("global.actions.create") }}</CButton>
+                        <CButton type="primary" sm @click="openAddPayment">{{ $t("global.actions.create") }}</CButton>
                     </div>
                     <!--                    <div class="mt-2">-->
                     <!--                        <label class="block text-sm font-medium text-gray-700 text-right ltr:text-left">{{ $t("payments.totalAmount") }}</label>-->
@@ -38,7 +38,7 @@ import { PaymentEntry, usePaymentsStore } from "@/modules/payments/store"
 import AddPayment from "@/modules/payments/components/AddPayment.vue"
 import CDate from "@/components/Table/components/CDate.vue"
 import { usePaymentDetailsStore } from "@/modules/payments/detailStore"
-import { nextTick, ref } from "vue"
+import { ref } from "vue"
 import { api } from "@/logic/api"
 import PaymentActions from "@/modules/payments/components/table/PaymentActions.vue"
 
@@ -74,9 +74,14 @@ const rowClicked = (row: PaymentEntry) => {
     paymentDetailsStore.patient = row.patient
     paymentDetailsStore.payment = row
     paymentDetailsStore.isEdit = true
-    nextTick().then(() => {
-        paymentDetailsStore.isAddPaymentModalOpened = true
-    })
+    paymentDetailsStore.isAddPaymentModalOpened = true
+}
+
+const openAddPayment = () => {
+    paymentDetailsStore.isEdit = false
+    paymentDetailsStore.patient = undefined
+    paymentDetailsStore.payment = undefined
+    paymentDetailsStore.isAddPaymentModalOpened = true
 }
 
 const formattedValue = (value: number) => {
@@ -92,7 +97,7 @@ const deletePayment = () => {
         .then(() => {
             reload()
             paymentDetailsStore.isDeletePaymentModalOpened = false
-            paymentDetailsStore.entryId = null
+            paymentDetailsStore.entryId = -1
         })
         .finally(() => {
             isDeleting.value = false

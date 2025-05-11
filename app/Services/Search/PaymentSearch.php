@@ -31,7 +31,7 @@ class PaymentSearch extends BaseSearch
                     $query->with('payment')->when($this->request->get('deleted'), fn($query) => $query->withTrashed());
                 }]);
         })
-            ->with('patient')
+            ->with(['patient.affectedTeeth'])
             ->select("payments.*")
             ->when(!$this->patient_id, function ($query) {
                 $query->leftJoin('patients', 'patients.id', 'payments.patient_id')

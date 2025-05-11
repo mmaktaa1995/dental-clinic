@@ -1,5 +1,5 @@
 <template>
-    <div v-if="entry.remaining_amount > 0">
+    <div v-if="entry.remaining_amount > 0" class="z-50">
         <c-icon class="text-teal-500 transition hover:bg-gray-100 rounded-full p-3 cursor-pointer" @click="openAddDebtPayment">fas fa-money-bill</c-icon>
     </div>
 </template>
@@ -16,7 +16,10 @@ const props = defineProps<{
 
 const paymentDetailsStore = usePaymentDetailsStore()
 
-const openAddDebtPayment = () => {
+const openAddDebtPayment = (event: MouseEvent) => {
+    event.stopPropagation()
+    console.log(event)
+    paymentDetailsStore.isEdit = false
     paymentDetailsStore.patient = props.entry.patient
     paymentDetailsStore.payment = props.entry
     paymentDetailsStore.isAddPaymentModalOpened = true

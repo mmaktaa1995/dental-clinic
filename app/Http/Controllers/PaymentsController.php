@@ -52,8 +52,12 @@ class PaymentsController extends Controller
             $data = $request->validated();
             $visit = Visit::create($data);
 
-            if ($remainingAmountPayment && $amount > $remainingAmountPayment->remaining_amount) {
-                $data['remaining_amount'] = 0;
+            if ($remainingAmountPayment) {
+                if ($amount > $remainingAmountPayment->remaining_amount)
+                    $data['remaining_amount'] = 0;
+                else {
+                    $data['remaining_amount'] = $remainingAmountPayment->remaining_amount - $amount;
+                }
             }
             $visit->payment()->create($data);
 
