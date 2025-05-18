@@ -6,25 +6,11 @@ use App\Traits\SearchQuery;
 use Eloquent;
 
 /**
- * App/Models/Patient
- *
- * @property int $id
- * @property string $amount
- * @property string $date
- * @property string $description
- * @property string $name
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @method static \Illuminate\Contracts\Pagination\LengthAwarePaginator getAll($params)
+ * @mixin IdeHelperExpense
  */
-
-class Expense extends Eloquent
+class Expense extends BaseModel
 {
-    use SearchQuery;
-
-    public static $searchableFields = ['name'];
-    protected $fillable = ['date', 'description', 'name', 'amount'];
+    protected $fillable = ['date', 'description', 'name', 'amount', 'user_id'];
     protected $table = "financial_expenses";
-    public static $dateColumnFiltered = 'date';
 
 }

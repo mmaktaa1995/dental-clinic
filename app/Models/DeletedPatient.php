@@ -11,21 +11,29 @@ namespace App\Models;
 use App\Traits\SearchQuery;
 use Eloquent;
 
-class DeletedPatient extends Eloquent
+/**
+ * @mixin IdeHelperDeletedPatient
+ */
+class DeletedPatient extends BaseModel
 {
     public static $relationsWithForSearch = [];
     use SearchQuery;
 
-    protected $fillable = ['name', 'age', 'phone', 'mobile', 'file_number', 'image'];
+    protected $fillable = ['name', 'age', 'phone', 'mobile', 'file_number', 'image', 'total_amount', 'gender', 'user_id'];
 
 
     public function visits()
     {
-        return self::hasMany(Visit::class, 'user_id', 'id');
+        return self::hasMany(Visit::class, 'patient_id')->withTrashed();
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class, 'patient_id')->withTrashed();
     }
 
     public function images()
     {
-        return self::hasMany(PatientImage::class, 'patient_id', 'id');
+        return self::hasMany(PatientFile::class, 'patient_id', 'id');
     }
 }

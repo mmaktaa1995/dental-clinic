@@ -1,17 +1,14 @@
 <template>
     <svg fill="currentColor" viewBox="0 0 20 20" :class="sizeClass">
-        <path
-            clip-rule="evenodd"
-            fill-rule="evenodd"
-            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-        />
+        <path clip-rule="evenodd" fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" />
     </svg>
 </template>
 
-<script>
-import Sizable from './Sizable';
+<script setup lang="ts">
+import { useSizeClass } from "@/composables/sizable.js"
 
-export default {
-    mixins: [Sizable],
-};
+const { size } = defineProps<{
+    size: number | string
+}>()
+const sizeClass = useSizeClass(size)
 </script>

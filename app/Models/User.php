@@ -9,11 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
- * App\Models\User
- *
- *
- * @method \Laravel\Sanctum\NewAccessToken createToken(string $name, array $abilities = ['*'])
- *
+ * @mixin IdeHelperUser
  */
 class User extends Authenticatable
 {

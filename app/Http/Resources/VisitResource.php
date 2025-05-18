@@ -21,12 +21,11 @@ class VisitResource extends JsonResource
         return [
             'id' => $this->id,
             'patient_id' => $this->patient_id,
-//            'services' => $this->services,
             'patient' => PatientResource::make($this->whenLoaded('patient')),
             'amount' => $this->amount,
             'date' => $this->date,
             'notes' => $this->notes,
-            'created_at' => Carbon::parse(strtotime($this->created_at))->format('Y-m-d'),
+            'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
         ];
     }
 }

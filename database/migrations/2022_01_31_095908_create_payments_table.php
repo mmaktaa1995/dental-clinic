@@ -22,8 +22,9 @@ class CreatePaymentsTable extends Migration
             $table->unsignedBigInteger('visit_id');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
+            $table->softDeletes();
 
-            $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
+            $table->foreign('patient_id')->references('id')->on('patients')->onDelete('no action');
             $table->foreign('visit_id')->references('id')->on('visits')->onDelete('cascade');
         });
     }

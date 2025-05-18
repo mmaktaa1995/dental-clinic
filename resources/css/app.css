@@ -52,17 +52,17 @@ body {
     font-family: 'Tajawal', sans-serif !important;
 }
 
-[id^=filepond--drop-label], .filepond--file-status {
+[dir='rtl'] [id^=filepond--drop-label], .filepond--file-status {
     direction: rtl;
     font-family: 'Tajawal', sans-serif !important;
 }
 
 
 
-input:disabled {
-    cursor: not-allowed;
-    background-color: rgba(0, 0, 0, .08) !important;
-}
+/*input:disabled {*/
+/*    cursor: not-allowed;*/
+/*    background-color: rgba(0, 0, 0, .08) !important;*/
+/*}*/
 
 .bg-accent{
     background-color: #00A8E1;
@@ -131,4 +131,14 @@ input:disabled {
 .mx-icon-calendar, .mx-icon-clear{
     right: auto !important;
     left: 8px !important;
+}
+
+.list-enter-active,
+.list-leave-active {
+    transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+    opacity: 0;
+    transform: translateX(30px);
 }

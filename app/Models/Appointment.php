@@ -3,21 +3,13 @@
 namespace App\Models;
 
 /**
- * App/Models/Patient
- *
- * @property int $id
- * @property string $patient_id
- * @property string $notes
- * @property \Carbon\Carbon $date
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\patient $patient
+ * @mixin IdeHelperAppointment
  */
-class Appointment extends \Eloquent
+class Appointment extends BaseModel
 {
-    protected $fillable = ['patient_id', 'date', 'notes'];
-
     const WAITING_MINUTES = 30;
+    protected $fillable = ['patient_id', 'date', 'notes', 'user_id'];
+
     public function patient()
     {
         return $this->belongsTo(Patient::class);

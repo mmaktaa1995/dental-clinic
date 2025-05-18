@@ -4,7 +4,7 @@ export default {
          * Returns the log color by the given display name.
          */
         jobColor(displayName) {
-            return 'red';
+            return "red"
         },
     },
-};
+}

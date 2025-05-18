@@ -1,33 +1,31 @@
 <template>
-    <button v-bind="$attrs" v-on="$listeners" :type="type" class="relative" :class="{ 'cursor-not-allowed': loading }" :disabled="disabled">
-        <span class="absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%)" v-if="loading">
-            <loader color="white" width="32"></loader>
+    <CButton :to :type :disabled="disabled" :class="{ 'cursor-not-allowed pointer-events-none': loading }">
+        <span v-if="loading" class="absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%)">
+            <c-loader color="white" width="32"></c-loader>
         </span>
 
-        <span :class="{ invisible: loading }">
+        <span v-if="!loading">
             <slot></slot>
         </span>
-    </button>
+    </CButton>
 </template>
 
-<script>
-import Loader from './Loader';
+<script setup lang="ts">
+import { ButtonType } from "@/components/CButton.vue"
+import { RouteLocationNormalized } from "vue-router"
 
-export default {
-    name: 'AsyncButton',
-    components: {
-        Loader,
+withDefaults(
+    defineProps<{
+        type?: ButtonType
+        loading?: boolean
+        disabled?: boolean
+        to?: RouteLocationNormalized
+    }>(),
+    {
+        disabled: false,
+        loading: false,
+        type: "default",
+        to: undefined,
     },
-
-    props: {
-        type: {
-            default: 'button',
-        },
-        loading: {},
-        disabled: {},
-    },
-    mounted(){
-        console.log(this.$props)
-    }
-};
+)
 </script>
