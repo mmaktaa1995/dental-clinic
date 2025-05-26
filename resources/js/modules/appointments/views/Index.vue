@@ -1,5 +1,14 @@
 <template>
     <div class="px-16 py-8 w-full">
+        <div class="mb-4">
+            <div class="flex justify-end">
+                <ImportExportButtons 
+                    model-type="appointments" 
+                    :filters="exportFilters"
+                    @import-complete="handleImportComplete"
+                />
+            </div>
+        </div>
         <div>
             <CFullCalendar :fetch-events="fetchEvents" :loaded="!appointmentsStore.isLoading" :events="appointmentsStore.entries" @handle-date-select="handleDateSelect" @handle-event-click="handleEventClick" @handle-events="handleEvents" @handle-dates-set="handleDatesSet"> </CFullCalendar>
         </div>
@@ -27,19 +36,38 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
+import { ref, computed } from "vue"
 import { useAppointmentsStore } from "@/modules/appointments/store"
 import { api } from "@/logic/api"
 import EditGeneral from "@/modules/appointments/views/EditGeneral.vue"
+import ImportExportButtons from "@/components/ImportExportButtons.vue"
 import { DateSelectArg, EventApi, EventClickArg } from "@fullcalendar/core"
 import { format, isFriday } from "date-fns"
 import { parseDate } from "@/logic/helpers"
+import { useToastStore } from "@/modules/global/toastStore"
 
 const events = ref([])
 const loadingEvents = ref(false)
 const appointmentsStore = useAppointmentsStore()
 const currentEvents = ref([])
 const isEditAppointmentOpened = ref(false)
+const toastStore = useToastStore()
+
+// Computed property to provide current filters to export component
+const exportFilters = computed(() => ({
+    start_date: appointmentsStore.startDate,
+    end_date: appointmentsStore.endDate
+}))
+
+const handleImportComplete = (result: { success: boolean; message: string }) => {
+    if (result.success) {
+        toastStore.success(result.message)
+        // Refresh the appointments after import
+        getData(appointmentsStore.startDate, appointmentsStore.endDate)
+    } else {
+        toastStore.error(result.message)
+    }
+}
 
 const getData = async (startDate, endDate) => {
     appointmentsStore.startDate = startDate

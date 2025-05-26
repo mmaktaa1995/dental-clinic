@@ -216,7 +216,6 @@ function getRandomColors(colors, count) {
 onMounted(() => {
     Chart.defaults.global.defaultFontFamily = "Tajawal"
     const randomColors = getRandomColors(colors, chartData.value.length)
-    console.log(randomColors)
 
     new Chart(canvas.value, {
         type: "bar",

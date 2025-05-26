@@ -8,6 +8,38 @@
                     </div>
                     <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-700">تسجيل الدخول الى حسابك</h2>
                 </div>
+                
+                <!-- Success message for verified email -->
+                <div v-if="emailVerified" class="rounded-md bg-green-50 p-4 mb-4">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium text-green-800">
+                                {{ $t('auth.verifyEmail.emailVerified', 'تم التحقق من البريد الإلكتروني بنجاح.') }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Error message for verification required -->
+                <div v-if="verificationRequired" class="rounded-md bg-yellow-50 p-4 mb-4">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium text-yellow-800">
+                                {{ $t('auth.verifyEmail.pleaseVerifyEmail', 'يرجى التحقق من بريدك الإلكتروني قبل الاستمرار.') }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
                 <form class="mt-8 space-y-6" @submit.prevent="login">
                     <div class="rounded-md shadow-sm -space-y-px">
                         <div>
@@ -58,36 +90,86 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
-import { useRouter } from "vue-router"
+import { ref, onMounted } from "vue"
+import { useRouter, useRoute } from "vue-router"
 import { useAccountStore } from "@/modules/auth/accountStore"
 import { useSettingsStore } from "@/modules/global/settingsStore"
+import { useI18n } from "vue-i18n"
 
 const email = ref("")
 const password = ref("")
-const errors = ref({})
+const errors = ref<Record<string, string[]>>({})
+const emailVerified = ref(false)
+const verificationRequired = ref(false)
 
 const router = useRouter()
+const route = useRoute()
+const { t } = useI18n()
 const accountStore = useAccountStore()
 const settingsStore = useSettingsStore()
 
 const login = async () => {
     const data = { email: email.value, password: password.value }
+    errors.value = {}
+    verificationRequired.value = false
 
     try {
         await accountStore.login(data)
+        await accountStore.getUser()
+
+        // Check if email is verified
+        if (!accountStore.user?.email_verified_at) {
+            // Store login credentials for verification page
+            localStorage.setItem('pendingVerification', JSON.stringify({
+                email: email.value,
+                password: password.value
+            }))
+            
+            verificationRequired.value = true
+            
+            // Redirect to verification page after a short delay
+            setTimeout(() => {
+                router.push({ name: "verify-email" })
+            }, 2000)
+            return
+        }
 
         // Navigate to the patients index page
         router.push({ name: "patients-index" }).then(async () => {
-            await accountStore.getUser()
             await settingsStore.getExchangeRate()
             await settingsStore.getLastFileNumber()
             await settingsStore.getTeeth()
         })
     } catch (error) {
-        if (error.errors && error.status === 422) {
-            errors.value = error.errors
+        if (error.response?.data?.errors && error.response?.status === 422) {
+            errors.value = error.response.data.errors
+        } else if (error.response?.status === 403 && error.response?.data?.verification_required) {
+            verificationRequired.value = true
+            
+            // Store login credentials for verification page
+            localStorage.setItem('pendingVerification', JSON.stringify({
+                email: email.value,
+                password: password.value
+            }))
+            
+            // Redirect to verification page after a short delay
+            setTimeout(() => {
+                router.push({ name: "verify-email" })
+            }, 2000)
         }
     }
 }
+
+// Check URL parameters on component mount
+onMounted(() => {
+    // Check if user just verified their email
+    if (route.query.verified === '1') {
+        emailVerified.value = true
+    }
+    
+    // Check if verification is required
+    if (route.query.verification_required === '1') {
+        verificationRequired.value = true
+    }
+})
 </script>

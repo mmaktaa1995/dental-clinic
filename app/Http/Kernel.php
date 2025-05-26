@@ -20,6 +20,8 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
+        \App\Http\Middleware\SanitizeInput::class,
+        \App\Http\Middleware\ContentSecurityPolicyHeaders::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
     ];
 
@@ -36,12 +38,14 @@ class Kernel extends HttpKernel
             // \Illuminate\Session\Middleware\AuthenticateSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
+            \App\Http\Middleware\CheckSessionTimeout::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
         'api' => [
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',
+            \App\Http\Middleware\CheckSessionTimeout::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
@@ -64,5 +68,12 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'api.verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
+        'role' => \App\Http\Middleware\CheckRole::class,
+        'role.any' => \App\Http\Middleware\CheckAnyRole::class,
+        'role.all' => \App\Http\Middleware\CheckAllRoles::class,
+        'permission' => \App\Http\Middleware\CheckPermission::class,
+        'permission.any' => \App\Http\Middleware\CheckAnyPermission::class,
+        'permission.all' => \App\Http\Middleware\CheckAllPermissions::class,
     ];
 }

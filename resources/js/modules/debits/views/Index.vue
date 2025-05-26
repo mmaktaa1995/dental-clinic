@@ -1,5 +1,13 @@
 <template>
     <div>
+        <div class="mb-4">
+            <div class="flex justify-end">
+                <ImportExportButtons 
+                    model-type="debits" 
+                    @import-complete="handleImportComplete"
+                />
+            </div>
+        </div>
         <div>
             <PaymentsTable :store="debitsStore" :columns="columns">
                 <template #header>
@@ -24,9 +32,22 @@ import PaymentStatus from "@/modules/payments/components/table/PaymentStatus.vue
 import DateTime from "@/components/Table/components/DateTime.vue"
 import { useI18n } from "vue-i18n"
 import { useDebitsStore } from "@/modules/debits/store"
+import ImportExportButtons from "@/components/ImportExportButtons.vue"
+import { useToastStore } from "@/modules/global/toastStore"
 
 const debitsStore = useDebitsStore()
 const { t } = useI18n()
+const toastStore = useToastStore()
+
+const handleImportComplete = (result: { success: boolean; message: string }) => {
+    if (result.success) {
+        toastStore.success(result.message)
+        // Refresh the debits after import
+        debitsStore.getDebits()
+    } else {
+        toastStore.error(result.message)
+    }
+}
 const formattedValue = (value: number) => {
     return formatNumber(value)
 }

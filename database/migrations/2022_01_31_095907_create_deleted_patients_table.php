@@ -32,6 +32,6 @@ class CreateDeletedPatientsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('patients');
+        Schema::dropIfExists('deleted_patients');
     }
 }

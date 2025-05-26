@@ -16,15 +16,19 @@
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
   "[vue]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "prettier.configPath": "./.prettierrc.json",
   "prettier.prettierPath": "./node_modules/prettier",
   "eslint.format.enable": true,
   "vs-code-prettier-eslint.prettierLast": true,
-  "editor.formatOnSaveMode": "modifications",
-  "editor.formatOnSave": false,
+  "editor.formatOnSaveMode": "file",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
   "i18n-ally.localesPaths": [
     "resources/js/lang"
-  ]
+  ],
+  "php.validate.executablePath": "/Users/mohammadaktaa/Library/Application Support/Herd/bin//php"
 }

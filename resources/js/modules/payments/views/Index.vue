@@ -1,5 +1,12 @@
 <template>
-    <div>
+    <div class="space-y-4">
+        <div class="flex justify-end">
+            <ImportExportButtons 
+                model-type="payments" 
+                :filters="exportFilters"
+                @import-complete="handleImportComplete"
+            />
+        </div>
         <PaymentsTable :columns="columns" :store="paymentsStore" :row-clicked="rowClicked">
             <template #header>
                 <div>
@@ -46,6 +53,24 @@ const paymentsStore = usePaymentsStore()
 const paymentDetailsStore = usePaymentDetailsStore()
 const isDeleting = ref(false)
 const { t } = useI18n()
+const toastStore = useToastStore()
+
+// Computed property to provide current filters to export component
+const exportFilters = computed(() => ({
+    query: paymentsStore.query,
+    from_date: paymentsStore.from_date,
+    to_date: paymentsStore.to_date
+}))
+
+const handleImportComplete = (result: { success: boolean; message: string }) => {
+    if (result.success) {
+        toastStore.success(result.message)
+        // Refresh the payments after import
+        reload()
+    } else {
+        toastStore.error(result.message)
+    }
+}
 
 const columns: DataTableColumn[] = [
     { field: "patient.name", headerName: t("patients.name") },

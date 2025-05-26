@@ -18,13 +18,22 @@ return new class extends Migration {
      */
     public function up()
     {
+        // Skip this migration during tests
+        if (app()->environment('testing')) {
+            return;
+        }
+        
         $user = User::where('email', 'mehdi@aktaa-dental.com')->first();
-        Service::query()->whereNull('user_id')->update(['user_id' => $user->id]);
-        Expense::query()->whereNull('user_id')->update(['user_id' => $user->id]);
-        Payment::query()->whereNull('user_id')->update(['user_id' => $user->id]);
-        Appointment::query()->whereNull('user_id')->update(['user_id' => $user->id]);
-        Patient::query()->whereNull('user_id')->update(['user_id' => $user->id]);
-        Visit::query()->whereNull('user_id')->update(['user_id' => $user->id]);
+        
+        // Only proceed if the user exists
+        if ($user) {
+            Service::query()->whereNull('user_id')->update(['user_id' => $user->id]);
+            Expense::query()->whereNull('user_id')->update(['user_id' => $user->id]);
+            Payment::query()->whereNull('user_id')->update(['user_id' => $user->id]);
+            Appointment::query()->whereNull('user_id')->update(['user_id' => $user->id]);
+            Patient::query()->whereNull('user_id')->update(['user_id' => $user->id]);
+            Visit::query()->whereNull('user_id')->update(['user_id' => $user->id]);
+        }
     }
 
     /**

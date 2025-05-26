@@ -31,9 +31,24 @@ return [
     |
     */
 
-    'lifetime' => env('SESSION_LIFETIME', 120),
+    /*
+    |--------------------------------------------------------------------------
+    | Session Lifetime & Idle Timeout
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify the number of minutes that you wish the session
+    | to be allowed to remain idle before it expires. If you want them
+    | to immediately expire on the browser closing, set that option.
+    |
+    | 'lifetime' - Maximum lifetime of the session in minutes
+    | 'expire_on_close' - Whether to expire the session when the browser is closed
+    | 'idle_timeout' - Number of minutes of inactivity before session expires
+    |
+    */
 
+    'lifetime' => env('SESSION_LIFETIME', 120), // 2 hours maximum session lifetime
     'expire_on_close' => false,
+    'idle_timeout' => env('SESSION_IDLE_TIMEOUT', 30), // 30 minutes of inactivity
 
     /*
     |--------------------------------------------------------------------------

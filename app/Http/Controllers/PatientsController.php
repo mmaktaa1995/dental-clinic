@@ -63,10 +63,19 @@ class PatientsController extends Controller
 
     public function store(PatientRequest $request): JsonResponse
     {
-        $existingPatient = Patient::where('user_id', auth()->id())->where('name', $request->get('name'))->first();
+        // Check if a patient with the same name already exists for this user
+        $existingPatient = Patient::where('user_id', auth()->id())
+            ->where('name', $request->get('name'))
+            ->first();
+            
         if ($existingPatient) {
-            return response()->json(['message' => trans('app.existPatient', ['file_number' => $existingPatient->file_number]), 'file_number' => $existingPatient->file_number, 'id' => $existingPatient->id], 500);
+            return response()->json([
+                'message' => trans('app.existPatient', ['file_number' => $existingPatient->file_number]),
+                'file_number' => $existingPatient->file_number,
+                'id' => $existingPatient->id
+            ], 422); // Changed from 500 to 422 to indicate validation error
         }
+        
         $patient = null;
         DB::transaction(function () use ($request, &$patient) {
             $patient = Patient::create($request->only(["name", "age", "gender", "file_number", "phone", "mobile", "total_amount"]));

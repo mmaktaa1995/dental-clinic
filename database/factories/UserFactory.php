@@ -23,12 +23,15 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'name' => 'Mehdi Aktaa',
-            'email' => 'mehdi@aktaa-dental.com',
+            'name' => $this->faker->name(),
+            'username' => $this->faker->unique()->userName,
+            'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => bcrypt(123456),
+            'password' => bcrypt('password'),
             'remember_token' => Str::random(10),
-            'admin' => 1
+            'admin' => false,
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 
@@ -42,6 +45,34 @@ class UserFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'email_verified_at' => null,
+            ];
+        });
+    }
+
+    /**
+     * Indicate that the user is an admin.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function admin()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'admin' => true,
+            ];
+        });
+    }
+
+    /**
+     * Indicate that the user is a regular user (not admin).
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function regular()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'admin' => false,
             ];
         });
     }

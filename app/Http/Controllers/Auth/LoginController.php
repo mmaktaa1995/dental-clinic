@@ -5,10 +5,14 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
@@ -23,8 +27,21 @@ class LoginController extends Controller
     | to conveniently provide its functionality to your applications.
     |
     */
-
     use AuthenticatesUsers;
+
+    /**
+     * The maximum number of attempts to allow.
+     *
+     * @var int
+     */
+    protected $maxAttempts = 5;
+
+    /**
+     * The number of minutes to throttle for.
+     *
+     * @var int
+     */
+    protected $decayMinutes = 15;
 
     /**
      * Create a new controller instance.
@@ -56,6 +73,13 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
+        // Check if the user has too many login attempts
+        if ($this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+
+            return $this->sendLockoutResponse($request);
+        }
+
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
@@ -64,14 +88,43 @@ class LoginController extends Controller
             return $this->sendFailedLoginResponse($request);
         }
 
+        // Reset login attempts on successful login
+        $this->clearLoginAttempts($request);
+        
+        // Load roles with their permissions
+        $user->load(['roles.permissions']);
+
         return $this->sendLoginResponse($request, $user);
-
-
     }
 
     public function user(Request $request)
     {
-        return $request->user();
+        $user = $request->user();
+        $user->load(['roles.permissions']);
+        
+        return new UserResource($user);
+    }
+
+    /**
+     * Redirect the user after determining they are locked out.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    protected function sendLockoutResponse(Request $request)
+    {
+        $seconds = $this->limiter()->availableIn(
+            $this->throttleKey($request)
+        );
+
+        throw ValidationException::withMessages([
+            $this->username() => [Lang::get('auth.throttle', [
+                'seconds' => $seconds,
+                'minutes' => ceil($seconds / 60),
+            ])],
+        ])->status(429);
     }
 
     protected function sendLoginResponse(Request $request, $user)

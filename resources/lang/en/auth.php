@@ -15,5 +15,7 @@ return [
 
     'failed' => 'These credentials do not match our records.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'idle_timeout' => 'Your session has expired due to inactivity. Please log in again.',
+    'session_expired' => 'Your session has expired. Please log in again to continue.',
 
 ];

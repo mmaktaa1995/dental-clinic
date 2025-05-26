@@ -18,7 +18,6 @@ const paymentDetailsStore = usePaymentDetailsStore()
 
 const openAddDebtPayment = (event: MouseEvent) => {
     event.stopPropagation()
-    console.log(event)
     paymentDetailsStore.isEdit = false
     paymentDetailsStore.patient = props.entry.patient
     paymentDetailsStore.payment = props.entry

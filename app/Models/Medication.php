@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -9,7 +10,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class Medication extends BaseModel
 {
-    protected $fillable = ['name', 'description', 'manufacturer', 'price'];
+    use HasFactory;
+    protected $fillable = ['name', 'description', 'manufacturer', 'price', 'user_id'];
 
     public function patients(): BelongsToMany
     {

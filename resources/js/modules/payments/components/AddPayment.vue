@@ -98,7 +98,6 @@ const createPayment = async () => {
         if (!props.isEdit && Object.values(treatedTeethRef).length) {
             body.teeth_ids = Object.values(treatedTeethRef)
         }
-        console.log(body)
         let url = "/payments/create"
         if (props.isEdit && props.payment) {
             url = `/payments/${props.payment.id}`

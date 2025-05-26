@@ -3,21 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AppointmentRequest;
+use App\Http\Requests\AppointmentSearchRequest;
 use App\Http\Resources\AppointmentResource;
 use App\Models\Appointment;
+use App\Services\Search\AppointmentSearch;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
 {
-    public function index(Request $request): JsonResponse
+    public function index(AppointmentSearchRequest $request): JsonResponse
     {
-        $appointments = Appointment::with('patient')
-            ->where('user_id', auth()->id())
-            ->whereDate('date', ">=", $request->get('startDate', now()))
-            ->whereDate('date', "<=", $request->get('endDate', now()))
-            ->get();
+        $appointmentSearch = new AppointmentSearch($request);
+        $appointments = $appointmentSearch->getEntries();
 
         return response()->json(AppointmentResource::collection($appointments));
     }

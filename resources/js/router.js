@@ -6,6 +6,8 @@ import { getExpensesRoutes } from "@/modules/expenses/routes.js"
 import { getDebitsRoutes } from "@/modules/debits/routes.js"
 import { getAuthRoutes } from "@/modules/auth/routes.js"
 import { getAppointmentsRoutes } from "@/modules/appointments/routes.js"
+import { getUsersRoutes } from "@/modules/users/routes.js"
+import { getRolesRoutes } from "@/modules/roles/routes.js"
 
 export const redirectIfNotAuth = (to, from, next) => {
     const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
@@ -19,15 +21,28 @@ export const redirectIfNotAuth = (to, from, next) => {
 
 export const checkAuth = (to, from, next) => {
     const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
-    if (user) {
-        if (user.admin) {
-            next()
-        } else {
-            next("/unauthorized")
-        }
-    } else {
-        next("/login")
+    
+    if (!user) {
+        return next("/login")
     }
+    
+    // Check if route requires email verification
+    if (to.matched.some(record => record.meta.requiresVerifyEmail) && !user.email_verified_at) {
+        return next({ name: 'verification.notice' })
+    }
+    
+    // Check admin access
+    console.log(to.matched.some(record => record.meta.requiresAdmin), user.admin, to.path.startsWith('/users'))
+    if (to.matched.some(record => record.meta.requiresAdmin) && !user.admin) {
+        return next("/unauthorized")
+    }
+    
+    // Restrict access to users and roles modules to admin users only
+    if ((to.path.startsWith('/users') || to.path.startsWith('/roles')) && !user.admin) {
+        return next("/unauthorized")
+    }
+    
+    next()
 }
 
 const routes = [
@@ -38,6 +53,8 @@ const routes = [
     ...getExpensesRoutes(),
     ...getServicesRoutes(),
     ...getPaymentsRoutes(),
+    ...getUsersRoutes(),
+    ...getRolesRoutes(),
     {
         path: "/statistics",
         name: "statistics",
@@ -81,12 +98,27 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+    // Set document title
     if (to.meta.createTitle) {
         to.meta.title = to.meta.createTitle(to.params)
+        document.title = to.meta.title + " | " + "Dental Clinic"
+    } else {
+        document.title = "Dental Clinic"
     }
 
-    document.title = "Clinic - " + to.meta.title
-
+    // Check authentication and verification status
+    const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
+    
+    // Redirect to login if not authenticated and route requires auth
+    if (to.matched.some(record => record.meta.requiresAuth) && !user) {
+        return next('/login')
+    }
+    
+    // Redirect to email verification if email is not verified
+    if (user && !user.email_verified_at && to.name !== 'verification.notice') {
+        return next({ name: 'verification.notice' })
+    }
+    
     next()
 })
 

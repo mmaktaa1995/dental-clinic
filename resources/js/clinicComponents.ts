@@ -64,8 +64,12 @@ import TextArea from "@/components/TextArea.vue"
 import DateTimePicker from "@/components/DateTimePicker.vue"
 import PureDialog from "@/components/PureDialog.vue"
 import FilePreview from "@/components/FilePreview.vue"
+import PermissionGuard from "@/components/PermissionGuard.vue"
+import MultiSelect from "@/components/CMultiSelect.vue"
+import EmailVerification from "@/components/CEmailVerification.vue"
 
 export const loadComponents = (app: App<Element>) => {
+    app.component("CEmailVerification", EmailVerification)
     app.component("CFilePreview", FilePreview)
     app.component("CPureDialog", PureDialog)
     app.component("CTextArea", TextArea)
@@ -131,4 +135,6 @@ export const loadComponents = (app: App<Element>) => {
     app.component("CIconRestore", restore)
     app.component("CFlashMessage", FlashMessage)
     app.component("CDocumentIcon", Document)
+    app.component("CPermissionGuard", PermissionGuard)
+    app.component("CMultiSelect", MultiSelect)
 }

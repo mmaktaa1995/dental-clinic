@@ -3,6 +3,9 @@
         <CSidebar v-if="accountStore.user.id"></CSidebar>
         <div class="w-full">
             <CNavbar v-if="accountStore.user.id"></CNavbar>
+            <div class="container mt-3" v-if="accountStore.user.id">
+                <CEmailVerification></CEmailVerification>
+            </div>
             <router-view></router-view>
         </div>
     </template>

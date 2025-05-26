@@ -62,6 +62,8 @@ import TextArea from "@/components/TextArea.vue"
 import DateTimePicker from "@/components/DateTimePicker.vue"
 import PureDialog from "@/components/PureDialog.vue"
 import FilePreview from "@/components/FilePreview.vue"
+import PermissionGuard from "@/components/PermissionGuard.vue"
+import MultiSelect from "@/components/CMultiSelect.vue"
 
 declare module "pinia" {
     import { Router } from "vue-router"
@@ -138,12 +140,14 @@ declare module "@vue/runtime-core" {
         CIconRestore: typeof restore
         CFlashMessage: typeof FlashMessage
         CDocumentIcon: typeof DocumentIcon
+        CPermissionGuard: typeof PermissionGuard
+        CMultiSelect: typeof MultiSelect
     }
 
     export interface ComponentCustomProperties {
-        $t: (typeof import("vue-i18n"))["t"]
-        $d: (typeof import("vue-i18n"))["d"] // Optional: for date formatting
-        $n: (typeof import("vue-i18n"))["n"] // Optional: for number formatting
+        $t: (key: string, values?: Record<string, any>) => string
+        $d: (value: Date | number, options?: Intl.DateTimeFormatOptions | string) => string // For date formatting
+        $n: (value: number, options?: Intl.NumberFormatOptions | string) => string // For number formatting
         $filters: {
             percentage(value: number, decimals?: number): string
         }

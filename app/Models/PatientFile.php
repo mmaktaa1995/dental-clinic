@@ -2,12 +2,27 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 /**
  * @mixin IdeHelperPatientFile
  */
-class PatientFile extends \Eloquent
+class PatientFile extends Model
 {
-    protected $fillable = ['file', 'patient_id', 'type', 'file_name'];
+    use HasFactory, SoftDeletes;
+    protected $fillable = ['file', 'patient_id', 'user_id', 'type', 'file_name'];
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    
+    public function patient()
+    {
+        return $this->belongsTo(Patient::class);
+    }
 
     protected static function boot()
     {

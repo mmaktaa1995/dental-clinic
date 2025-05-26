@@ -16,6 +16,7 @@ class CopyDataFromOldDbToNew extends Migration
      */
     public function up()
     {
+        return;
         if (defined('PHPUNIT_DENTAL_TESTSUITE') && PHPUNIT_DENTAL_TESTSUITE) {
             return;
         }

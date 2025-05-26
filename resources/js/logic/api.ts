@@ -18,9 +18,10 @@ export const api = {
             this.isUnloading = true
         })
     },
-    send(url: string, method: "POST" | "GET" | "DELETE" | "PUT" | "PATCH", params?: Record<string, any>, body?: Record<string, any> | FormData, abortController: AbortController | null = null): Promise<any> {
-        const headers = {
+    send(url: string, method: "POST" | "GET" | "DELETE" | "PUT" | "PATCH", params?: Record<string, any>, body?: Record<string, any> | FormData, abortController: AbortController | null = null, headers?: Record<string, string>): Promise<any> {
+        headers = {
             ...this.getDefaultHeaders(),
+            ...headers
             // ...this.getAppIdHeader(),
         }
 
@@ -95,8 +96,8 @@ export const api = {
     get(url: string, params?: Record<string, any>): Promise<any> {
         return this.send(url, "GET", params)
     },
-    post(url: string, body?: Record<string, any> | FormData, abortController: AbortController | null = null) {
-        return this.send(url, "POST", undefined, body, abortController)
+    post(url: string, body?: Record<string, any> | FormData, abortController: AbortController | null = null, headers?: Record<string, string>) {
+        return this.send(url, "POST", undefined, body, abortController, headers)
     },
     patch(url: string, body?: Record<string, any> | FormData, abortController: AbortController | null = null) {
         return this.send(url, "PATCH", undefined, body, abortController)

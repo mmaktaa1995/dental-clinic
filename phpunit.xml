@@ -19,13 +19,49 @@
     </coverage>
     <php>
         <server name="APP_ENV" value="testing"/>
+        <server name="APP_DEBUG" value="false"/>
+        <server name="APP_KEY" value="base64:r0w0xC+mXXqVzLzH0k9CDEcaT+2k2gqKvRw3WUaDB4c="/>
+        <server name="APP_URL" value="http://localhost"/>
+        
         <server name="BCRYPT_ROUNDS" value="4"/>
+        
+        <!-- Cache & Session -->
         <server name="CACHE_DRIVER" value="array"/>
-        <server name="DB_DATABASE" value=":memory:"/>
-        <server name="MAIL_MAILER" value="array"/>
-        <server name="QUEUE_CONNECTION" value="sync"/>
+        <server name="FILESYSTEM_DISK" value="local"/>
         <server name="SESSION_DRIVER" value="array"/>
+        
+        <!-- Database -->
+        <server name="DB_CONNECTION" value="mysql"/>
+        <server name="DB_DATABASE" value="dental_testing"/>
+        <server name="DB_USERNAME" value="root"/>
+        <server name="DB_PASSWORD" value=""/>
+        <server name="DB_HOST" value="127.0.0.1"/>
+        <server name="DB_PORT" value="3306"/>
+        <server name="DB_SOCKET" value=""/>
+        <server name="DB_FOREIGN_KEYS" value="true"/>
+        
+        <!-- Mail -->
+        <server name="MAIL_MAILER" value="array"/>
+        <server name="MAIL_FROM_ADDRESS" value="test@example.com"/>
+        <server name="MAIL_FROM_NAME" value="Test Suite"/>
+        
+        <!-- Queue -->
+        <server name="QUEUE_CONNECTION" value="sync"/>
+        
+        <!-- Services -->
+        <server name="AWS_ACCESS_KEY_ID" value=""/>
+        <server name="AWS_SECRET_ACCESS_KEY" value=""/>
+        <server name="AWS_DEFAULT_REGION" value="us-east-1"/>
+        <server name="AWS_BUCKET" value=""/>
+        
+        <!-- Telescope -->
         <server name="TELESCOPE_ENABLED" value="false"/>
+        
+        <!-- Custom -->
         <const name="PHPUNIT_DENTAL_TESTSUITE" value="true"/>
+        
+        <!-- Error Handling -->
+        <server name="LOG_CHANNEL" value="stderr"/>
+        <server name="LOG_LEVEL" value="debug"/>
     </php>
 </phpunit>

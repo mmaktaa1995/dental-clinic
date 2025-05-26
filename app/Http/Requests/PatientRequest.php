@@ -7,6 +7,17 @@ use Illuminate\Foundation\Http\FormRequest;
 class PatientRequest extends FormRequest
 {
     /**
+     * Get the patient ID from the route if it exists.
+     *
+     * @return int|string
+     */
+    protected function getPatientId()
+    {
+        $patient = $this->route('patient');
+        return $patient ? (is_object($patient) ? $patient->id : $patient) : 'NULL';
+    }
+
+    /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
@@ -23,9 +34,19 @@ class PatientRequest extends FormRequest
      */
     public function rules()
     {
+        $patientId = $this->getPatientId();
+        
         return [
-            'file_number' => [$this->segment(4) ? 'sometimes' : 'required', 'unique:patients,file_number,' . $this->segment(4)],
-            'name' => ['required', 'string', 'max:255'],
+            'file_number' => [
+                $patientId !== 'NULL' ? 'sometimes' : 'required',
+                'unique:patients,file_number,' . $patientId
+            ],
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                'unique:patients,name,' . $patientId . ',id,user_id,' . auth()->id()
+            ],
             'age' => ['nullable', 'numeric', 'gt:0'],
             'gender' => ['nullable', 'numeric', 'in:1,2'],
             'phone' => ['nullable', 'numeric'],

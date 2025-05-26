@@ -56,10 +56,21 @@ return [
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
             'prefix_indexes' => true,
-            'strict' => false,
+            // Enable strict mode to prevent invalid or missing data
+            'strict' => true,
             'engine' => null,
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+                // Enable emulated prepared statements (true by default in PDO)
+                PDO::ATTR_EMULATE_PREPARES => false,
+                // Enable real prepared statements
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                // Set default fetch mode to array
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                // Don't convert numeric values to strings
+                PDO::ATTR_STRINGIFY_FETCHES => false,
+                // Disable multi-query execution
+                PDO::MYSQL_ATTR_MULTI_STATEMENTS => false,
             ]) : [],
         ],
         'mysql_old' => [

@@ -10,15 +10,18 @@
 namespace App\Models;
 
 use App\Traits\SearchQuery;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @mixin IdeHelperPatient
  */
 class Patient extends BaseModel
 {
+    use HasFactory, SoftDeletes;
     protected $fillable = ['name', 'age', 'phone', 'mobile', 'file_number', 'image', 'gender', 'user_id', 'total_amount'];
 
     public static function boot()
@@ -27,6 +30,7 @@ class Patient extends BaseModel
 
         static::deleting(function (Patient $patient) {
             \DB::transaction(function () use ($patient) {
+                // Soft delete related records
                 $patient->visits->each(function (Visit $visit) {
                     $visit->delete();
                 });
@@ -36,7 +40,23 @@ class Patient extends BaseModel
                 foreach ($patient->files()->get() as $file) {
                     $file->delete();
                 }
-                DeletedPatient::insert($patient->withoutRelations()->toArray());
+                
+                // Copy patient to deleted_patients table
+                $deletedPatient = new \App\Models\DeletedPatient($patient->only([
+                    'name', 
+                    'age', 
+                    'phone', 
+                    'mobile', 
+                    'file_number', 
+                    'image', 
+                    'gender', 
+                    'user_id',
+                    'total_amount'
+                ]));
+                $deletedPatient->id = $patient->id;
+                $deletedPatient->created_at = $patient->created_at;
+                $deletedPatient->updated_at = $patient->updated_at;
+                $deletedPatient->save();
             });
         });
     }
@@ -58,7 +78,7 @@ class Patient extends BaseModel
 
     public function lastVisit()
     {
-        return $this->hasMany(Visit::class)->latest()->limit(1);
+        return $this->hasOne(Visit::class)->latest('date');
     }
 
     public function medications(): BelongsToMany

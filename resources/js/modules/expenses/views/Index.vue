@@ -1,5 +1,12 @@
 <template>
-    <div>
+    <div class="space-y-4">
+        <div class="flex justify-end">
+            <ImportExportButtons 
+                model-type="expenses" 
+                :filters="exportFilters"
+                @import-complete="handleImportComplete"
+            />
+        </div>
         <CDataTable :columns="columns" :store="expensesStore" @row-clicked="rowClicked">
             <template #header>
                 <div class="flex justify-between items-center">
@@ -28,10 +35,31 @@ import DateTime from "@/components/Table/components/DateTime.vue"
 import { DataTableColumn } from "@/components/Table/DataTable.vue"
 import CDetailPageOutlet from "@/components/CDetailPage/CDetailPageOutlet.vue"
 import { useExpensesStore } from "@/modules/expenses/store"
+import ImportExportButtons from "@/components/ImportExportButtons.vue"
+import { useToastStore } from "@/modules/global/toastStore"
+import { computed } from "vue"
 
 const expensesStore = useExpensesStore()
 const router = useRouter()
 const { t } = useI18n()
+const toastStore = useToastStore()
+
+// Computed property to provide current filters to export component
+const exportFilters = computed(() => ({
+    query: expensesStore.query,
+    from_date: expensesStore.from_date,
+    to_date: expensesStore.to_date
+}))
+
+const handleImportComplete = (result: { success: boolean; message: string }) => {
+    if (result.success) {
+        toastStore.success(result.message)
+        // Refresh the expenses after import
+        expensesStore.getExpenses()
+    } else {
+        toastStore.error(result.message)
+    }
+}
 
 const columns: DataTableColumn[] = [
     { field: "name", headerName: t("services.name") },

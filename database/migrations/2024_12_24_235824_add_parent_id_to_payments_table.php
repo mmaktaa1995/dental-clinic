@@ -27,7 +27,10 @@ return new class extends Migration {
     public function down()
     {
         Schema::table('payments', function (Blueprint $table) {
-            $table->dropColumn(['parent_id']);
+            // Drop the foreign key constraint first
+            $table->dropForeign(['parent_id']);
+            // Then drop the column
+            $table->dropColumn('parent_id');
         });
     }
 };

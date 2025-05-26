@@ -20,5 +20,14 @@ export const getAuthRoutes = () => {
                 createTitle: () => "Register",
             },
         },
+        {
+            path: "/email/verify",
+            name: "verification.notice",
+            component: () => import("@/modules/auth/views/VerifyEmail.vue"),
+            meta: {
+                createTitle: () => "Verify Email",
+                requiresAuth: true,
+            },
+        },
     ]
 }

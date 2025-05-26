@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-
 use App\Traits\SearchQuery;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -15,7 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Payment extends BaseModel
 {
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = ['visit_id', 'date', 'amount', 'remaining_amount', 'patient_id', 'user_id', 'status'];
 //    protected $appends = ['latestPaymentDate'];

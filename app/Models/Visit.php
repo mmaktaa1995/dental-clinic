@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\SearchQuery;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Visit extends BaseModel
 {
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = ['patient_id', 'date', 'notes', 'user_id']; //@todo revert amount when migration
     protected $appends = ['amount'];//@todo comment amount when migration
