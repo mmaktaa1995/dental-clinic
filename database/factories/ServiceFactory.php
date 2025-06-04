@@ -14,10 +14,8 @@ class ServiceFactory extends Factory
     {
         return [
             'name' => $this->faker->unique()->word,
-            'description' => $this->faker->sentence,
-            'price' => $this->faker->randomFloat(2, 10, 1000),
-            'duration' => $this->faker->numberBetween(15, 120), // in minutes
-            'is_active' => $this->faker->boolean(90), // 90% chance of being active
+            'price' => $this->faker->numberBetween(10, 1000),
+            'duration' => $this->faker->numberBetween(15, 120),
             'user_id' => User::factory(),
             'created_at' => now(),
             'updated_at' => now(),

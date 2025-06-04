@@ -37,9 +37,16 @@ class PatientsControllerTest extends TestCase
         }
         
         // Create and authenticate a test user with admin role
-        $this->user = User::factory()->create();
+        $this->user = User::factory()->create([
+            'email_verified_at' => now(), // Mark the user as verified
+        ]);
         $this->user->assignRole('admin');
-        $this->actingAs($this->user, 'api');
+        
+        // Create a personal access token for the user
+        $token = $this->user->createToken('test-token')->plainTextToken;
+        
+        // Set the authorization header for all requests
+        $this->withHeader('Authorization', 'Bearer ' . $token);
         
         // Verify the role was assigned correctly
         $adminRole = Role::where('slug', 'admin')->first();
@@ -105,24 +112,25 @@ class PatientsControllerTest extends TestCase
     /** @test */
     public function it_prevents_duplicate_patient_names()
     {
-        // First, ensure the database is empty
-        $this->assertDatabaseCount('patients', 0);
-
-        // Create a patient with the same name
+        // Get initial count of patients in the database
+        $initialCount = Patient::count();
+        
+        // Create a patient with a specific name
         $patient = Patient::create([
             'user_id' => $this->user->id,
-            'name' => 'John Doe',
+            'name' => 'John Doe Unique Test',
             'file_number' => 'TEST123',
             'gender' => 1,
             'age' => 30
         ]);
 
-        // Verify only one patient exists
-        $this->assertDatabaseCount('patients', 1);
+        // Verify the patient was created
+        $this->assertDatabaseHas('patients', ['name' => 'John Doe Unique Test']);
+        $this->assertEquals($initialCount + 1, Patient::count());
 
         // Try to create another patient with the same name
         $response = $this->postJson('/api/v1/patients/create', [
-            'name' => 'John Doe',
+            'name' => 'John Doe Unique Test',
             'age' => 30,
             'gender' => 1,
             'file_number' => 'TEST124',
@@ -130,6 +138,13 @@ class PatientsControllerTest extends TestCase
             'mobile' => '0987654321',
             'total_amount' => 1000
         ]);
+        
+        // Expect validation error for duplicate name
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors(['name']);
+        
+        // Verify no additional patient was created
+        $this->assertEquals($initialCount + 1, Patient::count());
     }
 
     /** @test */

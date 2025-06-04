@@ -48,6 +48,8 @@ import { usePaymentDetailsStore } from "@/modules/payments/detailStore"
 import { ref } from "vue"
 import { api } from "@/logic/api"
 import PaymentActions from "@/modules/payments/components/table/PaymentActions.vue"
+import { computed } from "vue"
+import { useToastStore } from "@/modules/global/toastStore"
 
 const paymentsStore = usePaymentsStore()
 const paymentDetailsStore = usePaymentDetailsStore()

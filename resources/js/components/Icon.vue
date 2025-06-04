@@ -8,12 +8,13 @@ import { computed, useSlots } from "vue"
 
 const slots = useSlots()
 
-const { size } = defineProps<{
+const { size, name } = defineProps<{
     size?: number | string
+    name?: string
 }>()
 const sizeClass = useSizeClass(size)
 
 const iconClass = computed(() => {
-    return slots.default?.()[0].children
+    return name ? `fa fa-${name}` : slots.default?.()[0].children
 })
 </script>

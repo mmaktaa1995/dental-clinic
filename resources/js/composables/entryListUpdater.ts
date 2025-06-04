@@ -97,6 +97,7 @@ export function useEntryListUpdater<Store extends EntryListStore>(endpoint: stri
             }, 200)
         }
     }
+    store.loadData = loadData
     const throttledLoadData = useThrottleFn(loadData, 800, true, true)
 
     const stopConfigWatcher = watch(

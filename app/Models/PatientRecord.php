@@ -15,7 +15,7 @@ class PatientRecord extends Model
     use HasFactory;
     protected $fillable = ['patient_id', 'symptoms', 'diagnosis', 'record_date'];
     protected $casts = [
-        'record_date' => 'timestamp',
+        'record_date' => 'datetime',
     ];
 
     public function patient(): BelongsTo
@@ -26,7 +26,7 @@ class PatientRecord extends Model
     public function affectedTeeth(): BelongsToMany
     {
         return $this->belongsToMany(Tooth::class, 'patient_record_teeth', 'patient_record_id', 'tooth_id')
-            ->withPivot('description');
+            ->withPivot(['description', 'is_treated']);
     }
 }
 

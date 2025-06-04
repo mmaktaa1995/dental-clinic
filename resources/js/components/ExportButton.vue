@@ -9,7 +9,7 @@
 
     <div
       v-if="isOpen"
-      class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
+      class="origin-top-right absolute z-50 right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
     >
       <div class="py-1" role="menu">
         <a
@@ -68,6 +68,7 @@ import { hasPermission } from '@/utils/permissions';
 import CButton from './CButton.vue';
 import { api } from '@/logic/api';
 import { useToastStore } from '@/modules/global/toastStore';
+import { EntryListStore } from '@/store/factories/entryListStore';
 
 type ModelType =
   | 'patients'
@@ -83,6 +84,7 @@ interface Props {
   modelType: ModelType;
   filters?: Record<string, any>;
   color?: string;
+  store: EntryListStore;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -117,10 +119,10 @@ async function exportData(format: string): Promise<void> {
     const params: Record<string, any> = { format };
 
     // Add filters to params if they exist
-    if (props.filters && Object.keys(props.filters).length > 0) {
-      Object.entries(props.filters).forEach(([key, value]) => {
+    if (props.store.filters && Object.keys(props.store.filters).length > 0) {
+      Object.entries(props.store.filters).forEach(([key, value]) => {
         if (value !== null && value !== undefined && value !== '') {
-          params[`filters[${key}]`] = String(value);
+          params[`filters[${key}]`] = value;
         }
       });
     }
@@ -134,7 +136,7 @@ async function exportData(format: string): Promise<void> {
     try {
       // Use the API client to get the file with authentication
       const response = await api.get(`/export/${props.modelType}`, {
-        params,
+        params: JSON.stringify(params),
         responseType: 'blob',
       });
 

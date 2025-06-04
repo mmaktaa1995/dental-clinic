@@ -12,7 +12,7 @@
 <style lang="scss" scoped>
 .s-detailHeader {
     width: 100%;
-    padding: 6px 16px;
+    padding: 8px 16px;
     gap: 8px;
     display: flex;
     justify-content: space-between;

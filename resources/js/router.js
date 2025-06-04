@@ -8,6 +8,7 @@ import { getAuthRoutes } from "@/modules/auth/routes.js"
 import { getAppointmentsRoutes } from "@/modules/appointments/routes.js"
 import { getUsersRoutes } from "@/modules/users/routes.js"
 import { getRolesRoutes } from "@/modules/roles/routes.js"
+import { getBackupsRoutes } from "@/modules/backups/routes.js"
 
 export const redirectIfNotAuth = (to, from, next) => {
     const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
@@ -32,7 +33,6 @@ export const checkAuth = (to, from, next) => {
     }
     
     // Check admin access
-    console.log(to.matched.some(record => record.meta.requiresAdmin), user.admin, to.path.startsWith('/users'))
     if (to.matched.some(record => record.meta.requiresAdmin) && !user.admin) {
         return next("/unauthorized")
     }
@@ -55,6 +55,7 @@ const routes = [
     ...getPaymentsRoutes(),
     ...getUsersRoutes(),
     ...getRolesRoutes(),
+    ...getBackupsRoutes(),
     {
         path: "/statistics",
         name: "statistics",

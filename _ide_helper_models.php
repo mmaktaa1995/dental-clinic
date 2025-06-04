@@ -47,6 +47,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int|null $user_id
  * @property-read \App\Models\Patient|null $patient
+ * @method static \Database\Factories\AppointmentFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Appointment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Appointment newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Appointment query()
@@ -127,6 +128,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int|null $user_id
+ * @method static \Database\Factories\ExpenseFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Expense newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Expense newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Expense query()
@@ -155,8 +157,10 @@ namespace App\Models{
  * @property string|null $price
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $user_id
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Patient> $patients
  * @property-read int|null $patients_count
+ * @method static \Database\Factories\MedicationFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Medication newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Medication newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Medication query()
@@ -167,6 +171,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Medication whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Medication wherePrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Medication whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Medication whereUserId($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -189,14 +194,14 @@ namespace App\Models{
  * @property int|null $user_id
  * @property int|null $gender
  * @property int|null $total_amount
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tooth> $affectedTeeth
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PatientRecordTooth> $affectedTeeth
  * @property-read int|null $affected_teeth_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PatientRecord> $diagnosis
  * @property-read int|null $diagnosis_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PatientFile> $files
  * @property-read int|null $files_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Visit> $lastVisit
- * @property-read int|null $last_visit_count
+ * @property-read \App\Models\Visit|null $lastVisit
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Medication> $medications
  * @property-read int|null $medications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Payment> $payments
@@ -207,11 +212,14 @@ namespace App\Models{
  * @property-read int|null $symptoms_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Visit> $visits
  * @property-read int|null $visits_count
+ * @method static \Database\Factories\PatientFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Patient newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Patient newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Patient onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Patient query()
  * @method static \Illuminate\Database\Eloquent\Builder|Patient whereAge($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Patient whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Patient whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Patient whereFileNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Patient whereGender($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Patient whereId($value)
@@ -222,6 +230,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Patient whereTotalAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Patient whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Patient whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Patient withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Patient withoutTrashed()
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -234,21 +244,31 @@ namespace App\Models{
  *
  * @property int $id
  * @property int $patient_id
+ * @property int $user_id
  * @property string|null $file
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string|null $file_name
  * @property string|null $type
+ * @property string|null $file_name
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\Patient $patient
+ * @property-read \App\Models\User $user
+ * @method static \Database\Factories\PatientFileFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|PatientFile newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PatientFile newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientFile onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|PatientFile query()
  * @method static \Illuminate\Database\Eloquent\Builder|PatientFile whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientFile whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PatientFile whereFile($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PatientFile whereFileName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PatientFile whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PatientFile wherePatientId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PatientFile whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PatientFile whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientFile whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientFile withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientFile withoutTrashed()
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -261,6 +281,12 @@ namespace App\Models{
  *
  * @property int $id
  * @property int $patient_id
+ * @property string|null $title
+ * @property string|null $description
+ * @property string|null $treatment
+ * @property string|null $notes
+ * @property string|null $next_visit_date
+ * @property int|null $user_id
  * @property string|null $symptoms
  * @property string|null $diagnosis
  * @property int $record_date
@@ -269,16 +295,23 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tooth> $affectedTeeth
  * @property-read int|null $affected_teeth_count
  * @property-read \App\Models\Patient $patient
+ * @method static \Database\Factories\PatientRecordFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|PatientRecord newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PatientRecord newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PatientRecord query()
  * @method static \Illuminate\Database\Eloquent\Builder|PatientRecord whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientRecord whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PatientRecord whereDiagnosis($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PatientRecord whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientRecord whereNextVisitDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientRecord whereNotes($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PatientRecord wherePatientId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PatientRecord whereRecordDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PatientRecord whereSymptoms($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientRecord whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientRecord whereTreatment($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PatientRecord whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PatientRecord whereUserId($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -291,8 +324,8 @@ namespace App\Models{
  *
  * @property int $id
  * @property int $patient_record_id
- * @property int|null $is_treated
  * @property int $tooth_id
+ * @property int $is_treated
  * @property string|null $description
  * @method static \Illuminate\Database\Eloquent\Builder|PatientRecordTooth newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PatientRecordTooth newQuery()
@@ -319,8 +352,8 @@ namespace App\Models{
  * @property int $patient_id
  * @property int $visit_id
  * @property \Illuminate\Support\Carbon $created_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property int|null $user_id
  * @property int $status
  * @property int|null $parent_id
@@ -333,6 +366,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Service> $services
  * @property-read int|null $services_count
  * @property-read \App\Models\Visit $visit
+ * @method static \Database\Factories\PaymentFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Payment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Payment newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Payment onlyTrashed()
@@ -361,11 +395,69 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Permission
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $slug
+ * @property string|null $description
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Role> $roles
+ * @property-read int|null $roles_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperPermission {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Role
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $slug
+ * @property string|null $description
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Permission> $permissions
+ * @property-read int|null $permissions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
+ * @property-read int|null $users_count
+ * @method static \Database\Factories\RoleFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Role newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Role newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Role query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Role whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Role whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Role whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Role whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Role whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Role whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperRole {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Service
  *
  * @property int $id
  * @property string $name
  * @property int $price
+ * @property int $duration Duration in minutes
  * @property \Illuminate\Support\Carbon $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int|null $user_id
@@ -373,10 +465,12 @@ namespace App\Models{
  * @property-read int|null $payment_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ServicePayment> $servicePayment
  * @property-read int|null $service_payment_count
+ * @method static \Database\Factories\ServiceFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Service newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Service newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Service query()
  * @method static \Illuminate\Database\Eloquent\Builder|Service whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Service whereDuration($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Service whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Service whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Service wherePrice($value)
@@ -392,11 +486,25 @@ namespace App\Models{
 /**
  * App\Models\ServicePayment
  *
- * @property-read \App\Models\Payment|null $payment
- * @property-read \App\Models\Service|null $service
+ * @property int $id
+ * @property int $service_id
+ * @property int $payment_id
+ * @property string $price
+ * @property int $quantity
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Payment $payment
+ * @property-read \App\Models\Service $service
  * @method static \Illuminate\Database\Eloquent\Builder|ServicePayment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ServicePayment newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ServicePayment query()
+ * @method static \Illuminate\Database\Eloquent\Builder|ServicePayment whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ServicePayment whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ServicePayment wherePaymentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ServicePayment wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ServicePayment whereQuantity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ServicePayment whereServiceId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ServicePayment whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -408,12 +516,14 @@ namespace App\Models{
  * App\Models\Tooth
  *
  * @property int $id
+ * @property int|null $user_id
  * @property string $name
  * @property string|null $image
  * @property int|null $number
  * @property array|null $extra
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PatientRecord> $patientRecords
  * @property-read int|null $patient_records_count
+ * @method static \Database\Factories\ToothFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Tooth newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Tooth newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Tooth query()
@@ -422,6 +532,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Tooth whereImage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tooth whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tooth whereNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tooth whereUserId($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -435,6 +546,7 @@ namespace App\Models{
  * @property int $id
  * @property string $name
  * @property string $email
+ * @property string $username
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
  * @property int $admin
@@ -443,6 +555,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Role> $roles
+ * @property-read int|null $roles_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
@@ -458,6 +572,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereUsername($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -479,6 +594,7 @@ namespace App\Models{
  * @property-read int|null $amount
  * @property-read \App\Models\Patient $patient
  * @property-read \App\Models\Payment|null $payment
+ * @method static \Database\Factories\VisitFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Visit newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Visit newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Visit onlyTrashed()

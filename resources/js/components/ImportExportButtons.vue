@@ -1,6 +1,6 @@
 <template>
   <div class="flex gap-2">
-    <ExportButton :model-type="modelType" :filters="filters" />
+    <ExportButton :store="store" :model-type="modelType" :filters="filters" />
 
     <CButton v-if="hasImportPermission" type="info" sm @click="openImportModal">
       <c-icon class="ml-1 ltr:mr-1 ltr:m-l-0">fas fa-upload</c-icon>
@@ -9,6 +9,7 @@
     </CButton>
 
     <ImportExportModal
+      :store="store"
       v-model="isImportModalOpen"
       :model-type="modelType"
       :title="$t('import-export.importData') + ' - ' + $t(`import-export.models.${modelType}`)"
@@ -25,6 +26,7 @@ import ExportButton from './ExportButton.vue';
 import ImportExportModal from './ImportExportModal.vue';
 import { hasPermission } from '@/utils/permissions';
 import CButton from './CButton.vue';
+import { EntryListStore } from '@/store/factories/entryListStore';
 
 type ModelType =
   | 'patients'
@@ -47,6 +49,7 @@ const props = defineProps<{
   modelType: ModelType;
   filters?: Record<string, any>;
   color?: string;
+  store: EntryListStore;
 }>();
 
 const isImportModalOpen = ref(false);

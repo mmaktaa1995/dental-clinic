@@ -51,19 +51,37 @@ This document outlines the plan to enhance the security of the dental clinic aut
   - Added Content-Security-Policy (CSP) headers to prevent XSS attacks
   - Implemented additional security headers (X-Content-Type-Options, X-Frame-Options, etc.)
   - Added tests to verify security headers are properly set
-- [ ] Add SQL injection prevention measures
-- [ ] Implement file upload validation
+- [x] Add SQL injection prevention measures
+  - Enhanced PreventSqlInjection middleware with comprehensive SQL injection patterns
+  - Added detailed logging of suspicious activities to security.log
+  - Implemented tests to verify SQL injection detection and prevention
+  - Added support for detecting SQL injection in nested arrays and various data types
+  - Created a dedicated security log channel for tracking security-related events
+  - Fixed middleware order to ensure SQL injection detection happens before input sanitization
+- [x] Implement file upload validation
+  - Created `FileUploadRequest` with comprehensive validation rules for file uploads
+  - Updated `UploadFilesController` to use the request validation and improve security
+  - Added detailed logging for file upload activities and potential security threats
+  - Implemented proper error handling for file uploads
 
 ### 3. Data Protection
 - [ ] Encrypt sensitive data at rest (patient records, payment info) // Fo later
-- [ ] Implement proper logging of sensitive operations
-- [ ] Add data backup and recovery procedures
-- [ ] Implement audit logging for critical operations
+- [x] Implement proper logging of sensitive operations
+  - Created a dedicated `sensitive_operations` log channel with 90-day retention
+  - Implemented `SensitiveOperationsLogger` service for centralized logging
+  - Added comprehensive logging in `UsersController`, `RolesController`, and `LoginController`
+  - Logged all sensitive operations (create, update, delete, login, logout) with detailed context
+  - Created unit tests to verify logging functionality
+- [x] Add data backup and recovery procedures
+- [x] Implement audit logging for critical operations
 
 ### 4. API Security
-- [ ] Implement API versioning (already started with v1)
-- [ ] Add API documentation using OpenAPI/Swagger
-- [ ] Implement proper CORS policies
+- [x] Implement API versioning (already started with v1)
+- [x] Add API documentation using OpenAPI/Swagger
+- [x] Implement proper CORS policies
+  - Configured allowed origins, methods, and headers
+  - Added CORS middleware to API routes
+  - Implemented tests for CORS functionality
 - [x] Add request/response validation middleware
 - [x] Implement API rate limiting per user/IP
 
@@ -86,16 +104,17 @@ This document outlines the plan to enhance the security of the dental clinic aut
   - [x] Updated DatabaseSeeder to use TestDatabaseSeeder in testing environment
 
 ### 2. Unit Tests
-- [ ] Test all model relationships
-  - [ ] Patient relationships
-  - [ ] Visit relationships
-  - [ ] Payment relationships
-  - [ ] Service relationships
-  - [ ] Appointment relationships
-- [ ] Test model accessors/mutators
-- [ ] Test service layer methods
-  - [ ] PaymentService
-  - [ ] PatientService
+- [x] Test all model relationships
+  - [x] Patient relationships
+  - [x] Visit relationships
+  - [x] Payment relationships
+  - [x] Service relationships
+  - [x] Appointment relationships
+- [x] Test model accessors/mutators
+  - [x] Added test for Payment model's getDateAttribute accessor
+- [x] Test service layer methods
+  - [x] PaymentService
+  - [x] PatientService
   - [ ] AppointmentService
   - [ ] ReportService
 - [ ] Test form request validations

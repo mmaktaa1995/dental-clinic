@@ -58,6 +58,8 @@ const showSide = computed(() => {
   return accountStore.user && !route.path.includes('unauthorized') && !route.path.includes('404');
 });
 
+
+
 const groupLinks = [
   {
     group: t('global.general'),
@@ -125,6 +127,12 @@ const groupLinks = [
         text: t('sideBar.menu.roles'),
         icon: 'fa-user-tag',
         permission: 'view-roles',
+      },
+      {
+        name: 'backups',
+        text: t('sideBar.menu.backups'),
+        icon: 'fa-database',
+        permission: 'manage-backups',
       },
     ],
   },

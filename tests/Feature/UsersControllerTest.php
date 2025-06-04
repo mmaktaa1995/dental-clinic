@@ -91,14 +91,15 @@ class UsersControllerTest extends TestCase
     public function it_can_create_a_user()
     {
         $token = $this->user->createToken('test-token')->plainTextToken;
+        $uniqueId = uniqid();
         
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
         ])->postJson('/api/v1/users/create', [
             'name' => 'Test User',
-            'username' => 'testuser',
-            'email' => 'test@example.com',
+            'username' => 'testuser_' . $uniqueId,
+            'email' => 'test_' . $uniqueId . '@example.com',
             'password' => 'password123',
             'roles' => [Role::where('slug', 'admin')->first()->id]
         ]);

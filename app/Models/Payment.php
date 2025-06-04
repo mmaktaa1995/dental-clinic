@@ -57,7 +57,7 @@ class Payment extends BaseModel
 
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(self::class);
+        return $this->belongsTo(self::class, 'parent_id');
     }
 
     public function scopeWithLatestPayment($query): void

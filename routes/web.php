@@ -16,6 +16,25 @@ use Illuminate\Support\Facades\Route;
 
 //Route::redirect('/', '/admin');
 
+// API Documentation
+Route::get('api/documentation', function () {
+    $documentation = 'v1';
+    $config = array_merge(config('l5-swagger.documentations.v1'), [
+        'additional_config_url' => null,
+        'validator_url' => null,
+        'operations_sort' => null,
+    ]);
+    return app('L5Swagger\Http\Controllers\SwaggerController')->api(request()->merge(['documentation' => $documentation, 'config' => $config]));
+})->name('l5swagger.api');
+
+Route::get('docs', function () {
+    return redirect()->route('l5swagger.api');
+})->name('l5swagger.docs');
+
+Route::get('api/docs', function () {
+    return redirect()->route('l5swagger.api');
+})->name('l5swagger.docs.api');
+
 Route::prefix('')->group(function () {
     Route::get('/{view?}', HomeController::class)->where('view', '(.*)')->name('admin-ui');
 });

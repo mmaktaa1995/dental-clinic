@@ -55,7 +55,7 @@ const handleImportComplete = (result: { success: boolean; message: string }) => 
     if (result.success) {
         toastStore.success(result.message)
         // Refresh the expenses after import
-        expensesStore.getExpenses()
+        reload()
     } else {
         toastStore.error(result.message)
     }

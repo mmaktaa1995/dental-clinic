@@ -8,6 +8,7 @@ use App\Models\PatientRecord;
 use App\Models\Payment;
 use App\Models\User;
 use App\Models\Visit;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -25,8 +26,9 @@ class PatientTest extends TestCase
     {
         parent::setUp();
         
-        $this->user = User::factory()->create();
-        $this->signIn($this->user);
+      /** @var Authenticatable $user */
+      $user = $this->user = User::factory()->create();
+      $this->actingAs($user);
     }
 
 

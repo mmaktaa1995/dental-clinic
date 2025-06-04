@@ -6,12 +6,12 @@
                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
             </svg>
         </span>
-    </label>
-    <label v-if="label" class="cursor-pointer ml-2 text-slate-600 text-sm" :for="`checkbox-${randomId}`" @click="checkboxClicked">
-        <div>
-            <p class="font-medium">{{ label }}</p>
-            <p v-if="hint" class="text-slate-500">{{ hint }}</p>
-        </div>
+        <label v-if="label" class="cursor-pointer mr-2 ltr:ml-2 text-slate-600 text-sm" :for="`checkbox-${randomId}`" @click="checkboxClicked">
+            <div>
+                <p class="font-medium">{{ label }}</p>
+                <p v-if="hint" class="text-slate-500">{{ hint }}</p>
+            </div>
+        </label>
     </label>
 </template>
 

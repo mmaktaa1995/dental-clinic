@@ -7,11 +7,27 @@ use App\Models\Patient;
 class PatientService
 {
     /**
-     * @return int
+     * Get the next available file number
+     * 
+     * @return string
      */
     public function getLastFileNumber()
     {
-        $patient = Patient::latest()->first();
-        return $patient ? ($patient->file_number + 1) : 1;
+        $patient = Patient::orderBy('file_number', 'desc')->first();
+        
+        if (!$patient) {
+            return '1';
+        }
+        
+        $fileNumber = $patient->file_number;
+        
+        // Check if the file number has a 'PAT' prefix
+        if (str_starts_with($fileNumber, 'PAT')) {
+            $number = (int) substr($fileNumber, 3);
+            return 'PAT' . str_pad($number + 1, 4, '0', STR_PAD_LEFT);
+        }
+        
+        // Handle numeric file numbers without prefix
+        return (string)((int)$fileNumber + 1);
     }
 }

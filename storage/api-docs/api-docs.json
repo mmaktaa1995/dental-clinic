@@ -1,0 +1,722 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Dental Clinic API",
+        "description": "API documentation for Dental Clinic Management System",
+        "contact": {
+            "email": "support@dentalclinic.com"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://my-default-host.com",
+            "description": "API Server"
+        },
+        {
+            "url": "/api/v1"
+        }
+    ],
+    "paths": {
+        "/api/v1/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get list of users",
+                "description": "Returns a paginated list of users",
+                "operationId": "cd1e95cc7defade74ce2ed689075481e",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/UserResource"
+                                            }
+                                        },
+                                        "links": {
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create a new user",
+                "description": "Creates a new user with the given data",
+                "operationId": "8a22df0af088eaa4f7476361d10d9061",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "UserRequest": {
+                "required": [
+                    "name",
+                    "email",
+                    "username",
+                    "password"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "john@example.com"
+                    },
+                    "username": {
+                        "type": "string",
+                        "example": "johndoe"
+                    },
+                    "password": {
+                        "type": "string",
+                        "format": "password",
+                        "example": "password"
+                    },
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "admin"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "AppointmentResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "patient_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Dental Checkup"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Regular dental checkup and cleaning",
+                        "nullable": true
+                    },
+                    "start_time": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-05-20 09:00:00"
+                    },
+                    "end_time": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-05-20 10:00:00"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "scheduled",
+                            "completed",
+                            "cancelled",
+                            "no_show"
+                        ],
+                        "example": "scheduled"
+                    },
+                    "color": {
+                        "type": "string",
+                        "example": "#3b82f6",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "patient": {
+                        "$ref": "#/components/schemas/PatientResource"
+                    }
+                },
+                "type": "object"
+            },
+            "AppointmentRequest": {
+                "required": [
+                    "patient_id",
+                    "title",
+                    "start_time",
+                    "end_time"
+                ],
+                "properties": {
+                    "patient_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Dental Checkup"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Regular dental checkup and cleaning",
+                        "nullable": true
+                    },
+                    "start_time": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-05-20 09:00:00"
+                    },
+                    "end_time": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-05-20 10:00:00"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "scheduled",
+                            "completed",
+                            "cancelled",
+                            "no_show"
+                        ],
+                        "example": "scheduled"
+                    },
+                    "color": {
+                        "type": "string",
+                        "example": "#3b82f6",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "PatientFileResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "patient_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "xray_front.jpg"
+                    },
+                    "original_name": {
+                        "type": "string",
+                        "example": "xray_front.jpg"
+                    },
+                    "path": {
+                        "type": "string",
+                        "example": "patients/1/xray_front.jpg"
+                    },
+                    "type": {
+                        "type": "string",
+                        "example": "xray",
+                        "nullable": true
+                    },
+                    "size": {
+                        "type": "integer",
+                        "example": 1024
+                    },
+                    "mime_type": {
+                        "type": "string",
+                        "example": "image/jpeg"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Front view x-ray",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "PatientFileRequest": {
+                "required": [
+                    "files"
+                ],
+                "properties": {
+                    "files": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "binary"
+                        }
+                    },
+                    "type": {
+                        "type": "string",
+                        "example": "xray",
+                        "nullable": true
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Front view x-ray",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "PatientRecordResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "patient_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Initial Consultation"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Patient presented with tooth pain in lower left molar"
+                    },
+                    "treatment": {
+                        "type": "string",
+                        "example": "Performed root canal treatment",
+                        "nullable": true
+                    },
+                    "prescription": {
+                        "type": "string",
+                        "example": "Amoxicillin 500mg, 1 tablet every 8 hours for 7 days",
+                        "nullable": true
+                    },
+                    "notes": {
+                        "type": "string",
+                        "example": "Patient to return in 2 weeks for follow-up",
+                        "nullable": true
+                    },
+                    "record_date": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2023-05-15"
+                    },
+                    "next_visit": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2023-05-29",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "patient": {
+                        "$ref": "#/components/schemas/PatientResource"
+                    }
+                },
+                "type": "object"
+            },
+            "PatientRecordRequest": {
+                "required": [
+                    "title",
+                    "record_date"
+                ],
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "example": "Initial Consultation"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Patient presented with tooth pain in lower left molar",
+                        "nullable": true
+                    },
+                    "treatment": {
+                        "type": "string",
+                        "example": "Performed root canal treatment",
+                        "nullable": true
+                    },
+                    "prescription": {
+                        "type": "string",
+                        "example": "Amoxicillin 500mg, 1 tablet every 8 hours for 7 days",
+                        "nullable": true
+                    },
+                    "notes": {
+                        "type": "string",
+                        "example": "Patient to return in 2 weeks for follow-up",
+                        "nullable": true
+                    },
+                    "record_date": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2023-05-15"
+                    },
+                    "next_visit": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2023-05-29",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "PatientResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "file_number": {
+                        "type": "string",
+                        "example": "PAT-1001"
+                    },
+                    "first_name": {
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "last_name": {
+                        "type": "string",
+                        "example": "Doe"
+                    },
+                    "date_of_birth": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "1990-01-01"
+                    },
+                    "gender": {
+                        "type": "string",
+                        "enum": [
+                            "male",
+                            "female",
+                            "other"
+                        ],
+                        "example": "male"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "example": "+1234567890"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "john.doe@example.com"
+                    },
+                    "address": {
+                        "type": "string",
+                        "example": "123 Main St",
+                        "nullable": true
+                    },
+                    "city": {
+                        "type": "string",
+                        "example": "New York",
+                        "nullable": true
+                    },
+                    "postal_code": {
+                        "type": "string",
+                        "example": "10001",
+                        "nullable": true
+                    },
+                    "country": {
+                        "type": "string",
+                        "example": "USA",
+                        "nullable": true
+                    },
+                    "blood_type": {
+                        "type": "string",
+                        "example": "A+",
+                        "nullable": true
+                    },
+                    "allergies": {
+                        "type": "string",
+                        "example": "Penicillin",
+                        "nullable": true
+                    },
+                    "notes": {
+                        "type": "string",
+                        "example": "Patient has a history of dental anxiety",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "files": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PatientFileResource"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "PatientRequest": {
+                "required": [
+                    "first_name",
+                    "last_name",
+                    "date_of_birth"
+                ],
+                "properties": {
+                    "first_name": {
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "middle_name": {
+                        "type": "string",
+                        "example": "Michael",
+                        "nullable": true
+                    },
+                    "last_name": {
+                        "type": "string",
+                        "example": "Doe"
+                    },
+                    "date_of_birth": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "1990-01-01"
+                    },
+                    "gender": {
+                        "type": "string",
+                        "enum": [
+                            "male",
+                            "female",
+                            "other"
+                        ],
+                        "example": "male"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "example": "+1234567890"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "john.doe@example.com"
+                    },
+                    "address": {
+                        "type": "string",
+                        "example": "123 Main St",
+                        "nullable": true
+                    },
+                    "city": {
+                        "type": "string",
+                        "example": "New York",
+                        "nullable": true
+                    },
+                    "postal_code": {
+                        "type": "string",
+                        "example": "10001",
+                        "nullable": true
+                    },
+                    "country": {
+                        "type": "string",
+                        "example": "USA",
+                        "nullable": true
+                    },
+                    "blood_type": {
+                        "type": "string",
+                        "example": "A+",
+                        "nullable": true
+                    },
+                    "allergies": {
+                        "type": "string",
+                        "example": "Penicillin",
+                        "nullable": true
+                    },
+                    "notes": {
+                        "type": "string",
+                        "example": "Patient has a history of dental anxiety",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "PermissionResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "view-users"
+                    },
+                    "guard_name": {
+                        "type": "string",
+                        "example": "web"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "RoleResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "admin"
+                    },
+                    "guard_name": {
+                        "type": "string",
+                        "example": "web"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "permissions": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PermissionResource"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "UserResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "john@example.com"
+                    },
+                    "username": {
+                        "type": "string",
+                        "example": "johndoe"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/RoleResource"
+                        }
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT",
+                "description": "Enter token in format: Bearer {token}"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Users",
+            "description": "Users"
+        }
+    ]
+}

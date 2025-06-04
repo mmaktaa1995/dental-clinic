@@ -97,6 +97,22 @@ return [
             'handler' => NullHandler::class,
         ],
 
+        'security' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/security.log'),
+            'level' => 'warning',
+            'days' => 30,
+            'permission' => 0664,
+        ],
+
+        'sensitive_operations' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/sensitive_operations.log'),
+            'level' => 'info',
+            'days' => 90, // Keep logs for 90 days for audit purposes
+            'permission' => 0664,
+        ],
+
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],

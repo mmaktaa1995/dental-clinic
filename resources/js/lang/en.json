@@ -134,6 +134,15 @@
     "serverError": "An unknown error occurred. Please try again later.",
     "toDate": "To"
   },
+  "table": {
+    "bookmarks": "Bookmarks",
+    "saved_views": "Saved Views",
+    "no_bookmarks": "No saved bookmarks",
+    "save_current_view": "Save Current View",
+    "enter_bookmark_name": "Enter a name for this bookmark:",
+    "confirm_delete_bookmark": "Are you sure you want to delete this bookmark?",
+    "columns": "Columns"
+  },
   "patients": {
     "addRecord": "addRecord",
     "affectedTeethNumbers": "Affected Teeth Numbers",
@@ -212,6 +221,7 @@
   "sideBar": {
     "menu": {
       "appointments": "Appointments",
+      "backups": "Backups",
       "debits": "Debits",
       "expenses": "Expenses",
       "patients": "Patients",
@@ -280,6 +290,7 @@
     "view-roles": "View Roles",
     "create-roles": "Create Roles",
     "edit-roles": "Edit Roles",
+    "manage-backups": "Manage Backups",
     "delete-roles": "Delete Roles",
     "view-patients": "View Patients",
     "create-patients": "Create Patients",
@@ -322,6 +333,23 @@
     "export-users": "Export Users",
     "export-appointments": "Export Appointments",
     "view-statistics": "View Statistics"
+  },
+  "backups": {
+    "moduleName": "Backups",
+    "filename": "Filename",
+    "size": "Size",
+    "createdAt": "Created At",
+    "createBackup": "Create Backup",
+    "download": "Download",
+    "restore": "Restore",
+    "delete": "Delete",
+    "createError": "Error creating backup",
+    "restoreError": "Error restoring backup",
+    "deleteError": "Error deleting backup",
+    "confirmRestoreTitle": "Restore Backup",
+    "confirmRestoreMessage": "Are you sure you want to restore this backup? This will overwrite your current database and files.",
+    "confirmDeleteTitle": "Delete Backup",
+    "confirmDeleteMessage": "Are you sure you want to delete this backup? This action cannot be undone."
   },
   "import-export": {
     "import": "Import",

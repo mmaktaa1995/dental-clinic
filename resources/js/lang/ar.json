@@ -148,6 +148,15 @@
         "serverError": "لقد حدث خطأ غير معروف. يرجى المحاولة مرة أخرى في وقت لاحق.",
         "toDate": "إلى تاريخ"
     },
+    "table": {
+        "bookmarks": "المحفوظات",
+        "saved_views": "العروض المحفوظة",
+        "no_bookmarks": "لا توجد محفوظات",
+        "save_current_view": "حفظ العرض الحالي",
+        "enter_bookmark_name": "أدخل اسمًا لهذه المحفوظة:",
+        "confirm_delete_bookmark": "هل أنت متأكد من رغبتك في حذف هذه المحفوظة؟",
+        "columns": "الأعمدة"
+    },
     "patients": {
         "addRecord": "إضافة سجل",
         "affectedTeethNumbers": "أرقام الأسنان المتضررة",
@@ -161,7 +170,7 @@
         "diagnosisDescription": "تشخيص حالة المريض وما يحتاج إليه من معالجة.",
         "editRecord": "تعديل السجل",
         "entryName": "المريض",
-        "fileNumber": "رقم الملف",
+        "fileNumber": "# رقم الملف",
         "files": "الملفات",
         "gender": "الجنس",
         "linkAffectedTeeth": "ربط الأسنان المتضررة",
@@ -368,5 +377,22 @@
         "processed": "تمت المعالجة",
         "failed": "فشل",
         "close": "إغلاق"
+    },
+    "backups": {
+        "moduleName": "النسخ الاحتياطية",
+        "filename": "اسم الملف",
+        "size": "الحجم",
+        "createdAt": "تاريخ الإنشاء",
+        "createBackup": "إنشاء نسخة احتياطية",
+        "download": "تنزيل",
+        "restore": "استعادة",
+        "delete": "حذف",
+        "createError": "خطأ في إنشاء النسخة الاحتياطية",
+        "restoreError": "خطأ في استعادة النسخة الاحتياطية",
+        "deleteError": "خطأ في حذف النسخة الاحتياطية",
+        "confirmRestoreTitle": "استعادة النسخة الاحتياطية",
+        "confirmRestoreMessage": "هل أنت متأكد أنك تريد استعادة هذه النسخة الاحتياطية؟ سيؤدي ذلك إلى استبدال قاعدة البيانات والملفات الحالية.",
+        "confirmDeleteTitle": "حذف النسخة الاحتياطية",
+        "confirmDeleteMessage": "هل أنت متأكد أنك تريد حذف هذه النسخة الاحتياطية؟ لا يمكن التراجع عن هذا الإجراء."
     }
 }

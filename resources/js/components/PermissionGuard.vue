@@ -26,7 +26,6 @@ export default defineComponent({
     hasAccess(): boolean {
       // Check if permission prop is provided
       if (this.permission) {
-        console.log(this.permission, hasPermission(this.permission))
         return hasPermission(this.permission)
       }
       

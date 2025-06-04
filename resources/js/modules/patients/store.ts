@@ -39,6 +39,14 @@ export const usePatientsStore = defineEntryListStore("patients-store", {
                 file_number: this.file_number,
             }
         },
+        filters(): Record<string, any> {
+            return {
+                query: this.query,
+                from_date: this.from_date,
+                to_date: this.to_date,
+                file_number: this.file_number,
+            }
+        },
     },
 })
 

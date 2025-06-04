@@ -6,6 +6,7 @@ export type FunctionOrHandlerObject = ((store: EntryListStore) => void) | { once
 export type EntryListStateTree = {
     entries: null | any[]
     isLoading: boolean
+    loadData: () => Promise<void>
     pagination: {
         page: number
         last_page: number
@@ -23,6 +24,7 @@ export type EntryListStateTree = {
 export type EntryListGetters = {
     configWatcher: WatchSource
     entryListRequestParams: Record<string, any>
+    filters?: Record<string, any>
     paginationLength: number
 }
 
