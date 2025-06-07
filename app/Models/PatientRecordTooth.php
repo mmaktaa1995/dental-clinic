@@ -13,8 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class PatientRecordTooth extends Model
 {
     use HasFactory;
+
     protected $fillable = ['patient_record_id', 'is_treated', 'tooth_id', 'description'];
     public $timestamps = false;
-
 }
-

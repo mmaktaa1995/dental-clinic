@@ -22,19 +22,26 @@ class MedicationFactory extends Factory
             'updated_at' => now(),
         ];
     }
-    
+
     /**
      * Configure the model factory to automatically attach to a patient
      */
     public function forPatient($patient)
     {
         return $this->afterCreating(function (Medication $medication) use ($patient) {
-            $patient->medications()->attach($medication->id, [
-                'dosage' => $this->faker->randomElement(['250mg', '500mg', '1g', '5ml', '10ml']),
-                'frequency' => $this->faker->randomElement(['once daily', 'twice daily', 'three times daily', 'as needed']),
-                'start_date' => now()->subDays(rand(1, 30)),
-                'end_date' => now()->addDays(rand(7, 90)),
-            ]);
+            $patient->medications()->attach(
+                $medication->id,
+                [
+                    'dosage' => $this->faker->randomElement([
+                        '250mg', '500mg', '1g', '5ml', '10ml'
+                    ]),
+                    'frequency' => $this->faker->randomElement([
+                        'once daily', 'twice daily', 'three times daily', 'as needed'
+                    ]),
+                    'start_date' => now()->subDays(rand(1, 30)),
+                    'end_date' => now()->addDays(rand(7, 90)),
+                ]
+            );
         });
     }
 }

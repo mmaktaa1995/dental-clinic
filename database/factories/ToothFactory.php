@@ -25,11 +25,11 @@ class ToothFactory extends Factory
             'Lower Right First Premolar', 'Lower Right Second Premolar', 'Lower Right First Molar',
             'Lower Right Second Molar', 'Lower Right Third Molar'
         ];
-        
+
         return [
             'name' => $this->faker->unique()->randomElement($toothNames),
             'number' => $this->faker->numberBetween(1, 32),
-            'image' => 'teeth/tooth-'.$this->faker->numberBetween(1, 16).'.svg',
+            'image' => 'teeth/tooth-' . $this->faker->numberBetween(1, 16) . '.svg',
             'extra' => [
                 'type' => $this->faker->randomElement(['incisor', 'canine', 'premolar', 'molar']),
                 'quadrant' => $this->faker->numberBetween(1, 4),

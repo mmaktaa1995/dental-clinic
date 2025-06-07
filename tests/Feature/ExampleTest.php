@@ -14,7 +14,7 @@ class ExampleTest extends TestCase
      *
      * @return void
      */
-    public function test_the_application_returns_a_successful_response()
+    public function theApplicationReturnsASuccessfulResponse()
     {
         $response = $this->get('/');
         $response->assertStatus(200);
@@ -25,7 +25,7 @@ class ExampleTest extends TestCase
      *
      * @return void
      */
-    public function test_database_connection()
+    public function databaseConnection()
     {
         // Check if the migrations table exists and has some migrations
         $migrationCount = \DB::table('migrations')->count();

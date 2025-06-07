@@ -29,7 +29,7 @@ class TeethTableSeeder extends Seeder
             ['name' => 'Upper Left First Molar', 'number' => 14, 'image' => 'teeth/14.png'],
             ['name' => 'Upper Left Second Molar', 'number' => 15, 'image' => 'teeth/15.png'],
             ['name' => 'Upper Left Third Molar', 'number' => 16, 'image' => 'teeth/16.png'],
-            
+
             ['name' => 'Lower Left Third Molar', 'number' => 17, 'image' => 'teeth/17.png'],
             ['name' => 'Lower Left Second Molar', 'number' => 18, 'image' => 'teeth/18.png'],
             ['name' => 'Lower Left First Molar', 'number' => 19, 'image' => 'teeth/19.png'],

@@ -29,7 +29,7 @@ class AuthServiceProvider extends ServiceProvider
 
         // Customize the email verification notification
         VerifyEmail::toMailUsing(function ($notifiable, $url) {
-            return (new MailMessage)
+            return (new MailMessage())
                 ->subject('Verify Email Address')
                 ->line('Please click the button below to verify your email address.')
                 ->action('Verify Email Address', $url)

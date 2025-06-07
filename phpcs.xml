@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<ruleset name="Dental Clinic">
+    <description>PHP_CodeSniffer configuration for Dental Clinic project</description>
+    
+    <!-- Extend the base configuration -->
+    <rule ref="./phpcs.xml.dist"/>
+    
+    <!-- Project-specific overrides can be added here -->
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="150"/>
+            <property name="absoluteLineLimit" value="150"/>
+        </properties>
+    </rule>
+</ruleset>

@@ -11,7 +11,7 @@ class AppointmentService
     /**
      * Get upcoming appointments for a user
      *
-     * @param int $userId
+     * @param integer                    $userId
      * @param string|\Carbon\Carbon|null $startDate
      * @param string|\Carbon\Carbon|null $endDate
      * @return \Illuminate\Database\Eloquent\Collection
@@ -54,19 +54,19 @@ class AppointmentService
 
     /**
      * Validate that there is no appointment conflict for the given user and date/time
-     * 
-     * @param int $userId
+     *
+     * @param integer               $userId
      * @param string|\Carbon\Carbon $dateTime
-     * @param int|null $excludeId
+     * @param integer|null          $excludeId
      * @return void
      * @throws \InvalidArgumentException
      */
     protected function validateNoAppointmentConflict(int $userId, $dateTime, ?int $excludeId = null): void
     {
-        $dateTime = $dateTime instanceof \Carbon\Carbon 
-            ? $dateTime->format('Y-m-d H:i:s') 
+        $dateTime = $dateTime instanceof \Carbon\Carbon
+            ? $dateTime->format('Y-m-d H:i:s')
             : $dateTime;
-            
+
         $query = Appointment::where('user_id', $userId)
             ->where('date', $dateTime);
 

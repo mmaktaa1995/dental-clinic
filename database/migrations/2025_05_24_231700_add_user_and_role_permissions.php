@@ -95,7 +95,7 @@ class AddUserAndRolePermissions extends Migration
             'view-users', 'create-users', 'edit-users', 'delete-users',
             'view-roles', 'create-roles', 'edit-roles', 'delete-roles'
         ];
-        
+
         Permission::whereIn('slug', $slugs)->delete();
     }
 }

@@ -24,11 +24,11 @@ class PaymentsControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         // Create and authenticate a test user with Sanctum token
         $this->user = User::factory()->create();
         $this->token = $this->user->createToken('test-token')->plainTextToken;
-        
+
         // Create a test patient
         $this->patient = Patient::create([
             'user_id' => $this->user->id,
@@ -47,7 +47,7 @@ class PaymentsControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_list_payments()
+    public function canListPayments()
     {
         // Create test payments
         $visit = Visit::create([
@@ -76,20 +76,20 @@ class PaymentsControllerTest extends TestCase
             'per_page' => 10,
             'page' => 1
         ]);
-        
+
         // Debug the response
         if ($response->status() !== 200) {
             dump('List payments error:', $response->json());
         }
 
         $response->assertStatus(200);
-        
+
         // Check if the response has the expected structure
         $response->assertStatus(200);
         $responseData = $response->json();
         $this->assertArrayHasKey('entries', $responseData);
         $this->assertIsArray($responseData['entries']);
-        
+
         if (count($responseData['entries']) > 0) {
             $firstPayment = $responseData['entries'][0];
             $this->assertArrayHasKey('id', $firstPayment);
@@ -99,7 +99,7 @@ class PaymentsControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_create_a_payment()
+    public function canCreateAPayment()
     {
         $paymentData = [
             'patient_id' => $this->patient->id,
@@ -114,32 +114,32 @@ class PaymentsControllerTest extends TestCase
             'Authorization' => 'Bearer ' . $this->token,
             'Accept' => 'application/json',
         ])->postJson('/api/v1/payments/create', $paymentData);
-        
+
         // Debug the response
         if ($response->status() !== 200) {
             dump('Create payment error:', $response->json());
         }
 
         $response->assertStatus(200);
-        
+
         // Debug: Show the API response
         $responseData = $response->json();
         dump('API Response:', $responseData);
-        
+
         // Check if the payment was created in the database with the correct data
         $this->assertDatabaseHas('payments', [
             'patient_id' => $this->patient->id,
             'amount' => 150, // Amount is stored as is
             'status' => 1 // 1 = paid
         ]);
-        
+
         // Get the created payment from the database
         $payment = \App\Models\Payment::where('patient_id', $this->patient->id)
             ->where('amount', 150)
             ->first();
-            
+
         $this->assertNotNull($payment, 'Payment was not created in the database');
-        
+
         // Check if a visit was created and associated with the payment
         $this->assertDatabaseHas('visits', [
             'patient_id' => $this->patient->id,
@@ -148,7 +148,7 @@ class PaymentsControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_validates_required_fields_when_creating_payment()
+    public function validatesRequiredFieldsWhenCreatingPayment()
     {
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $this->token,
@@ -160,7 +160,7 @@ class PaymentsControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_update_a_payment()
+    public function canUpdateAPayment()
     {
         $visit = Visit::create([
             'patient_id' => $this->patient->id,
@@ -189,14 +189,14 @@ class PaymentsControllerTest extends TestCase
             'Authorization' => 'Bearer ' . $this->token,
             'Accept' => 'application/json',
         ])->patchJson("/api/v1/payments/{$payment->id}", $updateData);
-        
+
         // Debug the response
         if ($response->status() !== 200) {
             dump('Update payment error:', $response->json());
         }
 
         $response->assertStatus(200);
-        
+
         // Check if the payment was updated in the database
         $this->assertDatabaseHas('payments', [
             'id' => $payment->id,
@@ -207,7 +207,7 @@ class PaymentsControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_delete_a_payment()
+    public function canDeleteAPayment()
     {
         $visit = Visit::create([
             'patient_id' => $this->patient->id,
@@ -231,7 +231,7 @@ class PaymentsControllerTest extends TestCase
         ])->deleteJson("/api/v1/payments/{$payment->id}");
 
         $response->assertStatus(200);
-        
+
         // Check if the payment was soft deleted
         $this->assertSoftDeleted('payments', ['id' => $payment->id]);
     }

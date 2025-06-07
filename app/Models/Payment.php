@@ -14,7 +14,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Payment extends BaseModel
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = ['visit_id', 'date', 'amount', 'remaining_amount', 'patient_id', 'user_id', 'status'];
 //    protected $appends = ['latestPaymentDate'];

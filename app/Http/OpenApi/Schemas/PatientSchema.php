@@ -29,7 +29,7 @@ namespace App\Http\OpenApi\Schemas;
  *         @OA\Items(ref="#/components/schemas/PatientFileResource")
  *     )
  * )
- * 
+ *
  * @OA\Schema(
  *     schema="PatientRequest",
  *     type="object",

@@ -123,7 +123,8 @@ class UserPermissionTest extends TestCase
         $this->assertTrue($this->user->hasAllPermissions(['view-patient-records', 'register-patients']));
         $this->assertTrue($this->user->hasAllPermissions(['view-patient-records', 'create-treatment-plans']));
         $this->assertTrue($this->user->hasAllPermissions(['register-patients', 'create-treatment-plans']));
-        $this->assertTrue($this->user->hasAllPermissions(['view-patient-records', 'register-patients', 'create-treatment-plans']));
+        $this->assertTrue($this->user->hasAllPermissions(['view-patient-records', 'register-patients',
+        'create-treatment-plans']));
 
         // Test with some permissions the user doesn't have
         $this->assertFalse($this->user->hasAllPermissions(['view-patient-records', 'non-existent-permission']));
@@ -158,12 +159,12 @@ class UserPermissionTest extends TestCase
         $this->assertTrue($this->user->hasPermission('register-patients'));
         $this->assertTrue($this->user->hasPermission('create-treatment-plans'));
         $this->assertTrue($this->user->hasPermission('view-appointments'));
-        
+
         // Test hasAllPermissions with all permissions
         $this->assertTrue($this->user->hasAllPermissions([
-            'view-patient-records', 
-            'register-patients', 
-            'create-treatment-plans', 
+            'view-patient-records',
+            'register-patients',
+            'create-treatment-plans',
             'view-appointments'
         ]));
     }

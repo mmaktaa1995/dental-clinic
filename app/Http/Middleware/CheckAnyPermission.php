@@ -12,9 +12,9 @@ class CheckAnyPermission
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  string  ...$permissions
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Closure                 $next
+     * @param  string                   ...$permissions
      * @return mixed
      */
     public function handle(Request $request, Closure $next, ...$permissions): Response

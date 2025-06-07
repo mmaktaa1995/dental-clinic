@@ -31,7 +31,7 @@ class PermissionSeeder extends Seeder
                 'slug' => 'create-appointment',
                 'description' => 'Ability to create an appointment',
             ],
-            
+
             // Receptionist permissions
             [
                 'name' => 'View All Appointments',
@@ -53,7 +53,7 @@ class PermissionSeeder extends Seeder
                 'slug' => 'view-patient-records',
                 'description' => 'Ability to view patient records',
             ],
-            
+
             // Assistant permissions
             [
                 'name' => 'Update Patient Records',
@@ -65,7 +65,7 @@ class PermissionSeeder extends Seeder
                 'slug' => 'view-treatment-plans',
                 'description' => 'Ability to view treatment plans',
             ],
-            
+
             // Dentist permissions
             [
                 'name' => 'Create Treatment Plans',
@@ -87,7 +87,7 @@ class PermissionSeeder extends Seeder
                 'slug' => 'prescribe-medication',
                 'description' => 'Ability to prescribe medication',
             ],
-            
+
             // Admin permissions
             [
                 'name' => 'View Audit Logs',
@@ -242,7 +242,7 @@ class PermissionSeeder extends Seeder
             'view-own-appointments',
             'create-appointment',
         ];
-        
+
         foreach ($patientPermissions as $permission) {
             $patientRole->assignPermission($permission);
         }
@@ -257,7 +257,7 @@ class PermissionSeeder extends Seeder
             'view-expenses',
             'view-payments',
         ];
-        
+
         foreach ($receptionistPermissions as $permission) {
             $receptionistRole->assignPermission($permission);
         }
@@ -271,7 +271,7 @@ class PermissionSeeder extends Seeder
             'view-debits',
             'view-payments',
         ];
-        
+
         foreach ($assistantPermissions as $permission) {
             $assistantRole->assignPermission($permission);
         }
@@ -289,14 +289,14 @@ class PermissionSeeder extends Seeder
             'view-debits',
             'view-payments',
         ];
-        
+
         foreach ($dentistPermissions as $permission) {
             $dentistRole->assignPermission($permission);
         }
 
         // Admin has all permissions
         $allPermissions = Permission::all()->pluck('slug')->toArray();
-        
+
         // Add view-users and view-roles if not already in all permissions
         if (!in_array('view-users', $allPermissions)) {
             $allPermissions[] = 'view-users';
@@ -304,7 +304,7 @@ class PermissionSeeder extends Seeder
         if (!in_array('view-roles', $allPermissions)) {
             $allPermissions[] = 'view-roles';
         }
-        
+
         foreach ($allPermissions as $permission) {
             $adminRole->assignPermission($permission);
         }

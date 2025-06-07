@@ -18,7 +18,7 @@ class RegisterController extends Controller
     /**
      * Handle a registration request for the application.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function register(Request $request): JsonResponse
@@ -28,7 +28,7 @@ class RegisterController extends Controller
         // Create and register the user
         $user = $this->create($request->all());
         event(new Registered($user));
-        
+
         // Send email verification notification
         $user->sendEmailVerificationNotification();
 
@@ -49,7 +49,7 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -66,14 +66,16 @@ class RegisterController extends Controller
                 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).+$/',
             ],
         ], [
-            'password.regex' => 'The password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.',
+            'password.regex' =>
+            'The password must be at least 8 characters long and include at least one uppercase letter, ' .
+            'one lowercase letter, one number, and one special character.',
         ]);
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \App\Models\User
      */
     protected function create(array $data)

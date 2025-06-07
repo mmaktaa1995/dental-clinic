@@ -23,7 +23,7 @@ class RolesControllerTest extends TestCase
         if (!Role::where('slug', 'admin')->exists()) {
             Role::create(['name' => 'Admin', 'slug' => 'admin']);
         }
-        
+
         // Create necessary permissions for roles management
         $rolePermissions = [
             'view-users' => 'View Users',
@@ -35,11 +35,11 @@ class RolesControllerTest extends TestCase
             'edit-roles' => 'Edit Roles',
             'delete-roles' => 'Delete Roles'
         ];
-        
+
         foreach ($rolePermissions as $slug => $name) {
             Permission::firstOrCreate(['slug' => $slug], ['name' => $name]);
         }
-        
+
         // Assign all permissions to admin role
         $adminRole = Role::where('slug', 'admin')->first();
         foreach ($rolePermissions as $slug => $name) {
@@ -50,16 +50,16 @@ class RolesControllerTest extends TestCase
         $this->user = User::factory()->create([
             'email_verified_at' => now() // Ensure email is verified
         ]);
-        
+
         // Create a Sanctum token for the user
         $this->token = $this->user->createToken('test-token')->plainTextToken;
-        
+
         // Assign admin role to the user
         $adminRole = Role::where('slug', 'admin')->first();
         $this->user->roles()->attach($adminRole);
         $this->user->assignRole('admin');
         $this->actingAs($this->user, 'api');
-        
+
         // Verify the role was assigned correctly
         $adminRole = Role::where('slug', 'admin')->first();
         if (!$this->user->roles->contains($adminRole->id)) {
@@ -68,7 +68,7 @@ class RolesControllerTest extends TestCase
     }
 
     /** @test */
-    public function test_it_can_list_roles()
+    public function canListRoles()
     {
         // Create a user and generate a token
         $user = User::factory()->create();
@@ -102,7 +102,7 @@ class RolesControllerTest extends TestCase
 
         // Assert the response status is 200
         $response->assertStatus(200);
-        
+
         // Check the response structure
         $response->assertJsonStructure([
             'entries' => [
@@ -130,7 +130,7 @@ class RolesControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_create_a_role()
+    public function canCreateARole()
     {
         // Create a test permission
         $permission = Permission::create([
@@ -151,19 +151,19 @@ class RolesControllerTest extends TestCase
         $response->assertJson([
             'message' => 'تمت العملية بنجاح'
         ]);
-        
+
         $this->assertDatabaseHas('roles', [
             'name' => 'Test Role',
             'slug' => 'test-role'
         ]);
-        
+
         // Check if permission was assigned
         $role = Role::where('slug', 'test-role')->first();
         $this->assertTrue($role->permissions->contains($permission->id));
     }
 
     /** @test */
-    public function it_validates_required_fields_when_creating_role()
+    public function validatesRequiredFieldsWhenCreatingRole()
     {
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $this->token,
@@ -175,7 +175,7 @@ class RolesControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_show_a_role()
+    public function canShowARole()
     {
         $role = Role::create([
             'name' => 'Test Role',
@@ -196,19 +196,19 @@ class RolesControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_update_a_role()
+    public function canUpdateARole()
     {
         $role = Role::create([
             'name' => 'Test Role',
             'slug' => 'test-role'
         ]);
-        
+
         // Create a test permission
         $permission = Permission::create([
             'name' => 'Test Permission',
             'slug' => 'test-permission'
         ]);
-        
+
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $this->token,
             'Accept' => 'application/json',
@@ -222,26 +222,26 @@ class RolesControllerTest extends TestCase
         $response->assertJson([
             'message' => 'تمت العملية بنجاح'
         ]);
-        
+
         $this->assertDatabaseHas('roles', [
             'id' => $role->id,
             'name' => 'Updated Role',
             'slug' => 'updated-role'
         ]);
-        
+
         // Check if permission was assigned
         $updatedRole = Role::find($role->id);
         $this->assertTrue($updatedRole->permissions->contains($permission->id));
     }
 
     /** @test */
-    public function it_can_delete_a_role()
+    public function canDeleteARole()
     {
         $role = Role::create([
             'name' => 'Test Role',
             'slug' => 'test-role'
         ]);
-        
+
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $this->token,
             'Accept' => 'application/json',
@@ -251,17 +251,17 @@ class RolesControllerTest extends TestCase
         $response->assertJson([
             'message' => 'تمت العملية بنجاح'
         ]);
-        
+
         $this->assertDatabaseMissing('roles', [
             'id' => $role->id
         ]);
     }
 
     /** @test */
-    public function it_prevents_deleting_admin_role()
+    public function preventsDeletingAdminRole()
     {
         $adminRole = Role::where('slug', 'admin')->first();
-        
+
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $this->token,
             'Accept' => 'application/json',
@@ -271,7 +271,7 @@ class RolesControllerTest extends TestCase
         $response->assertJson([
             'message' => 'لا يمكن حذف دور المسؤول'
         ]);
-        
+
         $this->assertDatabaseHas('roles', [
             'id' => $adminRole->id,
             'slug' => 'admin'
@@ -279,7 +279,7 @@ class RolesControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_list_permissions()
+    public function canListPermissions()
     {
         // Create a test permission
         Permission::create([

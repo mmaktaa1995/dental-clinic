@@ -100,16 +100,16 @@ class PermissionTest extends TestCase
 
         // Attach roles to permission
         $permission->roles()->attach([$role1->id, $role2->id]);
-        
+
         // Assert initial relationships
         $this->assertCount(2, $permission->roles);
-        
+
         // Sync roles (replacing previous roles)
         $permission->roles()->sync([$role2->id, $role3->id]);
-        
+
         // Refresh the model
         $permission->refresh();
-        
+
         // Assert updated relationships
         $this->assertCount(2, $permission->roles);
         $this->assertFalse($permission->roles->contains($role1));
@@ -144,16 +144,16 @@ class PermissionTest extends TestCase
 
         // Attach roles to permission
         $permission->roles()->attach([$role1->id, $role2->id]);
-        
+
         // Assert initial relationships
         $this->assertCount(2, $permission->roles);
-        
+
         // Detach one role
         $permission->roles()->detach($role1);
-        
+
         // Refresh the model
         $permission->refresh();
-        
+
         // Assert updated relationships
         $this->assertCount(1, $permission->roles);
         $this->assertFalse($permission->roles->contains($role1));

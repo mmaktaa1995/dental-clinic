@@ -20,14 +20,14 @@ class VisitTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         /** @var Authenticatable $user */
         $user = $this->user = User::factory()->create();
         $this->actingAs($user);
     }
 
     /** @test */
-    public function it_belongs_to_a_patient()
+    public function belongsToaPatient()
     {
         $patient = Patient::factory()->create(['user_id' => $this->user->id]);
         $visit = Visit::factory()->create([
@@ -37,13 +37,13 @@ class VisitTest extends TestCase
         ]);
 
         $visit->load('patient');
-        
+
         $this->assertInstanceOf(Patient::class, $visit->patient);
         $this->assertEquals($patient->id, $visit->patient->id);
     }
 
     /** @test */
-    public function it_has_one_payment()
+    public function hasOnePayment()
     {
         $patient = Patient::factory()->create(['user_id' => $this->user->id]);
         $visit = Visit::factory()->create([
@@ -51,7 +51,7 @@ class VisitTest extends TestCase
             'user_id' => $this->user->id,
             'date' => now()
         ]);
-        
+
         $payment = Payment::create([
             'patient_id' => $patient->id,
             'visit_id' => $visit->id,
@@ -67,7 +67,7 @@ class VisitTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_formatted_date()
+    public function returnsFormattedDate()
     {
         $visit = Visit::factory()->create([
             'user_id' => $this->user->id,
@@ -78,7 +78,7 @@ class VisitTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_amount_from_payment_relation()
+    public function returnsAmountFromPaymentRelation()
     {
         $patient = Patient::factory()->create(['user_id' => $this->user->id]);
         $visit = Visit::factory()->create([
@@ -86,7 +86,7 @@ class VisitTest extends TestCase
             'user_id' => $this->user->id,
             'date' => now()
         ]);
-        
+
         Payment::create([
             'patient_id' => $patient->id,
             'visit_id' => $visit->id,
@@ -99,12 +99,12 @@ class VisitTest extends TestCase
 
         // Reload the visit to ensure the payment relation is loaded
         $visit->load('payment');
-        
+
         $this->assertEquals(150, $visit->amount);
     }
 
     /** @test */
-    public function it_returns_zero_amount_when_payment_relation_not_loaded()
+    public function returnsZeroAmountWhenPaymentRelationNotLoaded()
     {
         $visit = Visit::factory()->create([
             'user_id' => $this->user->id,

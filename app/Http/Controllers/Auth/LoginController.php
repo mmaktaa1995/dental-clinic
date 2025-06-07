@@ -57,26 +57,26 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         $user = $request->user();
-        
+
         // Get token info before deletion for logging
         $token = $user->currentAccessToken();
-        
+
         // Log the logout attempt
         SensitiveOperationsLogger::attempt('logout', 'user', $user->id, [
             'email' => $user->email,
             'token_id' => $token->id
         ]);
-        
+
         try {
             // Delete the current access token
             $token->delete();
-            
+
             // Log successful logout
             SensitiveOperationsLogger::success('logout', 'user', $user->id, [
                 'email' => $user->email,
                 'ip_address' => $request->ip()
             ]);
-            
+
             return response()->json([
                 'message' => 'تم تسجيل الخروج بنجاح',
             ]);
@@ -85,7 +85,7 @@ class LoginController extends Controller
             SensitiveOperationsLogger::failure('logout', 'user', $user->id, [
                 'error' => $e->getMessage()
             ]);
-            
+
             throw $e;
         }
     }
@@ -96,7 +96,7 @@ class LoginController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-        
+
         // Log the login attempt
         SensitiveOperationsLogger::attempt('login', 'auth', null, [
             'email' => $request->email,
@@ -107,7 +107,7 @@ class LoginController extends Controller
         // Check if the user has too many login attempts
         if ($this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
-            
+
             // Log account lockout
             SensitiveOperationsLogger::failure('login', 'auth', null, [
                 'email' => $request->email,
@@ -122,7 +122,7 @@ class LoginController extends Controller
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             $this->incrementLoginAttempts($request);
-            
+
             // Log failed login
             SensitiveOperationsLogger::failure('login', 'auth', $user ? $user->id : null, [
                 'email' => $request->email,
@@ -136,10 +136,10 @@ class LoginController extends Controller
 
         // Reset login attempts on successful login
         $this->clearLoginAttempts($request);
-        
+
         // Load roles with their permissions
         $user->load(['roles.permissions']);
-        
+
         // Log successful login
         SensitiveOperationsLogger::success('login', 'auth', $user->id, [
             'email' => $user->email,
@@ -154,14 +154,14 @@ class LoginController extends Controller
     {
         $user = $request->user();
         $user->load(['roles.permissions']);
-        
+
         return new UserResource($user);
     }
 
     /**
      * Redirect the user after determining they are locked out.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return void
      *
      * @throws \Illuminate\Validation\ValidationException
@@ -191,14 +191,14 @@ class LoginController extends Controller
     {
         $token = $user->createToken('personal-access-token');
         $plainTextToken = explode('|', $token->plainTextToken)[1];
-        
+
         // Log token creation
         SensitiveOperationsLogger::success('token_created', 'auth', $user->id, [
             'token_id' => $token->accessToken->id,
             'email' => $user->email,
             'ip_address' => $request->ip()
         ]);
-        
+
         return response()->json([
             'message' => 'تم تسجيل الدخول بنجاح',
             'data' => [

@@ -46,7 +46,7 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
-                
+
             // Load test routes only in local environment
             if (app()->environment('local')) {
                 require base_path('routes/test-routes.php');
@@ -59,10 +59,30 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
+    /**
+     * Configure the rate limiters for the application.
+     *
+     * @return void
+     */
     protected function configureRateLimiting()
     {
+        // General API rate limiting (applied to all API routes)
         RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
+            return $request->user()
+                ? Limit::perMinute(100)->by('user:' . $request->user()->id)
+                : Limit::perMinute(30)->by($request->ip());
+        });
+
+        // Stricter rate limiting for authentication endpoints
+        RateLimiter::for('auth', function (Request $request) {
+            return Limit::perMinute(10)->by($request->ip());
+        });
+
+        // Rate limiting for file uploads
+        RateLimiter::for('uploads', function (Request $request) {
+            return $request->user()
+                ? Limit::perMinute(20)->by('user:' . $request->user()->id)
+                : Limit::perMinute(5)->by($request->ip());
         });
     }
 }

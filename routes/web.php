@@ -24,7 +24,11 @@ Route::get('api/documentation', function () {
         'validator_url' => null,
         'operations_sort' => null,
     ]);
-    return app('L5Swagger\Http\Controllers\SwaggerController')->api(request()->merge(['documentation' => $documentation, 'config' => $config]));
+    $request = request()->merge([
+        'documentation' => $documentation,
+        'config' => $config
+    ]);
+    return app('L5Swagger\Http\Controllers\SwaggerController')->api($request);
 })->name('l5swagger.api');
 
 Route::get('docs', function () {

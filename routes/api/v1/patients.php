@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Patient related API endpoints.
+ *
+ * Handles all patient-related operations including CRUD, file management,
+ * and record keeping.
+ */
+
 use App\Http\Controllers\PatientsController;
 use App\Http\Controllers\PatientRecordsController;
 use App\Http\Controllers\PatientFilesController;
@@ -102,12 +109,20 @@ Route::post('patients', [PatientsController::class, 'list']);
  *         description="Patient existence check result",
  *         @OA\JsonContent(
  *             @OA\Property(property="exists", type="boolean", example=true),
- *             @OA\Property(property="patient", type="object", nullable=true, ref="#/components/schemas/PatientResource")
+ *             @OA\Property(
+ *                 property="patient",
+ *                 type="object",
+ *                 nullable=true,
+ *                 ref="#/components/schemas/PatientResource"
+ *             )
  *         )
  *     )
  * )
  */
-Route::post('patients/exist', [PatientsController::class, 'checkExisting']);
+Route::post(
+    'patients/exist',
+    [PatientsController::class, 'checkExisting']
+);
 
 /**
  * @OA\Post(
@@ -310,7 +325,10 @@ Route::post('patients/{patient}/files', [PatientFilesController::class, 'files']
  *     @OA\Response(response=404, description="File or patient not found")
  * )
  */
-Route::delete('patients/{patient}/files/{file}', [PatientFilesController::class, 'deleteFile'])->name('patients.delete-file');
+Route::delete(
+    'patients/{patient}/files/{file}',
+    [PatientFilesController::class, 'deleteFile']
+)->name('patients.delete-file');
 
 // Patient Records
 /**

@@ -9,7 +9,6 @@ use Illuminate\Http\JsonResponse;
 
 class HomeController extends Controller
 {
-
     public function __construct()
     {
     }

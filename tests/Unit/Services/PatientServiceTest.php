@@ -21,10 +21,10 @@ class PatientServiceTest extends TestCase
         $this->patientService = new PatientService();
         $this->user = $this->createTestUser();
     }
-    
+
     /**
      * Create a test user with a unique username and email
-     * 
+     *
      * @return User
      */
     private function createTestUser(): User
@@ -41,7 +41,7 @@ class PatientServiceTest extends TestCase
 
     /**
      * Create a test patient with the given file number
-     * 
+     *
      * @param string $fileNumber
      * @return Patient
      */
@@ -59,91 +59,91 @@ class PatientServiceTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_1_when_no_patients_exist()
+    public function returns1WhenNoPatientsExist()
     {
         // Clear all patients
         Patient::query()->delete();
-        
+
         $fileNumber = $this->patientService->getLastFileNumber();
-        
+
         $this->assertEquals('1', $fileNumber);
     }
-    
+
     /** @test */
-    public function it_returns_next_file_number_when_patients_exist()
+    public function returnsNextFileNumberWhenPatientsExist()
     {
         // Create a patient with file number 'PAT100' directly in the database
         $this->createPatientWithFileNumber('PAT100');
-        
+
         $fileNumber = $this->patientService->getLastFileNumber();
-        
+
         // The method should increment the number after PAT
         $this->assertStringStartsWith('PAT', $fileNumber);
         $this->assertGreaterThan(100, (int)substr($fileNumber, 3));
     }
-    
+
     /** @test */
-    public function it_handles_multiple_patients_correctly()
+    public function handlesMultiplePatientsCorrectly()
     {
         // Create multiple patients with different file numbers
         $this->createPatientWithFileNumber('PAT99');
         $this->createPatientWithFileNumber('PAT100');
-        
+
         $fileNumber = $this->patientService->getLastFileNumber();
-        
+
         // The method should use the highest file number and increment it
         $this->assertStringStartsWith('PAT', $fileNumber);
         $this->assertGreaterThan(100, (int)substr($fileNumber, 3));
     }
-    
+
     /** @test */
-    public function it_handles_file_numbers_without_prefix()
+    public function handlesFileNumbersWithoutPrefix()
     {
         // Create a patient with a numeric file number (without PAT prefix)
         $this->createPatientWithFileNumber('100');
-        
+
         $fileNumber = $this->patientService->getLastFileNumber();
-        
+
         // Should return a new file number with PAT prefix
         $this->assertStringStartsWith('PAT', $fileNumber);
     }
-    
+
     /** @test */
-    public function it_handles_non_numeric_file_numbers()
+    public function handlesNonNumericFileNumbers()
     {
         // Create a patient with a non-numeric file number
         $this->createPatientWithFileNumber('ABC123');
-        
+
         $fileNumber = $this->patientService->getLastFileNumber();
-        
+
         // Should return a new file number with PAT prefix
         $this->assertStringStartsWith('PAT', $fileNumber);
     }
-    
+
     /** @test */
-    public function it_handles_mixed_prefix_and_non_prefix_file_numbers()
+    public function handlesMixedPrefixAndNonPrefixFileNumbers()
     {
         // Create patients with different file number formats
         $this->createPatientWithFileNumber('100');
         $this->createPatientWithFileNumber('PAT200');
         $this->createPatientWithFileNumber('300');
         $this->createPatientWithFileNumber('PAT400');
-        
+
         $fileNumber = $this->patientService->getLastFileNumber();
-        
+
         // Should return a new file number with PAT prefix
         $this->assertStringStartsWith('PAT', $fileNumber);
         $this->assertGreaterThan(400, (int)substr($fileNumber, 3));
     }
-    
+
     /** @test */
-    public function it_handles_empty_file_numbers()
+    public function handlesEmptyFileNumbers()
     {
         // Create a patient with an empty file number
         $this->createPatientWithFileNumber('');
-        
+
         $fileNumber = $this->patientService->getLastFileNumber();
-        
+
         // Should return a new file number with PAT prefix
         $this->assertStringStartsWith('PAT', $fileNumber);
     }

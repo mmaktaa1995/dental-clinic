@@ -37,7 +37,6 @@ class PatientRecordSearch extends BaseSearch
                 if ($this->request->get('type') === 'diagnosis') {
                     $query->whereNotNull('diagnosis');
                 }
-
             })
             ->select('patient_records.*');
     }

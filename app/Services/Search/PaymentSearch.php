@@ -62,6 +62,5 @@ class PaymentSearch extends BaseSearch
         }
 
         return $query->orderBy($this->order['by'], $this->order['desc'] ? 'desc' : 'asc');
-
     }
 }

@@ -10,10 +10,10 @@ class CorsTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_handles_preflight_requests()
+    public function handlesPreflightRequests()
     {
         $allowedOrigin = config('cors.allowed_origins')[0] ?? 'http://localhost:3000';
-        
+
         $response = $this->withHeaders([
             'Origin' => $allowedOrigin,
             'Access-Control-Request-Method' => 'POST',
@@ -28,7 +28,7 @@ class CorsTest extends TestCase
     }
 
     /** @test */
-    public function it_does_not_allow_preflight_requests_from_unauthorized_origins()
+    public function doesNotAllowPreflightRequestsFromUnauthorizedOrigins()
     {
         $response = $this->withHeaders([
             'Origin' => 'https://unauthorized-domain.com',
@@ -41,10 +41,10 @@ class CorsTest extends TestCase
     }
 
     /** @test */
-    public function it_includes_cors_headers_in_actual_requests()
+    public function includesCorsHeadersInActualRequests()
     {
         $allowedOrigin = config('cors.allowed_origins')[0] ?? 'http://localhost:3000';
-        
+
         $response = $this->withHeaders([
             'Origin' => $allowedOrigin,
         ])->get('/api/user');
@@ -54,24 +54,32 @@ class CorsTest extends TestCase
     }
 
     /** @test */
-    public function it_includes_exposed_headers_in_response()
+    public function includesExposedHeadersInResponse()
     {
         $allowedOrigin = config('cors.allowed_origins')[0] ?? 'http://localhost:3000';
-        
+
         $response = $this->withHeaders([
             'Origin' => $allowedOrigin,
         ])->get('/api/user');
 
         // Should include exposed headers in the response
         $response->assertHeader('Access-Control-Expose-Headers');
-        
+
         // Get the exposed headers
         $exposedHeaders = $response->headers->get('Access-Control-Expose-Headers');
         $this->assertNotEmpty($exposedHeaders, 'No exposed headers found in the response');
-        
+
         // Convert to array and check for specific headers
         $exposedHeadersArray = array_map('trim', explode(',', $exposedHeaders));
-        $this->assertContains('X-RateLimit-Limit', $exposedHeadersArray, 'X-RateLimit-Limit not found in exposed headers');
-        $this->assertContains('X-RateLimit-Remaining', $exposedHeadersArray, 'X-RateLimit-Remaining not found in exposed headers');
+        $this->assertContains(
+            'X-RateLimit-Limit',
+            $exposedHeadersArray,
+            'X-RateLimit-Limit not found in exposed headers'
+        );
+        $this->assertContains(
+            'X-RateLimit-Remaining',
+            $exposedHeadersArray,
+            'X-RateLimit-Remaining not found in exposed headers'
+        );
     }
 }

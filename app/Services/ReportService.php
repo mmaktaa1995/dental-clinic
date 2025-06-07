@@ -58,15 +58,15 @@ class ReportService
             'cash_revenue' => (float)($payments->cash_revenue ?? 0),
             'card_revenue' => 0, // Not supported in current schema
             'total_patients' => (int)($payments->total_patients ?? 0),
-            'average_revenue_per_patient' => ($payments->total_patients ?? 0) > 0 
-                ? round(($payments->total_revenue ?? 0) / $payments->total_patients, 2) 
+            'average_revenue_per_patient' => ($payments->total_patients ?? 0) > 0
+                ? round(($payments->total_revenue ?? 0) / $payments->total_patients, 2)
                 : 0,
         ];
     }
 
     /**
      * Get new patients statistics for a given date range
-     * 
+     *
      * @param CarbonInterface $startDate
      * @param CarbonInterface $endDate
      * @return array
@@ -78,12 +78,12 @@ class ReportService
 
         $previousPeriodStart = $startDate->copy()->subDays($endDate->diffInDays($startDate));
         $previousPeriodEnd = $startDate->copy()->subDay();
-        
+
         $previousPeriodNewPatients = Patient::whereBetween('created_at', [$previousPeriodStart, $previousPeriodEnd])
             ->count();
 
-        $growthRate = $previousPeriodNewPatients > 0 
-            ? (($newPatients - $previousPeriodNewPatients) / $previousPeriodNewPatients) * 100 
+        $growthRate = $previousPeriodNewPatients > 0
+            ? (($newPatients - $previousPeriodNewPatients) / $previousPeriodNewPatients) * 100
             : ($newPatients > 0 ? 100 : 0);
 
         return [
@@ -95,7 +95,7 @@ class ReportService
 
     /**
      * Get appointments by status for a given date range
-     * 
+     *
      * @param CarbonInterface $startDate
      * @param CarbonInterface $endDate
      * @return array
@@ -106,7 +106,7 @@ class ReportService
         // we'll just return the total count as 'scheduled'
         $count = Appointment::whereBetween('date', [$startDate, $endDate])
             ->count();
-            
+
         return [
             'scheduled' => $count
         ];
@@ -114,7 +114,7 @@ class ReportService
 
     /**
      * Get revenue by month for a given date range
-     * 
+     *
      * @param CarbonInterface $startDate
      * @param CarbonInterface $endDate
      * @return array

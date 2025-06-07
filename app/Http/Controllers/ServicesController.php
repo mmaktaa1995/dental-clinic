@@ -17,7 +17,6 @@ class ServicesController extends Controller
         $filesSearch = new ServiceSearch($request);
 
         return response()->json(BaseCollection::make($filesSearch->getEntries(), ServiceResource::class));
-
     }
 
     public function show(Service $service): JsonResponse

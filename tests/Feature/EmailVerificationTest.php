@@ -14,7 +14,7 @@ class EmailVerificationTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_email_can_be_verified()
+    public function emailCanBeVerified()
     {
         $user = User::factory()->create([
             'email_verified_at' => null
@@ -29,16 +29,16 @@ class EmailVerificationTest extends TestCase
 
         // Act as the user
         Sanctum::actingAs($user);
-        
+
         // Visit the verification URL
         $response = $this->get($verificationUrl);
-        
+
         // Refresh the user model and check if email is verified
         $user = $user->fresh();
         $this->assertNotNull($user->email_verified_at);
     }
 
-    public function test_user_receives_verification_email_when_registered()
+    public function userReceivesVerificationEmailWhenRegistered()
     {
         Notification::fake();
 
@@ -46,15 +46,15 @@ class EmailVerificationTest extends TestCase
         $user = User::factory()->create([
             'email_verified_at' => null
         ]);
-        
+
         // Trigger the verification notification manually
         $user->sendEmailVerificationNotification();
-        
+
         // Assert that a verification email was sent
         Notification::assertSentTo($user, VerifyEmailNotification::class);
     }
 
-    public function test_unverified_user_cannot_access_protected_routes()
+    public function unverifiedUserCannotAccessProtectedRoutes()
     {
         $user = User::factory()->create([
             'email_verified_at' => null
@@ -62,21 +62,25 @@ class EmailVerificationTest extends TestCase
 
         // Create a personal access token for the user
         $token = $user->createToken('test-token')->plainTextToken;
-        
+
         // Make the request with the token in the Authorization header
         $response = $this->withHeader('Authorization', 'Bearer ' . $token)
                          ->getJson('/api/v1/patients/list');
 
         // Check that the request was rejected with a 403 status code
         $response->assertStatus(403);
-        
+
         // Check that the response contains a message about email verification
         $responseData = $response->json();
         $this->assertArrayHasKey('message', $responseData);
-        $this->assertStringContainsString('verified', $responseData['message'], 'Response should mention email verification');
+        $this->assertStringContainsString(
+            'verified',
+            $responseData['message'],
+            'Response should mention email verification'
+        );
     }
 
-    public function test_verified_user_can_access_protected_routes()
+    public function verifiedUserCanAccessProtectedRoutes()
     {
         // Create a user with verified email
         $user = User::factory()->create([
@@ -85,14 +89,14 @@ class EmailVerificationTest extends TestCase
 
         // Create a personal access token for the user
         $token = $user->createToken('test-token')->plainTextToken;
-        
+
         // Make the request with the token in the Authorization header
         $response = $this->withHeader('Authorization', 'Bearer ' . $token)
                          ->getJson('/api/v1/patients/list');
 
         // The response should not be a 401 Unauthorized
         $this->assertNotEquals(401, $response->status());
-        
+
         // If there's another issue (like 404 Not Found), that's not related to our email verification
         // so we'll consider this test passed if we're not getting a 401
     }

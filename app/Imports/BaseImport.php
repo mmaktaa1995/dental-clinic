@@ -20,27 +20,30 @@ use Maatwebsite\Excel\Events\AfterImport;
 use Maatwebsite\Excel\Events\BeforeImport;
 use Maatwebsite\Excel\Validators\Failure;
 
-abstract class BaseImport implements 
-    ToCollection, 
-    WithHeadingRow, 
-    WithValidation, 
-    SkipsOnError, 
-    SkipsOnFailure, 
+abstract class BaseImport implements
+    ToCollection,
+    WithHeadingRow,
+    WithValidation,
+    SkipsOnError,
+    SkipsOnFailure,
     SkipsEmptyRows,
     WithEvents
 {
-    use Importable, SkipsErrors, SkipsFailures, RegistersEventListeners;
-    
+    use Importable;
+    use SkipsErrors;
+    use SkipsFailures;
+    use RegistersEventListeners;
+
     /**
      * @var int
      */
     protected $rowsProcessed = 0;
-    
+
     /**
      * @var int
      */
     protected $rowsFailed = 0;
-    
+
     /**
      * Process the imported data
      *
@@ -52,9 +55,9 @@ abstract class BaseImport implements
         if ($rows->isEmpty()) {
             return;
         }
-        
+
         DB::beginTransaction();
-        
+
         try {
             foreach ($rows as $row) {
                 try {
@@ -65,14 +68,14 @@ abstract class BaseImport implements
                     $this->onError($e, $this->rowsProcessed + $this->rowsFailed);
                 }
             }
-            
+
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
         }
     }
-    
+
     /**
      * Process a single row
      *
@@ -107,7 +110,7 @@ abstract class BaseImport implements
     {
         return [];
     }
-    
+
     /**
      * Register events
      *

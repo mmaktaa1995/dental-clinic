@@ -21,7 +21,7 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param  \Illuminate\Console\Scheduling\Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
@@ -31,7 +31,7 @@ class Kernel extends ConsoleKernel
             try {
                 $backupService = app(BackupService::class);
                 $result = $backupService->createFullBackup();
-                
+
                 if ($result['success']) {
                     Log::channel('sensitive_operations')->info('Scheduled backup completed successfully', [
                         'filename' => $result['filename'],
@@ -49,13 +49,13 @@ class Kernel extends ConsoleKernel
                 ]);
             }
         })->dailyAt('00:00')->name('daily-backup');
-        
+
         // Weekly backup on Sunday at 2 AM
         $schedule->call(function () {
             try {
                 $backupService = app(BackupService::class);
                 $result = $backupService->createFullBackup();
-                
+
                 if ($result['success']) {
                     Log::channel('sensitive_operations')->info('Weekly scheduled backup completed successfully', [
                         'filename' => $result['filename'],
@@ -82,7 +82,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

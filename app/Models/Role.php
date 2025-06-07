@@ -31,7 +31,7 @@ class Role extends Model
     {
         return $this->belongsToMany(User::class);
     }
-    
+
     /**
      * The permissions that belong to the role.
      */
@@ -39,7 +39,7 @@ class Role extends Model
     {
         return $this->belongsToMany(Permission::class);
     }
-    
+
     /**
      * Assign a permission to the role.
      *
@@ -51,10 +51,10 @@ class Role extends Model
         if (is_string($permission)) {
             $permission = Permission::where('slug', $permission)->firstOrFail();
         }
-        
+
         $this->permissions()->syncWithoutDetaching($permission);
     }
-    
+
     /**
      * Remove a permission from the role.
      *
@@ -66,37 +66,37 @@ class Role extends Model
         if (is_string($permission)) {
             $permission = Permission::where('slug', $permission)->firstOrFail();
         }
-        
+
         $this->permissions()->detach($permission);
     }
-    
+
     /**
      * Check if the role has a specific permission.
      *
      * @param string $permission
-     * @return bool
+     * @return boolean
      */
     public function hasPermission(string $permission): bool
     {
         return $this->permissions()->where('slug', $permission)->exists();
     }
-    
+
     /**
      * Check if the role has any of the given permissions.
      *
      * @param array $permissions
-     * @return bool
+     * @return boolean
      */
     public function hasAnyPermission(array $permissions): bool
     {
         return $this->permissions()->whereIn('slug', $permissions)->exists();
     }
-    
+
     /**
      * Check if the role has all of the given permissions.
      *
      * @param array $permissions
-     * @return bool
+     * @return boolean
      */
     public function hasAllPermissions(array $permissions): bool
     {

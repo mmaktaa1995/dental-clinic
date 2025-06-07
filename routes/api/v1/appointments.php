@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Appointments API endpoints.
+ *
+ * This file contains all routes related to appointment management,
+ * including scheduling, rescheduling, and checking availability.
+ */
+
 use App\Http\Controllers\AppointmentController;
 use Illuminate\Support\Facades\Route;
 

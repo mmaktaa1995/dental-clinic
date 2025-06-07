@@ -22,7 +22,7 @@ class UsersControllerTest extends TestCase
         if (!Role::where('slug', 'admin')->exists()) {
             Role::create(['name' => 'Admin', 'slug' => 'admin']);
         }
-        
+
         // Create necessary permissions for users management
         $userPermissions = [
             'view-users' => 'View Users',
@@ -34,11 +34,11 @@ class UsersControllerTest extends TestCase
             'edit-roles' => 'Edit Roles',
             'delete-roles' => 'Delete Roles'
         ];
-        
+
         foreach ($userPermissions as $slug => $name) {
             Permission::firstOrCreate(['slug' => $slug], ['name' => $name]);
         }
-        
+
         // Assign all permissions to admin role
         $adminRole = Role::where('slug', 'admin')->first();
         foreach ($userPermissions as $slug => $name) {
@@ -51,7 +51,7 @@ class UsersControllerTest extends TestCase
         ]);
         $this->user->assignRole('admin');
         $this->actingAs($this->user, 'api');
-        
+
         // Verify the role was assigned correctly
         $adminRole = Role::where('slug', 'admin')->first();
         if (!$this->user->roles->contains($adminRole->id)) {
@@ -60,11 +60,11 @@ class UsersControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_list_users()
+    public function canListUsers()
     {
         // Create a personal access token for the user
         $token = $this->user->createToken('test-token')->plainTextToken;
-        
+
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
@@ -88,11 +88,11 @@ class UsersControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_create_a_user()
+    public function canCreateAUser()
     {
         $token = $this->user->createToken('test-token')->plainTextToken;
         $uniqueId = uniqid();
-        
+
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
@@ -108,22 +108,22 @@ class UsersControllerTest extends TestCase
         $response->assertJson([
             'message' => 'تمت العملية بنجاح'
         ]);
-        
+
         $this->assertDatabaseHas('users', [
             'name' => 'Test User',
             'email' => 'test@example.com'
         ]);
-        
+
         // Check if role was assigned
         $user = User::where('email', 'test@example.com')->first();
         $this->assertTrue($user->hasRole('admin'));
     }
 
     /** @test */
-    public function it_validates_required_fields_when_creating_user()
+    public function validatesRequiredFieldsWhenCreatingUser()
     {
         $token = $this->user->createToken('test-token')->plainTextToken;
-        
+
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
@@ -134,11 +134,11 @@ class UsersControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_show_a_user()
+    public function canShowAUser()
     {
         $user = User::factory()->create();
         $user->assignRole('admin');
-        
+
         $token = $this->user->createToken('test-token')->plainTextToken;
 
         $response = $this->withHeaders([
@@ -155,11 +155,11 @@ class UsersControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_can_update_a_user()
+    public function canUpdateAUser()
     {
         $user = User::factory()->create();
         $user->assignRole('admin');
-        
+
         $token = $this->user->createToken('test-token')->plainTextToken;
 
         $response = $this->withHeaders([
@@ -175,27 +175,27 @@ class UsersControllerTest extends TestCase
         $response->assertJson([
             'message' => 'تمت العملية بنجاح'
         ]);
-        
+
         $this->assertDatabaseHas('users', [
             'id' => $user->id,
             'name' => 'Updated Name',
             'email' => 'updated@example.com'
         ]);
-        
+
         // Check if role was assigned
         $updatedUser = User::find($user->id);
         $this->assertTrue($updatedUser->hasRole('admin'));
     }
 
     /** @test */
-    public function it_can_delete_a_user()
+    public function canDeleteAUser()
     {
         $user = User::factory()->create();
         $user->assignRole('admin');
         $userId = $user->id;
-        
+
         $token = $this->user->createToken('test-token')->plainTextToken;
-        
+
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
@@ -205,16 +205,16 @@ class UsersControllerTest extends TestCase
         $response->assertJson([
             'message' => 'تمت العملية بنجاح'
         ]);
-        
+
         $this->assertDatabaseMissing('users', ['id' => $userId]);
     }
 
     /** @test */
-    public function it_prevents_deleting_self()
+    public function preventsDeletingSelf()
     {
         $userId = $this->user->id;
         $token = $this->user->createToken('test-token')->plainTextToken;
-        
+
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
@@ -224,7 +224,7 @@ class UsersControllerTest extends TestCase
         $response->assertJson([
             'message' => 'لا يمكن حذف المستخدم الحالي'
         ]);
-        
+
         $this->assertDatabaseHas('users', [
             'id' => $userId
         ]);

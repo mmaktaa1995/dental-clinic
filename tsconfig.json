@@ -4,11 +4,11 @@
     "esModuleInterop": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "lib": ["esnext", "dom", "dom.Iterable"],
+    "lib": ["esnext", "dom"],
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "paths": {
-      "@/*": ["./resources/js/*"]
+      "@/*": ["resources/js/*"]
     },
     "resolveJsonModule": true,
     "strict": true,
@@ -16,6 +16,7 @@
     "useDefineForClassFields": true,
     "sourceMap": true,
     "skipLibCheck": true,
+    "types": ["vite/client", "vue"]
   },
   "include": [
     "resources/js/**/*.ts",

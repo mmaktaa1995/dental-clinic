@@ -9,7 +9,7 @@ class PatientRequest extends FormRequest
     /**
      * Get the patient ID from the route if it exists.
      *
-     * @return int|string
+     * @return integer|string
      */
     protected function getPatientId()
     {
@@ -20,7 +20,7 @@ class PatientRequest extends FormRequest
     /**
      * Determine if the user is authorized to make this request.
      *
-     * @return bool
+     * @return boolean
      */
     public function authorize()
     {
@@ -35,7 +35,7 @@ class PatientRequest extends FormRequest
     public function rules()
     {
         $patientId = $this->getPatientId();
-        
+
         return [
             'file_number' => [
                 $patientId !== 'NULL' ? 'sometimes' : 'required',

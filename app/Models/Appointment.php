@@ -11,9 +11,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Appointment extends BaseModel
 {
     use HasFactory;
-    
-    const WAITING_MINUTES = 30;
-    
+
+    public const WAITING_MINUTES = 30;
+
     protected $fillable = ['patient_id', 'date', 'notes', 'user_id'];
 
     /**

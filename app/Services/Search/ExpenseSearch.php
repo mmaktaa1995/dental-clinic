@@ -15,7 +15,7 @@ class ExpenseSearch extends BaseSearch
     protected ?float $minAmount = null;
     protected ?float $maxAmount = null;
     protected ?string $expenseDate = null;
-    
+
     /**
      * ExpenseSearch constructor.
      *
@@ -39,7 +39,7 @@ class ExpenseSearch extends BaseSearch
             $this->expenseDate = $request->input('date');
         }
     }
-    
+
     public function getBaseQuery(): EloquentBuilder|QueryBuilder
     {
         return Expense::query()

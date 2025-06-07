@@ -10,20 +10,20 @@ use Tests\TestCase;
 class SqlInjectionTest extends TestCase
 {
     use RefreshDatabase;
-    
+
     protected $user;
 
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         // Create a test user and authenticate
         $this->user = User::factory()->create();
         $this->actingAs($this->user);
     }
 
     /** @test */
-    public function test_it_prevents_sql_injection_in_search_queries()
+    public function preventsSqlInjectionInSearchQueries()
     {
         // Create a test patient for this user
         $patient = Patient::create([
@@ -43,18 +43,18 @@ class SqlInjectionTest extends TestCase
             'per_page' => 10,
             'page' => 1
         ]);
-        
+
         $response->assertStatus(200);
-        
+
         // Get the response data
         $responseData = $response->json();
-        
+
         // Check if the response has the expected structure
         $this->assertIsArray($responseData);
         $this->assertArrayHasKey('entries', $responseData);
         $this->assertArrayHasKey('pagination', $responseData);
         $this->assertIsArray($responseData['entries']);
-        
+
         // If there are patients in the response, check their structure
         if (!empty($responseData['entries'])) {
             $firstPatient = $responseData['entries'][0];
@@ -74,10 +74,10 @@ class SqlInjectionTest extends TestCase
             'per_page' => 10,
             'page' => 1
         ]);
-        
+
         // Should be blocked by our middleware with 422 status
         $response->assertStatus(422);
-        
+
         // Verify the error response structure
         $response->assertJsonStructure([
             'message',
@@ -88,7 +88,7 @@ class SqlInjectionTest extends TestCase
     }
 
     /** @test */
-    public function test_it_handles_special_characters_in_search_queries()
+    public function handlesSpecialCharactersInSearchQueries()
     {
         // Create test patients with various special characters in their names
         $patients = [
@@ -118,24 +118,24 @@ class SqlInjectionTest extends TestCase
             ['search' => 'John_Doe', 'expectedFileNumber' => 5],  // Underscore in name
             ['search' => '1', 'expectedFileNumber' => 1],         // Search by file number
         ];
-        
+
         foreach ($testCases as $testCase) {
             $response = $this->postJson('/api/v1/patients', [
                 'search' => $testCase['search'],
                 'per_page' => 10,
                 'page' => 1
             ]);
-            
+
             $response->assertStatus(200);
-            
+
             // Get the response data
             $responseData = $response->json();
-            
+
             // Check if the response has the expected structure
             $this->assertIsArray($responseData);
             $this->assertArrayHasKey('entries', $responseData);
             $this->assertArrayHasKey('pagination', $responseData);
-            
+
             // Verify that the expected patient is in the results
             if (!empty($testCase['expectedFileNumber'])) {
                 $found = false;
@@ -145,10 +145,14 @@ class SqlInjectionTest extends TestCase
                         break;
                     }
                 }
-                $this->assertTrue($found, "Expected patient with file number {$testCase['expectedFileNumber']} not found in search results for: {$testCase['search']}");
+                $this->assertTrue(
+                    $found,
+                    "Expected patient with file number {$testCase['expectedFileNumber']} " .
+                    "not found in search results for: {$testCase['search']}"
+                );
             }
         }
-        
+
         // Test with potentially dangerous patterns that should be blocked
         $dangerousPatterns = [
             "' OR '1'='1",  // SQL injection attempt
@@ -157,17 +161,17 @@ class SqlInjectionTest extends TestCase
             '1; SELECT * FROM users', // Multiple statements
             'admin' . chr(0) . '--', // Null byte injection
         ];
-        
+
         foreach ($dangerousPatterns as $pattern) {
             $response = $this->postJson('/api/v1/patients', [
                 'search' => $pattern,
                 'per_page' => 10,
                 'page' => 1
             ]);
-            
+
             // Should be blocked by our middleware with 422 status
             $response->assertStatus(422);
-            
+
             // Verify the error response structure
             $response->assertJsonStructure([
                 'message',
@@ -179,12 +183,12 @@ class SqlInjectionTest extends TestCase
     }
 
     /** @test */
-    public function it_prevents_union_based_injection()
+    public function preventsUnionBasedInjection()
     {
         // Test UNION-based injection attempt
         $injection = "test' UNION SELECT * FROM users WHERE '1'='1";
         $response = $this->getJson('/api/v1/patients?query=' . urlencode($injection));
-        
+
         // Should be blocked by our middleware with 422 status
         $response->assertStatus(422);
         $response->assertJson([
@@ -196,12 +200,12 @@ class SqlInjectionTest extends TestCase
     }
 
     /** @test */
-    public function it_prevents_boolean_based_blind_injection()
+    public function preventsBooleanBasedBlindInjection()
     {
         // Test boolean-based blind injection
         $injection = "test' AND 1=CONVERT(INT,(SELECT table_name FROM information_schema.tables))--";
         $response = $this->getJson('/api/v1/patients?query=' . urlencode($injection));
-        
+
         // Should be blocked by our middleware with 422 status
         $response->assertStatus(422);
         $response->assertJson([

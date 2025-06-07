@@ -37,10 +37,10 @@ class ImportExportService
      * Export data to Excel/CSV based on search parameters
      *
      * @param BaseSearch $searchService
-     * @param string $fileName
-     * @param array $headings
-     * @param callable $rowFormatter
-     * @param string $format
+     * @param string     $fileName
+     * @param array      $headings
+     * @param callable   $rowFormatter
+     * @param string     $format
      * @return BinaryFileResponse
      */
     public function export(
@@ -51,50 +51,50 @@ class ImportExportService
         string $format = 'xlsx'
     ): BinaryFileResponse {
         $data = $searchService->getEntries();
-        
+
         // Create a temporary file
         $tempFile = tempnam(sys_get_temp_dir(), 'export_');
         $handle = fopen($tempFile, 'w');
-        
+
         // Add BOM for UTF-8 encoding
         if ($format === 'csv') {
             fputs($handle, "\xEF\xBB\xBF");
         }
-        
+
         // Write headers
         fputcsv($handle, $headings);
-        
+
         // Write data rows
         foreach ($data as $item) {
             fputcsv($handle, $rowFormatter($item));
         }
-        
+
         fclose($handle);
-        
+
         // Return the file as a download
         return response()->download(
-            $tempFile, 
-            $fileName . '.' . $format, 
+            $tempFile,
+            $fileName . '.' . $format,
             [
-                'Content-Type' => $format === 'csv' 
-                    ? 'text/csv; charset=UTF-8' 
+                'Content-Type' => $format === 'csv'
+                    ? 'text/csv; charset=UTF-8'
                     : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             ]
         )->deleteFileAfterSend(true);
     }
-    
+
     /**
      * Export patients using Laravel Excel
-     * 
+     *
      * @param PatientSearchRequest|array $request
-     * @param string $format
+     * @param string                     $format
      * @return BinaryFileResponse
      */
     public function exportPatients($request, string $format = 'xlsx'): BinaryFileResponse
     {
         $patientSearch = new PatientSearch($request);
         $export = new PatientExport($patientSearch);
-        
+
         return Excel::download($export, 'patients.' . $format);
     }
 
@@ -109,7 +109,7 @@ class ImportExportService
         try {
             $import = new PatientImport();
             Excel::import($import, $file);
-            
+
             return [
                 'success' => true,
                 'message' => 'Patients imported successfully.',
@@ -120,7 +120,7 @@ class ImportExportService
             if (DB::transactionLevel() > 0) {
                 DB::rollBack();
             }
-            
+
             return [
                 'success' => false,
                 'message' => 'Import failed: ' . $e->getMessage(),
@@ -129,22 +129,22 @@ class ImportExportService
             ];
         }
     }
-    
+
     /**
      * Export services using Laravel Excel
-     * 
+     *
      * @param ServiceSearchRequest|array $request
-     * @param string $format
+     * @param string                     $format
      * @return BinaryFileResponse
      */
     public function exportServices($request, string $format = 'xlsx'): BinaryFileResponse
     {
         $serviceSearch = new ServiceSearch($request);
         $export = new ServiceExport($serviceSearch);
-        
+
         return Excel::download($export, 'services.' . $format);
     }
-    
+
     /**
      * Import services data
      *
@@ -156,7 +156,7 @@ class ImportExportService
         try {
             $import = new ServiceImport();
             Excel::import($import, $file);
-            
+
             return [
                 'success' => true,
                 'message' => 'Services imported successfully.',
@@ -167,7 +167,7 @@ class ImportExportService
             if (DB::transactionLevel() > 0) {
                 DB::rollBack();
             }
-            
+
             return [
                 'success' => false,
                 'message' => 'Import failed: ' . $e->getMessage(),
@@ -176,22 +176,22 @@ class ImportExportService
             ];
         }
     }
-    
+
     /**
      * Export expenses using Laravel Excel
-     * 
+     *
      * @param ExpenseSearchRequest|array $request
-     * @param string $format
+     * @param string                     $format
      * @return BinaryFileResponse
      */
     public function exportExpenses($request, string $format = 'xlsx'): BinaryFileResponse
     {
         $expenseSearch = new ExpenseSearch($request);
         $export = new ExpenseExport($expenseSearch);
-        
+
         return Excel::download($export, 'expenses.' . $format);
     }
-    
+
     /**
      * Import expenses data
      *
@@ -203,7 +203,7 @@ class ImportExportService
         try {
             $import = new ExpenseImport();
             Excel::import($import, $file);
-            
+
             return [
                 'success' => true,
                 'message' => 'Expenses imported successfully.',
@@ -214,7 +214,7 @@ class ImportExportService
             if (DB::transactionLevel() > 0) {
                 DB::rollBack();
             }
-            
+
             return [
                 'success' => false,
                 'message' => 'Import failed: ' . $e->getMessage(),
@@ -223,22 +223,22 @@ class ImportExportService
             ];
         }
     }
-    
+
     /**
      * Export users using Laravel Excel
-     * 
+     *
      * @param UserSearchRequest|array $request
-     * @param string $format
+     * @param string                  $format
      * @return BinaryFileResponse
      */
     public function exportUsers($request, string $format = 'xlsx'): BinaryFileResponse
     {
         $userSearch = new UserSearch($request);
         $export = new UserExport($userSearch);
-        
+
         return Excel::download($export, 'users.' . $format);
     }
-    
+
     /**
      * Import users data
      *
@@ -250,7 +250,7 @@ class ImportExportService
         try {
             $import = new UserImport();
             Excel::import($import, $file);
-            
+
             return [
                 'success' => true,
                 'message' => 'Users imported successfully.',
@@ -261,7 +261,7 @@ class ImportExportService
             if (DB::transactionLevel() > 0) {
                 DB::rollBack();
             }
-            
+
             return [
                 'success' => false,
                 'message' => 'Import failed: ' . $e->getMessage(),
@@ -269,14 +269,13 @@ class ImportExportService
                 'failed' => 0
             ];
         }
-        
     }
-    
+
     /**
      * Export appointments using Laravel Excel
-     * 
+     *
      * @param AppointmentSearchRequest|array $request
-     * @param string $format
+     * @param string                         $format
      * @return BinaryFileResponse
      */
     public function exportAppointments($request, string $format = 'xlsx'): BinaryFileResponse
@@ -285,7 +284,7 @@ class ImportExportService
         $export = new AppointmentExport($appointmentSearch);
         return Excel::download($export, 'appointments.' . $format);
     }
-    
+
     /**
      * Import appointments data
      *
@@ -297,7 +296,7 @@ class ImportExportService
         try {
             $import = new AppointmentImport();
             Excel::import($import, $file);
-            
+
             return [
                 'success' => true,
                 'message' => 'Appointments imported successfully.',
@@ -308,7 +307,7 @@ class ImportExportService
             if (DB::transactionLevel() > 0) {
                 DB::rollBack();
             }
-            
+
             return [
                 'success' => false,
                 'message' => 'Import failed: ' . $e->getMessage(),
@@ -317,13 +316,13 @@ class ImportExportService
             ];
         }
     }
-    
+
     /**
      * Generic import method for backward compatibility
      *
-     * @param Request $request
-     * @param string $fileKey
-     * @param array $validationRules
+     * @param Request  $request
+     * @param string   $fileKey
+     * @param array    $validationRules
      * @param callable $rowProcessor
      * @return array
      */
@@ -337,7 +336,7 @@ class ImportExportService
         $validator = Validator::make($request->all(), [
             $fileKey => ['required', 'file', 'mimes:csv,xlsx,xls', 'max:10240'],
         ]);
-        
+
         if ($validator->fails()) {
             return [
                 'success' => false,
@@ -345,31 +344,31 @@ class ImportExportService
                 'errors' => $validator->errors(),
             ];
         }
-        
+
         try {
             $file = $request->file($fileKey);
             $filePath = $file->getRealPath();
-            
+
             // Read the file
             $handle = fopen($filePath, 'r');
-            
+
             // Read the header row
             $headers = fgetcsv($handle);
-            
+
             // Process the data rows
             $processed = 0;
             $failed = 0;
             $errors = [];
-            
+
             DB::beginTransaction();
-            
+
             while (($row = fgetcsv($handle)) !== false) {
                 // Convert to associative array
                 $data = array_combine($headers, $row);
-                
+
                 // Validate the row
                 $rowValidator = Validator::make($data, $validationRules);
-                
+
                 if ($rowValidator->fails()) {
                     $failed++;
                     $errors[] = [
@@ -378,7 +377,7 @@ class ImportExportService
                     ];
                     continue;
                 }
-                
+
                 // Process the row
                 try {
                     $rowProcessor($data);
@@ -391,9 +390,9 @@ class ImportExportService
                     ];
                 }
             }
-            
+
             fclose($handle);
-            
+
             if ($failed > 0 && $processed === 0) {
                 DB::rollBack();
                 return [
@@ -404,22 +403,22 @@ class ImportExportService
                     'errors' => $errors,
                 ];
             }
-            
+
             DB::commit();
-            
+
             return [
                 'success' => true,
-                'message' => $processed . ' records imported successfully' . ($failed > 0 ? ' with ' . $failed . ' failures.' : '.'),
+                'message' => $processed . ' records imported successfully' .
+                    ($failed > 0 ? ' with ' . $failed . ' failures.' : '.'),
                 'processed' => $processed,
                 'failed' => $failed,
                 'errors' => $errors,
             ];
-            
         } catch (\Exception $e) {
             if (DB::transactionLevel() > 0) {
                 DB::rollBack();
             }
-            
+
             return [
                 'success' => false,
                 'message' => 'Import failed: ' . $e->getMessage(),

@@ -16,7 +16,7 @@ class SettingsService
 
         $response = \Http::get('https://sp-today.com/en');
         if (!$response->successful()) {
-            abort(500, 'Failed to fetch the page content.' );
+            abort(500, 'Failed to fetch the page content.');
         }
 
         $html = $response->body();
@@ -405,7 +405,7 @@ class SettingsService
         ]);
         $data->chunk(10)->each(function ($chunk) {
             $dataToAdd = [];
-            foreach($chunk as $item) {
+            foreach ($chunk as $item) {
                 $response = \Http::withBody(
                     "type=content&tooth_id={$item['id']}&url1=SmilesByShields.com&key1=5597f7cf373faeae7dbda48cc8912ce2",
                     'application/x-www-form-urlencoded'
@@ -795,7 +795,6 @@ class SettingsService
             $imageContent = file_get_contents("https://meridiantoothchart.com/tooth/admin/tooth_image/" . $item['tooth_hover']);
             file_put_contents(public_path("/images/teeth/{$item['id']}_hover.png"), $imageContent);
         }
-
     }
 
     public function getTeethImages()

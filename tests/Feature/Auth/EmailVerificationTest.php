@@ -12,7 +12,7 @@ class EmailVerificationTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_email_verification_screen_can_be_rendered()
+    public function emailVerificationScreenCanBeRendered()
     {
         $user = User::factory()->create([
             'name' => 'Test User',
@@ -28,7 +28,7 @@ class EmailVerificationTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_email_can_be_verified()
+    public function emailCanBeVerified()
     {
         $user = User::factory()->create([
             'name' => 'Test User',
@@ -48,10 +48,10 @@ class EmailVerificationTest extends TestCase
             ->get($verificationUrl);
 
         $this->assertTrue($user->fresh()->hasVerifiedEmail());
-        $response->assertRedirect(url('/login').'?verified=1');
+        $response->assertRedirect(url('/login') . '?verified=1');
     }
 
-    public function test_email_is_not_verified_with_invalid_hash()
+    public function emailIsNotVerifiedWithInvalidHash()
     {
         $user = User::factory()->create([
             'name' => 'Test User',
@@ -71,16 +71,16 @@ class EmailVerificationTest extends TestCase
         // Act as the user and try to verify with invalid hash
         $response = $this->actingAs($user, 'web')
             ->get($verificationUrl);
-            
+
         // The verification should redirect with an error for web requests
         $response->assertStatus(302);
         $response->assertRedirectContains('login?verified=0&error=invalid_token');
-        
+
         // The user's email should still be unverified
         $this->assertFalse($user->fresh()->hasVerifiedEmail());
     }
 
-    public function test_email_verification_notification_is_sent_upon_registration()
+    public function emailVerificationNotificationIsSentUponRegistration()
     {
         Notification::fake();
 
@@ -107,7 +107,7 @@ class EmailVerificationTest extends TestCase
         Notification::assertSentTo($user, \App\Notifications\VerifyEmailNotification::class);
     }
 
-    public function test_verified_user_can_access_protected_routes()
+    public function verifiedUserCanAccessProtectedRoutes()
     {
         $user = User::factory()->create([
             'name' => 'Test User',
@@ -126,7 +126,7 @@ class EmailVerificationTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_unverified_user_cannot_access_protected_routes()
+    public function unverifiedUserCannotAccessProtectedRoutes()
     {
         // Create an unverified user
         $user = User::factory()->create([
@@ -153,19 +153,19 @@ class EmailVerificationTest extends TestCase
             'Authorization' => 'Bearer ' . $token,
             'Accept' => 'application/json',
         ])->getJson('/api/v1/teeth');
-        
+
         // The API should return a 403 status code for unverified users
         $response->assertStatus(403);
         $response->assertJson([
             'message' => 'Your email address is not verified.',
             'verification_required' => true
         ]);
-        
+
         // Verify the user is still unverified
         $this->assertFalse($user->fresh()->hasVerifiedEmail());
     }
 
-    public function test_user_can_resend_verification_email()
+    public function userCanResendVerificationEmail()
     {
         Notification::fake();
 
@@ -184,7 +184,7 @@ class EmailVerificationTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_password_must_meet_complexity_requirements()
+    public function passwordMustMeetComplexityRequirements()
     {
         // Test with password that doesn't meet complexity requirements
         $response = $this->postJson('/api/v1/register', [

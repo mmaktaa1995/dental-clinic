@@ -26,8 +26,8 @@ class RoleSearch extends BaseSearch
             ->with('permissions')
             ->when($this->query, fn($query) => $query->where('name', 'like', '%' . $this->query . '%')
                 ->orWhere('slug', 'like', '%' . $this->query . '%'))
-            ->when($this->permission, function($query) {
-                return $query->whereHas('permissions', function($q) {
+            ->when($this->permission, function ($query) {
+                return $query->whereHas('permissions', function ($q) {
                     $q->where('slug', $this->permission);
                 });
             });

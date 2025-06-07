@@ -16,7 +16,7 @@ class PatientSearch extends BaseSearch
     protected ?string $gender = null;
     protected ?string $fromDate = null;
     protected ?string $toDate = null;
-    
+
     /**
      * PatientSearch constructor.
      *

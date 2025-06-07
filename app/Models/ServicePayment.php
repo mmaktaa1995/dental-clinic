@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Eng.MohammEd
@@ -22,7 +23,7 @@ class ServicePayment extends Pivot
      * @var string
      */
     protected $table = 'service_payments';
-    
+
     /**
      * The attributes that are mass assignable.
      *

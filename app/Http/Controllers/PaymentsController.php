@@ -23,17 +23,27 @@ class PaymentsController extends Controller
 
         $totalPayments = Payment::when($patient->exists, function ($query) use ($patient) {
             $query->where('patient_id', $patient->id);
-        })->where('user_id', auth()->id())
-            ->sum('amount');
+        })
+        ->where('user_id', auth()->id())
+        ->sum('amount');
+
         $totalRemainingPayments = Payment::when($patient->exists, function ($query) use ($patient) {
             $query->where('patient_id', $patient->id);
-        })->where('user_id', auth()->id())
-            ->sum('remaining_amount');
+        })
+        ->where('user_id', auth()->id())
+        ->sum('remaining_amount');
 
-        return response()->json(BaseCollection::make($patientPaymentsSearch->getEntries(), PaymentResource::class, 'entries', [
-            'total_payments' => $totalPayments,
-            'total_remaining_payments' => $totalRemainingPayments,
-        ]));
+        return response()->json(
+            BaseCollection::make(
+                $patientPaymentsSearch->getEntries(),
+                PaymentResource::class,
+                'entries',
+                [
+                    'total_payments' => $totalPayments,
+                    'total_remaining_payments' => $totalRemainingPayments,
+                ]
+            )
+        );
     }
 
     public function store(PaymentRequest $request): JsonResponse
@@ -53,9 +63,9 @@ class PaymentsController extends Controller
             $visit = Visit::create($data);
 
             if ($remainingAmountPayment) {
-                if ($amount > $remainingAmountPayment->remaining_amount)
+                if ($amount > $remainingAmountPayment->remaining_amount) {
                     $data['remaining_amount'] = 0;
-                else {
+                } else {
                     $data['remaining_amount'] = $remainingAmountPayment->remaining_amount - $amount;
                 }
             }
@@ -117,8 +127,10 @@ class PaymentsController extends Controller
         }
 
         return response()->json([
-            'url' => action([UploadFilesController::class, 'show'],
-                ['folder' => 'patients', 'name' => $fileName, 'type' => 'pdf'])]);
+            'url' => action(
+                [UploadFilesController::class, 'show'],
+                ['folder' => 'patients', 'name' => $fileName, 'type' => 'pdf']
+            )]);
     }
 
     public function restore(Payment $payment): JsonResponse

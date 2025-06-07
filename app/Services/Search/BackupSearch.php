@@ -24,7 +24,7 @@ class BackupSearch extends BaseSearch
      * Constructor
      *
      * @param SearchRequest|array $request
-     * @param BackupService $backupService
+     * @param BackupService       $backupService
      */
     public function __construct($request, BackupService $backupService)
     {
@@ -55,16 +55,16 @@ class BackupSearch extends BaseSearch
     {
         // Get all backups from the service
         $backups = $this->backupService->listBackups();
-        
+
         // Convert to collection for filtering
         $collection = collect($backups);
-        
+
         // Apply filters
         $filtered = $this->applyFilters($collection);
-        
+
         // Apply sorting
         $sorted = $this->applySort($filtered);
-        
+
         // Apply pagination
         return $this->applyPagination($sorted);
     }
@@ -83,27 +83,27 @@ class BackupSearch extends BaseSearch
                 return str_contains(strtolower($backup['filename']), strtolower($this->filename));
             });
         }
-        
+
         // Filter by query (search in filename)
         if ($this->query) {
             $collection = $collection->filter(function ($backup) {
                 return str_contains(strtolower($backup['filename']), strtolower($this->query));
             });
         }
-        
+
         // Filter by date range
         if ($this->fromDate) {
             $collection = $collection->filter(function ($backup) {
                 return strtotime($backup['created_at']) >= strtotime($this->fromDate);
             });
         }
-        
+
         if ($this->toDate) {
             $collection = $collection->filter(function ($backup) {
                 return strtotime($backup['created_at']) <= strtotime($this->toDate);
             });
         }
-        
+
         return $collection;
     }
 
@@ -117,7 +117,7 @@ class BackupSearch extends BaseSearch
     {
         $orderBy = $this->order['by'] ?? 'created_at';
         $orderDesc = $this->order['desc'] ?? true;
-        
+
         return $collection->sortBy($orderBy, SORT_REGULAR, $orderDesc);
     }
 
@@ -131,7 +131,7 @@ class BackupSearch extends BaseSearch
     {
         $page = $this->page ?? 1;
         $perPage = $this->perPage ?? 10;
-        
+
         return new LengthAwarePaginator(
             $collection->forPage($page, $perPage),
             $collection->count(),

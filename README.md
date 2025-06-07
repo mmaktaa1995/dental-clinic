@@ -1,49 +1,189 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Dental Clinic Management System
 
 <p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel">
+  
+  <p align="center">
+    <a href="https://packagist.org/packages/laravel/framework">
+      <img src="https://img.shields.io/packagist/v/laravel/framework" alt="Laravel Version">
+    </a>
+    <a href="https://packagist.org/packages/laravel/framework">
+      <img src="https://img.shields.io/packagist/l/laravel/framework" alt="License">
+    </a>
+    <a href="https://github.com/psf/black">
+      <img alt="Code style: PSR-12" src="https://img.shields.io/badge/code%20style-PSR--12-1f425f.svg">
+    </a>
+  </p>
 </p>
 
-## About Laravel
+A comprehensive dental clinic management system built with Laravel 10, featuring patient management, appointment scheduling, treatment tracking, and more.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Patient Management**: Comprehensive patient records and history
+- **Appointment Scheduling**: Easy booking and management of appointments
+- **Treatment Planning**: Create and track treatment plans for patients
+- **Billing & Invoicing**: Generate and manage invoices and payments
+- **Role-Based Access Control**: Secure access control with fine-grained permissions
+- **API-First Design**: RESTful API for all functionality
+- **Modern Frontend**: Built with Vue.js and Inertia.js
+- **Responsive Design**: Works on all devices
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Development Setup
 
-## Learning Laravel
+### Prerequisites
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- PHP 8.1+
+- Composer
+- Node.js 16+
+- MySQL 8.0+
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Installation
 
-## Laravel Sponsors
+1. Clone the repository:
+   ```bash
+   git clone [repository-url]
+   cd dental-clinic
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+2. Install PHP dependencies:
+   ```bash
+   composer install
+   ```
 
-### Premium Partners
+3. Install JavaScript dependencies:
+   ```bash
+   npm install
+   ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/)**
-- **[OP.GG](https://op.gg)**
+4. Copy the environment file:
+   ```bash
+   cp .env.example .env
+   ```
+
+5. Generate application key:
+   ```bash
+   php artisan key:generate
+   ```
+
+6. Configure your `.env` file with database credentials and other settings.
+
+7. Run migrations and seed the database:
+   ```bash
+   php artisan migrate --seed
+   ```
+
+8. Start the development server:
+   ```bash
+   php artisan serve
+   ```
+
+9. In a new terminal, start Vite for frontend assets:
+   ```bash
+   npm run dev
+   ```
+
+## Code Quality
+
+This project follows PSR-12 coding standards and includes several tools to maintain code quality:
+
+### PHP_CodeSniffer
+
+Check for coding standard violations:
+```bash
+composer check-style
+```
+
+Automatically fix fixable issues:
+```bash
+composer fix-style
+```
+
+### PHP-CS-Fixer
+
+Automatically fix coding style issues:
+```bash
+./vendor/bin/php-cs-fixer fix
+```
+
+### PHPStan
+
+Run static analysis:
+```bash
+composer analyse
+```
+
+### Pre-commit Hook
+
+A pre-commit hook is included to automatically check code style before each commit. It will:
+1. Run PHP-CS-Fixer to fix style issues
+2. Run PHP_CodeSniffer to check for remaining issues
+3. Prevent the commit if there are unfixable issues
+
+## Testing
+
+Run the test suite:
+
+```bash
+php artisan test
+```
+
+## Security Vulnerabilities
+
+Please review [our security policy](SECURITY.md) on how to report security vulnerabilities.
+
+## License
+
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Development Scripts
+
+### Setup Development Environment
+
+Run the setup script to prepare your development environment:
+
+```bash
+./setup-dev.sh
+```
+
+This will:
+1. Install PHP and Node.js dependencies
+2. Generate application key
+3. Create storage link
+4. Run database migrations
+5. Seed the database
+6. Clear caches
+7. Install pre-commit hook
+
+### Code Style Fixes
+
+#### Fix Test Method Names
+
+To fix test method names to follow camelCase convention:
+
+```bash
+./update-test-methods.sh
+```
+
+#### Fix Line Lengths
+
+To fix line length issues in test files:
+
+```bash
+php fix-test-line-lengths.php
+```
+
+## Contributing
+
+Thank you for considering contributing to the project! Please read the [contribution guidelines](CONTRIBUTING.md) before submitting pull requests.
+
+## Learning Resources
+
+- [Laravel Documentation](https://laravel.com/docs)
+- [Laracasts](https://laracasts.com)
+- [Laravel News](https://laravel-news.com)
+- [Vue.js Documentation](https://vuejs.org/guide/)
+- [Inertia.js Documentation](https://inertiajs.com/)
 
 ## Contributing
 

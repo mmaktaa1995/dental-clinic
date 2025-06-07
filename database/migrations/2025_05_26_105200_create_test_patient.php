@@ -14,7 +14,7 @@ class CreateTestPatient extends Migration
     {
         // Get or create a test user
         $user = DB::table('users')->first();
-        
+
         if (!$user) {
             $userId = DB::table('users')->insertGetId([
                 'name' => 'Test User',
@@ -51,7 +51,7 @@ class CreateTestPatient extends Migration
     {
         // Remove the test patient
         DB::table('patients')->where('file_number', 'TEST-123')->delete();
-        
+
         // Optionally remove the test user if it was created by this migration
         // DB::table('users')->where('email', 'test@example.com')->delete();
     }

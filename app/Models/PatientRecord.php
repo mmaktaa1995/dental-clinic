@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class PatientRecord extends Model
 {
     use HasFactory;
+
     protected $fillable = ['patient_id', 'symptoms', 'diagnosis', 'record_date'];
     protected $casts = [
         'record_date' => 'datetime',
@@ -29,4 +30,3 @@ class PatientRecord extends Model
             ->withPivot(['description', 'is_treated']);
     }
 }
-

@@ -27,7 +27,7 @@ class AppointmentController extends Controller
     {
         $data = $request->validated();
         $data['user_id'] = auth()->id();
-        
+
         $appointment = $this->appointmentService->createAppointment($data);
 
         return response()->json([

@@ -12,5 +12,3 @@ Route::get('statistics/revenue', [StatisticsController::class, 'revenue']);
 Route::get('statistics/services', [StatisticsController::class, 'services']);
 Route::get('statistics/expenses', [StatisticsController::class, 'expenses']);
 Route::get('statistics/appointments', [StatisticsController::class, 'appointments']);
-
-

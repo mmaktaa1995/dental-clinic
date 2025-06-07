@@ -11,14 +11,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class PatientFile extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+    use SoftDeletes;
+
     protected $fillable = ['file', 'patient_id', 'user_id', 'type', 'file_name'];
-    
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-    
+
     public function patient()
     {
         return $this->belongsTo(Patient::class);
@@ -32,5 +34,4 @@ class PatientFile extends Model
             \Storage::disk('public')->delete($filePath);
         });
     }
-
 }

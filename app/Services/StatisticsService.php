@@ -38,12 +38,12 @@ class StatisticsService
             )
         ];
     }
-    
+
     public function getPatientGrowth(): array
     {
         $startDate = $this->getStartDate();
         $endDate = $this->getEndDate();
-        
+
         $stats = $this->reportService->getNewPatientsStatistics($startDate, $endDate);
         $previousPeriod = $this->reportService->getNewPatientsStatistics(
             $startDate->copy()->subMonths(3),
@@ -57,12 +57,12 @@ class StatisticsService
             'growth_trend' => $this->getGrowthTrendData($startDate, $endDate)
         ];
     }
-    
+
     public function getRevenue(): array
     {
         $startDate = $this->getStartDate();
         $endDate = $this->getEndDate();
-        
+
         $revenue = $this->reportService->getRevenueStatistics($startDate, $endDate);
         $previousPeriod = $this->reportService->getRevenueStatistics(
             $startDate->copy()->subMonths(3),
@@ -82,7 +82,7 @@ class StatisticsService
             )
         ];
     }
-    
+
     public function getServices(): array
     {
         return [
@@ -90,12 +90,12 @@ class StatisticsService
             'service_categories' => []
         ];
     }
-    
+
     public function getAppointments(): array
     {
         $startDate = $this->getStartDate();
         $endDate = $this->getEndDate();
-        
+
         $appointments = $this->reportService->getAppointmentStatistics($startDate, $endDate);
         $byStatus = $this->reportService->getAppointmentsByStatus($startDate, $endDate);
 
@@ -172,7 +172,7 @@ class StatisticsService
 
         return Carbon::create($year, $month, $day)->endOfDay();
     }
-    
+
     private function calculateGrowthRate(float $current, float $previous): float
     {
         if ($previous === 0.0) {
@@ -180,24 +180,24 @@ class StatisticsService
         }
         return round((($current - $previous) / abs($previous)) * 100, 2);
     }
-    
+
     private function getGrowthTrendData(CarbonInterface $startDate, CarbonInterface $endDate): array
     {
         $period = $startDate->diffInMonths($endDate);
         $data = [];
-        
+
         for ($i = $period; $i >= 0; $i--) {
             $date = $endDate->copy()->subMonths($i);
             $monthStart = $date->copy()->startOfMonth();
             $monthEnd = $date->copy()->endOfMonth();
-            
+
             $stats = $this->reportService->getNewPatientsStatistics($monthStart, $monthEnd);
             $data[] = [
                 'period' => $monthStart->format('M Y'),
                 'count' => $stats['new_patients'] ?? 0
             ];
         }
-        
+
         return $data;
     }
 

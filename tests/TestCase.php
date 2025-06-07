@@ -10,7 +10,8 @@ use Laravel\Sanctum\Sanctum;
 
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication, RefreshDatabase;
+    use CreatesApplication;
+    use RefreshDatabase;
 
     /**
      * Setup the test environment.
@@ -18,12 +19,12 @@ abstract class TestCase extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         // Skip the data migration during tests
         if (!defined('PHPUNIT_DENTAL_TESTSUITE')) {
             define('PHPUNIT_DENTAL_TESTSUITE', true);
         }
-        
+
         // Enable foreign key constraints for SQLite
         if (\DB::connection() instanceof \Illuminate\Database\SQLiteConnection) {
             \DB::statement('PRAGMA foreign_keys=on;');
@@ -32,7 +33,7 @@ abstract class TestCase extends BaseTestCase
             config(['database.default' => 'sqlite']);
             config(['database.connections.sqlite.database' => ':memory:']);
         }
-        
+
         // Run migrations and seed the database
         $this->artisan('migrate:fresh');
         $this->seed(TestDatabaseSeeder::class);
@@ -41,17 +42,17 @@ abstract class TestCase extends BaseTestCase
     /**
      * Sign in a user for testing.
      *
-     * @param  \App\Models\User|null  $user
+     * @param  \App\Models\User|null $user
      * @return $this
      */
     public function signIn($user = null)
     {
         $user = $user ?: User::first();
         Sanctum::actingAs($user, ['*'], 'api');
-        
+
         return $this;
     }
-    
+
     /**
      * Get the test user.
      *

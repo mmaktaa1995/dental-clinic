@@ -18,7 +18,7 @@ use Closure;
 class PermissionMiddlewareTest extends TestCase
 {
     use RefreshDatabase;
-    
+
     protected Request $request;
     protected Closure $next;
     protected Response $response;
@@ -26,7 +26,7 @@ class PermissionMiddlewareTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         // Mock request and response
         $this->request = new Request();
         $this->response = new Response('Test Response');
@@ -58,7 +58,7 @@ class PermissionMiddlewareTest extends TestCase
         // Create user with role
         $user = User::factory()->create();
         $user->roles()->attach($role);
-        
+
         // Retrieve a fresh instance of the user to ensure correct type
         $authenticatedUser = User::find($user->id);
 
@@ -99,7 +99,7 @@ class PermissionMiddlewareTest extends TestCase
         // Create user with role
         $user = User::factory()->create();
         $user->roles()->attach($role);
-        
+
         // Retrieve a fresh instance of the user to ensure correct type
         $authenticatedUser = User::find($user->id);
 
@@ -144,7 +144,7 @@ class PermissionMiddlewareTest extends TestCase
         // Create user with role
         $user = User::factory()->create();
         $user->roles()->attach($role);
-        
+
         // Retrieve a fresh instance of the user to ensure correct type
         $authenticatedUser = User::find($user->id);
 
@@ -185,7 +185,7 @@ class PermissionMiddlewareTest extends TestCase
         // Create user with role
         $user = User::factory()->create();
         $user->roles()->attach($role);
-        
+
         // Retrieve a fresh instance of the user to ensure correct type
         $authenticatedUser = User::find($user->id);
 
@@ -236,7 +236,7 @@ class PermissionMiddlewareTest extends TestCase
         // Create user with role
         $user = User::factory()->create();
         $user->roles()->attach($role);
-        
+
         // Retrieve a fresh instance of the user to ensure correct type
         $authenticatedUser = User::find($user->id);
 
@@ -277,7 +277,7 @@ class PermissionMiddlewareTest extends TestCase
         // Create user with role
         $user = User::factory()->create();
         $user->roles()->attach($role);
-        
+
         // Retrieve a fresh instance of the user to ensure correct type
         $authenticatedUser = User::find($user->id);
 
@@ -314,16 +314,26 @@ class PermissionMiddlewareTest extends TestCase
 
         // Execute middleware
         $response1 = $permissionMiddleware->handle($this->request, $this->next, 'view-patient-records');
-        $response2 = $anyPermissionMiddleware->handle($this->request, $this->next, 'view-patient-records', 'register-patients');
-        $response3 = $allPermissionsMiddleware->handle($this->request, $this->next, 'view-patient-records', 'register-patients');
+        $response2 = $anyPermissionMiddleware->handle(
+            $this->request,
+            $this->next,
+            'view-patient-records',
+            'register-patients'
+        );
+        $response3 = $allPermissionsMiddleware->handle(
+            $this->request,
+            $this->next,
+            'view-patient-records',
+            'register-patients'
+        );
 
         // Assert middleware denies access
         $this->assertEquals(401, $response1->getStatusCode());
         $this->assertEquals(json_encode(['message' => 'Unauthenticated.']), $response1->getContent());
-        
+
         $this->assertEquals(401, $response2->getStatusCode());
         $this->assertEquals(json_encode(['message' => 'Unauthenticated.']), $response2->getContent());
-        
+
         $this->assertEquals(401, $response3->getStatusCode());
         $this->assertEquals(json_encode(['message' => 'Unauthenticated.']), $response3->getContent());
     }

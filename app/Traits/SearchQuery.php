@@ -6,9 +6,29 @@ trait SearchQuery
 {
     public static function getAll($params, $count = false, $withTrashed = false)
     {
-        $params['fromDate'] = isset($params['fromDate']) && $params['fromDate'] ? date('Y-m-d', strtotime(explode('T', str_replace('"', '', $params['fromDate']))[0])) : null;
-        $params['toDate'] = isset($params['toDate']) && $params['toDate'] ? date('Y-m-d', strtotime(explode('T', str_replace('"', '', $params['toDate']))[0])) : null;
-        $params['date'] = isset($params['date']) && $params['date'] ? date('Y-m-d', strtotime(explode('T', str_replace('"', '', $params['date']))[0])) : null;
+        if (isset($params['fromDate']) && $params['fromDate']) {
+            $params['fromDate'] = date('Y-m-d', strtotime(
+                explode('T', str_replace('"', '', $params['fromDate']))[0]
+            ));
+        } else {
+            $params['fromDate'] = null;
+        }
+
+        if (isset($params['toDate']) && $params['toDate']) {
+            $params['toDate'] = date('Y-m-d', strtotime(
+                explode('T', str_replace('"', '', $params['toDate']))[0]
+            ));
+        } else {
+            $params['toDate'] = null;
+        }
+
+        if (isset($params['date']) && $params['date']) {
+            $params['date'] = date('Y-m-d', strtotime(
+                explode('T', str_replace('"', '', $params['date']))[0]
+            ));
+        } else {
+            $params['date'] = null;
+        }
 
         // Add all your patterns and replacement in these arrays
 //        $patterns     = array( "/(ا|أ|آ)/", "/(ه|ة)/" );
@@ -45,7 +65,6 @@ trait SearchQuery
                             }
                         }
                     };
-
                 }
             }
         }
@@ -114,5 +133,4 @@ trait SearchQuery
 
         return $query->paginate($params['per_page']);
     }
-
 }

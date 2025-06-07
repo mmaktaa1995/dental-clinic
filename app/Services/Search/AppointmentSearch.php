@@ -15,7 +15,7 @@ class AppointmentSearch extends BaseSearch
     protected ?string $endDate = null;
     protected ?int $patientId = null;
     protected ?string $notes = null;
-    
+
     /**
      * AppointmentSearch constructor.
      *

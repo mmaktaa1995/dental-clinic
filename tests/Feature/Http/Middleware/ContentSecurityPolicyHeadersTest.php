@@ -10,7 +10,7 @@ class ContentSecurityPolicyHeadersTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_sets_content_security_policy_headers()
+    public function setsContentSecurityPolicyHeaders()
     {
         $response = $this->get('/');
 

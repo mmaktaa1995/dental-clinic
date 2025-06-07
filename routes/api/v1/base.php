@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Base API routes file.
+ *
+ * This file contains the base API routes including authentication,
+ * file uploads, and other core API endpoints.
+ */
+
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\VerificationController;
@@ -23,8 +30,8 @@ use Illuminate\Support\Facades\Route;
  * )
  */
 
-// Public routes with rate limiting
-Route::middleware('throttle:60,1')->group(function () {
+// Public routes with authentication rate limiting
+Route::middleware('throttle:auth')->group(function () {
     /**
      * @OA\Post(
      *     path="/api/v1/login",
@@ -48,38 +55,23 @@ Route::middleware('throttle:60,1')->group(function () {
      *     @OA\Response(response=401, description="Invalid credentials")
      * )
      */
-    Route::post('login', [LoginController::class, 'login'])->name('login');
+    // Authentication endpoints with stricter rate limiting
+    Route::post('login', [LoginController::class, 'login'])
+        ->middleware('throttle:auth')
+        ->name('login');
 
-    /**
-     * @OA\Post(
-     *     path="/api/v1/register",
-     *     tags={"Authentication"},
-     *     summary="Register a new user",
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             required={"name","email","password","password_confirmation"},
-     *             @OA\Property(property="name", type="string", example="John Doe"),
-     *             @OA\Property(property="email", type="string", format="email", example="user@example.com"),
-     *             @OA\Property(property="password", type="string", format="password", example="password"),
-     *             @OA\Property(property="password_confirmation", type="string", format="password")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=201,
-     *         description="User registered successfully",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="User registered successfully")
-     *         )
-     *     ),
-     *     @OA\Response(response=422, description="Validation error")
-     * )
-     */
-    Route::post('register', [RegisterController::class, 'register'])->name('register');
-    
-    // File upload routes
-    Route::post('upload', [UploadFilesController::class, 'store'])->name('upload.save');
-    Route::get('upload/{folder}/{name}/{type}', [UploadFilesController::class, 'show'])->name('upload.show');
+    Route::post('register', [RegisterController::class, 'register'])
+        ->middleware('throttle:auth')
+        ->name('register');
+});
+
+// File upload routes with upload-specific rate limiting
+Route::middleware('throttle:uploads')->group(function () {
+    Route::post('upload', [UploadFilesController::class, 'store'])
+        ->name('upload.save');
+
+    Route::get('upload/{folder}/{name}/{type}', [UploadFilesController::class, 'show'])
+        ->name('upload.show');
 
     /**
      * @OA\Post(
@@ -132,7 +124,7 @@ Route::middleware('throttle:60,1')->group(function () {
  * )
  */
 Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
-    ->middleware(['signed', 'throttle:6,1'])
+    ->middleware(['signed', 'throttle:auth'])
     ->name('verification.verify');
 
 /**
@@ -152,11 +144,11 @@ Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'verify']
  * )
  */
 Route::post('email/resend', [VerificationController::class, 'resend'])
-    ->middleware(['auth:sanctum', 'throttle:6,1'])
+    ->middleware(['auth:sanctum', 'throttle:auth'])
     ->name('verification.resend');
 
-// More strict rate limiting for file operations
-Route::middleware('throttle:10,1')->group(function () {
+// File deletion with upload rate limiting
+Route::middleware('throttle:uploads')->group(function () {
     /**
      * @OA\Delete(
      *     path="/api/v1/upload/{folder}/{type}",
@@ -195,8 +187,8 @@ Route::middleware('throttle:10,1')->group(function () {
  * )
  */
 
-// Authenticated routes with rate limiting
-Route::middleware(['auth:sanctum', 'throttle:120,1'])->group(function () {
+// Authenticated routes with API rate limiting
+Route::middleware(['auth:sanctum', 'throttle:api'])->group(function () {
     /**
      * @OA\Post(
      *     path="/api/v1/logout",
@@ -233,17 +225,17 @@ Route::middleware(['auth:sanctum', 'throttle:120,1'])->group(function () {
     // Routes that require email verification
     Route::middleware(['api.verified'])->group(function () {
         // Include all versioned route files
-        require __DIR__.'/patients.php';
-        require __DIR__.'/appointments.php';
-        require __DIR__.'/services.php';
-        require __DIR__.'/users.php';
-        require __DIR__.'/roles.php';
-        require __DIR__.'/payments.php';
-        require __DIR__.'/expenses.php';
-        require __DIR__.'/debits.php';
-        require __DIR__.'/statistics.php';
-        require __DIR__.'/backups.php';
-        require __DIR__.'/import-export.php';
+        require __DIR__ . '/patients.php';
+        require __DIR__ . '/appointments.php';
+        require __DIR__ . '/services.php';
+        require __DIR__ . '/users.php';
+        require __DIR__ . '/roles.php';
+        require __DIR__ . '/payments.php';
+        require __DIR__ . '/expenses.php';
+        require __DIR__ . '/debits.php';
+        require __DIR__ . '/statistics.php';
+        require __DIR__ . '/backups.php';
+        require __DIR__ . '/import-export.php';
 
         // Home and utility routes
         Route::get('currencies/exchange-rate', [HomeController::class, 'getUsdExchangeRate']);

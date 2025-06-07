@@ -13,7 +13,7 @@ class LoginAttemptsTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_locks_account_after_too_many_failed_attempts()
+    public function locksAccountAfterTooManyFailedAttempts()
     {
         $user = User::factory()->create([
             'name' => 'Test User',
@@ -59,7 +59,7 @@ class LoginAttemptsTest extends TestCase
     }
 
     /** @test */
-    public function it_resets_attempts_after_successful_login()
+    public function resetsAttemptsAfterSuccessfulLogin()
     {
         $user = User::factory()->create([
             'name' => 'Test User',

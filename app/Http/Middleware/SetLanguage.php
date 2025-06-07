@@ -10,7 +10,7 @@ class SetLanguage
      * Handle an incoming request.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Closure $next
+     * @param \Closure                 $next
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -20,5 +20,4 @@ class SetLanguage
         \App::setLocale($lang ?? \App::getLocale());
         return $next($request);
     }
-
 }

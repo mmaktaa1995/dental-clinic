@@ -11,7 +11,7 @@ class SanitizeInputTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_sanitizes_input_data()
+    public function sanitizesInputData()
     {
         // Create a test route that returns the request input
         $this->app['router']->post('/test-sanitize', function (\Illuminate\Http\Request $request) {
@@ -31,11 +31,11 @@ class SanitizeInputTest extends TestCase
         ];
 
         $response = $this->post('/test-sanitize', $maliciousInput);
-        
+
         $response->assertStatus(200);
-        
+
         $data = $response->json();
-        
+
         // Assert that HTML tags are stripped or escaped
         $this->assertEquals('&lt;script&gt;alert(&quot;XSS&quot;)&lt;/script&gt;Test', $data['html']);
         $this->assertEquals('onclick=&quot;alert(&apos;XSS&apos;)&quot;', $data['onclick']);
@@ -43,14 +43,14 @@ class SanitizeInputTest extends TestCase
         $this->assertStringStartsWith('style=&quot;', $data['style']);
         $this->assertStringEndsWith('&quot;', $data['style']);
         $this->assertStringContainsString('width:', $data['style']);
-        
+
         // Test nested data
         $this->assertEquals('&lt;b&gt;Bold&lt;/b&gt;', $data['nested']['html']);
         $this->assertEquals('&lt;script&gt;alert(1)&lt;/script&gt;', $data['nested']['script']);
     }
 
     /** @test */
-    public function it_allows_safe_html_when_needed()
+    public function allowsSafeHtmlWhenNeeded()
     {
         // Create a test route that returns the request input
         $this->app['router']->post('/test-safe-html', function (\Illuminate\Http\Request $request) {
@@ -65,15 +65,18 @@ class SanitizeInputTest extends TestCase
         ];
 
         $response = $this->post('/test-safe-html', $safeHtml);
-        
+
         $response->assertStatus(200);
-        
+
         $data = $response->json();
-        
+
         // Assert that HTML is properly escaped for security
         $this->assertEquals('&lt;b&gt;Bold text&lt;/b&gt;', $data['bold']);
         $this->assertEquals('&lt;a href=&quot;https://example.com&quot;&gt;Link&lt;/a&gt;', $data['link']);
         $this->assertEquals('&lt;p&gt;Paragraph&lt;/p&gt;', $data['paragraph']);
-        $this->assertEquals('&lt;ul&gt;&lt;li&gt;Item 1&lt;/li&gt;&lt;li&gt;Item 2&lt;/li&gt;&lt;/ul&gt;', $data['list']);
+        $this->assertEquals(
+            '&lt;ul&gt;&lt;li&gt;Item 1&lt;/li&gt;&lt;li&gt;Item 2&lt;/li&gt;&lt;/ul&gt;',
+            $data['list']
+        );
     }
 }

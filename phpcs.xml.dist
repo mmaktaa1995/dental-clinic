@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<ruleset name="Dental Clinic">
+    <description>PHP_CodeSniffer configuration for Dental Clinic project</description>
+
+    <!-- Show progress -->
+    <arg value="sp"/>
+    
+    <!-- Show sniff and source of warnings/errors -->
+    <arg value="s"/>
+    
+    <!-- Show colored output -->
+    <arg name="colors"/>
+    
+    <!-- Show warnings (0 = ignore, 1 = show, 2 = show and record, 3 = fix) -->
+    <arg value="w"/>
+    
+    <!-- Check specific directories -->
+    <file>app</file>
+    <file>config</file>
+    <file>routes</file>
+    <file>tests</file>
+    
+    <!-- Exclude patterns -->
+    <exclude-pattern>*/database/migrations/*</exclude-pattern>
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/storage/*</exclude-pattern>
+    <exclude-pattern>*/bootstrap/cache/*</exclude-pattern>
+    <exclude-pattern>*/node_modules/*</exclude-pattern>
+    <exclude-pattern>*/public/*</exclude-pattern>
+    <exclude-pattern>*/resources/views/*</exclude-pattern>
+    
+    <!-- Include the PSR12 standard with some exclusions -->
+    <rule ref="PSR12">
+        <exclude name="PSR1.Classes.ClassDeclaration.MissingNamespace"/>
+        <exclude name="PSR12.Files.ImportStatement.LeadingSlash"/>
+        <exclude name="PSR12.Operators.OperatorSpacing.NoSpaceBefore"/>
+        <exclude name="PSR12.Operators.OperatorSpacing.NoSpaceAfter"/>
+    </rule>
+    
+    <!-- Custom line length -->
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="150"/>
+            <property name="absoluteLineLimit" value="150"/>
+        </properties>
+    </rule>
+    
+    <!-- Ignore line length in tests -->
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="150"/>
+            <property name="absoluteLineLimit" value="160"/>
+        </properties>
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+    
+    <!-- Additional rules -->
+    <rule ref="Generic.PHP.DisallowShortOpenTag"/>
+    <rule ref="Generic.PHP.DisallowAlternativePHPTags"/>
+    
+    <!-- Disable some generic rules that conflict with PSR-12 -->
+    <rule ref="Generic.Files.LineEndings">
+        <properties>
+            <property name="eolChar" value="\n"/>
+        </properties>
+    </rule>
+    
+    
+    <!-- Allow for empty catch blocks with just a comment -->
+    <rule ref="Generic.CodeAnalysis.EmptyStatement">
+        <exclude name="Generic.CodeAnalysis.EmptyStatement.DetectedCatch"/>
+    </rule>
+    
+    <!-- Allow for unused private methods (they might be used by Laravel) -->
+    <rule ref="Squiz.PHP.NonExecutableCode">
+        <exclude-pattern>*/app/Console/Commands/*</exclude-pattern>
+    </rule>
+</ruleset>

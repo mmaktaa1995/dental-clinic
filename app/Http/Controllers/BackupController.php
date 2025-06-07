@@ -43,19 +43,19 @@ class BackupController extends Controller
     {
         // Log the attempt to list backups
         SensitiveOperationsLogger::attempt('list', 'backups', null, $request->validated());
-        
+
         try {
             // Use the BackupSearch class to get paginated results
             $search = new BackupSearch($request, $this->backupService);
             $paginatedBackups = $search->getEntries();
-            
+
             // Log successful backup listing
             SensitiveOperationsLogger::success('list', 'backups', null, [
                 'count' => $paginatedBackups->total(),
                 'page' => $paginatedBackups->currentPage(),
                 'per_page' => $paginatedBackups->perPage()
             ]);
-            
+
             // Use BaseCollection with BackupResource for consistent response format
             return response()->json(
                 BaseCollection::make($paginatedBackups, BackupResource::class)
@@ -65,7 +65,7 @@ class BackupController extends Controller
             SensitiveOperationsLogger::failure('list', 'backups', null, [
                 'error' => $e->getMessage()
             ]);
-            
+
             return response()->json([
                 'message' => 'Failed to retrieve backups: ' . $e->getMessage()
             ], 500);
@@ -81,17 +81,17 @@ class BackupController extends Controller
     {
         // Log the attempt to create a backup
         SensitiveOperationsLogger::attempt('create', 'backup', null, []);
-        
+
         try {
             $result = $this->backupService->createFullBackup();
-            
+
             if ($result['success']) {
                 // Log successful backup creation
                 SensitiveOperationsLogger::success('create', 'backup', null, [
                     'filename' => $result['filename'],
                     'size' => $result['size']
                 ]);
-                
+
                 return response()->json([
                     'message' => $result['message'],
                     'backup' => [
@@ -105,7 +105,7 @@ class BackupController extends Controller
                 SensitiveOperationsLogger::failure('create', 'backup', null, [
                     'error' => $result['error']
                 ]);
-                
+
                 return response()->json([
                     'message' => $result['message']
                 ], 500);
@@ -115,7 +115,7 @@ class BackupController extends Controller
             SensitiveOperationsLogger::failure('create', 'backup', null, [
                 'error' => $e->getMessage()
             ]);
-            
+
             return response()->json([
                 'message' => 'Failed to create backup: ' . $e->getMessage()
             ], 500);
@@ -133,23 +133,23 @@ class BackupController extends Controller
         $request->validate([
             'filename' => 'required|string'
         ]);
-        
+
         $filename = $request->input('filename');
-        
+
         // Log the attempt to restore a backup
         SensitiveOperationsLogger::attempt('restore', 'backup', null, [
             'filename' => $filename
         ]);
-        
+
         try {
             $result = $this->backupService->restoreBackup($filename);
-            
+
             if ($result['success']) {
                 // Log successful backup restoration
                 SensitiveOperationsLogger::success('restore', 'backup', null, [
                     'filename' => $filename
                 ]);
-                
+
                 return response()->json([
                     'message' => $result['message']
                 ]);
@@ -159,7 +159,7 @@ class BackupController extends Controller
                     'filename' => $filename,
                     'error' => $result['error'] ?? 'Unknown error'
                 ]);
-                
+
                 return response()->json([
                     'message' => $result['message']
                 ], 500);
@@ -170,7 +170,7 @@ class BackupController extends Controller
                 'filename' => $filename,
                 'error' => $e->getMessage()
             ]);
-            
+
             return response()->json([
                 'message' => 'Failed to restore backup: ' . $e->getMessage()
             ], 500);
@@ -186,19 +186,19 @@ class BackupController extends Controller
     public function download(string $filename)
     {
         $backupPath = storage_path("app/backups/{$filename}");
-        
+
         // Log the attempt to download a backup
         SensitiveOperationsLogger::attempt('download', 'backup', null, [
             'filename' => $filename
         ]);
-        
+
         if (file_exists($backupPath)) {
             // Log successful backup download
             SensitiveOperationsLogger::success('download', 'backup', null, [
                 'filename' => $filename,
                 'size' => filesize($backupPath)
             ]);
-            
+
             return Response::download($backupPath, $filename);
         } else {
             // Log failed backup download
@@ -206,7 +206,7 @@ class BackupController extends Controller
                 'filename' => $filename,
                 'error' => 'File not found'
             ]);
-            
+
             return response()->json([
                 'message' => 'Backup file not found'
             ], 404);
@@ -222,21 +222,21 @@ class BackupController extends Controller
     public function destroy(string $filename): JsonResponse
     {
         $backupPath = storage_path("app/backups/{$filename}");
-        
+
         // Log the attempt to delete a backup
         SensitiveOperationsLogger::attempt('delete', 'backup', null, [
             'filename' => $filename
         ]);
-        
+
         if (file_exists($backupPath)) {
             try {
                 unlink($backupPath);
-                
+
                 // Log successful backup deletion
                 SensitiveOperationsLogger::success('delete', 'backup', null, [
                     'filename' => $filename
                 ]);
-                
+
                 return response()->json([
                     'message' => 'Backup deleted successfully'
                 ]);
@@ -246,7 +246,7 @@ class BackupController extends Controller
                     'filename' => $filename,
                     'error' => $e->getMessage()
                 ]);
-                
+
                 return response()->json([
                     'message' => 'Failed to delete backup: ' . $e->getMessage()
                 ], 500);
@@ -257,7 +257,7 @@ class BackupController extends Controller
                 'filename' => $filename,
                 'error' => 'File not found'
             ]);
-            
+
             return response()->json([
                 'message' => 'Backup file not found'
             ], 404);

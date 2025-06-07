@@ -16,8 +16,8 @@ class CheckSessionTimeout
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Closure                 $next
      * @return mixed
      */
     public function handle(Request $request, Closure $next)
@@ -46,7 +46,7 @@ class CheckSessionTimeout
         // Check for idle timeout (30 minutes of inactivity)
         if ($now->diffInSeconds($lastActivityTime) > $idleTimeout) {
             $this->logoutAndClearSession($request);
-            
+
             return $request->expectsJson()
                 ? response()->json(['message' => 'Your session has expired due to inactivity.'], 401)
                 : redirect()->route('login')->with('error', 'Your session has expired due to inactivity.');
@@ -55,7 +55,7 @@ class CheckSessionTimeout
         // Check for absolute session lifetime (2 hours from login)
         if ($now->diffInSeconds($sessionStartTime) > $sessionLifetime) {
             $this->logoutAndClearSession($request);
-            
+
             return $request->expectsJson()
                 ? response()->json(['message' => 'Your session has expired. Please log in again.'], 401)
                 : redirect()->route('login')->with('error', 'Your session has expired. Please log in again.');
@@ -70,7 +70,7 @@ class CheckSessionTimeout
     /**
      * Logout the user and clear the session.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return void
      */
     protected function logoutAndClearSession($request)

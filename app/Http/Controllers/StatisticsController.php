@@ -12,7 +12,8 @@ class StatisticsController extends Controller
     public function __construct(
         private StatisticsService $statisticsService,
         private ReportService $reportService
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request): JsonResponse
     {

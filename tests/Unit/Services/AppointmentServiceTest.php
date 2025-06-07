@@ -21,14 +21,14 @@ class AppointmentServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         $this->service = new AppointmentService();
         $this->user = User::factory()->create();
         $this->patient = Patient::factory()->create();
     }
 
     /** @test */
-    public function it_gets_upcoming_appointments()
+    public function getsUpcomingAppointments()
     {
         $appointment = Appointment::factory()->create([
             'user_id' => $this->user->id,
@@ -48,15 +48,15 @@ class AppointmentServiceTest extends TestCase
 
         // Test with end date
         $appointments = $this->service->getUpcomingAppointments(
-            $this->user->id, 
-            now()->subDay(), 
+            $this->user->id,
+            now()->subDay(),
             now()->addDays(2)
         );
         $this->assertCount(1, $appointments);
     }
 
     /** @test */
-    public function it_creates_an_appointment()
+    public function createsAnAppointment()
     {
         $data = [
             'user_id' => $this->user->id,
@@ -76,13 +76,13 @@ class AppointmentServiceTest extends TestCase
     }
 
     /** @test */
-    public function it_throws_exception_when_creating_conflicting_appointment()
+    public function throwsExceptionWhenCreatingConflictingAppointment()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(__('app.appointments_conflict'));
 
         $dateTime = now()->addDay();
-        
+
         // Create initial appointment
         Appointment::factory()->create([
             'user_id' => $this->user->id,
@@ -97,15 +97,15 @@ class AppointmentServiceTest extends TestCase
             'date' => $dateTime,
         ]);
     }
-    
+
     /** @test */
-    public function it_throws_exception_when_creating_conflicting_appointment_with_string_date()
+    public function throwsExceptionWhenCreatingConflictingAppointmentWithStringDate()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(__('app.appointments_conflict'));
 
         $dateTime = now()->addDay()->format('Y-m-d H:i:s');
-        
+
         // Create initial appointment with string date
         Appointment::factory()->create([
             'user_id' => $this->user->id,
@@ -122,7 +122,7 @@ class AppointmentServiceTest extends TestCase
     }
 
     /** @test */
-    public function it_updates_an_appointment()
+    public function updatesAnAppointment()
     {
         $appointment = Appointment::factory()->create([
             'user_id' => $this->user->id,
@@ -138,13 +138,13 @@ class AppointmentServiceTest extends TestCase
         ]);
 
         $appointment->refresh();
-        
+
         // Ensure the date was updated by checking the database directly
         $this->assertDatabaseHas('appointments', [
             'id' => $appointment->id,
             'notes' => 'Updated notes',
         ]);
-        
+
         // Convert the stored date to a Carbon instance and compare
         $storedDate = $appointment->fresh()->date;
         $this->assertTrue(
@@ -155,7 +155,7 @@ class AppointmentServiceTest extends TestCase
     }
 
     /** @test */
-    public function it_deletes_an_appointment()
+    public function deletesAnAppointment()
     {
         $appointment = Appointment::factory()->create([
             'user_id' => $this->user->id,

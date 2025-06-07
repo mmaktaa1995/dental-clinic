@@ -53,25 +53,30 @@ abstract class BaseSearch
         return $query->where('user_id', '=', \Auth::id());
     }
 
+    /**
+     * Apply date range filtering to the query.
+     *
+     * @param EloquentBuilder|QueryBuilder $query
+     * @return EloquentBuilder|QueryBuilder
+     */
     public function applyDatesFilter(EloquentBuilder|QueryBuilder $query): EloquentBuilder|QueryBuilder
     {
         $fromDate = $this->request->get('from_date');
         $toDate = $this->request->get('to_date');
         $date = $this->request->get('date');
+        $dateColumn = static::$dateColumnFiltered;
 
-        $query->when($toDate && !$fromDate, function ($query) use ($toDate) {
-            $query->whereDate(static::$dateColumnFiltered, '<=', $toDate);
-        })
-            ->when($toDate && $fromDate, function ($query) use ($toDate, $fromDate) {
-                $query
-                    ->whereDate(static::$dateColumnFiltered, ">=", $fromDate)
-                    ->whereDate(static::$dateColumnFiltered, '<=', $toDate);
-            })
-            ->when($date ?? false, function ($query) use ($date) {
-                $query->whereDate(static::$dateColumnFiltered, $date);
-            });
-
-        return $query;
+        return $query->when(
+            $toDate && !$fromDate,
+            fn ($q) => $q->whereDate($dateColumn, '<=', $toDate)
+        )->when(
+            $toDate && $fromDate,
+            fn ($q) => $q->whereDate($dateColumn, '>=', $fromDate)
+                        ->whereDate($dateColumn, '<=', $toDate)
+        )->when(
+            $date,
+            fn ($q) => $q->whereDate($dateColumn, $date)
+        );
     }
 
     protected function applySqlSort(QueryBuilder|EloquentBuilder $query): QueryBuilder|EloquentBuilder
@@ -88,9 +93,17 @@ abstract class BaseSearch
         return $query->paginate($this->perPage);
     }
 
-    protected function applySelectColumns(EloquentBuilder|QueryBuilder $query, $columns = ['*']): QueryBuilder|EloquentBuilder
-    {
+    /**
+     * Apply column selection to the query.
+     *
+     * @param EloquentBuilder|QueryBuilder $query
+     * @param array|string                 $columns
+     * @return QueryBuilder|EloquentBuilder
+     */
+    protected function applySelectColumns(
+        EloquentBuilder|QueryBuilder $query,
+        array|string $columns = ['*']
+    ): QueryBuilder|EloquentBuilder {
         return $query->select($columns);
     }
-
 }

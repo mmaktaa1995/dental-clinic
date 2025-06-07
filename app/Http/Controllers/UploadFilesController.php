@@ -19,7 +19,7 @@ class UploadFilesController extends Controller
      * Handle file uploads with validation and security measures.
      *
      * @param FileUploadRequest $request
-     * @param bool $resize Whether to resize images (not implemented yet)
+     * @param boolean           $resize  Whether to resize images (not implemented yet)
      * @return JsonResponse
      */
     public function store(FileUploadRequest $request, bool $resize = false): JsonResponse
@@ -61,7 +61,6 @@ class UploadFilesController extends Controller
                 'data' => $data,
                 'errors' => $errors
             ], 201);
-
         } catch (\Exception $e) {
             Log::error('General file upload processing failed', [
                 'error' => $e->getMessage(),
@@ -79,8 +78,8 @@ class UploadFilesController extends Controller
      * Process and store a single uploaded file with security measures.
      *
      * @param UploadedFile $file
-     * @param string $type
-     * @param string $folder
+     * @param string       $type
+     * @param string       $folder
      * @return array
      * @throws \Exception
      */
@@ -95,7 +94,7 @@ class UploadFilesController extends Controller
         $uniqueFileName = $safeFileNameWithoutExtension . '_' . time() . '_' . Str::random(5) . '.' . $extension;
 
         $storagePath = trim($type, '/') . '/' . trim($folder, '/');
-        
+
         // Basic check for malicious content (can be expanded)
         if ($this->containsMaliciousContent($file)) {
             throw new \Exception("File '{$originalName}' contains potentially malicious content.");
@@ -129,7 +128,7 @@ class UploadFilesController extends Controller
      * This is a rudimentary check and should be augmented with more robust solutions for production.
      *
      * @param UploadedFile $file
-     * @return bool
+     * @return boolean
      */
     private function containsMaliciousContent(UploadedFile $file): bool
     {
@@ -162,9 +161,9 @@ class UploadFilesController extends Controller
     /**
      * Delete an uploaded file.
      *
-     * @param Request $request (to get 'type' from query param or body)
-     * @param string $folder
-     * @param string $fileName
+     * @param Request $request  (to get 'type' from query param or body)
+     * @param string  $folder
+     * @param string  $fileName
      * @return JsonResponse
      */
     public function destroy(Request $request, string $folder, string $fileName): JsonResponse
@@ -236,7 +235,7 @@ class UploadFilesController extends Controller
             if (!Storage::disk('public')->exists($filePath)) {
                 throw new FileNotFoundException("File not found: {$filePath}");
             }
-            
+
             Log::info('File accessed for download/show', [
                 'path' => $filePath,
                 'user_id' => auth()->id(),
@@ -247,7 +246,6 @@ class UploadFilesController extends Controller
             return Storage::disk('public')->download($filePath);
             // For inline display (e.g., images in <img> tag or PDFs in browser):
             // return response()->file(Storage::disk('public')->path($filePath));
-
         } catch (FileNotFoundException $e) {
             Log::warning('Attempt to access non-existent file for show/download', ['path' => $filePath, 'error' => $e->getMessage()]);
             return response()->json(['success' => false, 'message' => 'File not found.'], 404);

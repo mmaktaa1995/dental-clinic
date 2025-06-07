@@ -21,19 +21,19 @@ class ReportServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         // Clear all data before each test
         Appointment::query()->delete();
         Payment::query()->delete();
         Patient::query()->delete();
-        
+
         $this->service = new ReportService();
         $this->startDate = now()->startOfMonth();
         $this->endDate = now()->endOfMonth();
     }
 
     /** @test */
-    public function it_gets_appointment_statistics()
+    public function getsAppointmentStatistics()
     {
         // Create test data
         $appointmentCount = 5;
@@ -52,22 +52,22 @@ class ReportServiceTest extends TestCase
     }
 
     /** @test */
-    public function it_gets_revenue_statistics()
+    public function getsRevenueStatistics()
     {
         // Create test patient
         $patient = Patient::factory()->create();
-        
+
         // Create test payments for the same patient
         $payment1 = 100.50;
         $payment2 = 199.50;
         $totalPayment = $payment1 + $payment2;
-        
+
         Payment::factory()->create([
             'patient_id' => $patient->id,
             'amount' => $payment1,
             'date' => now()->toDateString()
         ]);
-        
+
         Payment::factory()->create([
             'patient_id' => $patient->id,
             'amount' => $payment2,
@@ -86,7 +86,7 @@ class ReportServiceTest extends TestCase
     }
 
     /** @test */
-    public function it_gets_new_patients_statistics()
+    public function getsNewPatientsStatistics()
     {
         // Create test patients for current period
         $currentCount = 10;
@@ -98,7 +98,7 @@ class ReportServiceTest extends TestCase
         $previousCount = 5;
         $previousStart = now()->subMonths(1)->startOfMonth();
         $previousEnd = now()->subMonths(1)->endOfMonth();
-        
+
         Patient::factory()->count($previousCount)->create([
             'created_at' => $previousStart->copy()->addDays(5)
         ]);
@@ -107,8 +107,8 @@ class ReportServiceTest extends TestCase
         $stats = $this->service->getNewPatientsStatistics($this->startDate, $this->endDate);
 
         // Calculate expected growth rate
-        $expectedGrowthRate = $previousCount > 0 
-            ? (($currentCount - $previousCount) / $previousCount) * 100 
+        $expectedGrowthRate = $previousCount > 0
+            ? (($currentCount - $previousCount) / $previousCount) * 100
             : ($currentCount > 0 ? 100 : 0);
 
         // Assertions
@@ -118,7 +118,7 @@ class ReportServiceTest extends TestCase
     }
 
     /** @test */
-    public function it_gets_appointments_by_status()
+    public function getsAppointmentsByStatus()
     {
         // Create test appointments
         $appointmentCount = 5;
@@ -135,20 +135,20 @@ class ReportServiceTest extends TestCase
     }
 
     /** @test */
-    public function it_gets_revenue_by_month()
+    public function getsRevenueByMonth()
     {
         // Create test payments for different months
         $currentMonth = now();
         $lastMonth = now()->subMonth();
-        
+
         $currentMonthAmount = 100.75;
         $lastMonthAmount = 200.25;
-        
+
         Payment::factory()->create([
             'amount' => $currentMonthAmount,
             'date' => $currentMonth->toDateString()
         ]);
-        
+
         Payment::factory()->create([
             'amount' => $lastMonthAmount,
             'date' => $lastMonth->toDateString()
@@ -162,29 +162,29 @@ class ReportServiceTest extends TestCase
 
         // Assertions
         $this->assertCount(2, $result);
-        
+
         // Convert to associative array for easier assertions
         $monthlyData = [];
         foreach ($result as $item) {
             $monthlyData[$item['month']] = $item['revenue'];
         }
-        
+
         // Check last month's data
         $this->assertArrayHasKey($lastMonth->format('M Y'), $monthlyData);
         $this->assertEqualsWithDelta($lastMonthAmount, $monthlyData[$lastMonth->format('M Y')], 0.01);
-        
+
         // Check current month's data
         $this->assertArrayHasKey($currentMonth->format('M Y'), $monthlyData);
         $this->assertEqualsWithDelta($currentMonthAmount, $monthlyData[$currentMonth->format('M Y')], 0.01);
     }
 
     /** @test */
-    public function it_handles_empty_data_correctly()
+    public function handlesEmptyDataCorrectly()
     {
         // Test with a date range that has no data
         $futureDate = now()->addYear();
         $futureEndDate = $futureDate->copy()->addMonth();
-        
+
         // Test appointment statistics with no data
         $appointmentStats = $this->service->getAppointmentStatistics($futureDate, $futureEndDate);
         $this->assertEquals(0, $appointmentStats['total']);

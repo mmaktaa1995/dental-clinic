@@ -13,10 +13,10 @@ class PatientRecordTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_can_create_a_patient_record()
+    public function canCreateAPatientRecord()
     {
         $patient = Patient::factory()->create();
-        
+
         $record = PatientRecord::create([
             'patient_id' => $patient->id,
             'symptoms' => 'Tooth pain and sensitivity',
@@ -32,7 +32,7 @@ class PatientRecordTest extends TestCase
     }
 
     /** @test */
-    public function it_belongs_to_a_patient()
+    public function belongsToaPatient()
     {
         $patient = Patient::factory()->create();
         $record = PatientRecord::factory()->create(['patient_id' => $patient->id]);
@@ -42,7 +42,7 @@ class PatientRecordTest extends TestCase
     }
 
     /** @test */
-    public function it_can_have_affected_teeth()
+    public function canHaveAffectedTeeth()
     {
         $record = PatientRecord::factory()->create();
         $tooth1 = Tooth::factory()->create(['number' => 16]);
@@ -56,7 +56,7 @@ class PatientRecordTest extends TestCase
         $this->assertCount(2, $record->affectedTeeth);
         $this->assertTrue($record->affectedTeeth->contains($tooth1));
         $this->assertTrue($record->affectedTeeth->contains($tooth2));
-        
+
         // Verify pivot data
         $this->assertEquals('Cavity', $record->affectedTeeth->find($tooth1->id)->pivot->description);
         $this->assertFalse((bool)$record->affectedTeeth->find($tooth1->id)->pivot->is_treated);
@@ -65,7 +65,7 @@ class PatientRecordTest extends TestCase
     }
 
     /** @test */
-    public function it_casts_record_date_to_timestamp()
+    public function castsRecordDateToTimestamp()
     {
         $record = PatientRecord::factory()->create([
             'record_date' => '2023-01-01 10:00:00'
@@ -76,17 +76,17 @@ class PatientRecordTest extends TestCase
     }
 
     /** @test */
-    public function it_can_scope_records_for_specific_patient()
+    public function canScopeRecordsForSpecificPatient()
     {
         $patient1 = Patient::factory()->create();
         $patient2 = Patient::factory()->create();
-        
+
         $record1 = PatientRecord::factory()->create(['patient_id' => $patient1->id]);
         $record2 = PatientRecord::factory()->create(['patient_id' => $patient1->id]);
         $record3 = PatientRecord::factory()->create(['patient_id' => $patient2->id]);
 
         $patient1Records = PatientRecord::where('patient_id', $patient1->id)->get();
-        
+
         $this->assertCount(2, $patient1Records);
         $this->assertTrue($patient1Records->contains($record1));
         $this->assertTrue($patient1Records->contains($record2));

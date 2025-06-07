@@ -41,8 +41,8 @@ class UserSearch extends BaseSearch
             ->with('roles.permissions')
             ->when($this->email, fn($query) => $query->where('email', 'like', '%' . $this->email . '%'))
             ->when($this->query, fn($query) => $query->where('name', 'like', '%' . $this->query . '%'))
-            ->when($this->role, function($query) {
-                return $query->whereHas('roles', function($q) {
+            ->when($this->role, function ($query) {
+                return $query->whereHas('roles', function ($q) {
                     $q->where('slug', $this->role);
                 });
             });

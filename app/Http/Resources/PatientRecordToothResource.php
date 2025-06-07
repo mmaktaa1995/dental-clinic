@@ -17,7 +17,7 @@ class PatientRecordToothResource extends JsonResource
      */
     public function toArray($request)
     {
-        info("ID: ".$this->id. ": {$this->is_treated}");
+        info("ID: " . $this->id . ": {$this->is_treated}");
         return [
             'id' => $this->id,
             'patient_record_id' => $this->patient_record_id,

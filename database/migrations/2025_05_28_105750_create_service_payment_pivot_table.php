@@ -18,7 +18,7 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
             $table->integer('quantity')->default(1);
             $table->timestamps();
-            
+
             $table->unique(['service_id', 'payment_id']);
         });
     }

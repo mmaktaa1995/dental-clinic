@@ -214,25 +214,21 @@ This document outlines the plan to enhance the security of the dental clinic aut
 - [ ] Verify ARIA labels
 - [ ] Test with accessibility tools
 
-### 12. Cross-browser Testing
-- [ ] Chrome (latest)
-- [ ] Firefox (latest)
-- [ ] Safari (latest)
-- [ ] Edge (latest)
-- [ ] Mobile browsers
-
-### 13. Localization & Internationalization
-- [ ] Test RTL language support
-- [ ] Test date/number formatting
-- [ ] Test timezone handling
-- [ ] Test language switching
-- [ ] Test character encoding
 
 ## Code Quality & Maintenance
 
 ### 1. Code Standards
-- [ ] Enforce PSR-12 coding standards
-- [ ] Set up PHP_CodeSniffer
+- [x] Enforce PSR-12 coding standards
+  - Added PHP-CS-Fixer with PSR-12 rules
+  - Configured PHP_CodeSniffer with PSR-12 standard
+  - Added Composer scripts for code style checking and fixing
+  - Set up pre-commit hook for automated code style checks
+- [x] Set up PHP_CodeSniffer
+  - Created comprehensive phpcs.xml.dist with PSR-12 rules and customizations
+  - Set up project-specific phpcs.xml that extends the base configuration
+  - Added a test case to verify code style compliance
+  - Configured line length limits and exclusions for different file types
+  - Added rules for better code quality and consistency
 - [ ] Implement PHPStan for static analysis
 - [ ] Add type hints and return types
 
@@ -258,7 +254,11 @@ This document outlines the plan to enhance the security of the dental clinic aut
 - [ ] Set up error tracking and logging
 
 ### Phase 2: Core Security (Week 3-4)
-- [ ] Implement API rate limiting
+- [x] Implement API rate limiting
+  - Added different rate limits for authenticated (100 req/min) and unauthenticated (30 req/min) users
+  - Added stricter rate limiting for authentication endpoints (10 req/min)
+  - Added specific rate limiting for file uploads (20 req/min for authenticated, 5 req/min for guests)
+  - Updated route middleware to use the new rate limiters
 - [ ] Set up CORS policies
 - [ ] Implement CSRF protection
 - [ ] Add request validation

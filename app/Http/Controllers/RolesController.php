@@ -18,7 +18,7 @@ class RolesController extends Controller
     /**
      * Display a listing of the roles.
      *
-     * @param  RoleSearchRequest  $request
+     * @param  RoleSearchRequest $request
      * @return JsonResponse
      */
     public function list(RoleSearchRequest $request): JsonResponse
@@ -31,7 +31,7 @@ class RolesController extends Controller
     /**
      * Store a newly created role in storage.
      *
-     * @param  RoleRequest  $request
+     * @param  RoleRequest $request
      * @return JsonResponse
      */
     public function store(RoleRequest $request): JsonResponse
@@ -42,26 +42,26 @@ class RolesController extends Controller
             'slug' => $request->slug,
             'permissions' => $request->permissions ?? []
         ]);
-        
+
         try {
             $role = DB::transaction(function () use ($request) {
                 $role = Role::create($request->only(['name', 'slug']));
-                
+
                 // Assign permissions if provided
                 if ($request->has('permissions')) {
                     $role->permissions()->sync($request->permissions);
                 }
-                
+
                 return $role;
             });
-            
+
             // Log successful role creation
             SensitiveOperationsLogger::success('create', 'role', $role->id, [
                 'name' => $role->name,
                 'slug' => $role->slug,
                 'permissions' => $role->permissions->pluck('name')->toArray()
             ]);
-    
+
             return response()->json([
                 'message' => __('app.success'),
                 'role' => RoleResource::make($role->load('permissions'))
@@ -73,7 +73,7 @@ class RolesController extends Controller
                 'slug' => $request->slug,
                 'error' => $e->getMessage()
             ]);
-            
+
             throw $e;
         }
     }
@@ -81,7 +81,7 @@ class RolesController extends Controller
     /**
      * Display the specified role.
      *
-     * @param  Role  $role
+     * @param  Role $role
      * @return JsonResponse
      */
     public function show(Role $role): JsonResponse
@@ -92,8 +92,8 @@ class RolesController extends Controller
     /**
      * Update the specified role in storage.
      *
-     * @param  RoleRequest  $request
-     * @param  Role  $role
+     * @param  RoleRequest $request
+     * @param  Role        $role
      * @return JsonResponse
      */
     public function update(RoleRequest $request, Role $role): JsonResponse
@@ -106,26 +106,26 @@ class RolesController extends Controller
             'new_slug' => $request->slug,
             'permissions_changed' => $request->has('permissions')
         ]);
-        
+
         try {
             DB::transaction(function () use ($request, $role) {
                 $role->update($request->only(['name', 'slug']));
-    
+
                 // Sync permissions if provided
                 if ($request->has('permissions')) {
                     $role->permissions()->sync($request->permissions);
                 }
             });
-            
+
             $role->refresh()->load('permissions');
-            
+
             // Log successful role update
             SensitiveOperationsLogger::success('update', 'role', $role->id, [
                 'name' => $role->name,
                 'slug' => $role->slug,
                 'permissions' => $role->permissions->pluck('name')->toArray()
             ]);
-    
+
             return response()->json([
                 'message' => __('app.success'),
                 'role' => RoleResource::make($role)
@@ -135,7 +135,7 @@ class RolesController extends Controller
             SensitiveOperationsLogger::failure('update', 'role', $role->id, [
                 'error' => $e->getMessage()
             ]);
-            
+
             throw $e;
         }
     }
@@ -143,7 +143,7 @@ class RolesController extends Controller
     /**
      * Remove the specified role from storage.
      *
-     * @param  Role  $role
+     * @param  Role $role
      * @return JsonResponse
      */
     public function destroy(Role $role): JsonResponse
@@ -153,7 +153,7 @@ class RolesController extends Controller
             'name' => $role->name,
             'slug' => $role->slug
         ]);
-        
+
         // Prevent deleting the admin role
         if ($role->slug === 'admin') {
             // Log failed deletion attempt (trying to delete admin role)
@@ -162,7 +162,7 @@ class RolesController extends Controller
                 'name' => $role->name,
                 'slug' => $role->slug
             ]);
-            
+
             return response()->json([
                 'message' => 'لا يمكن حذف دور المسؤول'
             ], 403);
@@ -176,18 +176,18 @@ class RolesController extends Controller
                 'slug' => $role->slug,
                 'permissions' => $role->permissions->pluck('name')->toArray()
             ];
-            
+
             DB::transaction(function () use ($role) {
                 // Detach all permissions before deleting
                 $role->permissions()->detach();
-                
+
                 // Delete the role
                 $role->delete();
             });
-            
+
             // Log successful role deletion
             SensitiveOperationsLogger::success('delete', 'role', $roleInfo['id'], $roleInfo);
-    
+
             return response()->json([
                 'message' => __('app.success')
             ]);
@@ -198,7 +198,7 @@ class RolesController extends Controller
                 'name' => $role->name,
                 'slug' => $role->slug
             ]);
-            
+
             throw $e;
         }
     }

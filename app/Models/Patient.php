@@ -21,7 +21,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Patient extends BaseModel
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+    use SoftDeletes;
+
     protected $fillable = ['name', 'age', 'phone', 'mobile', 'file_number', 'image', 'gender', 'user_id', 'total_amount'];
 
     public static function boot()
@@ -40,16 +42,16 @@ class Patient extends BaseModel
                 foreach ($patient->files()->get() as $file) {
                     $file->delete();
                 }
-                
+
                 // Copy patient to deleted_patients table
                 $deletedPatient = new \App\Models\DeletedPatient($patient->only([
-                    'name', 
-                    'age', 
-                    'phone', 
-                    'mobile', 
-                    'file_number', 
-                    'image', 
-                    'gender', 
+                    'name',
+                    'age',
+                    'phone',
+                    'mobile',
+                    'file_number',
+                    'image',
+                    'gender',
                     'user_id',
                     'total_amount'
                 ]));

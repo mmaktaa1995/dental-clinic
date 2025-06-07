@@ -13,7 +13,7 @@ return new class extends Migration {
     public function up()
     {
         Schema::rename('patient_images', 'patient_files');
-        Schema::table( 'patient_files', function (Blueprint $table) {
+        Schema::table('patient_files', function (Blueprint $table) {
             $table->string('type')->nullable();
             $table->string('file_name')->nullable();
             $table->renameColumn('image', 'file');

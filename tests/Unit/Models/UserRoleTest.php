@@ -12,7 +12,7 @@ class UserRoleTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function user_can_be_assigned_a_role()
+    public function userCanBeAssignedARole()
     {
         $user = User::factory()->create();
         $role = Role::create([
@@ -28,7 +28,7 @@ class UserRoleTest extends TestCase
     }
 
     /** @test */
-    public function user_can_be_assigned_a_role_by_slug()
+    public function userCanBeAssignedARoleBySlug()
     {
         $user = User::factory()->create();
         $role = Role::create([
@@ -44,7 +44,7 @@ class UserRoleTest extends TestCase
     }
 
     /** @test */
-    public function user_can_have_a_role_removed()
+    public function userCanHaveARoleRemoved()
     {
         $user = User::factory()->create();
         $role = Role::create([
@@ -58,13 +58,13 @@ class UserRoleTest extends TestCase
 
         $user->removeRole($role);
         $user->refresh();
-        
+
         $this->assertFalse($user->roles->contains($role));
         $this->assertEquals(0, $user->roles->count());
     }
 
     /** @test */
-    public function user_can_have_a_role_removed_by_slug()
+    public function userCanHaveARoleRemovedBySlug()
     {
         $user = User::factory()->create();
         $role = Role::create([
@@ -78,13 +78,13 @@ class UserRoleTest extends TestCase
 
         $user->removeRole('patient');
         $user->refresh();
-        
+
         $this->assertFalse($user->roles->contains($role));
         $this->assertEquals(0, $user->roles->count());
     }
 
     /** @test */
-    public function user_can_check_if_has_role()
+    public function userCanCheckIfHasRole()
     {
         $user = User::factory()->create();
         $role = Role::create([
@@ -100,7 +100,7 @@ class UserRoleTest extends TestCase
     }
 
     /** @test */
-    public function user_can_check_if_has_any_role()
+    public function userCanCheckIfHasAnyRole()
     {
         $user = User::factory()->create();
         $adminRole = Role::create([
@@ -116,7 +116,7 @@ class UserRoleTest extends TestCase
     }
 
     /** @test */
-    public function user_can_check_if_has_all_roles()
+    public function userCanCheckIfHasAllRoles()
     {
         $user = User::factory()->create();
         $adminRole = Role::create([
@@ -138,7 +138,7 @@ class UserRoleTest extends TestCase
     }
 
     /** @test */
-    public function user_can_check_if_is_admin()
+    public function userCanCheckIfIsAdmin()
     {
         // Test with admin column
         $userWithAdminFlag = User::factory()->create(['admin' => true]);

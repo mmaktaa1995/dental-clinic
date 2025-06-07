@@ -35,7 +35,7 @@ class UsersController extends Controller
      *     @OA\Response(response=403, description="Forbidden")
      * )
      *
-     * @param  UserSearchRequest  $request
+     * @param  UserSearchRequest $request
      * @return JsonResponse
      */
     public function list(UserSearchRequest $request): JsonResponse
@@ -80,29 +80,29 @@ class UsersController extends Controller
             'username' => $request->username,
             'roles' => $request->roles ?? []
         ]);
-        
+
         try {
             $user = DB::transaction(function () use ($request) {
                 $userData = $request->only(['name', 'username', 'email']);
                 $userData['password'] = Hash::make($request->password);
-                
+
                 $user = User::create($userData);
-                
+
                 // Assign roles if provided
                 if ($request->has('roles')) {
                     $user->roles()->sync($request->roles);
                 }
-                
+
                 return $user;
             });
-            
+
             // Log successful user creation
             SensitiveOperationsLogger::success('create', 'user', $user->id, [
                 'email' => $user->email,
                 'username' => $user->username,
                 'roles' => $user->roles->pluck('slug')->toArray()
             ]);
-    
+
             return response()->json([
                 'message' => __('app.success'),
                 'user' => UserResource::make($user->load('roles'))
@@ -114,7 +114,7 @@ class UsersController extends Controller
                 'username' => $request->username,
                 'error' => $e->getMessage()
             ]);
-            
+
             throw $e;
         }
     }
@@ -122,7 +122,7 @@ class UsersController extends Controller
     /**
      * Display the specified user.
      *
-     * @param  User  $user
+     * @param  User $user
      * @return JsonResponse
      */
     public function show(User $user): JsonResponse
@@ -133,8 +133,8 @@ class UsersController extends Controller
     /**
      * Update the specified user in storage.
      *
-     * @param  UserRequest  $request
-     * @param  User  $user
+     * @param  UserRequest $request
+     * @param  User        $user
      * @return JsonResponse
      */
     public function update(UserRequest $request, User $user): JsonResponse
@@ -146,32 +146,32 @@ class UsersController extends Controller
             'password_changed' => $request->filled('password'),
             'roles_changed' => $request->has('roles')
         ]);
-        
+
         try {
             DB::transaction(function () use ($request, $user) {
                 $userData = $request->only(['name', 'username', 'email']);
-                
+
                 if ($request->filled('password')) {
                     $userData['password'] = Hash::make($request->password);
                 }
-    
+
                 $user->update($userData);
-    
+
                 // Sync roles if provided
                 if ($request->has('roles')) {
                     $user->roles()->sync($request->roles);
                 }
             });
-            
+
             $user->refresh()->load('roles');
-            
+
             // Log successful user update
             SensitiveOperationsLogger::success('update', 'user', $user->id, [
                 'email' => $user->email,
                 'username' => $user->username,
                 'roles' => $user->roles->pluck('slug')->toArray()
             ]);
-    
+
             return response()->json([
                 'message' => __('app.success'),
                 'user' => UserResource::make($user)
@@ -181,7 +181,7 @@ class UsersController extends Controller
             SensitiveOperationsLogger::failure('update', 'user', $user->id, [
                 'error' => $e->getMessage()
             ]);
-            
+
             throw $e;
         }
     }
@@ -189,7 +189,7 @@ class UsersController extends Controller
     /**
      * Remove the specified user from storage.
      *
-     * @param  User  $user
+     * @param  User $user
      * @return JsonResponse
      */
     public function destroy(User $user): JsonResponse
@@ -199,7 +199,7 @@ class UsersController extends Controller
             'email' => $user->email,
             'username' => $user->username
         ]);
-        
+
         // Prevent deleting self
         if ($user->id === auth()->id()) {
             // Log failed deletion attempt (trying to delete self)
@@ -207,7 +207,7 @@ class UsersController extends Controller
                 'reason' => 'Attempted to delete own account',
                 'email' => $user->email
             ]);
-            
+
             return response()->json([
                 'message' => 'لا يمكن حذف المستخدم الحالي'
             ], 403);
@@ -221,18 +221,18 @@ class UsersController extends Controller
                 'username' => $user->username,
                 'roles' => $user->roles->pluck('slug')->toArray()
             ];
-            
+
             DB::transaction(function () use ($user) {
                 // Detach all roles before deleting
                 $user->roles()->detach();
-                
+
                 // Delete the user
                 $user->delete();
             });
-            
+
             // Log successful user deletion
             SensitiveOperationsLogger::success('delete', 'user', $userInfo['id'], $userInfo);
-    
+
             return response()->json([
                 'message' => __('app.success')
             ]);
@@ -242,7 +242,7 @@ class UsersController extends Controller
                 'error' => $e->getMessage(),
                 'email' => $user->email
             ]);
-            
+
             throw $e;
         }
     }

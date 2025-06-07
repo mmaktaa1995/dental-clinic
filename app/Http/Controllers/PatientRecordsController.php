@@ -49,5 +49,4 @@ class PatientRecordsController extends Controller
         });
         return response()->json(['message' => __('app.success')]);
     }
-
 }

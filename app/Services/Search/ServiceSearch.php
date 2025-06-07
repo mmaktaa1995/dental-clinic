@@ -16,7 +16,7 @@ class ServiceSearch extends BaseSearch
     protected ?string $name = null;
     protected ?float $minPrice = null;
     protected ?float $maxPrice = null;
-    
+
     /**
      * ServiceSearch constructor.
      *
@@ -38,7 +38,7 @@ class ServiceSearch extends BaseSearch
             $this->maxPrice = $request->input('max_price');
         }
     }
-    
+
     public function getBaseQuery(): EloquentBuilder|QueryBuilder
     {
         return Service::query()

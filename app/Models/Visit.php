@@ -13,7 +13,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Visit extends BaseModel
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = ['patient_id', 'date', 'notes', 'user_id']; //@todo revert amount when migration
     protected $appends = ['amount'];//@todo comment amount when migration
@@ -26,7 +27,7 @@ class Visit extends BaseModel
     public function getAmountAttribute(): int|null
     {
         if (!$this->relationLoaded('payment')) {
-            logger( "`payment` relation is not loaded!");
+            logger("`payment` relation is not loaded!");
             return 0;
         }
         return $this->payment?->amount;

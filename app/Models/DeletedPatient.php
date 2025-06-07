@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Eng.MohammEd
@@ -16,8 +17,9 @@ use Eloquent;
  */
 class DeletedPatient extends BaseModel
 {
-    public static $relationsWithForSearch = [];
     use SearchQuery;
+
+    public static $relationsWithForSearch = [];
 
     protected $fillable = ['name', 'age', 'phone', 'mobile', 'file_number', 'image', 'total_amount', 'gender', 'user_id'];
 

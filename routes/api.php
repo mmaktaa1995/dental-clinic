@@ -16,10 +16,10 @@ use Illuminate\Support\Facades\Route;
 // API Version 1 Routes
 Route::prefix('v1')->group(function () {
     // Include all version 1 routes
-    require __DIR__.'/api/v1/base.php';
+    require __DIR__ . '/api/v1/base.php';
 });
 
 // Default API version (v1) - This allows for backward compatibility
 Route::prefix('v1')->group(function () {
-    require __DIR__.'/api/v1/base.php';
+    require __DIR__ . '/api/v1/base.php';
 })->withoutMiddleware('api');

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('treatment')->nullable()->after('description');
             $table->text('notes')->nullable()->after('treatment');
             $table->timestamp('next_visit_date')->nullable()->after('notes');
-            
+
             // Make symptoms and diagnosis nullable if they're not already
             $table->text('symptoms')->nullable()->change();
             $table->text('diagnosis')->nullable()->change();

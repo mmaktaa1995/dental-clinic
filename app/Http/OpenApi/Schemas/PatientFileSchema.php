@@ -18,7 +18,7 @@ namespace App\Http\OpenApi\Schemas;
  *     @OA\Property(property="created_at", type="string", format="date-time"),
  *     @OA\Property(property="updated_at", type="string", format="date-time")
  * )
- * 
+ *
  * @OA\Schema(
  *     schema="PatientFileRequest",
  *     type="object",

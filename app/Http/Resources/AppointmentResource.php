@@ -31,7 +31,9 @@ class AppointmentResource extends JsonResource
             'end' => Carbon::parse($this->date)->addMinutes(Appointment::WAITING_MINUTES)->format('Y-m-d H:i:s'),
             'notes' => $this->notes,
             'isPast' => Carbon::parse($this->date) < now(),
-            'className' => Carbon::parse($this->date) < now() ? ' bg-red-500 hover:bg-red-600 transition-colors' : ' bg-teal-500 hover:bg-teal-600 transition-colors',
+            'className' => Carbon::parse($this->date) < now()
+                ? 'bg-red-500 hover:bg-red-600 transition-colors'
+                : 'bg-teal-500 hover:bg-teal-600 transition-colors',
         ];
     }
 }

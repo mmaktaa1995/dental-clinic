@@ -36,7 +36,6 @@ class PatientsController extends Controller
         $patientSearch = new PatientApiListSearch($request);
 
         return response()->json(BaseCollection::make($patientSearch->getEntries(), PatientApiResource::class));
-
     }
 
     public function lastFileNumber(PatientService $patientService): JsonResponse
@@ -54,10 +53,20 @@ class PatientsController extends Controller
 
     public function checkExisting(Request $request): JsonResponse
     {
-        $existingPatient = Patient::where('user_id', auth()->id())->where('name', $request->get('query'))->first();
+        $existingPatient = Patient::where('user_id', auth()->id())
+            ->where('name', $request->get('query'))
+            ->first();
+
         if ($existingPatient) {
-            return response()->json(['message' => trans('app.existPatient', ['file_number' => $existingPatient->file_number]), 'file_number' => $existingPatient->file_number, 'id' => $existingPatient->id]);
+            return response()->json([
+                'message' => trans('app.existPatient', [
+                    'file_number' => $existingPatient->file_number
+                ]),
+                'file_number' => $existingPatient->file_number,
+                'id' => $existingPatient->id
+            ]);
         }
+
         return response()->json([]);
     }
 
@@ -67,15 +76,17 @@ class PatientsController extends Controller
         $existingPatient = Patient::where('user_id', auth()->id())
             ->where('name', $request->get('name'))
             ->first();
-            
+
         if ($existingPatient) {
             return response()->json([
-                'message' => trans('app.existPatient', ['file_number' => $existingPatient->file_number]),
+                'message' => trans('app.existPatient', [
+                    'file_number' => $existingPatient->file_number
+                ]),
                 'file_number' => $existingPatient->file_number,
                 'id' => $existingPatient->id
             ], 422); // Changed from 500 to 422 to indicate validation error
         }
-        
+
         $patient = null;
         DB::transaction(function () use ($request, &$patient) {
             $patient = Patient::create($request->only(["name", "age", "gender", "file_number", "phone", "mobile", "total_amount"]));
@@ -88,8 +99,9 @@ class PatientsController extends Controller
                     'amount' => $request->get('amount'),
                     'remaining_amount' => $request->get('remaining_amount', 0)
                 ]);
-                if ($request->filled('services'))
+                if ($request->filled('services')) {
                     $visit->services()->sync($request->get('services'));
+                }
             }
 
             if ($symptoms = $request->get('symptoms', [])) {

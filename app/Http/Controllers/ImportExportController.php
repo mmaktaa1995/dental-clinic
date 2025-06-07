@@ -42,13 +42,13 @@ class ImportExportController extends Controller
         if ($request->boolean('template')) {
             return $this->importExportService->exportPatients([], $request->get('format', 'xlsx'));
         }
-        
+
         return $this->importExportService->exportPatients(
             $request,
             $request->get('format', 'xlsx')
         );
     }
-    
+
     /**
      * Import patients data
      *
@@ -58,10 +58,10 @@ class ImportExportController extends Controller
     public function importPatients(ImportRequest $request): JsonResponse
     {
         $result = $this->importExportService->importPatients($request->file('file'));
-        
+
         return response()->json($result, $result['success'] ? 200 : 422);
     }
-    
+
     /**
      * Export services data
      *
@@ -74,13 +74,13 @@ class ImportExportController extends Controller
         if ($request->boolean('template')) {
             return $this->importExportService->exportServices([], $request->get('format', 'xlsx'));
         }
-        
+
         return $this->importExportService->exportServices(
             $request,
             $request->get('format', 'xlsx')
         );
     }
-    
+
     /**
      * Import services data
      *
@@ -90,10 +90,10 @@ class ImportExportController extends Controller
     public function importServices(ImportRequest $request): JsonResponse
     {
         $result = $this->importExportService->importServices($request->file('file'));
-        
+
         return response()->json($result, $result['success'] ? 200 : 422);
     }
-    
+
     /**
      * Export expenses data
      *
@@ -106,13 +106,13 @@ class ImportExportController extends Controller
         if ($request->boolean('template')) {
             return $this->importExportService->exportExpenses([], $request->get('format', 'xlsx'));
         }
-        
+
         return $this->importExportService->exportExpenses(
             $request,
             $request->get('format', 'xlsx')
         );
     }
-    
+
     /**
      * Import expenses data
      *
@@ -122,10 +122,10 @@ class ImportExportController extends Controller
     public function importExpenses(ImportRequest $request): JsonResponse
     {
         $result = $this->importExportService->importExpenses($request->file('file'));
-        
+
         return response()->json($result, $result['success'] ? 200 : 422);
     }
-    
+
     /**
      * Export users data
      *
@@ -138,13 +138,13 @@ class ImportExportController extends Controller
         if ($request->boolean('template')) {
             return $this->importExportService->exportUsers([], $request->get('format', 'xlsx'));
         }
-        
+
         return $this->importExportService->exportUsers(
             $request,
             $request->get('format', 'xlsx')
         );
     }
-    
+
     /**
      * Import users data
      *
@@ -154,10 +154,10 @@ class ImportExportController extends Controller
     public function importUsers(ImportRequest $request): JsonResponse
     {
         $result = $this->importExportService->importUsers($request->file('file'));
-        
+
         return response()->json($result, $result['success'] ? 200 : 422);
     }
-    
+
     /**
      * Export appointments data
      *
@@ -170,13 +170,13 @@ class ImportExportController extends Controller
         if ($request->boolean('template')) {
             return $this->importExportService->exportAppointments([], $request->get('format', 'xlsx'));
         }
-        
+
         return $this->importExportService->exportAppointments(
             $request,
             $request->get('format', 'xlsx')
         );
     }
-    
+
     /**
      * Import appointments data
      *
@@ -190,7 +190,7 @@ class ImportExportController extends Controller
             'date' => 'required|date|after:today',
             'notes' => 'nullable|string',
         ];
-        
+
         $rowProcessor = function ($data) {
             Appointment::create([
                 'patient_id' => $data['patient_id'],
@@ -199,14 +199,14 @@ class ImportExportController extends Controller
                 'user_id' => Auth::id(),
             ]);
         };
-        
+
         $result = $this->importExportService->import(
             $request,
             'file',
             $validationRules,
             $rowProcessor
         );
-        
+
         return response()->json($result, $result['success'] ? 200 : 422);
     }
 }

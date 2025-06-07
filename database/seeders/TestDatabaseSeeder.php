@@ -137,7 +137,7 @@ class TestDatabaseSeeder extends Seeder
                         'user_id' => $dentist->id,
                         'record_date' => now()->subDays(rand(1, 30)),
                     ]);
-                    
+
                 // Attach some teeth to the patient record
                 $teeth = Tooth::inRandomOrder()->take(rand(5, min(10, Tooth::count())))->get();
                 foreach ($teeth as $tooth) {
@@ -158,7 +158,7 @@ class TestDatabaseSeeder extends Seeder
         foreach (range(1, 20) as $i) {
             $patient = $patients->random();
             $appointmentDate = now()->addDays(rand(1, 30))->setHour(rand(9, 16))->setMinute(0);
-            
+
             Appointment::factory()
                 ->create([
                     'patient_id' => $patient->id,

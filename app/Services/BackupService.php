@@ -38,7 +38,7 @@ class BackupService
 
     /**
      * Create a full backup of the application
-     * 
+     *
      * @return array Information about the created backup
      */
     public function createFullBackup(): array
@@ -99,7 +99,7 @@ class BackupService
 
     /**
      * Create a database dump
-     * 
+     *
      * @param string $timestamp Timestamp for the filename
      * @return string Path to the created database dump file
      */
@@ -128,7 +128,7 @@ class BackupService
 
     /**
      * Create a MySQL database dump
-     * 
+     *
      * @param string $dumpPath Path to save the dump file
      */
     protected function createMysqlDump(string $dumpPath): void
@@ -159,7 +159,7 @@ class BackupService
 
     /**
      * Create a SQLite database dump
-     * 
+     *
      * @param string $dumpPath Path to save the dump file
      */
     protected function createSqliteDump(string $dumpPath): void
@@ -173,8 +173,8 @@ class BackupService
 
     /**
      * Create a zip file containing the database dump and important files
-     * 
-     * @param string $backupPath Path to save the backup zip file
+     *
+     * @param string $backupPath       Path to save the backup zip file
      * @param string $databaseDumpPath Path to the database dump file
      */
     protected function createBackupZip(string $backupPath, string $databaseDumpPath): void
@@ -202,10 +202,10 @@ class BackupService
 
     /**
      * Add a directory to a zip file recursively
-     * 
-     * @param ZipArchive $zip The zip archive
-     * @param string $directory The directory to add
-     * @param string $zipDirectory The directory path within the zip file
+     *
+     * @param ZipArchive $zip          The zip archive
+     * @param string     $directory    The directory to add
+     * @param string     $zipDirectory The directory path within the zip file
      */
     protected function addDirectoryToZip(ZipArchive $zip, string $directory, string $zipDirectory): void
     {
@@ -250,7 +250,7 @@ class BackupService
 
     /**
      * Get a list of all available backups
-     * 
+     *
      * @return array List of backups with metadata
      */
     public function listBackups(): array
@@ -283,7 +283,7 @@ class BackupService
 
     /**
      * Restore a backup
-     * 
+     *
      * @param string $backupFilename The filename of the backup to restore
      * @return array Information about the restore operation
      */
@@ -358,7 +358,7 @@ class BackupService
 
     /**
      * Restore the database from a backup
-     * 
+     *
      * @param string $extractPath Path to the extracted backup
      */
     protected function restoreDatabase(string $extractPath): void
@@ -383,7 +383,7 @@ class BackupService
 
     /**
      * Restore a MySQL database from a dump file
-     * 
+     *
      * @param string $dumpPath Path to the database dump file
      */
     protected function restoreMysqlDatabase(string $dumpPath): void
@@ -408,7 +408,7 @@ class BackupService
 
     /**
      * Restore a SQLite database from a dump file
-     * 
+     *
      * @param string $dumpPath Path to the database dump file
      */
     protected function restoreSqliteDatabase(string $dumpPath): void
@@ -422,7 +422,7 @@ class BackupService
 
     /**
      * Restore files from a backup
-     * 
+     *
      * @param string $extractPath Path to the extracted backup
      */
     protected function restoreFiles(string $extractPath): void
@@ -442,8 +442,8 @@ class BackupService
 
     /**
      * Format a file size in bytes to a human-readable format
-     * 
-     * @param int $bytes File size in bytes
+     *
+     * @param integer $bytes File size in bytes
      * @return string Formatted file size
      */
     protected function formatSize(int $bytes): string

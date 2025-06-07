@@ -15,8 +15,8 @@ class BaseCollection extends ResourceCollection
      *
      * @param \Illuminate\Contracts\Pagination\LengthAwarePaginator $resource
      * @param $collects
-     * @param string $name of the field data resource
-     * @param array $extra_fields with the pagination
+     * @param string                                                $name         of the field data resource
+     * @param array                                                 $extra_fields with the pagination
      */
     public function __construct($resource, $collects, string $name = 'entries', array $extra_fields = [])
     {

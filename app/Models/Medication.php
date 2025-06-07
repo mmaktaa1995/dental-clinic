@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Medication extends BaseModel
 {
     use HasFactory;
+
     protected $fillable = ['name', 'description', 'manufacturer', 'price', 'user_id'];
 
     public function patients(): BelongsToMany

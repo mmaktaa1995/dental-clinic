@@ -1,0 +1,30 @@
+includes:
+    - vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+    level: 6
+    paths:
+        - app
+        - config
+        - database
+        - routes
+        - tests
+    
+    # Ignore errors for Laravel facades
+    checkMissingIterableValueType: false
+    
+    # Exclude directories
+    excludePaths:
+        - storage/*
+        - vendor/*
+        - database/migrations/*
+        - node_modules/*
+        - bootstrap/cache/*
+    
+    # Laravel specific configuration
+    noUnnecessaryCollectionCall: false
+    checkMissingIterableValueType: false
+    
+    # Ignore specific errors
+    ignoreErrors:
+        - '#Call to an undefined method.*#i'

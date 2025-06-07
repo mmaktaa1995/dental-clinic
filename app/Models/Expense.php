@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Expense extends BaseModel
 {
     use HasFactory;
+
     protected $fillable = ['date', 'description', 'name', 'amount', 'user_id'];
     protected $table = "financial_expenses";
-
 }

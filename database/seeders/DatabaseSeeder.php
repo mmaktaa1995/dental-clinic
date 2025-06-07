@@ -24,13 +24,13 @@ class DatabaseSeeder extends Seeder
 
         // Seed roles first
         $this->call(RoleSeeder::class);
-        
+
         // Seed permissions and assign to roles
         $this->call(PermissionSeeder::class);
 
         // Default seeder for non-testing environments
         \App\Models\User::factory(1)->create();
-        
+
         if (!AppConfig::query()->where('key', 'usd_exchange')->exists()) {
             AppConfig::query()->create([
                 'key' => 'usd_exchange',

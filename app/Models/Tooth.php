@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Tooth extends BaseModel
 {
     use HasFactory;
+
     public $timestamps = false;
     protected $fillable = ['name', 'image', 'number', 'extra'];
     protected $casts = [

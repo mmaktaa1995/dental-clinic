@@ -7,7 +7,6 @@ namespace App\Models;
  */
 class BaseModel extends \Eloquent
 {
-
     protected static function boot()
     {
         parent::boot();

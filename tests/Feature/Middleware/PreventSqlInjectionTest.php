@@ -26,10 +26,10 @@ class PreventSqlInjectionTest extends TestCase
     }
 
     /** @test */
-    public function it_allows_clean_requests()
+    public function allowsCleanRequests()
     {
         $middleware = $this->createTestMiddleware();
-        
+
         // Test GET request
         $request = $this->createRequestForSqlTest([
             'name' => 'John Doe',
@@ -42,7 +42,7 @@ class PreventSqlInjectionTest extends TestCase
         });
 
         $this->assertEquals(200, $response->getStatusCode());
-        
+
         // Test POST request
         $request = $this->createRequestForSqlTest([
             'name' => 'Jane Smith',
@@ -58,10 +58,10 @@ class PreventSqlInjectionTest extends TestCase
     }
 
     /** @test */
-    public function it_blocks_sql_commands_in_query_parameters()
+    public function blocksSqlCommandsInQueryParameters()
     {
         $middleware = $this->createTestMiddleware();
-        
+
         $sqlCommands = [
             "SELECT * FROM users",
             "DROP TABLE users",
@@ -76,7 +76,7 @@ class PreventSqlInjectionTest extends TestCase
 
         foreach ($sqlCommands as $sql) {
             $request = $this->createRequestForSqlTest(['search' => $sql]);
-            
+
             $response = $middleware->handle($request, function ($req) {
                 return new Response('Should not reach here', 200);
             });
@@ -89,10 +89,10 @@ class PreventSqlInjectionTest extends TestCase
     }
 
     /** @test */
-    public function it_blocks_sql_commands_in_nested_arrays()
+    public function blocksSqlCommandsInNestedArrays()
     {
         $middleware = $this->createTestMiddleware();
-        
+
         $request = $this->createRequestForSqlTest([
             'filters' => [
                 'search' => "1' OR '1'='1",
@@ -111,10 +111,10 @@ class PreventSqlInjectionTest extends TestCase
     }
 
     /** @test */
-    public function it_allows_safe_special_characters()
+    public function allowsSafeSpecialCharacters()
     {
         $middleware = $this->createTestMiddleware();
-        
+
         $safeInputs = [
             'email' => 'user.name+tag@example.com',
             'search' => 'dental & cleaning',
@@ -122,7 +122,7 @@ class PreventSqlInjectionTest extends TestCase
         ];
 
         $request = $this->createRequestForSqlTest($safeInputs);
-        
+
         $response = $middleware->handle($request, function ($req) {
             return new Response('OK', 200);
         });
@@ -131,17 +131,17 @@ class PreventSqlInjectionTest extends TestCase
     }
 
     /** @test */
-    public function it_handles_empty_requests() 
+    public function handlesEmptyRequests()
     {
         $middleware = $this->createTestMiddleware();
-        
+
         // Test empty GET request
         $request = $this->createRequestForSqlTest();
         $response = $middleware->handle($request, function ($req) {
             return new Response('OK', 200);
         });
         $this->assertEquals(200, $response->getStatusCode());
-        
+
         // Test empty POST request
         $request = $this->createRequestForSqlTest([], 'POST');
         $response = $middleware->handle($request, function ($req) {
@@ -151,10 +151,10 @@ class PreventSqlInjectionTest extends TestCase
     }
 
     /** @test */
-    public function it_handles_non_string_values()
+    public function handlesNonStringValues()
     {
         $middleware = $this->createTestMiddleware();
-        
+
         $request = $this->createRequestForSqlTest([
             'number' => 123,
             'array' => ['a', 'b', 'c'],
@@ -166,16 +166,16 @@ class PreventSqlInjectionTest extends TestCase
                 'empty' => ''
             ]
         ]);
-        
+
         $response = $middleware->handle($request, function ($req) {
             return new Response('OK', 200);
         });
 
         $this->assertEquals(200, $response->getStatusCode());
     }
-    
+
     /** @test */
-    public function it_logs_suspicious_activity()
+    public function logsSuspiciousActivity()
     {
         Log::shouldReceive('channel->warning')
             ->once()
@@ -183,16 +183,16 @@ class PreventSqlInjectionTest extends TestCase
                 return $message === 'Potential SQL injection attempt detected' &&
                        isset($context['suspicious_input']);
             });
-        
+
         $middleware = $this->createTestMiddleware();
         $request = $this->createRequestForSqlTest([
             'search' => "1' OR '1'='1"
         ]);
-        
+
         $response = $middleware->handle($request, function ($req) {
             return new Response('Should not reach here', 200);
         });
-        
+
         $this->assertEquals(422, $response->getStatusCode());
     }
 }

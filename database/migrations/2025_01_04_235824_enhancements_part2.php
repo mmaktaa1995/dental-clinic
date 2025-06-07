@@ -22,9 +22,9 @@ return new class extends Migration {
         if (app()->environment('testing')) {
             return;
         }
-        
+
         $user = User::where('email', 'mehdi@aktaa-dental.com')->first();
-        
+
         // Only proceed if the user exists
         if ($user) {
             Service::query()->whereNull('user_id')->update(['user_id' => $user->id]);
