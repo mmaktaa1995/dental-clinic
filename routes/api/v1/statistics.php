@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 // Statistics and home routes
+Route::get('statistics', StatisticsController::class);
 Route::get('statistics/overview', [StatisticsController::class, 'overview']);
 Route::get('statistics/patient-growth', [StatisticsController::class, 'patientGrowth']);
 Route::get('statistics/revenue', [StatisticsController::class, 'revenue']);

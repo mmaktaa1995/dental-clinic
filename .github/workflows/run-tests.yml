@@ -1,43 +1,90 @@
-name: Tests
+name: PHPUnit Tests
 
-on: [ push, pull_request ]
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    - cron: '0 0 * * 0' # Weekly on Sunday at midnight
 
 jobs:
   test:
+    name: PHP ${{ matrix.php-version }} - Laravel ${{ matrix.laravel-version }} - ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
-        os: [ ubuntu-latest, windows-latest ]
-        php: [ 8.0 ]
-        stability: [ prefer-lowest, prefer-stable ]
-
-    name: P${{ matrix.php }} - ${{ matrix.stability }} - ${{ matrix.os }}
+        os: [ubuntu-latest]
+        php-version: ['8.1']
+        laravel-version: ['9.x']
+        include:
+          - php-version: '8.1'
+            dependency-version: '^9.0'
+            testbench: '^7.0'
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
-          coverage: none
+          php-version: ${{ matrix.php-version }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, mysql, pdo_mysql, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
+          coverage: xdebug
+          ini-values: memory_limit=-1
 
-      - name: Setup problem matchers
+      - name: Get Composer Cache Directory
+        id: composer-cache
         run: |
-          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
-          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+          echo "key=$(composer config cache-files-dir | sha256sum | cut -d ' ' -f 1)" >> $GITHUB_OUTPUT
 
-      - name: Install dependencies
-        run: composer update --${{ matrix.stability }} --prefer-dist --no-interaction
+      - name: Cache Composer packages
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ steps.composer-cache.outputs.key }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
 
-      - name: Copy env
-        run: cp .env.example .env
 
-      - name: Generate Key env
-        run: php artisan key:generate
+      - name: Install Dependencies
+        run: |
+          composer require --dev phpunit/phpunit:^9.0 --no-update
+          composer update --prefer-dist --no-progress --prefer-stable --no-interaction --no-suggest
 
-      - name: Execute tests
-        run: vendor/bin/phpunit
+      - name: Prepare the application
+        run: |
+          cp .env.example .env.testing
+          php artisan key:generate --env=testing
+          php artisan config:clear
+          php artisan config:cache
+
+      - name: Create Database
+        run: |
+          mysql -e 'CREATE DATABASE IF NOT EXISTS laravel_testing;'
+          echo "DB_CONNECTION=mysql" >> .env.testing
+          echo "DB_DATABASE=laravel_testing" >> .env.testing
+          echo "DB_USERNAME=root" >> .env.testing
+          echo "DB_PASSWORD=root" >> .env.testing
+
+      - name: Execute Tests
+        env:
+          DB_CONNECTION: mysql
+          DB_DATABASE: laravel_testing
+          DB_USERNAME: root
+          DB_PASSWORD: root
+        run: |
+          php artisan migrate:fresh --env=testing --force
+          php artisan db:seed --env=testing
+          php vendor/bin/phpunit --coverage-clover=coverage.xml
+
+      - name: Upload Coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: coverage.xml
+          fail_ci_if_error: false

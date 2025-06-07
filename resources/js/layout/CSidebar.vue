@@ -58,8 +58,6 @@ const showSide = computed(() => {
   return accountStore.user && !route.path.includes('unauthorized') && !route.path.includes('404');
 });
 
-
-
 const groupLinks = [
   {
     group: t('global.general'),
@@ -67,7 +65,7 @@ const groupLinks = [
       {
         name: 'statistics',
         text: t('sideBar.menu.statistics'),
-        icon: 'fa-chart-line',
+        icon: 'fa-chart-bar',
         permission: 'view-statistics',
       },
       {

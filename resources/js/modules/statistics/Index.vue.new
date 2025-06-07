@@ -114,21 +114,6 @@
                 <p class="text-2xl font-semibold text-gray-900">
                   {{ widget.value }}
                 </p>
-                <p v-if="widget.comparison" class="text-xs mt-1" :class="{
-                  'text-green-600': widget.comparison.isPositive,
-                  'text-red-600': !widget.comparison.isPositive
-                }">
-                  <template v-if="widget.comparison.value !== 0">
-                    <i :class="widget.comparison.isPositive ? 'fas fa-arrow-up' : 'fas fa-arrow-down'"></i>
-                    {{ Math.abs(widget.comparison.value) }}% {{ widget.comparison.isPositive ? $t('statistics.increase') : $t('statistics.decrease') }}
-                    <span class="text-gray-500">
-                      {{ widget.comparisonLabel }}
-                    </span>
-                  </template>
-                  <span v-else class="text-gray-500">
-                    {{ $t('statistics.no_change') }}
-                  </span>
-                </p>
               </div>
             </div>
           </div>
@@ -175,16 +160,12 @@
   import { api } from '@/logic/api';
   import CSelect from '@/components/CSelect.vue';
   import CButton from '@/components/CButton.vue';
-  import { 
-    createRevenueChart, 
-    createPatientsChart, 
-    createExpensesChart, 
-    createAppointmentsChart,
-    calculateComparisonData,
-    chartColors,
-    chartOptions
-  } from '@/utils/chartUtils';
-  import { Chart, type ChartConfiguration } from 'chart.js';
+  import { Chart, ChartConfiguration, registerables } from 'chart.js';
+  import 'chartjs-adapter-date-fns';
+  
+  // Register Chart.js components
+  console.log(registerables);
+//   Chart.register(...registerables);
   
   const { t } = useI18n();
   
@@ -231,22 +212,55 @@
     totalDebts: 0,
   });
   
-  // Chart instances and comparison data
-  const charts = ref<Record<string, Chart | null>>({
+  // Chart instances
+  const charts = ref<{[key: string]: Chart | null}>({
     revenueChart: null,
     patientsChart: null,
     expensesChart: null,
     appointmentsChart: null
   });
-
-  // Previous period data for comparison
-  const previousPeriodData = ref<StatsData | null>(null);
-  const comparisonData = ref<{
-    totalIncome?: { value: number; isPositive: boolean };
-    totalExpenses?: { value: number; isPositive: boolean };
-    totalPatients?: { value: number; isPositive: boolean };
-    totalDebts?: { value: number; isPositive: boolean };
-  }>({});
+  
+  // Chart colors
+  const chartColors = {
+    blue: '#3b82f6',
+    green: '#10b981',
+    red: '#ef4444',
+    yellow: '#f59e0b',
+    purple: '#8b5cf6',
+    pink: '#ec4899',
+    indigo: '#6366f1',
+    teal: '#14b8a6',
+    orange: '#f97316',
+    cyan: '#06b6d4',
+  };
+  
+  // Chart options
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      tooltip: {
+        mode: 'index' as const,
+        intersect: false,
+      },
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false,
+        },
+      },
+      y: {
+        beginAtZero: true,
+        grid: {
+          borderDash: [3, 3],
+        },
+      },
+    },
+  };
   
   // Computed properties
   const greeting = computed(() => {
@@ -302,63 +316,43 @@
     value: string | number;
     icon: string;
     iconBgColor: string;
-    comparison?: {
-      value: number;
-      isPositive: boolean;
-    };
-    comparisonLabel?: string;
   }
   
-  const widgets = computed<StatWidget[]>(() => {
-    const comparison = comparisonData.value;
-    const periodLabel = selectedDay.value ? 'day' : selectedMonth.value ? 'month' : 'year';
-    const comparisonLabel = t(`statistics.compared_to_previous_${periodLabel}`);
-  
-    return [
-      {
-        label: 'statistics.total_patients',
-        value: stats.value.totalPatientsCount,
-        icon: 'fas fa-users',
-        iconBgColor: 'bg-blue-500',
-        comparison: comparison.totalPatients,
-        comparisonLabel
-      },
-      {
-        label: 'statistics.total_income',
-        value: formatCurrency(stats.value.totalIncome),
-        icon: 'fas fa-money-bill-wave',
-        iconBgColor: 'bg-green-500',
-        comparison: comparison.totalIncome,
-        comparisonLabel
-      },
-      {
-        label: 'statistics.total_expenses',
-        value: formatCurrency(stats.value.totalExpenses),
-        icon: 'fas fa-receipt',
-        iconBgColor: 'bg-yellow-500',
-        comparison: comparison.totalExpenses,
-        comparisonLabel
-      },
-      {
-        label: 'statistics.total_debts',
-        value: formatCurrency(stats.value.totalDebts),
-        icon: 'fas fa-file-invoice-dollar',
-        iconBgColor: 'bg-red-500',
-        comparison: comparison.totalDebts,
-        comparisonLabel
-      },
-    ];
-  });
+  const widgets = computed<StatWidget[]>(() => [
+    {
+      label: 'statistics.total_patients',
+      value: stats.value.totalPatientsCount,
+      icon: 'fas fa-users',
+      iconBgColor: 'bg-blue-500',
+    },
+    {
+      label: 'statistics.total_income',
+      value: formatCurrency(stats.value.totalIncome),
+      icon: 'fas fa-money-bill-wave',
+      iconBgColor: 'bg-green-500',
+    },
+    {
+      label: 'statistics.total_expenses',
+      value: formatCurrency(stats.value.totalExpenses),
+      icon: 'fas fa-receipt',
+      iconBgColor: 'bg-yellow-500',
+    },
+    {
+      label: 'statistics.total_debts',
+      value: formatCurrency(stats.value.totalDebts),
+      icon: 'fas fa-file-invoice-dollar',
+      iconBgColor: 'bg-red-500',
+    },
+  ]);
   
   // Format currency helper
-  const formatCurrency = (value: number | string): string => {
-    const numValue = typeof value === 'string' ? parseFloat(value) || 0 : value;
+  const formatCurrency = (value: number): string => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
-    }).format(numValue);
+    }).format(value);
   };
   
   const handleLogin = async (): Promise<void> => {
@@ -407,23 +401,15 @@
     error.value = '';
   
     try {
-      // Fetch current period data
-      const [currentPeriodRes, previousPeriodRes] = await Promise.all([
-        api.get('/statistics', {
+      const response = await api.get('/api/statistics', {
+        params: {
           year: selectedYear.value,
           month: selectedMonth.value,
           day: selectedDay.value
-        }),
-        fetchPreviousPeriodData()
-      ]);
+        }
+      });
       
-      stats.value = currentPeriodRes;
-      previousPeriodData.value = previousPeriodRes || null;
-      
-      // Calculate comparison data
-      if (previousPeriodData.value) {
-        comparisonData.value = calculateComparisonData(stats.value, previousPeriodData.value);
-      }
+      stats.value = response.data;
       
       // Update charts with new data
       updateCharts();
@@ -432,35 +418,6 @@
       console.error('Error fetching statistics:', err);
     } finally {
       loading.value = false;
-    }
-  };
-
-  const fetchPreviousPeriodData = async () => {
-    try {
-      const params: any = {};
-      
-      if (selectedDay.value) {
-        // Compare with previous day
-        const currentDate = new Date(selectedYear.value, (selectedMonth.value || 1) - 1, selectedDay.value);
-        const prevDate = new Date(currentDate);
-        prevDate.setDate(prevDate.getDate() - 1);
-        
-        params.year = prevDate.getFullYear();
-        params.month = prevDate.getMonth() + 1;
-        params.day = prevDate.getDate();
-      } else if (selectedMonth.value) {
-        // Compare with previous month
-        params.year = selectedYear.value - (selectedMonth.value === 1 ? 1 : 0);
-        params.month = selectedMonth.value === 1 ? 12 : selectedMonth.value - 1;
-      } else {
-        // Compare with previous year
-        params.year = selectedYear.value - 1;
-      }
-      
-      return await api.get('/statistics', params);
-    } catch (err) {
-      console.error('Error fetching previous period data:', err);
-      return null;
     }
   };
   
@@ -472,57 +429,23 @@
       }
     });
     
-    const ctxRevenue = document.getElementById('revenueChart') as HTMLCanvasElement | null;
-    const ctxPatients = document.getElementById('patientsChart') as HTMLCanvasElement | null;
-    const ctxExpenses = document.getElementById('expensesChart') as HTMLCanvasElement | null;
-    const ctxAppointments = document.getElementById('appointmentsChart') as HTMLCanvasElement | null;
+    // Create revenue chart
+    createRevenueChart();
     
-    // Create charts if elements exist
-    if (ctxRevenue) {
-      const revenueChart = createRevenueChart(
-        ctxRevenue,
-        Array.isArray(stats.value.incomes) ? stats.value.incomes : [],
-        Array.isArray(stats.value.expenses) ? stats.value.expenses : [],
-        t
-      );
-      if (revenueChart) {
-        charts.value.revenueChart = revenueChart;
-      }
-    }
+    // Create patients chart
+    createPatientsChart();
     
-    if (ctxPatients) {
-      const patientsChart = createPatientsChart(
-        ctxPatients,
-        Array.isArray(stats.value.patients) ? stats.value.patients : [],
-        t
-      );
-      if (patientsChart) {
-        charts.value.patientsChart = patientsChart;
-      }
-    }
+    // Create expenses chart
+    createExpensesChart();
     
-    if (ctxExpenses) {
-      const expensesChart = createExpensesChart(
-        ctxExpenses,
-        Array.isArray(stats.value.expenses) ? stats.value.expenses : [],
-        t
-      );
-      if (expensesChart) {
-        charts.value.expensesChart = expensesChart;
-      }
-    }
-    
-    if (ctxAppointments) {
-      const appointmentsChart = createAppointmentsChart(
-        ctxAppointments,
-        Array.isArray(stats.value.visits) ? stats.value.visits : [],
-        t
-      );
-      if (appointmentsChart) {
-        charts.value.appointmentsChart = appointmentsChart;
-      }
-    }
+    // Create appointments chart
+    createAppointmentsChart();
   };
+  
+  const createRevenueChart = (): void => {
+    const ctx = document.getElementById('revenueChart') as HTMLCanvasElement | null;
+    if (!ctx) return;
+    
     const labels = Array.isArray(stats.value.incomes) ? 
       stats.value.incomes.map((item) => format(parseISO(item.date), 'MMM d')) : [];
     
@@ -567,6 +490,144 @@
       },
     };
   
+    charts.value.revenueChart = new Chart(ctx, config);
+  };
+  
+  const createPatientsChart = (): void => {
+    const ctx = document.getElementById('patientsChart') as HTMLCanvasElement | null;
+    if (!ctx) return;
+    
+    const labels = Array.isArray(stats.value.patients) ?
+      stats.value.patients.map((item) => format(parseISO(item.date), 'MMM d')) : [];
+      
+    const patientData = Array.isArray(stats.value.patients) ?
+      stats.value.patients.map((item) => item.count || 0) : [];
+    
+    const config: ChartConfiguration = {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: t('statistics.new_patients'),
+            data: patientData,
+            backgroundColor: chartColors.blue,
+            borderRadius: 4,
+          },
+        ],
+      },
+      options: {
+        ...chartOptions,
+        plugins: {
+          ...chartOptions.plugins,
+          title: {
+            display: true,
+            text: t('statistics.patient_growth'),
+          },
+        },
+      },
+    };
+  
+    charts.value.patientsChart = new Chart(ctx, config);
+  };
+  
+  const createExpensesChart = (): void => {
+    const ctx = document.getElementById('expensesChart') as HTMLCanvasElement | null;
+    if (!ctx || !Array.isArray(stats.value.expenses)) return;
+    
+    // Group expenses by category
+    const categories = new Map<string, number>();
+    stats.value.expenses.forEach((expense) => {
+      const category = expense.category || 'Uncategorized';
+      const amount = parseFloat(expense.amount) || 0;
+      categories.set(category, (categories.get(category) || 0) + amount);
+    });
+    
+    const labels = Array.from(categories.keys());
+    const data = Array.from(categories.values());
+    
+    // Generate colors for categories
+    const backgroundColors = labels.map((_, index) => {
+      const colors = Object.values(chartColors);
+      return colors[index % colors.length];
+    });
+    
+    const config: ChartConfiguration = {
+      type: 'doughnut',
+      data: {
+        labels,
+        datasets: [
+          {
+            data,
+            backgroundColor: backgroundColors,
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        ...chartOptions,
+        plugins: {
+          ...chartOptions.plugins,
+          title: {
+            display: true,
+            text: t('statistics.expenses_by_category'),
+          },
+        },
+      },
+    };
+  
+    charts.value.expensesChart = new Chart(ctx, config);
+  };
+  
+  const createAppointmentsChart = (): void => {
+    const ctx = document.getElementById('appointmentsChart') as HTMLCanvasElement | null;
+    if (!ctx || !Array.isArray(stats.value.visits)) return;
+    
+    // Group visits by status
+    const statuses = new Map<string, number>();
+    stats.value.visits.forEach((visit) => {
+      const status = visit.status || 'unknown';
+      statuses.set(status, (statuses.get(status) || 0) + 1);
+    });
+    
+    const labels = Array.from(statuses.keys()).map(status => 
+      t(`appointments.statuses.${status.toLowerCase()}`)
+    );
+    const data = Array.from(statuses.values());
+    
+    // Generate colors for statuses
+    const backgroundColors = labels.map((_, index) => {
+      const colors = Object.values(chartColors);
+      return colors[(index + 2) % colors.length]; // Offset to get different colors
+    });
+    
+    const config: ChartConfiguration = {
+      type: 'pie',
+      data: {
+        labels,
+        datasets: [
+          {
+            data,
+            backgroundColor: backgroundColors,
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        ...chartOptions,
+        plugins: {
+          ...chartOptions.plugins,
+          title: {
+            display: true,
+            text: t('statistics.appointments_by_status'),
+          },
+        },
+      },
+    };
+  
+    charts.value.appointmentsChart = new Chart(ctx, config);
+  };
+  
   // Lifecycle hooks
   onMounted(() => {
     // Check if already authenticated
@@ -575,9 +636,9 @@
       fetchData();
     }
   });
-
+  
+  // Clean up charts when component is unmounted
   onBeforeUnmount(() => {
-    // Clean up charts when component is unmounted
     Object.values(charts.value).forEach(chart => {
       if (chart) {
         chart.destroy();

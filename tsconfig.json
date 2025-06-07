@@ -17,6 +17,14 @@
     "sourceMap": true,
     "skipLibCheck": true,
   },
-  "include": ["resources/js/**/*.ts", "resources/js/**/*.d.ts", "resources/js/**/*.tsx", "resources/js/**/*.vue", "resources/js/components.d.ts"],
+  "include": [
+    "resources/js/**/*.ts",
+    "resources/js/**/*.d.ts",
+    "resources/js/**/*.tsx",
+    "resources/js/**/*.vue",
+    "resources/js/components.d.ts",
+    "resources/js/types/**/*.d.ts"
+  ],
+  "typeRoots": ["./node_modules/@types", "./resources/js/types"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

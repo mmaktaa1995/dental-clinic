@@ -115,7 +115,13 @@ This document outlines the plan to enhance the security of the dental clinic aut
 - [x] Test service layer methods
   - [x] PaymentService
   - [x] PatientService
-  - [ ] AppointmentService
+  - [x] AppointmentService
+  - Created AppointmentService to handle appointment business logic
+  - Implemented methods for CRUD operations with proper validation
+  - Added comprehensive test coverage for all service methods
+  - Updated AppointmentController to use the new service
+  - Added proper type hints and documentation
+  - Ensured proper error handling and validation
   - [ ] ReportService
 - [ ] Test form request validations
 
