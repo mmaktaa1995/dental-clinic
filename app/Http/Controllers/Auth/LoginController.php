@@ -9,6 +9,7 @@ use App\Services\SensitiveOperationsLogger;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
@@ -54,7 +55,7 @@ class LoginController extends Controller
         $this->middleware('guest')->except(['logout', 'user']);
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request): JsonResponse
     {
         $user = $request->user();
 
@@ -90,7 +91,14 @@ class LoginController extends Controller
         }
     }
 
-    protected function login(Request $request)
+    /**
+     * Handle a login request to the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    protected function login(Request $request): JsonResponse
     {
         $request->validate([
             'email' => 'required|email',
@@ -140,6 +148,7 @@ class LoginController extends Controller
         // Load roles with their permissions
         $user->load(['roles.permissions']);
 
+
         // Log successful login
         SensitiveOperationsLogger::success('login', 'auth', $user->id, [
             'email' => $user->email,
@@ -150,7 +159,7 @@ class LoginController extends Controller
         return $this->sendLoginResponse($request, $user);
     }
 
-    public function user(Request $request)
+    public function user(Request $request): UserResource
     {
         $user = $request->user();
         $user->load(['roles.permissions']);
@@ -162,32 +171,36 @@ class LoginController extends Controller
      * Redirect the user after determining they are locked out.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    protected function sendLockoutResponse(Request $request)
+    protected function sendLockoutResponse(Request $request): JsonResponse
     {
         $seconds = $this->limiter()->availableIn(
             $this->throttleKey($request)
         );
 
-        throw ValidationException::withMessages([
+        $exception = ValidationException::withMessages([
             $this->username() => [Lang::get('auth.throttle', [
                 'seconds' => $seconds,
                 'minutes' => ceil($seconds / 60),
             ])],
         ])->status(429);
+
+        return response()->json([
+            'message' => $exception->getMessage(),
+            'errors' => $exception->errors(),
+        ], 429);
     }
 
-    protected function sendLoginResponse(Request $request, $user)
+    protected function sendLoginResponse(Request $request, User $user): JsonResponse
     {
         $this->clearLoginAttempts($request);
-
         return $this->authenticated($request, $user);
     }
 
-    protected function authenticated(Request $request, $user)
+    protected function authenticated(Request $request, User $user): JsonResponse
     {
         $token = $user->createToken('personal-access-token');
         $plainTextToken = explode('|', $token->plainTextToken)[1];
@@ -210,15 +223,21 @@ class LoginController extends Controller
 
 
     /**
-     * @param Request $request
+     * Get the failed login response instance.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Validation\ValidationException
      */
-    protected function sendFailedLoginResponse($request)
+    protected function sendFailedLoginResponse(Request $request): JsonResponse
     {
-        throw ValidationException::withMessages([
+        $exception = ValidationException::withMessages([
             $this->username() => [trans('auth.failed')],
         ]);
+
+        return response()->json([
+            'message' => $exception->getMessage(),
+            'errors' => $exception->errors(),
+        ], 422);
     }
 }

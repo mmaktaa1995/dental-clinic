@@ -74,6 +74,9 @@ class AppointmentService
             $query->where('id', '!=', $excludeId);
         }
 
+        /**
+         * @var \Illuminate\Database\Eloquent\Builder $query
+         */
         if ($query->exists()) {
             throw new \InvalidArgumentException(__('app.appointments_conflict'));
         }

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Tooth;
 use Illuminate\Support\Collection;
 use Symfony\Component\DomCrawler\Crawler;
+use Illuminate\Http\JsonResponse;
 
 class SettingsService
 {
@@ -45,7 +46,7 @@ class SettingsService
     }
 
 
-    public function getTeethInfo()
+    public function getTeethInfo(): void
     {
         $data = collect([
             0 => [
@@ -429,10 +430,10 @@ class SettingsService
                     ]),
                 ];
             }
-            Tooth::insert($dataToAdd);
+            Tooth::query()->insert($dataToAdd);
         });
     }
-    public function getHoverImages()
+    public function getHoverImages(): void
     {
         $data = [
             0 => [
@@ -797,7 +798,7 @@ class SettingsService
         }
     }
 
-    public function getTeethImages()
+    public function getTeethImages(): JsonResponse
     {
 
         $response = \Http::get('http://dental-new1.test/images/teeth.svg');

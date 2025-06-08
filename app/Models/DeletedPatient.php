@@ -9,7 +9,6 @@
 
 namespace App\Models;
 
-use App\Traits\SearchQuery;
 use Eloquent;
 
 /**
@@ -17,10 +16,6 @@ use Eloquent;
  */
 class DeletedPatient extends BaseModel
 {
-    use SearchQuery;
-
-    public static $relationsWithForSearch = [];
-
     protected $fillable = ['name', 'age', 'phone', 'mobile', 'file_number', 'image', 'total_amount', 'gender', 'user_id'];
 
 

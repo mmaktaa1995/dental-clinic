@@ -13,7 +13,7 @@
 
 namespace App\Models{
 /**
- * App\Models\AppConfig
+ * 
  *
  * @property int $id
  * @property string $key
@@ -37,7 +37,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Appointment
+ * 
  *
  * @property int $id
  * @property int|null $patient_id
@@ -47,6 +47,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int|null $user_id
  * @property-read \App\Models\Patient|null $patient
+ * @property-read \App\Models\User|null $user
  * @method static \Database\Factories\AppointmentFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Appointment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Appointment newQuery()
@@ -66,7 +67,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\BaseModel
+ * 
  *
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel newQuery()
@@ -79,7 +80,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\DeletedPatient
+ * 
  *
  * @property int $id
  * @property string|null $name
@@ -118,7 +119,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Expense
+ * 
  *
  * @property int $id
  * @property string|null $date
@@ -148,7 +149,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Medication
+ * 
  *
  * @property int $id
  * @property string $name
@@ -180,7 +181,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Patient
+ * 
  *
  * @property int $id
  * @property string|null $name
@@ -240,7 +241,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\PatientFile
+ * 
  *
  * @property int $id
  * @property int $patient_id
@@ -277,7 +278,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\PatientRecord
+ * 
  *
  * @property int $id
  * @property int $patient_id
@@ -289,7 +290,7 @@ namespace App\Models{
  * @property int|null $user_id
  * @property string|null $symptoms
  * @property string|null $diagnosis
- * @property int $record_date
+ * @property \Illuminate\Support\Carbon $record_date
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tooth> $affectedTeeth
@@ -320,7 +321,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\PatientRecordTooth
+ * 
  *
  * @property int $id
  * @property int $patient_record_id
@@ -343,7 +344,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Payment
+ * 
  *
  * @property int $id
  * @property string|null $amount
@@ -395,7 +396,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Permission
+ * 
  *
  * @property int $id
  * @property string $name
@@ -422,7 +423,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Role
+ * 
  *
  * @property int $id
  * @property string $name
@@ -452,7 +453,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Service
+ * 
  *
  * @property int $id
  * @property string $name
@@ -461,10 +462,11 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int|null $user_id
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Payment> $payment
- * @property-read int|null $payment_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ServicePayment> $servicePayment
- * @property-read int|null $service_payment_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Payment> $payments
+ * @property-read int|null $payments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ServicePayment> $servicePayments
+ * @property-read int|null $service_payments_count
+ * @property-read \App\Models\User|null $user
  * @method static \Database\Factories\ServiceFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Service newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Service newQuery()
@@ -484,13 +486,13 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\ServicePayment
+ * 
  *
  * @property int $id
- * @property int $service_id
  * @property int $payment_id
- * @property string $price
- * @property int $quantity
+ * @property int $service_id
+ * @property int|null $price
+ * @property string|null $notes
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Payment $payment
@@ -500,9 +502,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|ServicePayment query()
  * @method static \Illuminate\Database\Eloquent\Builder|ServicePayment whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ServicePayment whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ServicePayment whereNotes($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ServicePayment wherePaymentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ServicePayment wherePrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ServicePayment whereQuantity($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ServicePayment whereServiceId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ServicePayment whereUpdatedAt($value)
  * @mixin \Eloquent
@@ -513,7 +515,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Tooth
+ * 
  *
  * @property int $id
  * @property int|null $user_id
@@ -541,7 +543,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\User
+ * 
  *
  * @property int $id
  * @property string $name
@@ -581,7 +583,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Visit
+ * 
  *
  * @property int $id
  * @property int $patient_id

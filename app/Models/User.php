@@ -78,7 +78,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function assignRole($role)
     {
         if (is_string($role)) {
-            $role = Role::where('slug', $role)->firstOrFail();
+            $role = Role::query()->where('slug', $role)->firstOrFail();
         }
 
         $this->roles()->syncWithoutDetaching($role);
@@ -93,7 +93,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function removeRole($role)
     {
         if (is_string($role)) {
-            $role = Role::where('slug', $role)->firstOrFail();
+            $role = Role::query()->where('slug', $role)->firstOrFail();
         }
 
         $this->roles()->detach($role);

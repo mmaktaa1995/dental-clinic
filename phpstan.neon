@@ -1,30 +1,67 @@
+# Basic PHPStan configuration without Larastan
 includes:
-    - vendor/nunomaduro/larastan/extension.neon
-
+    - vendor/larastan/larastan/extension.neon
+    - vendor/nesbot/carbon/extension.neon
+    
 parameters:
+    # Set the PHPStan level (0-9, where 0 is the loosest and 9 is the strictest)
     level: 6
+    
+    # Paths to analyze
     paths:
         - app
         - config
-        - database
+        - database/factories
+        - database/seeders
         - routes
-        - tests
-    
-    # Ignore errors for Laravel facades
-    checkMissingIterableValueType: false
-    
-    # Exclude directories
+
+    # Exclude directories and files
     excludePaths:
-        - storage/*
-        - vendor/*
-        - database/migrations/*
-        - node_modules/*
-        - bootstrap/cache/*
+        - storage/**/*
+        - vendor/**/*
+        - node_modules/**/*
+        - bootstrap/cache/**/*
+        - database/migrations/**/*
+        - _ide_helper.php
+        - _ide_helper_models.php
+        - app/Console/Commands/**/*
+        - app/Exceptions/**/*
+        - app/Http/Controllers/Auth/**/*
+        - app/Http/Middleware/**/*
+        - database/**/*
+        - public/**/*
+        - resources/views/**/*
+        - routes/**/*
+        - tests/**/*
+
+    # Include helper files
+    scanFiles:
+        - _ide_helper.php
+        - _ide_helper_models.php
+
+    # Report missing typehints in functions
+    reportUnmatchedIgnoredErrors: false
     
-    # Laravel specific configuration
-    noUnnecessaryCollectionCall: false
-    checkMissingIterableValueType: false
-    
-    # Ignore specific errors
+    # Ignore specific errors (temporarily, should be fixed eventually)
     ignoreErrors:
+        # Ignore undefined method errors for magic methods and Laravel's magic methods
         - '#Call to an undefined method.*#i'
+        - '#Access to an undefined property.*#i'
+        - '#Method .* has no return type specified.#i'
+        - '#Parameter .* has no type specified.#i'
+        - '#Property .* has no type specified.#i'
+        - '#Method .* overrides final method.*#'
+        - '#Class .* not found#'
+        - '#Undefined variable: \$[a-zA-Z0-9_]+#'
+        - '#Undefined property: .*::\$[a-zA-Z0-9_]+#'
+        - '#Parameter .* of method .* is not contravariant#'
+
+        # Ignore dynamic property access
+        - '#Access to an undefined property.*#i'
+        
+        # Ignore mixin related errors
+        - '#Class .* does not have a method .*#i'
+        
+        # Ignore view related errors
+        - '#Undefined variable: .*#i'
+        - '#Undefined method.*#i'

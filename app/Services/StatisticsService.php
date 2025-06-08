@@ -1,20 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
-use App\Models\Expense;
-use App\Models\Patient;
-use App\Models\Payment;
-use App\Models\Visit;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use DB;
+use Illuminate\Support\Collection as SupportCollection;
 
 class StatisticsService
 {
+    /** @var ReportService */
     private ReportService $reportService;
 
     public function __construct(protected Request $request)
@@ -22,7 +21,16 @@ class StatisticsService
         $this->reportService = App::make(ReportService::class);
     }
 
-    // Core Statistics Methods
+    /**
+     * Get overview statistics data
+     *
+     * @return array{
+     *     appointments: array<string, mixed>,
+     *     revenue: array<string, mixed>,
+     *     patients: array<string, mixed>,
+     *     revenue_trend: array<int, array{month: string, total: float}>
+     * }
+     */
     public function getOverviewData(): array
     {
         $startDate = $this->getStartDate();
@@ -39,6 +47,16 @@ class StatisticsService
         ];
     }
 
+    /**
+     * Get patient growth statistics
+     *
+     * @return array{
+     *     current_period: int,
+     *     previous_period: int,
+     *     growth_rate: float,
+     *     growth_trend: array<int, array{period: string, count: int}>
+     * }
+     */
     public function getPatientGrowth(): array
     {
         $startDate = $this->getStartDate();
@@ -51,13 +69,23 @@ class StatisticsService
         );
 
         return [
-            'current_period' => $stats['new_patients'] ?? 0,
-            'previous_period' => $previousPeriod['new_patients'] ?? 0,
-            'growth_rate' => $stats['growth_rate'] ?? 0,
+            'current_period' => (int)($stats['new_patients'] ?? 0),
+            'previous_period' => (int)($previousPeriod['new_patients'] ?? 0),
+            'growth_rate' => (float)($stats['growth_rate'] ?? 0),
             'growth_trend' => $this->getGrowthTrendData($startDate, $endDate)
         ];
     }
 
+    /**
+     * Get revenue statistics
+     *
+     * @return array{
+     *     current: array<string, mixed>,
+     *     previous_period: array<string, mixed>,
+     *     growth_rate: float,
+     *     monthly_trend: array<int, array{month: string, total: float}>
+     * }
+     */
     public function getRevenue(): array
     {
         $startDate = $this->getStartDate();
@@ -73,8 +101,8 @@ class StatisticsService
             'current' => $revenue,
             'previous_period' => $previousPeriod,
             'growth_rate' => $this->calculateGrowthRate(
-                $revenue['total_revenue'] ?? 0,
-                $previousPeriod['total_revenue'] ?? 0
+                (float)($revenue['total_revenue'] ?? 0),
+                (float)($previousPeriod['total_revenue'] ?? 0)
             ),
             'monthly_trend' => $this->reportService->getRevenueByMonth(
                 $startDate->copy()->subMonths(6),
@@ -83,6 +111,14 @@ class StatisticsService
         ];
     }
 
+    /**
+     * Get services statistics
+     *
+     * @return array{
+     *     top_services: array<int, array{id: int, name: string, count: int}>,
+     *     service_categories: array<int, array{id: int, name: string, count: int}>
+     * }
+     */
     public function getServices(): array
     {
         return [
@@ -91,6 +127,17 @@ class StatisticsService
         ];
     }
 
+    /**
+     * Get appointment statistics
+     *
+     * @return array{
+     *     total: int,
+     *     completed: int,
+     *     cancelled: int,
+     *     completion_rate: float,
+     *     by_status: array<string, int>
+     * }
+     */
     public function getAppointments(): array
     {
         $startDate = $this->getStartDate();
@@ -100,38 +147,81 @@ class StatisticsService
         $byStatus = $this->reportService->getAppointmentsByStatus($startDate, $endDate);
 
         return [
-            'total' => $appointments['total'] ?? 0,
-            'completed' => $appointments['completed'] ?? 0,
-            'cancelled' => $appointments['cancelled'] ?? 0,
-            'completion_rate' => $appointments['completion_rate'] ?? 0,
+            'total' => (int)($appointments['total'] ?? 0),
+            'completed' => (int)($appointments['completed'] ?? 0),
+            'cancelled' => (int)($appointments['cancelled'] ?? 0),
+            'completion_rate' => (float)($appointments['completion_rate'] ?? 0),
+            // Type hint ensures $byStatus is always an array from ReportService
             'by_status' => $byStatus
         ];
     }
 
     // Legacy methods for backward compatibility
+
+    /**
+     * Get expenses collection
+     *
+     * @return Collection<int, \App\Models\Expense>
+     */
     public function getExpenses(): Collection
     {
-        return new Collection();
+        /** @var Collection<int, \App\Models\Expense> $collection */
+        $collection = new Collection();
+        return $collection;
     }
 
+    /**
+     * Get visits collection
+     *
+     * @return Collection<int, \App\Models\Visit>
+     */
     public function getVisits(): Collection
     {
-        return new Collection();
+        /** @var Collection<int, \App\Models\Visit> $collection */
+        $collection = new Collection();
+        return $collection;
     }
 
+    /**
+     * Get incomes collection
+     *
+     * @return Collection<int, \App\Models\Payment>
+     */
     public function getIncomes(): Collection
     {
-        return new Collection();
+        /** @var Collection<int, \App\Models\Payment> $collection */
+        $collection = new Collection();
+        return $collection;
     }
 
+    /**
+     * Get patients collection
+     *
+     * @return Collection<int, \App\Models\Patient>
+     */
     public function getPatients(): Collection
     {
-        return new Collection();
+        /** @var Collection<int, \App\Models\Patient> $collection */
+        $collection = new Collection();
+        return $collection;
     }
 
-    public function getDebts(): Collection
+    /**
+     * Get debts collection
+     *
+     * @return SupportCollection<int, array{
+     *     id: int,
+     *     patient_id: int,
+     *     patient_name: string,
+     *     amount: float,
+     *     due_date: string|null
+     * }>
+     */
+    public function getDebts(): SupportCollection
     {
-        return new Collection();
+        /** @var SupportCollection<int, array{id: int, patient_id: int, patient_name: string, amount: float, due_date: string|null}> $collection */
+        $collection = new SupportCollection();
+        return $collection;
     }
 
     public function getTotalPatientsCount(): int
@@ -173,6 +263,13 @@ class StatisticsService
         return Carbon::create($year, $month, $day)->endOfDay();
     }
 
+    /**
+     * Calculate growth rate between two values
+     *
+     * @param float $current Current period value
+     * @param float $previous Previous period value
+     * @return float Growth rate as a percentage (e.g., 15.5 for 15.5%)
+     */
     private function calculateGrowthRate(float $current, float $previous): float
     {
         if ($previous === 0.0) {
@@ -181,6 +278,13 @@ class StatisticsService
         return round((($current - $previous) / abs($previous)) * 100, 2);
     }
 
+    /**
+     * Get growth trend data for patients
+     *
+     * @param CarbonInterface $startDate Start date
+     * @param CarbonInterface $endDate End date
+     * @return array<int, array{period: string, count: int}>
+     */
     private function getGrowthTrendData(CarbonInterface $startDate, CarbonInterface $endDate): array
     {
         $period = $startDate->diffInMonths($endDate);
@@ -199,15 +303,5 @@ class StatisticsService
         }
 
         return $data;
-    }
-
-    private function isYearly(): bool
-    {
-        return $this->request->get('type', 'YEARLY') === 'YEARLY';
-    }
-
-    private function getYear(): int
-    {
-        return $this->request->get('year', now()->year);
     }
 }

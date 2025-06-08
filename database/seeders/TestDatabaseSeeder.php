@@ -15,6 +15,7 @@ use App\Models\Tooth;
 use App\Models\User;
 use App\Models\Visit;
 use Faker\Factory as Faker;
+use Faker\Generator;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
@@ -27,7 +28,7 @@ class TestDatabaseSeeder extends Seeder
      *
      * @return void
      */
-    protected $faker;
+    protected Generator $faker;
 
     public function __construct()
     {
@@ -37,7 +38,7 @@ class TestDatabaseSeeder extends Seeder
     public function run()
     {
         // Create test users
-        $admin = User::firstOrCreate(
+        $admin = User::query()->firstOrCreate(
             ['email' => 'admin@example.com'],
             [
                 'name' => 'Admin User',
@@ -48,7 +49,7 @@ class TestDatabaseSeeder extends Seeder
             ]
         );
 
-        $dentist = User::firstOrCreate(
+        $dentist = User::query()->firstOrCreate(
             ['email' => 'dentist@example.com'],
             [
                 'name' => 'Dr. Smith',
@@ -74,7 +75,7 @@ class TestDatabaseSeeder extends Seeder
         ];
 
         foreach ($services as $service) {
-            Service::firstOrCreate(
+            Service::query()->firstOrCreate(
                 ['name' => $service['name']],
                 array_merge($service, ['user_id' => $admin->id])
             );
@@ -130,7 +131,7 @@ class TestDatabaseSeeder extends Seeder
 
             // Create patient records with teeth (many-to-many through patient_records)
             // Only if there are teeth in the database
-            if (Tooth::count() > 0) {
+            if (Tooth::query()->count() > 0) {
                 $patientRecord = PatientRecord::factory()
                     ->create([
                         'patient_id' => $patient->id,
@@ -139,7 +140,7 @@ class TestDatabaseSeeder extends Seeder
                     ]);
 
                 // Attach some teeth to the patient record
-                $teeth = Tooth::inRandomOrder()->take(rand(5, min(10, Tooth::count())))->get();
+                $teeth = Tooth::query()->inRandomOrder()->take(rand(5, min(10, Tooth::query()->count())))->get();
                 foreach ($teeth as $tooth) {
                     $patientRecord->affectedTeeth()->attach($tooth->id, [
                         'is_treated' => (bool)rand(0, 1),
@@ -179,8 +180,8 @@ class TestDatabaseSeeder extends Seeder
         }
 
         // Set up default app config
-        if (!AppConfig::where('key', 'usd_exchange')->exists()) {
-            AppConfig::create([
+        if (!AppConfig::query()->where('key', 'usd_exchange')->exists()) {
+            AppConfig::query()->create([
                 'key' => 'usd_exchange',
                 'value' => '6000',
             ]);
